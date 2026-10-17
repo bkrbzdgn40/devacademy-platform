@@ -62,5 +62,93 @@
     "prerequisites": [
       "lesson.javascript.equality"
     ]
+  },
+  {
+    "id": "lesson.javascript.functions",
+    "slug": "fonksiyonlar",
+    "title": "Fonksiyonlar ve return",
+    "level": "Başlangıç",
+    "durationMinutes": 10,
+    "objective": "Bir fonksiyonun döndürdüğü değer ile ekrana yazdırdığı çıktıyı ayırt edebilmek.",
+    "summary": "Fonksiyonlar kodu tekrar kullanılabilir parçalara böler.",
+    "explanation": "Bir fonksiyonun return ifadesi çağırana bir değer döndürür. console.log ise yalnızca çıktıyı yazdırır. Arrow function kısa yazım sağlar, ancak her arrow function otomatik olarak değer döndürmez.",
+    "code": "function add(a, b) {\n  return a + b;\n}\nconsole.log(add(2, 4)); // 6\nconst square = n => n * n;\nconsole.log(square(3)); // 9",
+    "takeaways": [
+      "return çağırana değer üretir, console.log bunu yapmaz.",
+      "Arrow function, tek ifade kullanıldığında örtük return içerebilir."
+    ],
+    "questionIds": [
+      "js.functions.return",
+      "js.functions.arrow"
+    ],
+    "prerequisites": [
+      "lesson.javascript.array-map"
+    ]
+  },
+  {
+    "id": "lesson.javascript.scope",
+    "slug": "kapsam",
+    "title": "Blok kapsamı ve gölgeleme",
+    "level": "Başlangıç",
+    "durationMinutes": 10,
+    "objective": "Blok içindeki let değişkeninin dışarıdaki aynı adlı değişkenden ayrı olduğunu anlamak.",
+    "summary": "Aynı isimde iki değişken farklı kapsamda bulunabilir.",
+    "explanation": "let ve const blok kapsamlıdır. Bir iç blokta aynı isimle yeni bir let tanımlamak, dışarıdaki değeri değiştirmez; buna shadowing veya gölgeleme denir. var farklı kurallara sahiptir, bu yüzden başlangıçta let/const daha öngörülebilirdir.",
+    "code": "let count = 1;\n{\n  let count = 3;\n  console.log(count); // 3\n}\nconsole.log(count); // 1",
+    "takeaways": [
+      "İç bloktaki let dış bloktaki değişkeni gölgeleyebilir.",
+      "Bir bloktan sonra içeride tanımlanan let dışarıdan erişilemez."
+    ],
+    "questionIds": [
+      "js.scope.inner",
+      "js.scope.outer"
+    ],
+    "prerequisites": [
+      "lesson.javascript.functions"
+    ]
+  },
+  {
+    "id": "lesson.javascript.filter",
+    "slug": "dizilerde-filter",
+    "title": "Dizilerde filter ve reduce",
+    "level": "Başlangıç",
+    "durationMinutes": 10,
+    "objective": "filter ile seçim, reduce ile toplama yapabilmek.",
+    "summary": "Dizileri seç, dönüştür ve birleştir.",
+    "explanation": "filter, koşulu sağlayan öğelerden yeni bir dizi üretir. reduce ise birikimli değeri her öğede günceller. reduce için başlangıç değeri vermek boş dizilerde hata riskini azaltır.",
+    "code": "const values = [1, 2, 3, 4];\nconsole.log(values.filter(n => n % 2 === 0).join(',')); // 2,4\nconsole.log(values.reduce((sum, n) => sum + n, 0)); // 10",
+    "takeaways": [
+      "filter öğe sayısını azaltabilir ama girdiyi değiştirmez.",
+      "reduce başlangıç akümülatör değeriyle güvenilir toplam hesaplar."
+    ],
+    "questionIds": [
+      "js.filter.evens",
+      "js.reduce.sum"
+    ],
+    "prerequisites": [
+      "lesson.javascript.scope"
+    ]
+  },
+  {
+    "id": "lesson.javascript.async",
+    "slug": "asenkron-temeller",
+    "title": "Asenkron işlemler ve Promise",
+    "level": "Başlangıç",
+    "durationMinutes": 10,
+    "objective": "Promise çözülürken senkron kodun hangi sırada çalışacağını tahmin edebilmek.",
+    "summary": "JavaScript görev kuyruğunun temel sıralamasını keşfet.",
+    "explanation": "Promise.then içindeki callback, mevcut senkron kod tamamlandıktan sonra bir microtask olarak çalışır. Bu nedenle Promise.resolve anında bir değer üretse bile ardından gelen senkron console.log çağrısı daha önce gerçekleşir.",
+    "code": "console.log('A');\nPromise.resolve().then(() => console.log('C'));\nconsole.log('B');\n// A, B, C",
+    "takeaways": [
+      "Promise.then callback'i mevcut senkron koddan sonra çalışır.",
+      "Asenkron sıralamayı anlamak hata ayıklamada önemlidir."
+    ],
+    "questionIds": [
+      "js.async.sync",
+      "js.async.microtask"
+    ],
+    "prerequisites": [
+      "lesson.javascript.filter"
+    ]
   }
 ]

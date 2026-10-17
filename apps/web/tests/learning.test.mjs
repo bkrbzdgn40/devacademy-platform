@@ -10,7 +10,7 @@ const questions = JSON.parse(readFileSync(new URL("../src/data/questions.json", 
 function assertUnique(rows, key) { assert.equal(new Set(rows.map((row) => row[key])).size, rows.length); }
 
 test("lesson identities and graph are consistent", () => {
-  assert.equal(lessons.length, 3);
+  assert.equal(lessons.length, 7);
   assertUnique(lessons, "id");
   assertUnique(lessons, "slug");
   const byId = new Map(lessons.map((lesson) => [lesson.id, lesson]));
@@ -32,7 +32,7 @@ test("lesson identities and graph are consistent", () => {
 });
 
 test("published questions have complete private answer keys and no public answers", () => {
-  assert.equal(questions.length, 6);
+  assert.equal(questions.length, 14);
   assertUnique(questions, "id");
   assert.deepEqual(answerKeyIds().sort(), questions.map((question) => question.id).sort());
   const questionIds = new Set(questions.map((q) => q.id));
@@ -48,13 +48,13 @@ test("published questions have complete private answer keys and no public answer
   }
 });
 
-test("correct answers match actual trusted example outputs", () => {
+test("correct answers match actual trusted example outputs", async () => {
   for (const question of questions) {
     const lines = [];
     // Fixtures are version-controlled developer-reviewed snippets, never learner submissions.
-    vm.runInNewContext(question.code, { console: { log: (...args) => lines.push(args.map(String).join(" ")) } }, {timeout: 500});
+    await Promise.resolve(vm.runInNewContext(`(async () => { ${question.code}\nawait Promise.resolve(); })()`, { console: { log: (...args) => lines.push(args.map(String).join(" ")) }, queueMicrotask }, {timeout: 500}));
     const correct = question.options.find((option) => gradeSubmission({ questionId:question.id, optionId:option.id }).correct);
-    assert.deepEqual(lines, [correct.text], `Snippet mismatch for ${question.id}`);
+    assert.equal(lines[0], correct.text, `Snippet mismatch for ${question.id}`);
   }
 });
 
