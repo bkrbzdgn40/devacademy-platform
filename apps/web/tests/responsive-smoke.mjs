@@ -12,7 +12,7 @@ import { fileURLToPath } from "node:url";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const cwd = fileURLToPath(new URL("../", import.meta.url));
 const widths = [320, 375, 390, 600, 768, 960, 1024];
-const paths = ["/", "/dersler", "/dersler/degiskenler", "/laboratuvar", "/hesap", "/kutuphane/diller"];
+const paths = ["/", "/dersler", "/dersler/degiskenler", "/laboratuvar", "/hesap", "/kutuphane/diller", "/pratik", "/pratik/cift-sayilari-topla"];
 const diagnostic = "(() => { const doc=document.documentElement; const nav=document.querySelector('.nav-links'); return { ready:document.readyState, viewport:doc.clientWidth, windowWidth:window.innerWidth, scrollWidth:doc.scrollWidth, bodyScrollWidth:document.body.scrollWidth, navRight:nav ? nav.getBoundingClientRect().right : null, hasEditor:!!document.querySelector('.cm-editor'), offenders:[...document.body.querySelectorAll('*')].filter(el => { const r=el.getBoundingClientRect(); return r.width && r.right>doc.clientWidth+2; }).slice(0,6).map(el=>el.tagName.toLowerCase()+'.'+el.className.toString().slice(0,45)) }; })()";
 
 async function availablePort() {
@@ -112,7 +112,7 @@ try{
     },sessionId);
     for(const path of paths){
       await cdp.send("Page.navigate",{url:base+path},sessionId);
-      const needsEditor=path==="/laboratuvar" || path==="/dersler/degiskenler";
+      const needsEditor=path==="/laboratuvar" || path==="/dersler/degiskenler" || path==="/pratik/cift-sayilari-topla";
       const data=await waitFor(async()=>{
         const evaluation=await cdp.send("Runtime.evaluate",{expression:diagnostic,returnByValue:true},sessionId);
         const result=evaluation.result?.value;

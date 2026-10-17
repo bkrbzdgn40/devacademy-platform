@@ -20,9 +20,11 @@ fi
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0001_learning_core.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0002_auth_sessions.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0003_execution_queue.sql
+docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0004_code_assessment.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/learning_core.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/auth_core.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/execution_queue.sql
+docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/code_assessment.sql
 echo "PostgreSQL schema integration PASS"
 
 if [[ "${RUN_APP_TESTS:-}" == "1" ]]; then
@@ -32,6 +34,7 @@ if [[ "${RUN_APP_TESTS:-}" == "1" ]]; then
   export NEXT_TELEMETRY_DISABLED=1
   node apps/web/tests/auth-db.integration.mjs
   node apps/web/tests/execution-queue.integration.mjs
+  node apps/web/tests/assessment-queue.integration.mjs
   node apps/web/tests/auth-http.integration.mjs
   node apps/web/tests/execution-http.integration.mjs
 fi

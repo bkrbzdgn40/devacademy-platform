@@ -1,0 +1,103 @@
+[
+  {
+    "id": "js.sum-even",
+    "revision": 1,
+    "slug": "cift-sayilari-topla",
+    "title": "Çift sayıları topla",
+    "level": "Başlangıç",
+    "functionName": "sumEven",
+    "description": "Bir tam sayı dizisindeki çift sayıların toplamını döndüren sumEven(numbers) fonksiyonunu yaz. Diziyi değiştirme.",
+    "starterCode": "function sumEven(numbers) {\n  // Çift sayıların toplamını döndür.\n  return 0;\n}",
+    "publicCases": [
+      {
+        "label": "Karma pozitif ve negatifler",
+        "args": [
+          [
+            -3,
+            -2,
+            0,
+            1,
+            4
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "label": "Çift sayı bulunmuyor",
+        "args": [
+          [
+            1,
+            3,
+            5
+          ]
+        ],
+        "expected": 0
+      }
+    ]
+  },
+  {
+    "id": "js.unique-sorted",
+    "revision": 1,
+    "slug": "benzersiz-sirala",
+    "title": "Tekrarsız sırala",
+    "level": "Başlangıç",
+    "functionName": "uniqueSorted",
+    "description": "Bir tam sayı dizisinden tekrarları kaldırıp küçükten büyüğe sıralı yeni bir dizi döndüren uniqueSorted(numbers) fonksiyonunu yaz.",
+    "starterCode": "function uniqueSorted(numbers) {\n  // Benzersiz ve artan sıralı yeni diziyi döndür.\n  return numbers;\n}",
+    "publicCases": [
+      {
+        "label": "Karışık tekrarlar",
+        "args": [
+          [
+            4,
+            1,
+            4,
+            2
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          4
+        ]
+      },
+      {
+        "label": "Boş dizi",
+        "args": [
+          []
+        ],
+        "expected": []
+      }
+    ]
+  },
+  {
+    "id": "js.clamp",
+    "revision": 1,
+    "slug": "araliga-sinirla",
+    "title": "Değeri aralığa sınırla",
+    "level": "Başlangıç",
+    "functionName": "clamp",
+    "description": "min <= max olacak şekilde verilen üç sayıda value değerini [min,max] aralığına sınırlayan clamp(value,min,max) fonksiyonunu yaz.",
+    "starterCode": "function clamp(value, min, max) {\n  // value değerini [min, max] aralığına sınırla.\n  return value;\n}",
+    "publicCases": [
+      {
+        "label": "Üst sınır aşılmış",
+        "args": [
+          12,
+          0,
+          10
+        ],
+        "expected": 10
+      },
+      {
+        "label": "Alt sınır aşılmış",
+        "args": [
+          -4,
+          0,
+          10
+        ],
+        "expected": 0
+      }
+    ]
+  }
+]

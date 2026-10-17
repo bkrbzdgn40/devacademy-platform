@@ -57,6 +57,15 @@ try {
   assert.match(await lesson.text(), /Cevabımı kontrol et/);
   assert.equal((await fetch(`${base}/dersler/not-a-lesson`)).status, 404);
 
+  const practice = await fetch(`${base}/pratik`);
+  assert.equal(practice.status,200);
+  assert.match(await practice.text(),/Çift sayıları topla/);
+  const task=await fetch(`${base}/pratik/cift-sayilari-topla`);
+  assert.equal(task.status,200);
+  assert.match(await task.text(),/sumEven/);
+  assert.equal((await fetch(`${base}/pratik/no-such-task`)).status,404);
+  const availability=await (await fetch(`${base}/api/executions/availability`)).json();
+  assert.equal(availability.enabled,false);
   assert.equal((await fetch(`${base}/hesap`)).status, 200);
   assert.equal((await fetch(`${base}/api/me`)).status, 200);
   const valid = await jsonPost({ questionId: "js.binding.increment", optionId: "b" });

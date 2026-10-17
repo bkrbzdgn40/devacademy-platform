@@ -13,7 +13,7 @@ export default function Home() {
       <div className="hero-text">
         <div className="eyebrow"><span className="status-dot" /> Yazılım öğrenmenin yeni yolu</div>
         <h1>Kodu sadece okuma.<br /><span>Gerçekten anla.</span></h1>
-        <p>JavaScript temellerini kısa derslerle öğren ve anında bilgi testleriyle pekiştir. Kod laboratuvarı ve kişisel ilerleme takibi sonraki adımlarda.</p>
+        <p>JavaScript temellerini kısa derslerle öğren ve anında bilgi testleriyle pekiştir. Kod düzenleme, kişisel ilerleme takibi ve kod yazma görevleri geliştirme önizlemesinde mevcut.</p>
         <div className="hero-actions"><Link href="/dersler" className="primary-button">İlk derslere başla <span aria-hidden="true">↗</span></Link><Link href="/kutuphane/diller" className="subtle-button">Kütüphaneyi keşfet <span aria-hidden="true">→</span></Link></div>
         <p className="small-note">7 JavaScript dersi ve 14 otomatik değerlendirilen soru mevcut. Kod çalıştırma ve hesaplar henüz yayında değil.</p>
       </div>

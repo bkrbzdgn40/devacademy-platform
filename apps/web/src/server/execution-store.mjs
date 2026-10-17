@@ -1,5 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { database, transaction } from "./db.mjs";
+import practice from "../data/practice.json" with { type: "json" };
+const publicExercises = new Map(practice.map(exercise => [exercise.id,exercise.revision]));
 
 export const MAX_SOURCE_BYTES = 8192;
 const MAX_ACTIVE_PER_USER = 2;
@@ -23,6 +25,9 @@ export function validSource(source) {
 export function publicJob(row) {
   return {
     id: row.id,
+    mode: row.mode,
+    exerciseId: row.exercise_id ?? row.exerciseId ?? null,
+    assessment: row.assessment ?? null,
     runtimeId: row.runtime_id ?? row.runtimeId,
     status: row.status,
     stdout: row.stdout,
@@ -41,8 +46,12 @@ async function expireStaleJobs(client) {
     stderr='Execution queue expired.', completed_at=now()
     WHERE status='queued' AND created_at < now()-interval '10 minutes'`);
 }
-export async function enqueueExecution(learnerId,{source,requestId}) {
+export async function enqueueExecution(learnerId,{source,requestId,mode="run",exerciseId=null,exerciseRevision=null}) {
   if (!validSource(source) || !validExecutionId(requestId)) return {status:"invalid"};
+  if (mode!=="run" && mode!=="assess")return {status:"invalid"};
+  if (mode==="run" && (exerciseId!==null || exerciseRevision!==null))return {status:"invalid"};
+  if (mode==="assess" && (publicExercises.get(exerciseId)!==exerciseRevision ||
+      Buffer.byteLength(source,"utf8")>6000))return {status:"invalid"};
   return transaction(async client=>{
     // Serialize local lab quota checks, including requests from other API processes.
     await client.query("SELECT pg_advisory_xact_lock(574018)");
@@ -57,8 +66,9 @@ export async function enqueueExecution(learnerId,{source,requestId}) {
       [learnerId]);
     const {mine,global,recent}=limits.rows[0];
     if(mine>=MAX_ACTIVE_PER_USER || global>=MAX_GLOBAL_ACTIVE || recent>=6) return {status:"limited"};
-    const inserted=await client.query(`INSERT INTO execution_jobs(learner_id,request_id,source_code)
-      VALUES($1,$2,$3) RETURNING *`,[learnerId,requestId,source]);
+    const inserted=await client.query(`INSERT INTO execution_jobs(learner_id,request_id,source_code,mode,exercise_id,exercise_revision)
+      VALUES($1,$2,$3,$4,$5,$6) RETURNING *`,
+      [learnerId,requestId,source,mode,exerciseId,exerciseRevision]);
     return {status:"queued",job:publicJob(inserted.rows[0])};
   });
 }
@@ -86,7 +96,8 @@ export async function claimExecution() {
     ) UPDATE execution_jobs j SET status='running',started_at=now(),
       lease_deadline=now()+interval '30 seconds', lease_token_hash=$1
       FROM next WHERE j.id=next.id
-      RETURNING j.id,j.source_code AS source,j.runtime_id AS "runtimeId"`,[digest(token)]);
+      RETURNING j.id,j.source_code AS source,j.runtime_id AS "runtimeId",
+        j.mode,j.exercise_id AS "exerciseId",j.exercise_revision AS "exerciseRevision"`,[digest(token)]);
     return claimed.rowCount?{...claimed.rows[0],leaseToken:token}:null;
   });
 }
@@ -97,15 +108,31 @@ export function validCompletion(input) {
   if(typeof input.stdout!=="string" || typeof input.stderr!=="string" ||
      Buffer.byteLength(input.stdout,"utf8")>8192 || Buffer.byteLength(input.stderr,"utf8")>8192) return false;
   if(input.exitCode!==null && (!Number.isInteger(input.exitCode) || input.exitCode < -128 || input.exitCode>255)) return false;
+  if(input.assessment!==undefined && input.assessment!==null) {
+    const a=input.assessment;
+    if(!a || typeof a!=="object" || Array.isArray(a) ||
+       !["passed","failed"].includes(a.verdict) ||
+       !Number.isInteger(a.passed) || !Number.isInteger(a.total) ||
+       a.total<1 || a.total>10 || a.passed<0 || a.passed>a.total ||
+       (a.verdict==="passed")!==(a.passed===a.total) ||
+       !Array.isArray(a.publicCases) || a.publicCases.length>4 ||
+       a.publicCases.some(c=>!c || typeof c.label!=="string" || c.label.length>64 || typeof c.passed!=="boolean") ||
+       Buffer.byteLength(JSON.stringify(a),"utf8")>2048) return false;
+  }
   return Number.isInteger(input.durationMs) && input.durationMs>=0 && input.durationMs<=10000;
 }
 export async function completeExecution(input) {
   if(!validCompletion(input))return false;
   const result=await database().query(`UPDATE execution_jobs SET
-    status=$3,stdout=$4,stderr=$5,exit_code=$6,duration_ms=$7,
+    status=$3,stdout=$4,stderr=$5,exit_code=$6,duration_ms=$7,assessment=$8,
     source_code='',lease_token_hash=NULL,lease_deadline=NULL,completed_at=now()
     WHERE id=$1 AND lease_token_hash=$2 AND status='running' AND lease_deadline>now()
+    AND ((mode='run' AND $8::jsonb IS NULL) OR
+         (mode='assess' AND
+          (( $3='completed' AND $8::jsonb IS NOT NULL ) OR
+           ( $3<>'completed' AND $8::jsonb IS NULL ))))
     RETURNING id`,
-    [input.id,digest(input.leaseToken),input.status,input.stdout,input.stderr,input.exitCode,input.durationMs]);
+    [input.id,digest(input.leaseToken),input.status,input.stdout,input.stderr,input.exitCode,input.durationMs,
+      input.assessment??null]);
   return result.rowCount===1;
 }
