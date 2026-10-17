@@ -598,5 +598,165 @@
         "text": "bilinmiyor"
       }
     ]
+  },
+  {
+    "id": "debug.java.variables",
+    "lessonId": "lesson.java.variables",
+    "prompt": "Bir öğrenci 5 ve 2 sayısını bölüp 2.5 bekliyor ama 2.0 görüyor. Hangi değişiklik bu hatayı düzeltir?",
+    "code": "class Main { public static void main(String[] args) { double result = 5 / 2; System.out.println(result); } }",
+    "options": [
+      {
+        "id": "a",
+        "text": "double result = 5.0 / 2;"
+      },
+      {
+        "id": "b",
+        "text": "double result = (double) (5 / 2);"
+      },
+      {
+        "id": "c",
+        "text": "int result = 5 / 2;"
+      }
+    ]
+  },
+  {
+    "id": "debug.java.methods",
+    "lessonId": "lesson.java.methods",
+    "prompt": "Metot değeri hesaplıyor ama konsola hiçbir şey yazılmıyor. Hangi değişiklik doğrudur?",
+    "code": "class Main { static int square(int n) { return n*n; } public static void main(String[] args) { square(4); } }",
+    "options": [
+      {
+        "id": "a",
+        "text": "System.out.println(square(4));"
+      },
+      {
+        "id": "b",
+        "text": "square(4); return;"
+      },
+      {
+        "id": "c",
+        "text": "return square(4);"
+      }
+    ]
+  },
+  {
+    "id": "debug.java.polymorphism",
+    "lessonId": "lesson.java.polymorphism",
+    "prompt": "Dog nesnesi için Woof yazdırılmalı, ancak ? görünüyor. Hangi değişiklik problemi çözer?",
+    "code": "class Main { static class Animal { String speak(){return \"?\";} } static class Dog extends Animal { String speak(int volume){return \"Woof\";} } public static void main(String[] args){Animal a = new Dog(); System.out.println(a.speak());} }",
+    "options": [
+      {
+        "id": "a",
+        "text": "Dog sınıfında String speak() { return \"Woof\"; } yaz."
+      },
+      {
+        "id": "b",
+        "text": "Dog sınıfındaki speak(int volume) metoduna static ekle."
+      },
+      {
+        "id": "c",
+        "text": "Animal referansını Object türüne çevir."
+      }
+    ]
+  },
+  {
+    "id": "debug.python.variables",
+    "lessonId": "lesson.python.variables",
+    "prompt": "Kullanıcının yaşı sayısal olarak tutuluyor. Mesaj oluştururken TypeError alınıyor. Hangi değişiklik doğrudur?",
+    "code": "age = 20\nprint(\"Yaş: \" + age)",
+    "options": [
+      {
+        "id": "a",
+        "text": "print(f\"Yaş: {age}\")"
+      },
+      {
+        "id": "b",
+        "text": "print(\"Yaş: \" + age + 1)"
+      },
+      {
+        "id": "c",
+        "text": "print(int(\"Yaş: \") + age)"
+      }
+    ]
+  },
+  {
+    "id": "debug.python.conditions",
+    "lessonId": "lesson.python.conditions",
+    "prompt": "Yaş 20 olduğunda kod Yetişkin yazdırıyor ancak Genç mesajı da geliyor. Hangi değişiklik doğru koşullu blok yapar?",
+    "code": "age = 20\nif age >= 18:\n    print(\"Yetişkin\")\nprint(\"Genç\")",
+    "options": [
+      {
+        "id": "a",
+        "text": "Genç yazdırma satırını else: bloğunun içine al."
+      },
+      {
+        "id": "b",
+        "text": "age >= 18 yerine age = 18 yaz."
+      },
+      {
+        "id": "c",
+        "text": "İki print satırını girintisiz yaz."
+      }
+    ]
+  },
+  {
+    "id": "debug.python.loops",
+    "lessonId": "lesson.python.loops",
+    "prompt": "1'den 5'e kadar sayıların toplamını hesaplamak istiyoruz ama sonuç 10 geliyor. Hangi değişiklik doğru?",
+    "code": "total = 0\nfor n in range(1, 5):\n    total += n\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "range(1, 6) kullan."
+      },
+      {
+        "id": "b",
+        "text": "range(1, 4) kullan."
+      },
+      {
+        "id": "c",
+        "text": "range(0, 5) kullan."
+      }
+    ]
+  },
+  {
+    "id": "debug.python.functions",
+    "lessonId": "lesson.python.functions",
+    "prompt": "double(4) çağrısının değeri None oluyor. Hangi düzeltme hesaplanan değeri döndürür?",
+    "code": "def double(n):\n    print(n * 2)\n\nresult = double(4)\nprint(result)",
+    "options": [
+      {
+        "id": "a",
+        "text": "print(n * 2) yerine return n * 2 yaz."
+      },
+      {
+        "id": "b",
+        "text": "Fonksiyon içine bir tane daha print ekle."
+      },
+      {
+        "id": "c",
+        "text": "Fonksiyonun adını double_value yap ama return ekleme."
+      }
+    ]
+  },
+  {
+    "id": "debug.python.collections",
+    "lessonId": "lesson.python.collections",
+    "prompt": "city anahtarı olmayan sözlükte erişim KeyError veriyor. Hangi düzeltme doğru?",
+    "code": "person = {\"name\": \"Ada\"}\nprint(person[\"city\"])",
+    "options": [
+      {
+        "id": "a",
+        "text": "print(person.get(\"city\", \"bilinmiyor\"))"
+      },
+      {
+        "id": "b",
+        "text": "print(person[\"city\"] or \"bilinmiyor\")"
+      },
+      {
+        "id": "c",
+        "text": "print(person.get(\"city\") + \"!\")"
+      }
+    ]
   }
 ]

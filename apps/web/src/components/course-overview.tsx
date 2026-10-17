@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { lessonsForCourse, type Course } from "@/lib/courses";
+import { CourseProgress } from "@/components/course-progress";
 
 export function CourseOverview({course,legacy=false}:{course:Course;legacy?:boolean}){
   const entries=lessonsForCourse(course);
@@ -14,6 +15,7 @@ export function CourseOverview({course,legacy=false}:{course:Course;legacy?:bool
       "Kod örneklerini editörde değiştirebilirsin. Bu kurs için kod çalıştırma ve otomatik kod testi halka açık değildir.":
       "Bu kursta editör ve çalıştırma bulunmuyor."}
     </div>
+    <CourseProgress courseSlug={course.slug} lessons={entries.map(x=>({id:x.id,slug:x.slug,title:x.title}))}/>
     <ol className="lesson-list">{entries.map((lesson,index)=><li key={lesson.id}>
       <Link href={legacy?"/dersler/"+lesson.slug:"/kurslar/"+course.slug+"/"+lesson.slug} className="lesson-item">
         <span className="lesson-number">{String(index+1).padStart(2,"0")}</span>

@@ -53,7 +53,7 @@
     "summary": "Değişkenlerden koleksiyonlara beş derste Python'ın temel yapılarını öğren.",
     "level": "Başlangıç",
     "locale": "tr",
-    "editorLanguage": "plain",
+    "editorLanguage": "python",
     "runtimeId": null,
     "capabilities": {
       "editor": true,

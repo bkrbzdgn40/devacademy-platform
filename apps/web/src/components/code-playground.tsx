@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { javascript } from "@codemirror/lang-javascript";
+import { java } from "@codemirror/lang-java";
+import { python } from "@codemirror/lang-python";
 
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
   ssr: false,
@@ -29,14 +31,14 @@ const labels: Record<ExecutionJob["status"],string> = {
 };
 const sleep = (ms:number) => new Promise<void>(resolve=>setTimeout(resolve,ms));
 
-export function CodePlayground({ starterCode, label = "JavaScript kod editörü",  exerciseId, exerciseRevision, language="javascript", displayLanguage }: { starterCode: string; label?: string; exerciseId?: string; exerciseRevision?: number; language?:"javascript"|"java"|"plain"; displayLanguage?:string }) {
+export function CodePlayground({ starterCode, label = "JavaScript kod editörü",  exerciseId, exerciseRevision, language="javascript", displayLanguage }: { starterCode: string; label?: string; exerciseId?: string; exerciseRevision?: number; language?:"javascript"|"java"|"python"|"plain"; displayLanguage?:string }) {
   const [code, setCode] = useState(starterCode);
   const [capability, setCapability] = useState<Capability | null>(null);
   const [job,setJob]=useState<ExecutionJob | null>(null);
   const [error,setError]=useState("");
   const [busy,setBusy]=useState(false);
   const controller=useRef<AbortController | null>(null);
-  const extensions = useMemo(() => language==="javascript" ? [javascript()] : [], [language]);
+  const extensions = useMemo(() => language==="javascript" ? [javascript()] : language==="java" ? [java()] : language==="python" ? [python()] : [], [language]);
   const changed = code !== starterCode;
   const bytes = new TextEncoder().encode(code).byteLength;
   const available=language==="javascript" && capability?.enabled===true;
@@ -93,7 +95,7 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
 
   return <section aria-label={label} className="editor-shell">
     <div className="editor-toolbar">
-      <div><strong>{displayLanguage ?? (language==="java"?"Java":language==="plain"?"Genel kod":"JavaScript")} editörü</strong><span>CodeMirror 6 · {language==="javascript"?"JavaScript sözdizimi":"Düz metin modu"}</span></div>
+      <div><strong>{displayLanguage ?? (language==="java"?"Java":language==="python"?"Python":language==="plain"?"Genel kod":"JavaScript")} editörü</strong><span>CodeMirror 6 · {language==="plain"?"Düz metin modu":(displayLanguage ?? (language==="java"?"Java":language==="python"?"Python":"JavaScript"))+" sözdizimi renklendirme"}</span></div>
       <button type="button" onClick={()=>{setCode(starterCode);setJob(null);setError("");}} disabled={!changed}>Örneği sıfırla</button>
     </div>
     <CodeMirror

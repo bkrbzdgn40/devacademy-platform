@@ -88,6 +88,19 @@ try {
   const pythonWrong=await jsonPost({questionId:"python.collections.get",optionId:"a"});
   assert.equal(pythonWrong.status,200);
   assert.equal((await pythonWrong.json()).correct,false);
+  // M6 guided learning: page phases, grammar-ready editor, and tailored misconception feedback.
+  assert.match(javaHtml,/Hatayı düzelt/);
+  assert.match(javaHtml,/Önce kendi tahminini yap/);
+  assert.match(pythonHtml,/Hata avcısı/);
+  assert.match(pythonHtml,/Kodun zihinsel izini çıkar/);
+  const misconception=await jsonPost({questionId:"debug.python.variables",optionId:"b"});
+  assert.equal(misconception.status,200);
+  const detail=await misconception.json();
+  assert.equal(detail.correct,false);
+  assert.match(detail.tailoredFeedback,/str ile int/);
+  const repaired=await jsonPost({questionId:"debug.java.methods",optionId:"a"});
+  assert.equal(repaired.status,200);
+  assert.equal((await repaired.json()).correct,true);
   const javaGrade=await jsonPost({questionId:"java.variables.increment",optionId:"b"});
   assert.equal(javaGrade.status,200);
   assert.equal((await javaGrade.json()).correct,true);

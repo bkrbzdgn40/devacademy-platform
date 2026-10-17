@@ -3,10 +3,10 @@
 import questions from "../data/questions.json" with { type: "json" };
 
 import answerKeyData from "./answer-keys.json" with { type: "json" };
-const answerKeys: Record<string, { optionId: string; explanation: string }> = answerKeyData;
+const answerKeys: Record<string, { optionId: string; explanation: string; wrongFeedback?: Record<string,string> }> = answerKeyData;
 
 export type GradeResult =
-  | { status: "graded"; questionId: string; correct: boolean; correctOptionId: string; explanation: string }
+  | { status: "graded"; questionId: string; correct: boolean; correctOptionId: string; explanation: string; tailoredFeedback: string | null }
   | { status: "invalid" };
 
 export function gradeSubmission(input: unknown): GradeResult {
@@ -18,7 +18,8 @@ export function gradeSubmission(input: unknown): GradeResult {
   const key = answerKeys[data.questionId];
   if (!question || !key || !question.options.some((option) => option.id === data.optionId)) return { status: "invalid" };
   return { status: "graded", questionId: question.id, correct: key.optionId === data.optionId,
-    correctOptionId: key.optionId, explanation: key.explanation };
+    correctOptionId: key.optionId, explanation: key.explanation,
+    tailoredFeedback:key.optionId===data.optionId?null:(key.wrongFeedback?.[data.optionId]??"Bu seçenek neden uygun değil? İşlem sırasını ve türleri tekrar kontrol et.") };
 }
 
 export function answerKeyIds(): string[] { return Object.keys(answerKeys); }
