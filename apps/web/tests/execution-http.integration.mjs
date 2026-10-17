@@ -57,7 +57,7 @@ try{
   assert.equal((await post("/api/executions",input,{cookie:a,origin:"https://evil.example"})).status,403);
   assert.equal((await post("/api/executions",{...input,source:"x".repeat(8193)},{cookie:a})).status,400);
   const created=await post("/api/executions",input,{cookie:a});
-  assert.equal(created.status,202,await created.text());
+  assert.equal(created.status,202,await created.clone().text());
   const job=await created.json();
   assert.equal(job.status,"queued");
   assert.equal(JSON.stringify(job).includes("lab-boundary"),false);
@@ -67,7 +67,7 @@ try{
   assert.equal((await fetch(base+"/api/executions/"+job.id)).status,401);
   assert.equal((await post("/api/internal/executions/claim",{})).status,401);
   const claim=await post("/api/internal/executions/claim",{}, {worker:true});
-  assert.equal(claim.status,200,await claim.text());
+  assert.equal(claim.status,200,await claim.clone().text());
   const ticket=await claim.json();
   assert.equal(ticket.id,job.id);
   assert.equal(ticket.source,input.source);
