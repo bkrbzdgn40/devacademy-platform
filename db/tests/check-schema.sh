@@ -30,4 +30,5 @@ if [[ "${RUN_APP_TESTS:-}" == "1" ]]; then
   export NEXT_TELEMETRY_DISABLED=1
   node apps/web/tests/auth-db.integration.mjs
   node apps/web/tests/auth-http.integration.mjs
+  node apps/web/tests/execution-http.integration.mjs
 fi
