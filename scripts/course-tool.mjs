@@ -3,7 +3,7 @@
 import { validateCourseCatalog } from "../apps/web/src/server/course-validator.mjs";
 
 const slugPattern=/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
-const forbiddenPublicKeys=new Set(["correctOptionId","explanation","hiddenCases","expectedOutput","answerKey","answers","secret","token","password"]);
+const forbiddenPublicKeys=new Set(["correctOptionId","hiddenCases","expectedOutput","answerKey","answers","secret","token","password"]);
 const placeholder="[[DRAFT]]";
 const fail=message=>{throw new Error("COURSE_AUTHORING_INVALID: "+message);};
 export const validSlug=value=>typeof value==="string" && value.length<=70 && slugPattern.test(value);
