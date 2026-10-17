@@ -78,3 +78,42 @@
 .assessment-summary ul{padding-left:20px;margin:6px 0;font-size:13px}
 @media(max-width:850px){.practice-list{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.practice-list{grid-template-columns:minmax(0,1fr)}.nav-links{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Guided learning: distinguish prediction, observation, debugging and transfer. */
+.learning-trail{list-style:none;margin:32px 0 18px;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.learning-trail li{min-width:0;border:1px solid #385467;border-radius:10px;background:#162731;display:grid;gap:6px;padding:13px;font-size:12px;color:#d2e9ed}
+.learning-trail strong{color:#8ce9d5;font-size:12px}
+.guided-phase{border-left:3px solid #60baa6;padding-left:20px}
+.phase-kicker{font-size:11px!important;text-transform:uppercase;letter-spacing:.12em;color:#8adfc5!important;font-weight:700;margin:0 0 9px!important}
+.trace-panel{margin-top:25px;border:1px solid #40566c;background:#142033;border-radius:13px;padding:20px;max-width:100%;min-width:0}
+.trace-top,.course-progress-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.trace-top strong{font-size:15px}.trace-top span,.course-progress-top span{color:#a9d7d0;font-size:12px}
+.trace-panel>p,.course-progress-card p{font-size:13px;line-height:1.7;color:#ccd8e4}
+.trace-panel progress,.course-progress-card progress,.dashboard-course-signal progress{width:100%;height:10px;accent-color:#75e4be}
+.trace-panel ol{padding:0;list-style:none;display:grid;gap:9px}
+.trace-panel li{display:flex;gap:11px;align-items:flex-start;font-size:13px;line-height:1.6;padding:11px 12px;border-radius:8px;background:#1a3041;overflow-wrap:anywhere}
+.trace-index{display:inline-grid;place-items:center;flex-shrink:0;background:#28576a;border-radius:6px;width:25px;height:25px;font-weight:700}
+.trace-complete{color:#8ee4c8!important;font-weight:700}
+.practice-mission-note{font-size:13px;line-height:1.7;padding:16px 18px;margin:18px 0;border-left:3px solid #86c2fe;background:#1b2d3e;border-radius:8px;color:#e0eafb}
+.guided-debug-question{margin-top:22px}
+.reflection-question{padding:16px 19px;border:1px dashed #6b83a0;border-radius:10px;font-size:14px;line-height:1.7;color:#cedbe8}
+.hint-panel{margin-top:15px}
+.hint-panel button{font-size:12px;cursor:pointer}
+.hint-list{margin:10px 0 0;padding:10px 10px 10px 30px;border:1px solid #545f83;border-radius:10px;background:#252b45;font-size:13px;line-height:1.7}
+.hint-list li+li{margin-top:5px}
+.quiz-feedback .retry-cue{font-size:12px;color:#b8e1d7}
+.course-progress-card{border:1px solid #405672;border-radius:13px;background:#162538;margin:22px 0 30px;padding:22px;min-width:0}
+.course-progress-card strong{font-size:16px}
+.course-progress-card a,.dashboard-course-signal a{color:#a4efd9;text-decoration:underline}
+.course-checkpoints{margin:12px 0 0;list-style:none;padding:0;display:grid;gap:7px}
+.course-checkpoints li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:12px;border-bottom:1px solid #334658;padding:7px 0}
+.checkpoint-complete{color:#8ce3c5}.checkpoint-open{color:#b0bfd4}
+.dashboard-course-signal{display:grid;gap:9px;margin:13px 0;padding:15px;border:1px solid #3b5469;border-radius:9px;font-size:12px}
+.dashboard-course-signal a{width:fit-content}
+@media(max-width:650px){
+ .learning-trail{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .learning-trail li{padding:10px;font-size:11px}
+ .guided-phase{padding-left:12px}
+ .trace-panel,.course-progress-card{padding:14px}
+ .course-checkpoints li{flex-direction:column;gap:4px}
+}

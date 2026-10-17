@@ -76,3 +76,7 @@ Use `node scripts/course-cli.mjs new python python-temelleri "Python Temelleri"`
 ## Python Fundamentals (published, editing-only)
 
 Python Temelleri is available under `/kurslar/python-temelleri`. It contains five Turkish lessons and ten server-graded prediction questions. Reviewed Python 3.12 examples run in CI only; student Python code is not executed on the web server or in any local runtime. The independent course-authoring drafts stored under `content/course-drafts/` are intentionally untracked and are not automatically published. If you previously created a `python-temelleri` draft locally, it remains separate from the published Git content. Avoid publishing the obsolete draft; archive it for reference instead.
+
+## M6: Guided learning for Java and Python
+
+Java and Python lessons now follow **predict, trace, debug, transfer**, with grammar-aware syntax highlighting, progressively revealed traces, two-level hints and option-specific explanations. "Debug" tasks assess the selected repair, **not learner-edited source**. An authenticated course overview displays per-course completion and suggests the next lesson. The existing language execution restrictions do not change. See [Course Engine ADR](docs/architecture/ADR-0004-course-engine.md).

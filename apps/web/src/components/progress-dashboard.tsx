@@ -23,6 +23,16 @@ export function ProgressDashboard({progress}:Props){
     <h3>Kursların ve derslerin</h3>
     {courses.map(course=><section key={course.id} aria-label={course.title} className="dashboard-course">
       <h4><Link href={"/kurslar/"+course.slug}>{course.title}</Link></h4>
+      {(()=>{
+        const items=lessonsForCourse(course);
+        const completed=items.filter(item=>records.get(item.id)?.completedAt).length;
+        const next=items.find(item=>!records.get(item.id)?.completedAt);
+        return <div className="dashboard-course-signal">
+          <span>{completed}/{items.length} ders · %{Math.round(100*completed/Math.max(1,items.length))}</span>
+          <progress max={Math.max(1,items.length)} value={completed} aria-label={course.title+" tamamlanan dersler"}/>
+          {next&&<Link href={lessonHref(next.id)}>Sıradaki: {next.title} →</Link>}
+        </div>;
+      })()}
       <ol className="dashboard-lessons">{lessonsForCourse(course).map((lesson,i)=>{
       const found=records.get(lesson.id);
       return <li key={lesson.id} className="dashboard-lesson"><span className="dashboard-index">{String(i+1).padStart(2,"0")}</span>

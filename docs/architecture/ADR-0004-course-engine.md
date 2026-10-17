@@ -29,3 +29,14 @@ Browser editors are capability-gated. JS retains its existing opt-in, loopback-o
 ### Tradeoffs and follow-up
 
 The model uses a single reviewed Git repository as CMS. Large catalogs later require localization and language-aware import/build partitions, editorial UI, reference linking, course versioning and course/skill-specific mastery analytics. Content licensing/editorial review and runtime security gates remain mandatory. No production deployment.
+
+## Guided Course Experience v1 (M6)
+
+Python and Java lessons use a four-phase learning route: **predict → trace → debug → transfer**.
+Each lesson includes an instructor-authored, progressively revealed execution trace; a buggy example editable locally in CodeMirror with true Python or Java Lezer grammar highlighting; a server-graded **"which change fixes the bug?"** question; two optional hints; and an independent transfer question. Wrong fix choices receive a misconception-specific explanation. This is an educational diagnosis of the learner's chosen fix, **not an execution or grading of their edited code**. The editor does not submit Python/Java source to a server. Existing JavaScript lessons keep their established routes and JavaScript sandbox safety gate.
+
+Course overview pages show an account-scoped completion fraction and suggested next lesson when PostgreSQL + a signed-in learner is present. Anonymous/unconfigured environments show an honest unavailable/login notice, not fabricated 0% progress. Quiz attempts and lesson-completion ownership remain enforced by existing database controls. Past completed lessons are not revoked when a third diagnostic question is introduced; students who complete a previously unfinished lesson must now pass its third exercise.
+
+Private answer keys and wrong-choice explanations live in `apps/web/src/server/answer-keys.json`; public `apps/web/src/data/lesson-guides.json` and `questions.json` contain hints, broken source examples and answer options, never private correct-option IDs or diagnostic feedback. Grammar packages are pinned in pnpm lockfile.
+
+**Limits:** this is a deterministic instructor-curated diagnostic loop, not an AI tutor or independent proof that any edited source is correct. Deeper personalized learning requires longitudinal mastery modeling and an audited sandbox for non-JS code. New diagnostic questions use stable `debug.<language>.*` IDs; the existing reviewed Java/Python sample tests only execute the non-buggy `java.*`/`python.*` educational fixtures in CI.

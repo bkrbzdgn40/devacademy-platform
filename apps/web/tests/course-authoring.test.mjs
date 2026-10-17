@@ -38,7 +38,7 @@ test("generator emits safely disabled isolated curriculum drafts",async()=>{
   assert.equal(draft.publicDraft.course.languageId,"language.python");
   assert.equal(draft.publicDraft.course.capabilities.run,false);
   assert.equal(draft.publicDraft.course.capabilities.codeAssessment,false);
-  assert.equal(draft.publicDraft.course.editorLanguage,"plain");
+  assert.equal(draft.publicDraft.course.editorLanguage,"python");
   assert.equal(draft.privateDraft.review.contentReviewed,false);
   assert.equal(draft.privateDraft.review.codeExamplesVerified,false);
   assert.ok(!Object.hasOwn(draft.publicDraft.questions[0],"correctOptionId"));
@@ -47,7 +47,7 @@ test("generator emits safely disabled isolated curriculum drafts",async()=>{
   const result=preparePublication(base,pub,priv);
   assert.equal(result.courses.length,4);
   assert.equal(result.lessons.length,16);
-  assert.equal(result.questions.length,31);
+  assert.equal(result.questions.length,39);
   assert.equal(result.catalog.length,base.catalog.length);
   assert.equal(result.answers[pub.questions[0].id].optionId,"a");
 });

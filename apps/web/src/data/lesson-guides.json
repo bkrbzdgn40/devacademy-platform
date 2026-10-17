@@ -1,0 +1,130 @@
+[
+  {
+    "lessonId": "lesson.java.variables",
+    "language": "java",
+    "missionTitle": "Bir değerin kesirli kısmını koru",
+    "goal": "Bölme işleminin en az bir operandı işlemin yapıldığı anda ondalıklı türden olmalı.",
+    "trace": [
+      "5 / 2 tamsayı bölmesidir; çıkan 2 sonradan double'a atanır.",
+      "5.0 / 2 bir float değil Java'da double sonucu üretir: 2.5."
+    ],
+    "hints": [
+      "Önce 5 / 2 ifadesinin türünü düşün.",
+      "Değişkenin türü değil, bölme yapılırken kullanılan operandlar önemli."
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.java.variables"
+  },
+  {
+    "lessonId": "lesson.java.methods",
+    "language": "java",
+    "missionTitle": "Döndürülen değeri yazdır",
+    "goal": "Bir metottan değer dönmesi, ekrana otomatik yazıldığı anlamına gelmez.",
+    "trace": [
+      "square(4) değeri 16'dır ama dönüş değeri kullanılmaz.",
+      "System.out.println çağrısı dönüş değerini konsola yazar."
+    ],
+    "hints": [
+      "square() dönüş türüne bak.",
+      "main içinde çıktıyı hangi ifade oluşturur?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.java.methods"
+  },
+  {
+    "lessonId": "lesson.java.polymorphism",
+    "language": "java",
+    "missionTitle": "Override eksikliğini bul",
+    "goal": "Aşırı yükleme (overloading) ve override aynı şey değildir.",
+    "trace": [
+      "speak(int) farklı parametre aldığı için speak() metodunu override etmez.",
+      "Aynı imzalı speak() tanımlanırsa nesnenin gerçek Dog türü seçilir."
+    ],
+    "hints": [
+      "Çağrılan speak() parametresiz.",
+      "Dog içindeki speak(int) aynı imzaya sahip mi?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.java.polymorphism"
+  },
+  {
+    "lessonId": "lesson.python.variables",
+    "language": "python",
+    "missionTitle": "Metin ile sayıyı birleştir",
+    "goal": "Python, str ve int değerlerini + ile otomatik birleştirmez.",
+    "trace": [
+      "str ile int doğrudan toplanamaz.",
+      "f-string 20 sayısını güvenli biçimde metin içine yerleştirir."
+    ],
+    "hints": [
+      "age türü int, \"Yaş: \" türü str.",
+      "f-string değerleri yazdırılabilir metne dönüştürür."
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.python.variables"
+  },
+  {
+    "lessonId": "lesson.python.conditions",
+    "language": "python",
+    "missionTitle": "Girintiyi düzelt",
+    "goal": "Koşul dışındaki bir print satırı her zaman yürütülür.",
+    "trace": [
+      "Koşul dışındaki print doğru/yanlış her durumda çalışır.",
+      "else bloğu yalnızca yetişkin koşulu sağlanmadığında çalışır."
+    ],
+    "hints": [
+      "Şu an ikinci print if bloğunun dışında.",
+      "else yalnızca if yanlışsa çalışır."
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.python.conditions"
+  },
+  {
+    "lessonId": "lesson.python.loops",
+    "language": "python",
+    "missionTitle": "Üst sınırı dahil et",
+    "goal": "range çağrısındaki ikinci sayı listeye dahil edilmez.",
+    "trace": [
+      "range(1,5) yalnızca 1,2,3,4 üretir.",
+      "range(1,6) 5'i dahil eder ve toplamı 15 yapar."
+    ],
+    "hints": [
+      "range(1,5) hangi son sayıyı üretir?",
+      "5'in de gelmesi için üst sınır ne olmalı?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.python.loops"
+  },
+  {
+    "lessonId": "lesson.python.functions",
+    "language": "python",
+    "missionTitle": "Değeri gerçekten döndür",
+    "goal": "print ve return aynı görevi görmez.",
+    "trace": [
+      "double(4) ekrana 8 yazar fakat çağırana None döndürür.",
+      "return, sonucu result değişkenine iletir."
+    ],
+    "hints": [
+      "print yalnızca konsola yazar.",
+      "Sonucun result değişkenine aktarılması için hangi ifade gerekir?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.python.functions"
+  },
+  {
+    "lessonId": "lesson.python.collections",
+    "language": "python",
+    "missionTitle": "Eksik sözlük anahtarını güvenli oku",
+    "goal": "[] ile indeks erişimi ve get() eksik anahtarda farklı davranır.",
+    "trace": [
+      "person[\"city\"] bulunmayan anahtar için KeyError üretir.",
+      "get ile varsayılan değer seçildiğinde hata yerine metin döner."
+    ],
+    "hints": [
+      "city sözlükte mevcut mu?",
+      "get(key, default) eksik değer için ne döndürür?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.python.collections"
+  }
+]

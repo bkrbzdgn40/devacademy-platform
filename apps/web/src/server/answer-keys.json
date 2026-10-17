@@ -118,5 +118,69 @@
   "python.collections.get": {
     "optionId": "c",
     "explanation": "city anahtarı sözlükte olmadığı için get ikinci argümandaki 'bilinmiyor' değerini döndürür."
+  },
+  "debug.java.variables": {
+    "optionId": "a",
+    "explanation": "Bölme işleminin en az bir operandı işlemin yapıldığı anda ondalıklı türden olmalı.",
+    "wrongFeedback": {
+      "b": "Sonuç ondalıklı değişkene atanınca önceki tamsayı bölme geri alınamaz.",
+      "c": "Önce tamsayı bölme gerçekleştiği için sonucun kesri kaybolur."
+    }
+  },
+  "debug.java.methods": {
+    "optionId": "a",
+    "explanation": "Bir metottan değer dönmesi, ekrana otomatik yazıldığı anlamına gelmez.",
+    "wrongFeedback": {
+      "b": "return, konsol çıktısı üretmez.",
+      "c": "main void olduğundan burada int değer döndüremezsin."
+    }
+  },
+  "debug.java.polymorphism": {
+    "optionId": "a",
+    "explanation": "Aşırı yükleme (overloading) ve override aynı şey değildir.",
+    "wrongFeedback": {
+      "b": "static metot eklemek dinamik dispatch sorununu çözmez.",
+      "c": "Object referansı speak() metodunu görünür kılmaz; kod derlenmez."
+    }
+  },
+  "debug.python.variables": {
+    "optionId": "a",
+    "explanation": "Python, str ve int değerlerini + ile otomatik birleştirmez.",
+    "wrongFeedback": {
+      "b": "Hâlâ str ile int toplamaya çalışıyor.",
+      "c": "\"Yaş: \" metni tamsayıya çevrilemez."
+    }
+  },
+  "debug.python.conditions": {
+    "optionId": "a",
+    "explanation": "Koşul dışındaki bir print satırı her zaman yürütülür.",
+    "wrongFeedback": {
+      "b": "= atamadır ve if koşulunda karşılaştırma olarak kullanılamaz.",
+      "c": "Girintiyi kaldırırsan if bloğunun içi boş kalır ve Python hata verir."
+    }
+  },
+  "debug.python.loops": {
+    "optionId": "a",
+    "explanation": "range çağrısındaki ikinci sayı listeye dahil edilmez.",
+    "wrongFeedback": {
+      "b": "range(1,4) daha da kısa aralık üretir.",
+      "c": "range(0,5) 0 ekler ama 5 hâlâ dahil değildir."
+    }
+  },
+  "debug.python.functions": {
+    "optionId": "a",
+    "explanation": "print ve return aynı görevi görmez.",
+    "wrongFeedback": {
+      "b": "Yeni print çağrısı dönüş değerini değiştirmez.",
+      "c": "Fonksiyonun ismini değiştirmek None dönüşünü düzeltmez."
+    }
+  },
+  "debug.python.collections": {
+    "optionId": "a",
+    "explanation": "[] ile indeks erişimi ve get() eksik anahtarda farklı davranır.",
+    "wrongFeedback": {
+      "b": "Anahtar erişimi önce hata ürettiği için or çalışmaz.",
+      "c": "get() varsayılan verilmezse None döndürür; None ile str toplanamaz."
+    }
   }
 }

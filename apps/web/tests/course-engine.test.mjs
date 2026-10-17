@@ -12,7 +12,7 @@ const reference={
 };
 const clone=()=>structuredClone(reference);
 test("three courses share lesson/assessment contract with no JS identity migration",()=>{
-  assert.deepEqual(validateCourseCatalog(reference),{courseCount:3,lessonCount:15,questionCount:30});
+  assert.deepEqual(validateCourseCatalog(reference),{courseCount:3,lessonCount:15,questionCount:38});
   const oldJs=load("lessons.json").filter(x=>x.id.startsWith("lesson.javascript."));
   assert.equal(reference.courses[0].lessonIds.length,7);
   assert.deepEqual(reference.courses[0].lessonIds,oldJs.map(x=>x.id));
@@ -20,7 +20,7 @@ test("three courses share lesson/assessment contract with no JS identity migrati
   assert.ok(reference.courses[1].capabilities.run===false);
   assert.equal(reference.courses[2].languageId,'language.python');
   assert.equal(reference.courses[2].lessonIds.length,5);
-  assert.equal(reference.courses[2].editorLanguage,'plain');
+  assert.equal(reference.courses[2].editorLanguage,'python');
   assert.equal(reference.courses[2].capabilities.run,false);
 });
 test("curriculum validator blocks orphaned lessons and stale IDs",()=>{

@@ -23,7 +23,7 @@ export function validateCourseCatalog({courses,lessons,questions,catalog,answerK
        !name(course.title)||!name(course.summary)||course.locale!=="tr"||
        !langs.has(course.languageId)||!Array.isArray(course.lessonIds)||
        course.lessonIds.length<1||!unique(course.lessonIds)||
-       !["java","javascript","plain"].includes(course.editorLanguage)||
+       !["java","javascript","python","plain"].includes(course.editorLanguage)||
        course.capabilities?.editor!==true ||
        course.capabilities?.run!==false ||course.capabilities?.codeAssessment!==false)fail("invalid course "+course.id);
     if(course.editorLanguage!=="javascript" && course.runtimeId!==null)fail("Unsupported runtime advertised");

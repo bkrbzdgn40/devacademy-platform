@@ -40,7 +40,7 @@ export function createDraft({languageSlug,courseSlug,title,catalog}){
       id:"course."+toId(languageSlug)+"."+toId(courseSlug),
       slug:courseSlug,languageId:id,title:title.trim(),
       summary:placeholder+" Kurs açıklaması",level:"Başlangıç",locale:"tr",
-      editorLanguage:languageSlug==="java"?"java":languageSlug==="javascript"?"javascript":"plain",
+      editorLanguage:languageSlug==="java"?"java":languageSlug==="javascript"?"javascript":languageSlug==="python"?"python":"plain",
       runtimeId:languageSlug==="javascript"?"nodejs-24":null,
       capabilities:{editor:true,run:false,codeAssessment:false},
       lessonIds:[lessonId]
