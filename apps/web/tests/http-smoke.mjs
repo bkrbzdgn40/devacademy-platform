@@ -48,7 +48,7 @@ try {
   assert.match(await home.text(), /İlk derslere başla/);
   const catalog = await fetch(`${base}/kutuphane/diller`);
   assert.equal(catalog.status, 200);
-  assert.match(await catalog.text(), /JavaScript Temelleri kursunu aç/);
+  assert.ok((await catalog.text()).includes('href="/kurslar/javascript-temelleri"'));
   const lessons = await fetch(`${base}/dersler`);
   assert.equal(lessons.status, 200);
   assert.match(await lessons.text(), /Değişkenler: let ve const/);
