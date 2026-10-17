@@ -10,7 +10,7 @@ docker run --detach --name "$container" --publish 127.0.0.1::5432 \
   --env POSTGRES_PASSWORD=local_only_test_password --env POSTGRES_DB=devacademy_test postgres:16-alpine >/dev/null
 ready=false
 for _ in $(seq 1 60); do
-  if docker exec "$container" pg_isready -U postgres -d devacademy_test >/dev/null 2>&1; then ready=true; break; fi
+  if docker exec "$container" psql -U postgres -d devacademy_test -Atc "SELECT 1" >/dev/null 2>&1; then ready=true; break; fi
   sleep 1
 done
 if [[ "$ready" != true ]]; then

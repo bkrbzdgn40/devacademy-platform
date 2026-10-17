@@ -34,7 +34,24 @@ export function AccountPanel() {
     } catch { setViewer(emptyViewer); setMessage("Hesap servisine ulaşılamıyor."); }
   }, []);
 
-  useEffect(() => { void refresh(); }, [refresh]);
+  useEffect(() => {
+    let active = true;
+    fetch("/api/me", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("account unavailable");
+        const data = (await response.json()) as Viewer;
+        if (!active) return;
+        setViewer(data);
+        if (data.authenticated) {
+          const prog = await fetch("/api/progress", { cache: "no-store" });
+          if (active) setProgress(prog.ok ? (await prog.json()) as Progress : null);
+        }
+      })
+      .catch(() => {
+        if (active) { setViewer(emptyViewer); setMessage("Hesap servisine ulaşılamıyor."); }
+      });
+    return () => { active = false; };
+  }, []);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
