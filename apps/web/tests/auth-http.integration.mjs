@@ -92,7 +92,7 @@ try {
   // Same authenticated HTTP flow also saves a second language without mixing owners.
   const javaView=await post("/api/progress",{lessonId:"lesson.java.variables",operation:"view"},{cookie:cookieB});
   assert.equal(javaView.status,200);
-  for(const [questionId,optionId] of [["java.variables.increment","b"],["java.variables.division","b"]]){
+  for(const [questionId,optionId] of [["java.variables.increment","b"],["java.variables.division","b"],["debug.java.variables","a"]]){
     const response=await post("/api/assess",{questionId,optionId},{cookie:cookieB});
     assert.equal(response.status,200);
     assert.equal((await response.json()).saved,true);
