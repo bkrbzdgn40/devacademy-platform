@@ -2,11 +2,11 @@
 
 **Interactive software learning, practice, assessment and industry awareness.**
 
-> Status: **M1 development preview**. The web shell, illustrative catalog, three JavaScript lessons and six server-graded output-prediction exercises have been scaffolded. Local PostgreSQL account sessions, a visual learning dashboard and persistent learning progress are available only after database configuration; no public service, code execution environment or live news feed is deployed.
+> Status: local development preview. Two shared course paths (JavaScript and Java), authenticated progress, and a localhost-only experimental JavaScript sandbox/assessment are implemented. Public code execution and production deployment remain disabled.
 
 DevAcademy connects programming languages, software engineering concepts and modern technology stacks to interactive lessons, programming practice, skill checks, learning paths and attributed technology updates.
 
-## Run locally (after the foundation PR merges)
+## Run locally
 
 Requires **Node.js 24** and **pnpm 10.34.7**.
 
@@ -29,20 +29,20 @@ Open http://localhost:3000. `pnpm check` runs lint, type checks, catalog unit te
 - All sample catalog items explicitly report **no runnable runtime**. Anonymous quiz responses are not persisted; authenticated quiz responses are stored if the local database is configured. Public registration/abuse controls remain incomplete.
 - Technology news is a truthful empty state, not a synthetic live feed.
 
-## Proposed architecture (future work, not implemented)
+## Architecture (current and future)
 
 ```text
 apps/web/                 # Next.js UI, session APIs and authenticated learning flows
-apps/worker/              # queued jobs (planned)
-services/code-runner/     # separately sandboxed untrusted code (planned)
-packages/database/        # Postgres schema and migrations (planned)
+apps/web/src/server/      # authenticated PostgreSQL queue (local lab only)
+services/code-runner/     # separate local-lab worker and Docker sandbox
+db/                       # PostgreSQL migrations and integration tests
 packages/ui/              # shared UI components (planned)
 packages/learning-engine/ # content grading and progress (planned)
-content/                  # reviewed lessons and exercises (planned)
+scripts/                 # course drafting and reviewed publication
 docs/                     # project decisions, risks and roadmap
 ```
 
-Stack foundation: Next.js, React, TypeScript, pnpm and Turborepo. Runtime execution and Redis are **not active**. Authentication and PostgreSQL storage operate in a configured local development environment, not a public hosted deployment.
+Stack foundation: Next.js, React, TypeScript, pnpm and Turborepo. The execution worker is opt-in localhost-only and remains disabled by default. Redis is not used. Authentication and PostgreSQL storage operate in a configured local development environment, not a public hosted deployment.
 
 ## Planning and governance
 
@@ -69,3 +69,7 @@ All rights reserved until an explicit licensing decision is recorded.
 Browse `/kurslar` for JavaScript fundamentals (7 lessons / 14 questions) or Java fundamentals (3 lessons / 6 questions). Both use the same pages, lesson identity contract, server grading and account-scoped progress. Existing `/dersler` URLs remain valid. Adding another course is **content-as-code**, not a custom frontend page: see [Add a course](docs/content/ADD-A-COURSE.md) and [ADR-0004](docs/architecture/ADR-0004-course-engine.md).
 
 Java code is **editing-only**; reviewed repository Java snippets are verified in GitHub CI but learners cannot compile/run Java. All public execution remains blocked until dedicated safety gates are satisfied.
+
+## Course Engine v1.1: add a course safely
+
+Use `node scripts/course-cli.mjs new python python-temelleri "Python Temelleri"` to generate an ignored authoring draft. Complete its public lessons/questions and separate private answers, mark both editorial review gates after actual review, then run `node scripts/course-cli.mjs check python-temelleri` and `node scripts/course-cli.mjs publish python-temelleri --reviewed`. Run `corepack pnpm check`, inspect the Git diff and open a PR. Details: [Course authoring guide](docs/content/ADD-A-COURSE.md) and [ADR-0005](docs/architecture/ADR-0005-course-authoring.md). New runtimes are **never automatically enabled**.
