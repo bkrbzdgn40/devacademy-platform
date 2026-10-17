@@ -9,6 +9,7 @@ on:
       - "apps/web/src/components/account-panel.tsx"
       - "apps/web/src/components/complete-lesson.tsx"
       - "apps/web/tests/auth-*.integration.mjs"
+      - "apps/web/tests/execution-*.integration.mjs"
       - "apps/web/package.json"
       - "pnpm-lock.yaml"
   push:
