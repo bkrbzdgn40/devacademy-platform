@@ -1,0 +1,32 @@
+# One-time bootstrapping; delete this workflow on the feature branch before PR.
+name: Generate M1 lockfile
+on:
+  push:
+    branches: [feat/m1-foundation]
+permissions:
+  contents: write
+jobs:
+  generate:
+    if: github.repository == 'bkrbzdgn40/devacademy-platform'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.7
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Create deterministic lockfile
+        run: pnpm install --lockfile-only --ignore-scripts
+      - name: Commit generated lockfile
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pnpm-lock.yaml
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: pin resolved dependencies"
+            git push origin HEAD:feat/m1-foundation
+          fi

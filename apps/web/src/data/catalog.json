@@ -1,0 +1,132 @@
+[
+  {
+    "id": "language.python",
+    "slug": "python",
+    "kind": "language",
+    "name": "Python",
+    "summary": "Okunabilir sözdizimi, otomasyon ve veri işleme için çok yönlü dil.",
+    "level": "Başlangıç",
+    "runnable": false,
+    "tags": [
+      "Scripting",
+      "Veri"
+    ]
+  },
+  {
+    "id": "language.javascript",
+    "slug": "javascript",
+    "kind": "language",
+    "name": "JavaScript",
+    "summary": "Web tarayıcısı ve sunucuda çalışan programlama dili.",
+    "level": "Başlangıç",
+    "runnable": false,
+    "tags": [
+      "Web",
+      "Runtime"
+    ]
+  },
+  {
+    "id": "language.typescript",
+    "slug": "typescript",
+    "kind": "language",
+    "name": "TypeScript",
+    "summary": "JavaScript için statik tip kontrolü.",
+    "level": "Orta",
+    "runnable": false,
+    "tags": [
+      "Web",
+      "Tip sistemi"
+    ]
+  },
+  {
+    "id": "language.java",
+    "slug": "java",
+    "kind": "language",
+    "name": "Java",
+    "summary": "Nesne yönelimli ve geniş ekosisteme sahip JVM dili.",
+    "level": "Başlangıç",
+    "runnable": false,
+    "tags": [
+      "JVM",
+      "OOP"
+    ]
+  },
+  {
+    "id": "language.sql",
+    "slug": "sql",
+    "kind": "language",
+    "name": "SQL",
+    "summary": "İlişkisel veriler üzerinde sorgu yazmak için kullanılan dil.",
+    "level": "Başlangıç",
+    "runnable": false,
+    "tags": [
+      "Veritabanı",
+      "Sorgu"
+    ]
+  },
+  {
+    "id": "language.cow",
+    "slug": "cow",
+    "kind": "language",
+    "name": "COW",
+    "summary": "Moo temalı komutlarıyla bilinen deneysel bir programlama dili.",
+    "level": "Meraklısına",
+    "runnable": false,
+    "tags": [
+      "Esoterik",
+      "Deneysel"
+    ]
+  },
+  {
+    "id": "concept.polymorphism",
+    "slug": "polymorphism",
+    "kind": "concept",
+    "name": "Polymorphism",
+    "summary": "Aynı arayüzün farklı türler üzerinde farklı davranış göstermesi.",
+    "level": "Orta",
+    "runnable": false,
+    "tags": [
+      "OOP",
+      "Tasarım"
+    ]
+  },
+  {
+    "id": "concept.solid",
+    "slug": "solid",
+    "kind": "concept",
+    "name": "SOLID",
+    "summary": "Daha sürdürülebilir nesne yönelimli tasarım için beş ilke.",
+    "level": "Orta",
+    "runnable": false,
+    "tags": [
+      "Mimari",
+      "OOP"
+    ]
+  },
+  {
+    "id": "technology.react",
+    "slug": "react",
+    "kind": "technology",
+    "name": "React",
+    "summary": "Bileşen tabanlı kullanıcı arayüzleri geliştirmek için kütüphane.",
+    "level": "Orta",
+    "runnable": false,
+    "tags": [
+      "Frontend",
+      "Arayüz"
+    ]
+  },
+  {
+    "id": "technology.docker",
+    "slug": "docker",
+    "kind": "technology",
+    "name": "Docker",
+    "summary": "Uygulamaları taşınabilir imajlar ve konteynerlerle paketleme aracı.",
+    "level": "Orta",
+    "runnable": false,
+    "tags": [
+      "DevOps",
+      "Konteyner"
+    ]
+  }
+]

@@ -2,54 +2,58 @@
 
 **Interactive software learning, practice, assessment and industry awareness.**
 
-> Status: **Foundation / design baseline**. There is no working application, deployed site, code execution service or published curriculum yet.
+> Status: **M1 development preview**. The web shell and an illustrative catalog have been scaffolded. No lessons, accounts, execution environment, code grading, database, or live news feed are deployed yet.
 
-DevAcademy connects **programming languages**, **software engineering concepts**, and **technology stacks** to interactive lessons, code exercises, skill checks, learning paths, and source-attributed technology updates. The initial audience is Turkish-speaking learners, with an architecture that supports English and additional locales.
+DevAcademy connects programming languages, software engineering concepts and modern technology stacks to interactive lessons, programming practice, skill checks, learning paths and attributed technology updates.
 
-## Principles
+## Run locally (after the foundation PR merges)
 
-1. **Learning outcomes over content volume.** Learners must demonstrate skills, not merely read pages.
-2. **One knowledge graph, multiple learning surfaces.** A concept can be taught across several languages and stacks.
-3. **Capability honesty.** Catalog availability is not the same as executable runtime support.
-4. **Safe-by-design execution.** Untrusted learner code never runs in the web app or database process.
-5. **Traceable industry updates.** News has sources, publication dates and links to relevant learning material.
-6. **Accessible and measurable.** Keyboard-first practice, progress and meaningful assessment.
+Requires **Node.js 24** and **pnpm 10.34.7**.
 
-## Plan
-
-- [Product requirements](docs/requirements/PRD.md)
-- [System architecture](docs/architecture/ARCHITECTURE.md)
-- [Architecture decision record](docs/architecture/ADR-0001-foundation.md)
-- [Content and knowledge graph model](docs/content/CONTENT_MODEL.md)
-- [Threat model](docs/security/THREAT_MODEL.md)
-- [Milestone roadmap](docs/roadmap/ROADMAP.md)
-- [Contributor workflow](CONTRIBUTING.md)
-- [Automation and agent rules](AGENTS.md)
-
-## Proposed monorepo (not scaffolded yet)
-
-```text
-apps/web/                 # Next.js website and APIs
-apps/worker/              # news, analytics and other queued jobs
-services/code-runner/     # separately isolated untrusted code execution
-packages/ui/              # accessible design system
-packages/database/        # schemas and migrations
-packages/learning-engine/ # evaluation domain logic
-packages/shared/          # shared types and validation
-content/                  # version-controlled lessons and exercises
-docs/                     # project decisions and quality standards
+```bash
+corepack enable
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-Technical choices are recorded in ADR-0001. Package versions will be pinned and verified only when implementation starts.
+Open http://localhost:3000. `pnpm check` runs lint, type checks, catalog unit tests and production build. `GET /api/health` checks the web process only, not future databases or workers.
 
-## Initial target
+## Current preview
 
-The **MVP target** is five runnable language experiences (Python, JavaScript, TypeScript, Java and SQL), four curated paths, at least 30 reviewed interactive exercises, at least 100 accurate concept cards, accounts with saved progress, and a small verified technology feed. These are **targets**, not implemented features. The first development slice will be significantly smaller to validate the architecture and learning experience before scale.
+- A Turkish landing page with three clear exploration routes.
+- Catalog previews for languages, concepts and technologies, including the uncommon **COW** language.
+- Responsive styling, keyboard skip link and basic semantic markup.
+- All sample catalog items explicitly report **no runnable runtime**.
+- Technology news is a truthful empty state, not a synthetic live feed.
 
-## Development
+## Proposed architecture (future work, not implemented)
 
-Use a dedicated feature branch and a pull request. Prefer one coherent commit per PR. Never commit credentials; never force-push or bypass safeguards. Follow [AGENTS.md](AGENTS.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
+```text
+apps/web/                 # Next.js UI and HTTP endpoints (scaffolded)
+apps/worker/              # queued jobs (planned)
+services/code-runner/     # separately sandboxed untrusted code (planned)
+packages/database/        # Postgres schema and migrations (planned)
+packages/ui/              # shared UI components (planned)
+packages/learning-engine/ # content grading and progress (planned)
+content/                  # reviewed lessons and exercises (planned)
+docs/                     # project decisions, risks and roadmap
+```
+
+Stack foundation: Next.js, React, TypeScript, pnpm and Turborepo. Runtime execution, authentication, PostgreSQL and Redis are deliberately **not active** until their security and data flows are implemented and verified.
+
+## Planning and governance
+
+- [Product requirements](docs/requirements/PRD.md)
+- [Architecture](docs/architecture/ARCHITECTURE.md)
+- [ADR-0001](docs/architecture/ADR-0001-foundation.md)
+- [Content model](docs/content/CONTENT_MODEL.md)
+- [Threat model](docs/security/THREAT_MODEL.md)
+- [Roadmap](docs/roadmap/ROADMAP.md)
+- [Contributor guide](CONTRIBUTING.md)
+- [Agent instructions](AGENTS.md)
+
+Develop on feature branches and merge through reviewed pull requests. Never execute user-submitted code in the web process. No secrets in repository history.
 
 ## License
 
-**No open-source license has been granted.** The repository is private. Licensing must be explicitly decided before any public release or third-party content redistribution.
+All rights reserved until an explicit licensing decision is recorded.
