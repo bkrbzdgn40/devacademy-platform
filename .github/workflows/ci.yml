@@ -19,7 +19,12 @@ jobs:
         with:
           node-version: '24'
       - name: Install locked dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          pnpm install --no-frozen-lockfile --lockfile-only
+          echo 'COURSE_LOCK_DIFF_START'
+          git diff -- pnpm-lock.yaml
+          echo 'COURSE_LOCK_DIFF_END'
+          pnpm install --no-frozen-lockfile
       - name: Validate app
         run: corepack pnpm check
       - name: Install Java 21 for reviewed curriculum fixtures
