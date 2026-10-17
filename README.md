@@ -22,7 +22,8 @@ Open http://localhost:3000. `pnpm check` runs lint, type checks, catalog unit te
 
 - A Turkish landing page with a JavaScript learning path and three exploration routes.
 - Catalog previews for languages, concepts and technologies, including the uncommon **COW** language.
-- Three beginner JavaScript lessons and six output-prediction exercises with server-side scoring and explanations. Answers are not shipped in public question JSON.
+- Three beginner JavaScript lessons and six output-prediction exercises with server-side scoring and explanations.
+- A PostgreSQL learner/attempt/progress migration is under development and is not connected to the site. Answers are not shipped in public question JSON.
 - Responsive styling, keyboard skip link and basic semantic markup.
 - All sample catalog items explicitly report **no runnable runtime**. Quiz responses are not persisted, and the scoring endpoint is a preview without production-grade abuse controls.
 - Technology news is a truthful empty state, not a synthetic live feed.
@@ -46,6 +47,7 @@ Stack foundation: Next.js, React, TypeScript, pnpm and Turborepo. Runtime execut
 
 - [Product requirements](docs/requirements/PRD.md)
 - [Architecture](docs/architecture/ARCHITECTURE.md)
+- [Learning data schema](docs/architecture/LEARNING-DATA.md)
 - [ADR-0001](docs/architecture/ADR-0001-foundation.md)
 - [Content model](docs/content/CONTENT_MODEL.md)
 - [Threat model](docs/security/THREAT_MODEL.md)

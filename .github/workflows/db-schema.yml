@@ -1,0 +1,21 @@
+name: Database schema
+on:
+  pull_request:
+    paths:
+      - "db/**"
+      - ".github/workflows/db-schema.yml"
+  push:
+    branches: [main]
+    paths:
+      - "db/**"
+      - ".github/workflows/db-schema.yml"
+permissions:
+  contents: read
+jobs:
+  postgres-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test PostgreSQL DDL and constraints
+        run: bash db/tests/check-schema.sh
