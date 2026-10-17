@@ -17,6 +17,12 @@ const answerKeys: Record<string, { optionId: string; explanation: string }> = {
   "js.reduce.sum": { optionId: "c", explanation: "reduce, 0 + 2 + 3 + 5 = 10 değerini döndürür." },
   "js.async.sync": { optionId: "a", explanation: "İlk console.log senkron olarak A yazar." },
   "js.async.microtask": { optionId: "b", explanation: "Senkron push önce, Promise microtask'ı queueMicrotask callback'inden önce çalışır." },
+  "java.variables.increment": {"optionId":"b","explanation":"count önce 2'dir, += 3 işleminden sonra 5 olur."},
+  "java.variables.division": {"optionId":"b","explanation":"5 / 2 iki int arasında hesaplanır ve 2 üretir. Sonuç double türüne 2.0 olarak atanır."},
+  "java.methods.square": {"optionId":"a","explanation":"square(4) metodu return ile 4 * 4 yani 16 döndürür."},
+  "java.methods.void": {"optionId":"c","explanation":"void dönüş türü değer döndürmez; metot System.out.println ile Merhaba yazar."},
+  "java.polymorphism.override": {"optionId":"b","explanation":"Animal türündeki referans Dog nesnesini gösterdiğinden override edilmiş speak() çağrılır."},
+  "java.polymorphism.field": {"optionId":"a","explanation":"Alan erişimi referansın derleme zamanı türüne göre seçilir. Animal a referansında a.kind animal değerini verir."},
 };
 
 export type GradeResult =

@@ -150,5 +150,69 @@
     "prerequisites": [
       "lesson.javascript.filter"
     ]
+  },
+  {
+    "id": "lesson.java.variables",
+    "slug": "degiskenler-ve-turler",
+    "title": "Değişkenler ve veri türleri",
+    "level": "Başlangıç",
+    "durationMinutes": 9,
+    "objective": "int, double ve değişken ataması arasındaki farkı doğru açıklayabilmek.",
+    "summary": "Java'da türler neden önemlidir?",
+    "explanation": "Java statik tür denetimi kullanır. int tam sayı saklar, double ondalıklı sayılar için kullanılır. İki int ile yapılan bölme, sonuç double değişkene atansa bile önce tam sayı bölmesi yapar. JavaScript'in esnek türleriyle karıştırma.",
+    "code": "class Main {\n  public static void main(String[] args) {\n    int score = 2;\n    score += 3;\n    System.out.println(score); // 5\n  }\n}",
+    "takeaways": [
+      "Bir değişkenin türü derleme zamanında belirlenir.",
+      "5 / 2 ifadesi iki int arasında bölme yaptığından 2 üretir."
+    ],
+    "questionIds": [
+      "java.variables.increment",
+      "java.variables.division"
+    ],
+    "prerequisites": []
+  },
+  {
+    "id": "lesson.java.methods",
+    "slug": "metotlar-ve-return",
+    "title": "Metotlar ve return",
+    "level": "Başlangıç",
+    "durationMinutes": 10,
+    "objective": "Metot parametrelerini, dönüş türünü ve return ile println farkını kullanabilmek.",
+    "summary": "Yeniden kullanılabilir davranışları metotlara ayır.",
+    "explanation": "Java'da metotların dönüş türü açıkça yazılır. return bir değeri çağırana verir; System.out.println ekrana yazar. void dönüş değeri olmayan metotlar için kullanılır. static metotlar nesne oluşturmadan sınıf üzerinden çağrılabilir.",
+    "code": "class Main {\n  static int square(int value) {\n    return value * value;\n  }\n  public static void main(String[] args) {\n    System.out.println(square(4)); // 16\n  }\n}",
+    "takeaways": [
+      "Metot imzasında parametre ve dönüş türü görünür.",
+      "void metot, çağırana değer döndürmez."
+    ],
+    "questionIds": [
+      "java.methods.square",
+      "java.methods.void"
+    ],
+    "prerequisites": [
+      "lesson.java.variables"
+    ]
+  },
+  {
+    "id": "lesson.java.polymorphism",
+    "slug": "polymorphism",
+    "title": "Çok biçimlilik (Polymorphism)",
+    "level": "Başlangıç",
+    "durationMinutes": 12,
+    "objective": "Üst sınıf referansında override edilmiş metodun alt sınıf davranışını ürettiğini açıklayabilmek.",
+    "summary": "Aynı referans türü, farklı nesnelerde farklı sonuç verebilir.",
+    "explanation": "Bir Animal referansı Dog nesnesini gösterebilir. Override edilmiş örnek metotlar çalışma zamanında nesnenin gerçek türüne göre seçilir. Buna çok biçimlilik denir. Alanlar (fields) ise metotlar gibi dinamik olarak override edilmez; referansın derleme zamanı türü belirleyicidir.",
+    "code": "class Main {\n  static class Animal {\n    String speak() { return \"?\"; }\n  }\n  static class Dog extends Animal {\n    @Override String speak() { return \"Woof\"; }\n  }\n  public static void main(String[] args) {\n    Animal pet = new Dog();\n    System.out.println(pet.speak()); // Woof\n  }\n}",
+    "takeaways": [
+      "Override edilen örnek metot gerçek nesnenin türüne göre seçilir.",
+      "Alan erişimi referans türüne göre belirlenir; alanlar override edilmez."
+    ],
+    "questionIds": [
+      "java.polymorphism.override",
+      "java.polymorphism.field"
+    ],
+    "prerequisites": [
+      "lesson.java.methods"
+    ]
   }
 ]

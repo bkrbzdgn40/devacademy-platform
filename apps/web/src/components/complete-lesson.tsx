@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-export function CompleteLesson({ lessonId }: { lessonId: string }) {
+export function CompleteLesson({ lessonId, questionCount=2 }: { lessonId: string; questionCount?: number }) {
   const [message, setMessage] = useState("");
   const [pending, setPending] = useState(false);
   const [done, setDone] = useState(false);
@@ -22,7 +22,7 @@ export function CompleteLesson({ lessonId }: { lessonId: string }) {
   }
   return <section className="completion-card" aria-labelledby="completion-title">
     <h2 id="completion-title">Dersi bitirmeye hazır mısın?</h2>
-    <p>Her iki alıştırmayı doğru çözdüğünde tamamlanma durumunu hesabına kaydedebilirsin.</p>
+    <p>{questionCount} soruyu doğru çözdüğünde tamamlanma durumunu hesabına kaydedebilirsin.</p>
     <button className="primary-button" type="button" onClick={complete} disabled={pending || done}>{done ? "Tamamlandı ✓" : pending ? "Kontrol ediliyor…" : "Dersi tamamla"}</button>
     {message && <p role="status">{message} {message.includes("oturum") && <Link href="/hesap">Hesabıma git →</Link>}</p>}
   </section>;
