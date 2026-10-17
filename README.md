@@ -11,12 +11,11 @@ DevAcademy connects programming languages, software engineering concepts and mod
 Requires **Node.js 24** and **pnpm 10.34.7**.
 
 ```bash
-corepack enable
-pnpm install --frozen-lockfile
-pnpm dev
+corepack pnpm install --frozen-lockfile
+corepack pnpm dev
 ```
 
-Open http://localhost:3000. `pnpm check` runs lint, type checks, catalog unit tests and production build. For accounts, configure local PostgreSQL 16 as described in [identity and progress setup](docs/architecture/IDENTITY-AND-PROGRESS.md); do not use real public user data in this development preview. `GET /api/health` checks the web process only, not future databases or workers.
+Open http://localhost:3000. `corepack pnpm check` runs lint, type checks, catalog unit tests and production build. On Windows, `corepack enable` can fail with EPERM when the global Node.js installation is protected; use `corepack pnpm ...` directly without installing a global pnpm shim. For accounts, configure local PostgreSQL 16 as described in [identity and progress setup](docs/architecture/IDENTITY-AND-PROGRESS.md); do not use real public user data in this development preview. `GET /api/health` checks the web process only, not future databases or workers.
 
 ## Current preview
 

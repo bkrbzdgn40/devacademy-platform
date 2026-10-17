@@ -21,7 +21,7 @@ jobs:
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
       - name: Validate app
-        run: pnpm check
+        run: corepack pnpm check
       - name: Install Java 21 for reviewed curriculum fixtures
         uses: actions/setup-java@v4
         with:
