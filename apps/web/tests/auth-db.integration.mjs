@@ -59,6 +59,12 @@ test("auth, durable progress, authorization and cascade integration", async () =
     assert.equal(own.recentAttempts.length,3);
     assert.equal(other.lessons.length,0);
     assert.equal(other.recentAttempts.length,0);
+    assert.equal(own.reviewSummary.total,2);
+    assert.equal(other.reviewSummary.total,0);
+    const savedReview=await database().query("SELECT stage,lapses,attempts FROM learning_review_schedule WHERE learner_id=$1 AND exercise_id='js.binding.increment'",[a.learnerId]);
+    assert.equal(savedReview.rows[0].stage,1);
+    assert.equal(savedReview.rows[0].lapses,1);
+    assert.equal(savedReview.rows[0].attempts,2);
     assert.equal((await updateLessonProgress(b.learnerId,lessonId,"complete")).status,"incomplete");
 
     // Course Engine v1: Java learning follows identical owner-scoped progress rules.
@@ -88,6 +94,7 @@ test("auth, durable progress, authorization and cascade integration", async () =
     assert.equal(await currentLearner(requestFresh),null);
     assert.equal((await database().query("SELECT count(*)::int AS n FROM learning_attempts WHERE learner_id=$1",[a.learnerId])).rows[0].n,0);
     assert.equal((await database().query("SELECT count(*)::int AS n FROM learner_sessions WHERE learner_id=$1",[a.learnerId])).rows[0].n,0);
+    assert.equal((await database().query("SELECT count(*)::int AS n FROM learning_review_schedule WHERE learner_id=$1",[a.learnerId])).rows[0].n,0);
     assert.ok(await currentLearner(requestB),"another account is not deleted");
   } finally {
     await database().query("DELETE FROM learner_accounts WHERE id=ANY($1::uuid[])",[[a.learnerId,b.learnerId]]);

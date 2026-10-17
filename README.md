@@ -80,3 +80,7 @@ Python Temelleri is available under `/kurslar/python-temelleri`. It contains fiv
 ## M6: Guided learning for Java and Python
 
 Java and Python lessons now follow **predict, trace, debug, transfer**, with grammar-aware syntax highlighting, progressively revealed traces, two-level hints and option-specific explanations. "Debug" tasks assess the selected repair, **not learner-edited source**. An authenticated course overview displays per-course completion and suggests the next lesson. The existing language execution restrictions do not change. See [Course Engine ADR](docs/architecture/ADR-0004-course-engine.md).
+
+## M7: Kişisel tekrar
+
+Authenticated learners can visit `/tekrar`. Questions answered incorrectly return after 10 minutes; successful scheduled reviews return after 1, 3, 7, 14, or 30 days. Historical completions are unchanged. Requires additive PostgreSQL migration `db/migrations/0005_spaced_reviews.sql` before first M7 graded attempt. The review schedule is not an AI mastery score. [Architecture notes](docs/architecture/ADR-0006-spaced-reviews.md).

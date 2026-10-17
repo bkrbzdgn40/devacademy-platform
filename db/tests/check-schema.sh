@@ -21,10 +21,12 @@ docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0002_auth_sessions.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0003_execution_queue.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0004_code_assessment.sql
+docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0005_spaced_reviews.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/learning_core.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/auth_core.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/execution_queue.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/code_assessment.sql
+docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/spaced_reviews.sql
 echo "PostgreSQL schema integration PASS"
 
 if [[ "${RUN_APP_TESTS:-}" == "1" ]]; then

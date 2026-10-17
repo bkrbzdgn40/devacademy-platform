@@ -117,6 +117,9 @@ try {
   assert.equal((await fetch(`${base}/pratik/no-such-task`)).status,404);
   const availability=await (await fetch(`${base}/api/executions/availability`)).json();
   assert.equal(availability.enabled,false);
+  const review=await fetch(`${base}/tekrar`);
+  assert.equal(review.status,200);
+  assert.match(await review.text(),/Hatırladığını kanıtla/);
   assert.equal((await fetch(`${base}/hesap`)).status, 200);
   assert.equal((await fetch(`${base}/api/me`)).status, 200);
   const valid = await jsonPost({ questionId: "js.binding.increment", optionId: "b" });
