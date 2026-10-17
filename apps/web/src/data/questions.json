@@ -1,0 +1,122 @@
+[
+  {
+    "id": "js.binding.increment",
+    "lessonId": "lesson.javascript.let-const",
+    "prompt": "Bu kodun konsol çıktısı nedir?",
+    "code": "let score = 2;\nscore += 3;\nconsole.log(score);",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "5"
+      },
+      {
+        "id": "c",
+        "text": "23"
+      }
+    ]
+  },
+  {
+    "id": "js.binding.object",
+    "lessonId": "lesson.javascript.let-const",
+    "prompt": "Aşağıdaki kodun çıktısı ne olur?",
+    "code": "const person = { name: 'Ada' };\nperson.name = 'Grace';\nconsole.log(person.name);",
+    "options": [
+      {
+        "id": "a",
+        "text": "TypeError"
+      },
+      {
+        "id": "b",
+        "text": "Ada"
+      },
+      {
+        "id": "c",
+        "text": "Grace"
+      }
+    ]
+  },
+  {
+    "id": "js.equality.strict",
+    "lessonId": "lesson.javascript.equality",
+    "prompt": "Katı eşitlik karşılaştırması ne yazdırır?",
+    "code": "console.log(0 === false);",
+    "options": [
+      {
+        "id": "a",
+        "text": "true"
+      },
+      {
+        "id": "b",
+        "text": "false"
+      },
+      {
+        "id": "c",
+        "text": "undefined"
+      }
+    ]
+  },
+  {
+    "id": "js.equality.loose",
+    "lessonId": "lesson.javascript.equality",
+    "prompt": "Gevşek eşitlik bu örnekte ne üretir?",
+    "code": "console.log(0 == false);",
+    "options": [
+      {
+        "id": "a",
+        "text": "true"
+      },
+      {
+        "id": "b",
+        "text": "false"
+      },
+      {
+        "id": "c",
+        "text": "TypeError"
+      }
+    ]
+  },
+  {
+    "id": "js.map.output",
+    "lessonId": "lesson.javascript.array-map",
+    "prompt": "join çağrısından sonra hangi metin yazdırılır?",
+    "code": "const result = [1, 2, 3].map((n) => n * 2);\nconsole.log(result.join(','));",
+    "options": [
+      {
+        "id": "a",
+        "text": "1,2,3"
+      },
+      {
+        "id": "b",
+        "text": "2,4,6"
+      },
+      {
+        "id": "c",
+        "text": "[2,4,6]"
+      }
+    ]
+  },
+  {
+    "id": "js.map.original",
+    "lessonId": "lesson.javascript.array-map",
+    "prompt": "map işleminden sonra orijinal dizinin ilk öğesi nedir?",
+    "code": "const values = [1, 2, 3];\nvalues.map((n) => n + 1);\nconsole.log(values[0]);",
+    "options": [
+      {
+        "id": "a",
+        "text": "1"
+      },
+      {
+        "id": "b",
+        "text": "2"
+      },
+      {
+        "id": "c",
+        "text": "undefined"
+      }
+    ]
+  }
+]

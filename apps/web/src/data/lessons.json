@@ -1,0 +1,66 @@
+[
+  {
+    "id": "lesson.javascript.let-const",
+    "slug": "degiskenler",
+    "title": "Değişkenler: let ve const",
+    "level": "Başlangıç",
+    "durationMinutes": 8,
+    "objective": "let ile yeniden atama ve const ile referans sabitliğini ayırt edebilmek.",
+    "summary": "Değişkenler nasıl saklanır, hangi değerler değiştirilebilir?",
+    "explanation": "JavaScript'te let ile tanımlanan bağa yeni bir değer atanabilir. const ise bağın yeniden atanmasını engeller; tuttuğu nesnenin içindeki alanlar yine değiştirilebilir. Bu iki davranışı karıştırmak sık karşılaşılan bir hatadır.",
+    "code": "let score = 2;\nscore += 3;\nconsole.log(score); // 5\n\nconst student = { name: 'Ada' };\nstudent.name = 'Grace';\nconsole.log(student.name); // Grace",
+    "takeaways": [
+      "let ile tanımlanan değişkene yeniden değer atanabilir.",
+      "const bağın yeniden atanmasını engeller, nesneyi otomatik dondurmaz."
+    ],
+    "questionIds": [
+      "js.binding.increment",
+      "js.binding.object"
+    ],
+    "prerequisites": []
+  },
+  {
+    "id": "lesson.javascript.equality",
+    "slug": "esitlik",
+    "title": "Karşılaştırma: == ve ===",
+    "level": "Başlangıç",
+    "durationMinutes": 7,
+    "objective": "Gevşek ve katı eşitlik sonuçlarını doğru tahmin edebilmek.",
+    "summary": "Tür dönüşümü sonuçları neden şaşırtabilir?",
+    "explanation": "== karşılaştırması bazı türlerde otomatik dönüştürme yapar. === ise türler farklıysa eşit kabul etmez. Öngörülebilir kod yazmak için çoğunlukla === tercih edilir; dönüşüm gerektiğinde açıkça yapmak daha anlaşılırdır.",
+    "code": "console.log(0 == false);  // true\nconsole.log(0 === false); // false\n\nconsole.log('5' === 5); // false",
+    "takeaways": [
+      "=== tür dönüşümü yapmadan karşılaştırır.",
+      "== belirli türleri dönüştürerek şaşırtıcı eşitlikler üretebilir."
+    ],
+    "questionIds": [
+      "js.equality.strict",
+      "js.equality.loose"
+    ],
+    "prerequisites": [
+      "lesson.javascript.let-const"
+    ]
+  },
+  {
+    "id": "lesson.javascript.array-map",
+    "slug": "dizilerde-map",
+    "title": "Dizilerde map kullanımı",
+    "level": "Başlangıç",
+    "durationMinutes": 10,
+    "objective": "map ile yeni bir dizi oluşturmayı ve orijinal diziyi korumayı kavrayabilmek.",
+    "summary": "Bir diziyi dönüştürmenin okunaklı yolu.",
+    "explanation": "Array.prototype.map, dizinin her öğesine verdiğin fonksiyonu uygular ve sonuçlardan yeni bir dizi oluşturur. map normalde orijinal diziyi değiştirmez. Fonksiyonun geri döndürdüğü değerler yeni diziyi belirler.",
+    "code": "const numbers = [1, 2, 3];\nconst doubled = numbers.map((n) => n * 2);\nconsole.log(doubled); // [2, 4, 6]\nconsole.log(numbers); // [1, 2, 3]",
+    "takeaways": [
+      "map dönüşüm sonucunda yeni bir dizi döndürür.",
+      "Callback'in return değeri yeni dizinin ilgili öğesidir."
+    ],
+    "questionIds": [
+      "js.map.output",
+      "js.map.original"
+    ],
+    "prerequisites": [
+      "lesson.javascript.equality"
+    ]
+  }
+]

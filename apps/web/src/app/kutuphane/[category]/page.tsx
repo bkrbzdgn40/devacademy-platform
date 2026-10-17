@@ -19,7 +19,7 @@ export default async function CategoryPage({ params }: Props) {
   return <section className="shell listing-page">
     <Link className="back-link" href="/">← Ana sayfa</Link>
     <div className="listing-header"><p className="overline">Öğrenme kütüphanesi</p><h1>{info.title}</h1><p>{info.description}</p></div>
-    <div className="availability-note" role="status">Bu sayfalar katalog önizlemesidir. İnteraktif dersler ve kod çalıştırma henüz kullanıma açık değil.</div>
-    <ul className="catalog-grid">{entries.map((entry) => <li key={entry.id} className="catalog-card"><div className="catalog-top"><span className="level-chip">{entry.level}</span><span className="locked-chip">Hazırlanıyor</span></div><h2>{entry.name}</h2><p>{entry.summary}</p><div className="tags">{entry.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></li>)}</ul>
+    <div className="availability-note" role="status">Bu katalog önizlemesidir. JavaScript temel derslerine erişebilirsin; tarayıcıda kod çalıştırma henüz sunulmuyor.</div>
+    <ul className="catalog-grid">{entries.map((entry) => <li key={entry.id} className="catalog-card"><div className="catalog-top"><span className="level-chip">{entry.level}</span><span className="locked-chip">{entry.id === "language.javascript" ? "Dersler mevcut" : "Hazırlanıyor"}</span></div><h2>{entry.name}</h2><p>{entry.summary}</p><div className="tags">{entry.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>{entry.id === "language.javascript" && <Link href="/dersler" className="catalog-lesson-link">JavaScript derslerini aç →</Link>}</li>)}</ul>
   </section>;
 }

@@ -13,9 +13,9 @@ export default function Home() {
       <div className="hero-text">
         <div className="eyebrow"><span className="status-dot" /> Yazılım öğrenmenin yeni yolu</div>
         <h1>Kodu sadece okuma.<br /><span>Gerçekten anla.</span></h1>
-        <p>Programlama dillerinden yazılım mimarisine uzanan bir bilgi kütüphanesi. Yakında aynı yerde öğren, kod yaz, kendini test et ve gelişimini takip et.</p>
-        <div className="hero-actions"><Link href="/kutuphane/diller" className="primary-button">Kütüphaneyi keşfet <span aria-hidden="true">↗</span></Link><Link href="/kutuphane/kavramlar" className="subtle-button">Kavramlara göz at <span aria-hidden="true">→</span></Link></div>
-        <p className="small-note">Şu anda katalog önizlemesi aktif. Kod çalıştırma, hesaplar ve değerlendirme sistemi henüz yayında değil.</p>
+        <p>JavaScript temellerini kısa derslerle öğren ve anında bilgi testleriyle pekiştir. Kod laboratuvarı ve kişisel ilerleme takibi sonraki adımlarda.</p>
+        <div className="hero-actions"><Link href="/dersler" className="primary-button">İlk derslere başla <span aria-hidden="true">↗</span></Link><Link href="/kutuphane/diller" className="subtle-button">Kütüphaneyi keşfet <span aria-hidden="true">→</span></Link></div>
+        <p className="small-note">3 JavaScript dersi ve 6 otomatik değerlendirilen soru mevcut. Kod çalıştırma ve hesaplar henüz yayında değil.</p>
       </div>
       <div className="hero-visual" aria-label="DevAcademy örnek ders kartı">
         <div className="code-heading"><span className="window-dots" aria-hidden="true">● ● ●</span><span>Polymorphism.java</span><span>Java</span></div>
