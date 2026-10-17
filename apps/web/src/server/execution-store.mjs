@@ -1,7 +1,8 @@
 import { createHash, randomBytes } from "node:crypto";
 import { database, transaction } from "./db.mjs";
 import practice from "../data/practice.json" with { type: "json" };
-const publicExercises = new Map(practice.map(exercise => [exercise.id,exercise.revision]));
+const publicExercises = new Map(practice.map(exercise => [exercise.id,exercise]));
+const exerciseRuntimes = Object.freeze({javascript:"nodejs-24",python:"python-3.12",java:"java-21"});
 
 export const MAX_SOURCE_BYTES = 8192;
 const MAX_ACTIVE_PER_USER = 2;
@@ -50,8 +51,11 @@ export async function enqueueExecution(learnerId,{source,requestId,mode="run",ex
   if (!validSource(source) || !validExecutionId(requestId)) return {status:"invalid"};
   if (mode!=="run" && mode!=="assess")return {status:"invalid"};
   if (mode==="run" && (exerciseId!=null || exerciseRevision!=null))return {status:"invalid"};
-  if (mode==="assess" && (publicExercises.get(exerciseId)!==exerciseRevision ||
+  const exercise=mode==="assess"?publicExercises.get(exerciseId):null;
+  if (mode==="assess" && (!exercise || exercise.revision!==exerciseRevision ||
+      !Object.hasOwn(exerciseRuntimes,exercise.language??"javascript") ||
       Buffer.byteLength(source,"utf8")>6000))return {status:"invalid"};
+  const runtimeId=mode==="assess"?exerciseRuntimes[exercise.language??"javascript"]:"nodejs-24";
   return transaction(async client=>{
     // Serialize local lab quota checks, including requests from other API processes.
     await client.query("SELECT pg_advisory_xact_lock(574018)");
@@ -66,9 +70,9 @@ export async function enqueueExecution(learnerId,{source,requestId,mode="run",ex
       [learnerId]);
     const {mine,global,recent}=limits.rows[0];
     if(mine>=MAX_ACTIVE_PER_USER || global>=MAX_GLOBAL_ACTIVE || recent>=6) return {status:"limited"};
-    const inserted=await client.query(`INSERT INTO execution_jobs(learner_id,request_id,source_code,mode,exercise_id,exercise_revision)
-      VALUES($1,$2,$3,$4,$5,$6) RETURNING *`,
-      [learnerId,requestId,source,mode,exerciseId,exerciseRevision]);
+    const inserted=await client.query(`INSERT INTO execution_jobs(learner_id,request_id,source_code,mode,exercise_id,exercise_revision,runtime_id)
+      VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
+      [learnerId,requestId,source,mode,exerciseId,exerciseRevision,runtimeId]);
     return {status:"queued",job:publicJob(inserted.rows[0])};
   });
 }
@@ -94,7 +98,7 @@ export async function claimExecution() {
       SELECT id FROM execution_jobs WHERE status='queued'
       ORDER BY created_at,id LIMIT 1 FOR UPDATE SKIP LOCKED
     ) UPDATE execution_jobs j SET status='running',started_at=now(),
-      lease_deadline=now()+interval '30 seconds', lease_token_hash=$1
+      lease_deadline=now()+CASE WHEN j.runtime_id='java-21' THEN interval '65 seconds' ELSE interval '30 seconds' END, lease_token_hash=$1
       FROM next WHERE j.id=next.id
       RETURNING j.id,j.source_code AS source,j.runtime_id AS "runtimeId",
         j.mode,j.exercise_id AS "exerciseId",j.exercise_revision AS "exerciseRevision"`,[digest(token)]);

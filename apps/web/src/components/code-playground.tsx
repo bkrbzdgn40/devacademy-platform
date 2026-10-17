@@ -41,8 +41,9 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
   const extensions = useMemo(() => language==="javascript" ? [javascript()] : language==="java" ? [java()] : language==="python" ? [python()] : [], [language]);
   const changed = code !== starterCode;
   const bytes = new TextEncoder().encode(code).byteLength;
-  const available=language==="javascript" && capability?.enabled===true;
   const assessmentMode=Boolean(exerciseId && exerciseRevision);
+  const available=capability?.enabled===true &&
+    (assessmentMode?["javascript","python","java"].includes(language):language==="javascript");
 
   useEffect(()=>{
     const abort=new AbortController();
@@ -75,7 +76,7 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
       }
       const accepted=(await posted.json()) as ExecutionJob;
       setJob(accepted);
-      for(let i=0;i<70 && !signal?.aborted;i++){
+      for(let i=0;i<160 && !signal?.aborted;i++){
         if(finalStatuses.has(accepted.status))break;
         await sleep(500);
         if(signal?.aborted)break;
@@ -107,7 +108,9 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
     <div className="editor-footer">
       <span aria-live="polite">{bytes.toLocaleString("tr-TR")} bayt · {code.split("\n").length} satır</span>
       <button type="button" disabled={!available||busy||bytes>(assessmentMode?6000:8192)||!code.trim()}
-        aria-disabled={!available||busy} title={!available?(language!=="javascript"?"Bu dil için izole kod çalıştırma henüz etkin değil.":"İzole çalıştırma yalnızca özel yerel laboratuvarda kullanılabilir."):undefined}
+        aria-disabled={!available||busy} title={!available?(assessmentMode?
+          "Değerlendirme yalnızca ayrı ve yetkilendirilmiş yerel laboratuvarda etkinleşir.":
+          "Bu dil için tek başına kod çalıştırma henüz etkin değil."):undefined}
         onClick={runCode}>{busy?"Değerlendiriliyor…":assessmentMode?
           (available?"Çözümü değerlendir (yerel lab)":"Değerlendirme (laboratuvar kapalı)"):
           (available?"Çalıştır (yerel laboratuvar)":language!=="javascript"?"Bu dilde çalıştırma kapalı":"Çalıştır (hazırlanıyor)")}</button>
@@ -130,6 +133,6 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
     </div>}
     <p className="editor-privacy">{available?
       "Özel yerel laboratuvar etkin: Kod yalnızca oturumunla yetkilendirilen geçici bir işe gönderilir; izole çalışma sonrasında iş kaydından silinir. Genel kullanıma açık değildir.":
-      "Bu editör kodu tarayıcıda düzenler. "+(language!=="javascript"?"Bu dil için derleme ve çalıştırma henüz desteklenmiyor. ":"")+"Kod sunucuya gönderilmez ve hesabına kaydedilmez. Değişiklikler sayfadan ayrılınca kaybolur."}</p>
+      "Bu editör kodu tarayıcıda düzenler. "+(assessmentMode?"Laboratuvar kapalı olduğu sürece çözüm hiçbir sunucuya gönderilmez. ":(language!=="javascript"?"Bu dilin bağımsız çalıştırılması desteklenmiyor. ":""))+"Değişiklikler sayfadan ayrılınca kaybolur."}</p>
   </section>;
 }

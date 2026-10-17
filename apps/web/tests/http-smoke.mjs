@@ -115,6 +115,11 @@ try {
   assert.equal(task.status,200);
   assert.match(await task.text(),/sumEven/);
   assert.equal((await fetch(`${base}/pratik/no-such-task`)).status,404);
+  for(const [slug,needle] of [["python-cift-topla","sum_even"],["java-araliga-sinirla","class Solution"]]){
+    const page=await fetch(`${base}/pratik/${slug}`);
+    assert.equal(page.status,200);
+    assert.match(await page.text(),new RegExp(needle));
+  }
   const availability=await (await fetch(`${base}/api/executions/availability`)).json();
   assert.equal(availability.enabled,false);
   const review=await fetch(`${base}/tekrar`);

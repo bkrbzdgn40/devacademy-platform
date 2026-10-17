@@ -19,7 +19,7 @@ export default async function PracticeTask({params}:Props){
       <span aria-current="page">{exercise.title}</span>
     </nav>
     <header className="lesson-header">
-      <p className="overline">JavaScript · Kod görevi · Revizyon {exercise.revision}</p>
+      <p className="overline">{("language" in exercise?exercise.language:"javascript")?.toUpperCase()} · Kod görevi · Revizyon {exercise.revision}</p>
       <h1>{exercise.title}</h1><p>{exercise.description}</p>
       <div className="lesson-meta"><span>{exercise.level}</span><span>Fonksiyon: {exercise.functionName}</span><span>Örnek test: {exercise.publicCases.length}</span></div>
     </header>
@@ -35,6 +35,7 @@ export default async function PracticeTask({params}:Props){
       <h2 id="code-solution-title">Çözümünü yaz</h2>
       <p>Birden çok sınır durumu otomatik kontrol edilir. Gizli test girişleri ve beklenen yanıtlar paylaşılmaz; değerlendirme yalnızca yerel laboratuvar etkin olduğunda yapılır.</p>
       <CodePlayground starterCode={exercise.starterCode} exerciseId={exercise.id}
+        language={("language" in exercise?exercise.language:"javascript") as "javascript"|"python"|"java"}
         exerciseRevision={exercise.revision} label={`${exercise.title} çözüm editörü`}/>
     </section>
     <nav className="lesson-nav" aria-label="Pratik gezinmesi"><Link href="/pratik" className="subtle-button">← Tüm görevler</Link></nav>

@@ -36,3 +36,12 @@ The image digest must be taken from a trusted release and reviewed. A Docker tag
 A Docker container alone is **not** an adequate guarantee against hostile code. Before public release: dedicated hardened runner hosts or microVM isolation, signed pinned images, custom seccomp/AppArmor, separate network identity/mTLS, retry/queue monitoring, process-escape and adversarial load testing, edge/IP quotas, retention enforcement, telemetry without code capture, privacy compliance, independent review and explicit authorization for deployment. **Production gate remains OFF irrespective of environment flags.**
 
 Worker orchestration is sequential per process and uses a 30-second lease. Slow Docker startups and crashes may result in infrastructure errors; this is intentional fail-closed behavior, not silent retries. There is no public SaaS deployment or money spend.
+
+## M7.2 Python/Java laboratory runtimes
+
+Worker-only environment variables (each image digest obtained by pulling and inspecting the exact trusted image on a disposable Docker host):
+
+- `RUNNER_PYTHON_RUNTIME_IMAGE=python@sha256:<verified-digest>`
+- `RUNNER_JAVA_RUNTIME_IMAGE=eclipse-temurin@sha256:<verified-digest>`
+
+Existing pinned Node runtime `RUNNER_RUNTIME_IMAGE`, `RUNNER_WORKER_TOKEN`, `RUNNER_APP_ORIGIN`, lab and development loopback gates continue to apply. No image tag or mutable digest is accepted for the production-style worker configuration; CI uses development tags on disposable hosts only. The worker process **must not inherit DATABASE_URL or APP_ORIGIN**. A missing pinned language image causes an infrastructure error, not a learner failure. Only assessment jobs (not arbitrary Python/Java script runs) are allowed. Do not copy hidden test definitions or server database credentials to the learner container.

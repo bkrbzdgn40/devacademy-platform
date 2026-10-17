@@ -2,12 +2,16 @@
 // Never pass APP_ORIGIN credentials or worker bearer into the untrusted Docker container.
 import { runIsolatedJavaScript } from "./run-isolated.mjs";
 import { evaluateExercise, validExercise } from "./evaluate-exercise.mjs";
+import { caseBank } from "./exercises-private.mjs";
+import { runIsolatedLanguage } from "./run-multilang.mjs";
 
 const UUID=/^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
 const TOKEN=/^[a-f0-9]{64}$/;
 const DIGEST_IMAGE=/^node@sha256:[a-f0-9]{64}$/;
+const PYTHON_DIGEST=/^python@sha256:[a-f0-9]{64}$/;
+const JAVA_DIGEST=/^eclipse-temurin@sha256:[a-f0-9]{64}$/;
 
-export function validateWorkerConfig({origin,token,image}) {
+export function validateWorkerConfig({origin,token,image,pythonImage,javaImage}) {
   if(typeof origin!=="string")throw Error("RUNNER_APP_ORIGIN_INVALID");
   let url;
   try {url=new URL(origin);}catch {throw Error("RUNNER_APP_ORIGIN_INVALID");}
@@ -16,14 +20,18 @@ export function validateWorkerConfig({origin,token,image}) {
     throw Error("RUNNER_LOOPBACK_ONLY");
   if(typeof token!=="string" || token.length<32 || token.length>256)throw Error("RUNNER_TOKEN_INVALID");
   if(typeof image!=="string" || !DIGEST_IMAGE.test(image))throw Error("RUNNER_PINNED_IMAGE_REQUIRED");
-  return {origin:url.origin,token,image};
+  if(pythonImage!==undefined && !PYTHON_DIGEST.test(pythonImage))
+    throw Error("RUNNER_PINNED_PYTHON_IMAGE_REQUIRED");
+  if(javaImage!==undefined && !JAVA_DIGEST.test(javaImage))
+    throw Error("RUNNER_PINNED_JAVA_IMAGE_REQUIRED");
+  return {origin:url.origin,token,image,pythonImage,javaImage};
 }
 const jsonHeaders=token=>({"Authorization":"Bearer "+token,"Content-Type":"application/json"});
 const bounded = value=>Buffer.from(String(value??""),"utf8").subarray(0,8192).toString("utf8");
 const statuses=new Set(["completed","runtime_error","timed_out","output_limit","infrastructure_error"]);
 
-export async function processOne({origin,token,image,transport=fetch,execute=runIsolatedJavaScript}) {
-  const config=validateWorkerConfig({origin,token,image});
+export async function processOne({origin,token,image,pythonImage,javaImage,transport=fetch,execute=runIsolatedJavaScript,executeLanguage=runIsolatedLanguage}) {
+  const config=validateWorkerConfig({origin,token,image,pythonImage,javaImage});
   const claim=await transport(config.origin+"/api/internal/executions/claim",{
     method:"POST",headers:jsonHeaders(config.token),body:"{}",signal:AbortSignal.timeout(10000)
   });
@@ -31,21 +39,31 @@ export async function processOne({origin,token,image,transport=fetch,execute=run
   if(!claim.ok)throw Error("WORKER_CLAIM_HTTP_"+claim.status);
   const job=await claim.json();
   if(!UUID.test(job?.id??"") || !TOKEN.test(job?.leaseToken??"") ||
-    job?.runtimeId!=="nodejs-24" || typeof job.source!=="string" ||
+    !["nodejs-24","python-3.12","java-21"].includes(job?.runtimeId) ||
+    typeof job.source!=="string" ||
     Buffer.byteLength(job.source,"utf8")>8192 ||
     !["run","assess"].includes(job.mode) ||
     (job.mode==="assess" && (!validExercise(job.exerciseId,job.exerciseRevision) ||
+      (caseBank[job.exerciseId].runtimeId??"nodejs-24")!==job.runtimeId ||
       Buffer.byteLength(job.source,"utf8")>6000)) ||
-    (job.mode==="run" && (job.exerciseId!==null || job.exerciseRevision!==null)))
+    (job.mode==="run" && (job.runtimeId!=="nodejs-24" ||
+      job.exerciseId!==null || job.exerciseRevision!==null)))
     throw Error("WORKER_JOB_CONTRACT_INVALID");
   let result;
   try {
-    result=job.mode==="assess" ?
-      await evaluateExercise({
+    if(job.mode==="assess"){
+      const imageForJob=job.runtimeId==="python-3.12"?config.pythonImage:
+        job.runtimeId==="java-21"?config.javaImage:config.image;
+      if(!imageForJob)throw Error("WORKER_IMAGE_NOT_CONFIGURED");
+      result=await evaluateExercise({
         source:job.source,exerciseId:job.exerciseId,exerciseRevision:job.exerciseRevision,
-        image:config.image,execute
-      }) :
-      await execute(job.source,{image:config.image});
+        image:imageForJob,
+        execute:job.runtimeId==="nodejs-24"?execute:
+          (program,{image})=>executeLanguage(program,{runtimeId:job.runtimeId,image})
+      });
+    }else{
+      result=await execute(job.source,{image:config.image});
+    }
   } catch {
     result={status:"infrastructure_error",stdout:"",stderr:"Runtime unavailable.",exitCode:null,durationMs:0};
   }
@@ -70,7 +88,9 @@ export async function runWorkerLoop() {
   const config=validateWorkerConfig({
     origin:process.env.RUNNER_APP_ORIGIN,
     token:process.env.RUNNER_WORKER_TOKEN,
-    image:process.env.RUNNER_RUNTIME_IMAGE
+    image:process.env.RUNNER_RUNTIME_IMAGE,
+    pythonImage:process.env.RUNNER_PYTHON_RUNTIME_IMAGE,
+    javaImage:process.env.RUNNER_JAVA_RUNTIME_IMAGE
   });
   let shutdown=false;
   const stop=()=>{shutdown=true;};
