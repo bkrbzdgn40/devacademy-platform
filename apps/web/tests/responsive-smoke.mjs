@@ -13,7 +13,7 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const cwd = fileURLToPath(new URL("../", import.meta.url));
 const widths = [320, 375, 390, 600, 768, 960, 1024];
 const paths = ["/", "/dersler", "/dersler/degiskenler", "/laboratuvar", "/hesap", "/kutuphane/diller"];
-const diagnostic = "(() => { const doc=document.documentElement; const nav=document.querySelector('.nav-links'); return { ready:document.readyState, viewport:doc.clientWidth, scrollWidth:doc.scrollWidth, bodyScrollWidth:document.body.scrollWidth, navRight:nav ? nav.getBoundingClientRect().right : null, hasEditor:!!document.querySelector('.cm-editor'), offenders:[...document.body.querySelectorAll('*')].filter(el => { const r=el.getBoundingClientRect(); return r.width && r.right>doc.clientWidth+2; }).slice(0,6).map(el=>el.tagName.toLowerCase()+'.'+el.className.toString().slice(0,45)) }; })()";
+const diagnostic = "(() => { const doc=document.documentElement; const nav=document.querySelector('.nav-links'); return { ready:document.readyState, viewport:doc.clientWidth, windowWidth:window.innerWidth, scrollWidth:doc.scrollWidth, bodyScrollWidth:document.body.scrollWidth, navRight:nav ? nav.getBoundingClientRect().right : null, hasEditor:!!document.querySelector('.cm-editor'), offenders:[...document.body.querySelectorAll('*')].filter(el => { const r=el.getBoundingClientRect(); return r.width && r.right>doc.clientWidth+2; }).slice(0,6).map(el=>el.tagName.toLowerCase()+'.'+el.className.toString().slice(0,45)) }; })()";
 
 async function availablePort() {
   const server=createServer();
@@ -118,7 +118,7 @@ try{
         const result=evaluation.result?.value;
         return result?.ready==="complete" && (!needsEditor || result.hasEditor) ? result : null;
       },"Page/editor did not finish loading: "+width+"px "+path,100);
-      assert.ok(data.viewport<=width+1 && data.viewport>=width-1,
+      assert.ok(data.windowWidth<=width+1 && data.windowWidth>=width-1,
         "Incorrect viewport at "+path+": "+JSON.stringify({width,...data}));
       assert.ok(data.scrollWidth<=data.viewport+1,
         "Horizontal page overflow at "+width+"px "+path+": "+JSON.stringify(data));
