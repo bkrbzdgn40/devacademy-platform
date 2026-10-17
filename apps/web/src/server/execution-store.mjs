@@ -46,10 +46,10 @@ async function expireStaleJobs(client) {
     stderr='Execution queue expired.', completed_at=now()
     WHERE status='queued' AND created_at < now()-interval '10 minutes'`);
 }
-export async function enqueueExecution(learnerId,{source,requestId,mode="run",exerciseId=null,exerciseRevision=null}) {
+export async function enqueueExecution(learnerId,{source,requestId,mode="run",exerciseId,exerciseRevision}) {
   if (!validSource(source) || !validExecutionId(requestId)) return {status:"invalid"};
   if (mode!=="run" && mode!=="assess")return {status:"invalid"};
-  if (mode==="run" && (exerciseId!==null || exerciseRevision!==null))return {status:"invalid"};
+  if (mode==="run" && (exerciseId!=null || exerciseRevision!=null))return {status:"invalid"};
   if (mode==="assess" && (publicExercises.get(exerciseId)!==exerciseRevision ||
       Buffer.byteLength(source,"utf8")>6000))return {status:"invalid"};
   return transaction(async client=>{
