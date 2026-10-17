@@ -63,3 +63,9 @@ Develop on feature branches and merge through reviewed pull requests. Never exec
 ## License
 
 All rights reserved until an explicit licensing decision is recorded.
+
+## Course Engine v1 (two learning languages)
+
+Browse `/kurslar` for JavaScript fundamentals (7 lessons / 14 questions) or Java fundamentals (3 lessons / 6 questions). Both use the same pages, lesson identity contract, server grading and account-scoped progress. Existing `/dersler` URLs remain valid. Adding another course is **content-as-code**, not a custom frontend page: see [Add a course](docs/content/ADD-A-COURSE.md) and [ADR-0004](docs/architecture/ADR-0004-course-engine.md).
+
+Java code is **editing-only**; reviewed repository Java snippets are verified in GitHub CI but learners cannot compile/run Java. All public execution remains blocked until dedicated safety gates are satisfied.

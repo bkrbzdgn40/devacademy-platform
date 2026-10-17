@@ -22,6 +22,13 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Validate app
         run: pnpm check
+      - name: Install Java 21 for reviewed curriculum fixtures
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile and verify all reviewed Java lessons and question keys
+        run: node apps/web/tests/java-snippets.mjs
       - name: Exercise production HTTP routes and grading
         run: node apps/web/tests/http-smoke.mjs
       - name: Check responsive viewport widths in headless Chrome

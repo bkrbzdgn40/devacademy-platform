@@ -48,7 +48,7 @@ try {
   assert.match(await home.text(), /İlk derslere başla/);
   const catalog = await fetch(`${base}/kutuphane/diller`);
   assert.equal(catalog.status, 200);
-  assert.match(await catalog.text(), /JavaScript derslerini aç/);
+  assert.match(await catalog.text(), /JavaScript Temelleri kursunu aç/);
   const lessons = await fetch(`${base}/dersler`);
   assert.equal(lessons.status, 200);
   assert.match(await lessons.text(), /Değişkenler: let ve const/);
@@ -56,6 +56,28 @@ try {
   assert.equal(lesson.status, 200);
   assert.match(await lesson.text(), /Cevabımı kontrol et/);
   assert.equal((await fetch(`${base}/dersler/not-a-lesson`)).status, 404);
+
+  // Generic course routes and second-language questions remain fully server-rendered.
+  const courseList = await fetch(`${base}/kurslar`);
+  assert.equal(courseList.status,200);
+  assert.match(await courseList.text(),/Java Temelleri/);
+  const javaCourse = await fetch(`${base}/kurslar/java-temelleri`);
+  assert.equal(javaCourse.status,200);
+  assert.match(await javaCourse.text(),/Değişkenler ve veri türleri/);
+  const javaLesson = await fetch(`${base}/kurslar/java-temelleri/degiskenler-ve-turler`);
+  assert.equal(javaLesson.status,200);
+  const javaHtml = await javaLesson.text();
+  assert.match(javaHtml,/Java editörü/);
+  assert.match(javaHtml,/Cevabımı kontrol et/);
+  assert.equal((await fetch(`${base}/kurslar/java-temelleri/does-not-exist`)).status,404);
+  assert.equal((await fetch(`${base}/kurslar/no-course`)).status,404);
+  assert.equal((await fetch(`${base}/kurslar/javascript-temelleri/degiskenler`)).status,200);
+  const javaGrade=await jsonPost({questionId:"java.variables.increment",optionId:"b"});
+  assert.equal(javaGrade.status,200);
+  assert.equal((await javaGrade.json()).correct,true);
+  const javaWrong=await jsonPost({questionId:"java.polymorphism.field",optionId:"b"});
+  assert.equal(javaWrong.status,200);
+  assert.equal((await javaWrong.json()).correct,false);
 
   const practice = await fetch(`${base}/pratik`);
   assert.equal(practice.status,200);

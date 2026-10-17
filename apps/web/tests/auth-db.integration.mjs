@@ -61,6 +61,22 @@ test("auth, durable progress, authorization and cascade integration", async () =
     assert.equal(other.recentAttempts.length,0);
     assert.equal((await updateLessonProgress(b.learnerId,lessonId,"complete")).status,"incomplete");
 
+    // Course Engine v1: Java learning follows identical owner-scoped progress rules.
+    const javaLesson="lesson.java.variables";
+    assert.equal((await updateLessonProgress(b.learnerId,javaLesson,"complete")).status,"incomplete");
+    assert.equal((await updateLessonProgress(b.learnerId,javaLesson,"view")).status,"saved");
+    for(const [id,choice] of [["java.variables.increment","b"],["java.variables.division","b"]]){
+      const result=gradeSubmission({questionId:id,optionId:choice});
+      assert.equal(result.status,"graded");
+      assert.equal(result.correct,true);
+      await recordAttempt(b.learnerId,result,choice);
+    }
+    assert.equal((await updateLessonProgress(b.learnerId,javaLesson,"complete")).status,"completed");
+    const javaProgress=await getLearningProgress(b.learnerId);
+    assert.ok(javaProgress.lessons.some(x=>x.lessonId===javaLesson && x.completedAt));
+    assert.equal(javaProgress.recentAttempts.filter(x=>x.lessonId===javaLesson).length,2);
+    assert.equal((await getLearningProgress(a.learnerId)).lessons.some(x=>x.lessonId===javaLesson),false);
+
     await revokeSession(requestA);
     assert.equal(await currentLearner(requestA),null);
     const fresh = await issueSession(a.learnerId);

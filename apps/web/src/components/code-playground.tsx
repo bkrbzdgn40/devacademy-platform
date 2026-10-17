@@ -29,17 +29,17 @@ const labels: Record<ExecutionJob["status"],string> = {
 };
 const sleep = (ms:number) => new Promise<void>(resolve=>setTimeout(resolve,ms));
 
-export function CodePlayground({ starterCode, label = "JavaScript kod editörü", exerciseId, exerciseRevision }: { starterCode: string; label?: string; exerciseId?: string; exerciseRevision?: number }) {
+export function CodePlayground({ starterCode, label = "JavaScript kod editörü",  exerciseId, exerciseRevision, language="javascript" }: { starterCode: string; label?: string; exerciseId?: string; exerciseRevision?: number; language?:"javascript"|"java"|"plain" }) {
   const [code, setCode] = useState(starterCode);
   const [capability, setCapability] = useState<Capability | null>(null);
   const [job,setJob]=useState<ExecutionJob | null>(null);
   const [error,setError]=useState("");
   const [busy,setBusy]=useState(false);
   const controller=useRef<AbortController | null>(null);
-  const extensions = useMemo(() => [javascript()], []);
+  const extensions = useMemo(() => language==="javascript" ? [javascript()] : [], [language]);
   const changed = code !== starterCode;
   const bytes = new TextEncoder().encode(code).byteLength;
-  const available=capability?.enabled===true;
+  const available=language==="javascript" && capability?.enabled===true;
   const assessmentMode=Boolean(exerciseId && exerciseRevision);
 
   useEffect(()=>{
@@ -93,7 +93,7 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
 
   return <section aria-label={label} className="editor-shell">
     <div className="editor-toolbar">
-      <div><strong>JavaScript editörü</strong><span>CodeMirror 6 · Düzenleme modu</span></div>
+      <div><strong>{language==="java"?"Java":language==="plain"?"Genel kod":"JavaScript"} editörü</strong><span>CodeMirror 6 · {language==="javascript"?"JavaScript sözdizimi":"Düz metin modu"}</span></div>
       <button type="button" onClick={()=>{setCode(starterCode);setJob(null);setError("");}} disabled={!changed}>Örneği sıfırla</button>
     </div>
     <CodeMirror
@@ -105,7 +105,7 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
     <div className="editor-footer">
       <span aria-live="polite">{bytes.toLocaleString("tr-TR")} bayt · {code.split("\n").length} satır</span>
       <button type="button" disabled={!available||busy||bytes>(assessmentMode?6000:8192)||!code.trim()}
-        aria-disabled={!available||busy} title={!available?"İzole çalıştırma yalnızca özel yerel laboratuvarda kullanılabilir.":undefined}
+        aria-disabled={!available||busy} title={!available?(language!=="javascript"?"Bu dil için izole kod çalıştırma henüz etkin değil.":"İzole çalıştırma yalnızca özel yerel laboratuvarda kullanılabilir."):undefined}
         onClick={runCode}>{busy?"Değerlendiriliyor…":assessmentMode?
           (available?"Çözümü değerlendir (yerel lab)":"Değerlendirme (laboratuvar kapalı)"):
           (available?"Çalıştır (yerel laboratuvar)":"Çalıştır (hazırlanıyor)")}</button>
@@ -128,6 +128,6 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
     </div>}
     <p className="editor-privacy">{available?
       "Özel yerel laboratuvar etkin: Kod yalnızca oturumunla yetkilendirilen geçici bir işe gönderilir; izole çalışma sonrasında iş kaydından silinir. Genel kullanıma açık değildir.":
-      "Bu editör kodu tarayıcıda düzenler. Kod çalıştırılmaz, sunucuya gönderilmez ve hesabına kaydedilmez. Değişiklikler sayfadan ayrılınca kaybolur."}</p>
+      "Bu editör kodu tarayıcıda düzenler. "+(language!=="javascript"?"Bu dil için derleme ve çalıştırma henüz desteklenmiyor. ":"")+"Kod sunucuya gönderilmez ve hesabına kaydedilmez. Değişiklikler sayfadan ayrılınca kaybolur."}</p>
   </section>;
 }

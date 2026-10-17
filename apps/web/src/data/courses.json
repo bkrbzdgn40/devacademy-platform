@@ -1,0 +1,48 @@
+[
+  {
+    "id": "course.javascript.fundamentals",
+    "slug": "javascript-temelleri",
+    "languageId": "language.javascript",
+    "title": "JavaScript Temelleri",
+    "summary": "Değişkenlerden asenkron işlemlere yedi adımda sağlam temel oluştur.",
+    "level": "Başlangıç",
+    "locale": "tr",
+    "editorLanguage": "javascript",
+    "runtimeId": "nodejs-24",
+    "capabilities": {
+      "editor": true,
+      "run": false,
+      "codeAssessment": false
+    },
+    "lessonIds": [
+      "lesson.javascript.let-const",
+      "lesson.javascript.equality",
+      "lesson.javascript.array-map",
+      "lesson.javascript.functions",
+      "lesson.javascript.scope",
+      "lesson.javascript.filter",
+      "lesson.javascript.async"
+    ]
+  },
+  {
+    "id": "course.java.fundamentals",
+    "slug": "java-temelleri",
+    "languageId": "language.java",
+    "title": "Java Temelleri",
+    "summary": "Türler, metotlar ve çok biçimlilik üzerinden JVM dünyasına giriş yap.",
+    "level": "Başlangıç",
+    "locale": "tr",
+    "editorLanguage": "java",
+    "runtimeId": null,
+    "capabilities": {
+      "editor": true,
+      "run": false,
+      "codeAssessment": false
+    },
+    "lessonIds": [
+      "lesson.java.variables",
+      "lesson.java.methods",
+      "lesson.java.polymorphism"
+    ]
+  }
+]

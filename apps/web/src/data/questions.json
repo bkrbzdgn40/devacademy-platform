@@ -278,5 +278,125 @@
         "text": "sync"
       }
     ]
+  },
+  {
+    "id": "java.variables.increment",
+    "lessonId": "lesson.java.variables",
+    "prompt": "Aşağıdaki Java programının çıktısı nedir?",
+    "code": "class Main {\n  public static void main(String[] args) {\n    int count = 2;\n    count += 3;\n    System.out.println(count);\n  }\n}",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "5"
+      },
+      {
+        "id": "c",
+        "text": "23"
+      }
+    ]
+  },
+  {
+    "id": "java.variables.division",
+    "lessonId": "lesson.java.variables",
+    "prompt": "Bu program neden ondalıklı sonuç yazdırmaz?",
+    "code": "class Main {\n  public static void main(String[] args) {\n    double ratio = 5 / 2;\n    System.out.println(ratio);\n  }\n}",
+    "options": [
+      {
+        "id": "a",
+        "text": "2.5"
+      },
+      {
+        "id": "b",
+        "text": "2.0"
+      },
+      {
+        "id": "c",
+        "text": "Derleme hatası"
+      }
+    ]
+  },
+  {
+    "id": "java.methods.square",
+    "lessonId": "lesson.java.methods",
+    "prompt": "square(4) çağrısı hangi sayıyı yazdırır?",
+    "code": "class Main {\n  static int square(int value) { return value * value; }\n  public static void main(String[] args) {\n    System.out.println(square(4));\n  }\n}",
+    "options": [
+      {
+        "id": "a",
+        "text": "16"
+      },
+      {
+        "id": "b",
+        "text": "4"
+      },
+      {
+        "id": "c",
+        "text": "0"
+      }
+    ]
+  },
+  {
+    "id": "java.methods.void",
+    "lessonId": "lesson.java.methods",
+    "prompt": "void metot çağrıldığında çıktı nedir?",
+    "code": "class Main {\n  static void greet() { System.out.println(\"Merhaba\"); }\n  public static void main(String[] args) { greet(); }\n}",
+    "options": [
+      {
+        "id": "a",
+        "text": "null"
+      },
+      {
+        "id": "b",
+        "text": "void"
+      },
+      {
+        "id": "c",
+        "text": "Merhaba"
+      }
+    ]
+  },
+  {
+    "id": "java.polymorphism.override",
+    "lessonId": "lesson.java.polymorphism",
+    "prompt": "Override edilmiş örnek metot hangisini döndürür?",
+    "code": "class Main {\n  static class Animal { String speak() { return \"?\"; } }\n  static class Dog extends Animal { @Override String speak() { return \"Woof\"; } }\n  public static void main(String[] args) {\n    Animal a = new Dog();\n    System.out.println(a.speak());\n  }\n}",
+    "options": [
+      {
+        "id": "a",
+        "text": "?"
+      },
+      {
+        "id": "b",
+        "text": "Woof"
+      },
+      {
+        "id": "c",
+        "text": "Derleme hatası"
+      }
+    ]
+  },
+  {
+    "id": "java.polymorphism.field",
+    "lessonId": "lesson.java.polymorphism",
+    "prompt": "Alan (field) erişiminin çıktısı nedir?",
+    "code": "class Main {\n  static class Animal { String kind = \"animal\"; }\n  static class Dog extends Animal { String kind = \"dog\"; }\n  public static void main(String[] args) {\n    Animal a = new Dog();\n    System.out.println(a.kind);\n  }\n}",
+    "options": [
+      {
+        "id": "a",
+        "text": "animal"
+      },
+      {
+        "id": "b",
+        "text": "dog"
+      },
+      {
+        "id": "c",
+        "text": "Derleme hatası"
+      }
+    ]
   }
 ]

@@ -89,6 +89,19 @@ try {
   assert.deepEqual(progressB.recentAttempts,[]);
   assert.equal((await post("/api/progress",{lessonId:"lesson.javascript.let-const",operation:"complete",learnerId:"spoofed"},{cookie:cookieB})).status,409);
 
+  // Same authenticated HTTP flow also saves a second language without mixing owners.
+  const javaView=await post("/api/progress",{lessonId:"lesson.java.variables",operation:"view"},{cookie:cookieB});
+  assert.equal(javaView.status,200);
+  for(const [questionId,optionId] of [["java.variables.increment","b"],["java.variables.division","b"]]){
+    const response=await post("/api/assess",{questionId,optionId},{cookie:cookieB});
+    assert.equal(response.status,200);
+    assert.equal((await response.json()).saved,true);
+  }
+  assert.equal((await post("/api/progress",{lessonId:"lesson.java.variables",operation:"complete"},{cookie:cookieB})).status,200);
+  const ownerJava=await (await read("/api/progress",cookieB)).json();
+  assert.ok(ownerJava.lessons.some(item=>item.lessonId==="lesson.java.variables"&&item.completedAt));
+  assert.equal((await (await read("/api/progress",cookieA)).json()).lessons.some(item=>item.lessonId==="lesson.java.variables"),false);
+
   assert.equal((await post("/api/auth/delete",{confirmation:"DELETE",password:"wrong-password-too-long"},{cookie:cookieA})).status,401);
   assert.equal((await read("/api/me",cookieA)).status,200);
   assert.equal((await post("/api/auth/logout",{}, {cookie:cookieA})).status,200);
