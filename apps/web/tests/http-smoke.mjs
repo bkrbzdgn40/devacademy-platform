@@ -67,7 +67,7 @@ try {
   const javaLesson = await fetch(`${base}/kurslar/java-temelleri/degiskenler-ve-turler`);
   assert.equal(javaLesson.status,200);
   const javaHtml = await javaLesson.text();
-  assert.match(javaHtml,/Java editörü/);
+  assert.ok(javaHtml.includes("Java kod editörü"));
   assert.match(javaHtml,/Cevabımı kontrol et/);
   assert.equal((await fetch(`${base}/kurslar/java-temelleri/does-not-exist`)).status,404);
   assert.equal((await fetch(`${base}/kurslar/no-course`)).status,404);
