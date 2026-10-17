@@ -24,3 +24,5 @@ jobs:
         run: pnpm check
       - name: Exercise production HTTP routes and grading
         run: node apps/web/tests/http-smoke.mjs
+      - name: Check responsive viewport widths in headless Chrome
+        run: node apps/web/tests/responsive-smoke.mjs
