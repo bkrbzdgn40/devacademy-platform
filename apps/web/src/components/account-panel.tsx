@@ -7,6 +7,7 @@ type Viewer = { authenticated: boolean; configured: boolean; username?: string }
 type Progress = {
   lessons: { lessonId: string; lastViewedAt: string; completedAt: string | null }[];
   recentAttempts: { lessonId: string; exerciseId: string; correct: boolean; attemptedAt: string }[];
+  reviewSummary?:{total:number;due:number};
 };
 const emptyViewer: Viewer = { authenticated: false, configured: false };
 

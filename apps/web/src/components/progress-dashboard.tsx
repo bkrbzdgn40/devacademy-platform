@@ -3,7 +3,7 @@ import { allLessons } from "@/lib/lessons";
 import { courses, lessonsForCourse, lessonHref } from "@/lib/courses";
 import { summarizeProgress, type ProgressLesson, type ProgressAttempt } from "@/lib/progress-summary";
 
-type Props = { progress: { lessons: ProgressLesson[]; recentAttempts: ProgressAttempt[] } | null };
+type Props = { progress: { lessons: ProgressLesson[]; recentAttempts: ProgressAttempt[]; reviewSummary?:{total:number;due:number} } | null };
 const dateText=(value:string)=>{const d=new Date(value);return Number.isNaN(d.getTime())?"Bilinmiyor":new Intl.DateTimeFormat("tr-TR",{day:"numeric",month:"short",year:"numeric"}).format(d);};
 export function ProgressDashboard({progress}:Props){
   if(!progress)return <p role="status">İlerleme verileri alınamadı. Daha sonra yeniden dene.</p>;
@@ -20,6 +20,11 @@ export function ProgressDashboard({progress}:Props){
       <progress aria-label="Tamamlanan ders yüzdesi" max={Math.max(1,allLessons.length)} value={s.completed}>{s.percent}%</progress>
       <p>Deneme başarı oranı sadece son {s.recentAttemptCount} kayıtlı sonucu (en fazla 50) kapsar. Ders ilerlemesi tüm dersler üzerinden hesaplanır.</p>
     </div>
+    <aside className="dashboard-reviews" aria-label="Kişisel tekrar planı">
+       <strong>Zamanlanmış tekrar</strong>
+       <p>{progress.reviewSummary?.due??0} soru bugün tekrar bekliyor · {progress.reviewSummary?.total??0} soru takip ediliyor</p>
+       <Link href="/tekrar">Tekrar oturumuna başla →</Link>
+    </aside>
     <h3>Kursların ve derslerin</h3>
     {courses.map(course=><section key={course.id} aria-label={course.title} className="dashboard-course">
       <h4><Link href={"/kurslar/"+course.slug}>{course.title}</Link></h4>

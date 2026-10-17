@@ -87,6 +87,9 @@ try {
   assert.ok(progressA.lessons[0].completedAt);
   assert.deepEqual(progressB.lessons,[]);
   assert.deepEqual(progressB.recentAttempts,[]);
+  assert.equal(progressA.reviewSummary.total,2);
+  assert.equal(progressB.reviewSummary.total,0);
+  assert.equal((await read("/tekrar",cookieA)).status,200);
   assert.equal((await post("/api/progress",{lessonId:"lesson.javascript.let-const",operation:"complete",learnerId:"spoofed"},{cookie:cookieB})).status,409);
 
   // Same authenticated HTTP flow also saves a second language without mixing owners.

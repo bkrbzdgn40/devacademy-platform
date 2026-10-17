@@ -5,7 +5,7 @@ import type { PublicQuestion } from "@/lib/lessons";
 
 type GradeResponse = { status: "graded"; questionId: string; correct: boolean; correctOptionId: string; explanation: string; tailoredFeedback?: string|null; saved: boolean };
 
-export function QuizCard({ question, number, hints=[], mode="predict" }: { question: PublicQuestion; number: number; hints?:readonly string[]; mode?:"predict"|"debug" }) {
+export function QuizCard({ question, number, hints=[], mode="predict", onGraded }: { question: PublicQuestion; number: number; hints?:readonly string[]; mode?:"predict"|"debug"; onGraded?:(correct:boolean)=>void }) {
   const [selected, setSelected] = useState("");
   const [pending, setPending] = useState(false);
   const [result, setResult] = useState<GradeResponse | null>(null);
@@ -32,6 +32,7 @@ export function QuizCard({ question, number, hints=[], mode="predict" }: { quest
       if (!body || typeof body !== "object" || !("status" in body) || body.status !== "graded") throw new Error("Beklenmeyen sonuç.");
       const grade=body as GradeResponse;
       setResult(grade);
+      onGraded?.(grade.correct);
       setRevealSolution(false);
       if(!grade.correct)setWrongAttempts(count=>count+1);
     } catch {

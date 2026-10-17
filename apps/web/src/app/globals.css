@@ -117,3 +117,17 @@
  .trace-panel,.course-progress-card{padding:14px}
  .course-checkpoints li{flex-direction:column;gap:4px}
 }
+
+/* Retrieval practice: due questions are not mastery certificates. */
+.review-page{padding:45px 0 95px;max-width:920px}
+.review-card{padding:22px;border-radius:13px;border:1px solid #3b5365;background:#182435;display:grid;gap:15px;margin:22px 0}
+.review-card h2{font-size:20px;margin:0}
+.review-card p{font-size:14px;color:#ccd8e9;line-height:1.65}
+.review-meta{font-size:12px;color:#93cdb8}
+.review-card .quiz-card{max-width:100%;margin:0}
+.review-links{display:flex;flex-wrap:wrap;align-items:center;gap:15px}
+.review-links a{color:#a3ebdc;text-decoration:underline}
+.review-links button{cursor:pointer}
+.dashboard-reviews{padding:19px;border:1px solid #3d5665;border-radius:12px;background:#172631;display:grid;gap:10px}
+.dashboard-reviews p{margin:0;font-size:13px;color:#bdcde2}
+.dashboard-reviews a{color:#9fe9d7;text-decoration:underline;font-weight:700;font-size:13px}
