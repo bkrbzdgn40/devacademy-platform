@@ -47,6 +47,11 @@ test("private queue respects ownership, idempotency, quotas, lease and account d
     assert.equal(persisted.rows[0].lease_token_hash,null);
     assert.equal(await getExecution(b.learnerId,first.job.id),null);
     assert.equal((await getExecution(b.learnerId,bJob.job.id)).status,"queued");
+    await database().query("UPDATE execution_jobs SET created_at=now()-interval '11 minutes' WHERE id=$1",[secondA.job.id]);
+    const expired=await getExecution(a.learnerId,secondA.job.id);
+    assert.equal(expired.status,"infrastructure_error");
+    const expiredSource=await database().query("SELECT source_code FROM execution_jobs WHERE id=$1",[secondA.job.id]);
+    assert.equal(expiredSource.rows[0].source_code,"");
     await database().query("DELETE FROM learner_accounts WHERE id=$1",[a.learnerId]);
     assert.equal(await getExecution(a.learnerId,first.job.id),null);
     assert.ok(await getExecution(b.learnerId,bJob.job.id));

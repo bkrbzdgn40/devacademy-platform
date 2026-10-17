@@ -55,3 +55,13 @@
   .dashboard-progress-label{flex-wrap:wrap}
   .quiz-card,.lesson-item,.account-section,.completion-card{max-width:100%}
 }
+
+/* Lab output renders as escaped text and keeps long lines inside their own panel. */
+.editor-error{font-size:13px;line-height:1.5;color:#ffc9b8;padding:12px 17px;margin:0;background:#3e2331}
+.editor-error a{text-decoration:underline}
+.execution-output{border-top:1px solid #3d4561;padding:15px 17px;min-width:0}
+.execution-output>div{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+.execution-output strong{font-size:13px}
+.execution-output span,.execution-output small{color:#aabbd1;font-size:11px}
+.execution-output p{font-size:12px;margin:13px 0 4px;color:#c2cfe2}
+.execution-output pre{background:#080e18;border:1px solid #37445c;border-radius:8px;font-size:12px;padding:12px;overflow:auto;max-width:100%;white-space:pre}

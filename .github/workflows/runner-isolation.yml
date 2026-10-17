@@ -20,6 +20,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Check worker protocol and pinned runtime policy
+        run: node --test services/code-runner/tests/worker-contract.test.mjs
       - name: Pull development-only Node runtime image
         run: docker pull node:24-alpine
       - name: Exercise sandbox in disposable Docker environments

@@ -27,7 +27,7 @@ export function dockerArgs({name, scriptPath, image="node:24-alpine"}){
   // Never use a shell or expose host credentials. Image is preinstalled and does not auto-pull.
   return [
     "run","--rm","--pull=never","--name",name,
-    "--network=none","--read-only","--cap-drop=ALL",
+    "--network=none","--read-only","--cap-drop=ALL","--cgroupns=private","--uts=private",
     "--security-opt=no-new-privileges","--pids-limit",LIMITS.processCount,
     "--cpus",LIMITS.cpus,"--memory",LIMITS.memory,"--memory-swap",LIMITS.memory,
     "--user","65534:65534","--ipc=none","--ulimit","nofile=64:64",
