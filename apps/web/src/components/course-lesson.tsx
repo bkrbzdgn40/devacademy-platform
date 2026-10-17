@@ -12,7 +12,7 @@ export function CourseLesson({course,lesson,legacy=false}:{course:Course;lesson:
   if(index<0)throw new Error("Lesson not in course");
   const next=entries[index+1];
   const questions=questionsForLesson(lesson);
-  const name=course.editorLanguage==="java"?"Java":"JavaScript";
+  const name=course.editorLanguage==="java"?"Java":course.editorLanguage==="javascript"?"JavaScript":course.title.replace(/ Temelleri$/,"");
   return <article className="shell lesson-page">
     <nav aria-label="İçerik konumu" className="breadcrumb">
       <Link href="/kurslar">Kurslar</Link><span aria-hidden="true">/</span>
@@ -33,7 +33,7 @@ export function CourseLesson({course,lesson,legacy=false}:{course:Course;lesson:
     <section className="lesson-section" aria-labelledby="editor-title">
       <h2 id="editor-title">Kod laboratuvarı</h2>
       <p>Örneği değiştir ve sözdizimini incele. Çalıştırma yalnızca ayrı güvenlik değerlendirmesi yapılmış dillerde ve laboratuvar ortamında açılır.</p>
-      <CodePlayground starterCode={lesson.code} language={course.editorLanguage==="java"?"java":course.editorLanguage==="javascript"?"javascript":"plain"} label={lesson.title+" "+name+" kod editörü"}/>
+      <CodePlayground starterCode={lesson.code} displayLanguage={name} language={course.editorLanguage==="java"?"java":course.editorLanguage==="javascript"?"javascript":"plain"} label={lesson.title+" "+name+" kod editörü"}/>
     </section>
     <section className="lesson-section" aria-labelledby="practice-title">
       <h2 id="practice-title">Kendini test et</h2><p>Önce sonucu tahmin et, ardından açıklamayı incele.</p>

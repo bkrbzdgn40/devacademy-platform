@@ -63,12 +63,16 @@ Develop on feature branches and merge through reviewed pull requests. Never exec
 
 All rights reserved until an explicit licensing decision is recorded.
 
-## Course Engine v1 (two learning languages)
+## Course Engine v1 (three learning languages)
 
-Browse `/kurslar` for JavaScript fundamentals (7 lessons / 14 questions) or Java fundamentals (3 lessons / 6 questions). Both use the same pages, lesson identity contract, server grading and account-scoped progress. Existing `/dersler` URLs remain valid. Adding another course is **content-as-code**, not a custom frontend page: see [Add a course](docs/content/ADD-A-COURSE.md) and [ADR-0004](docs/architecture/ADR-0004-course-engine.md).
+Browse `/kurslar` for JavaScript fundamentals (7 lessons / 14 questions), Java fundamentals (3 lessons / 6 questions) or Python fundamentals (5 lessons / 10 questions). Both use the same pages, lesson identity contract, server grading and account-scoped progress. Existing `/dersler` URLs remain valid. Adding another course is **content-as-code**, not a custom frontend page: see [Add a course](docs/content/ADD-A-COURSE.md) and [ADR-0004](docs/architecture/ADR-0004-course-engine.md).
 
 Java code is **editing-only**; reviewed repository Java snippets are verified in GitHub CI but learners cannot compile/run Java. All public execution remains blocked until dedicated safety gates are satisfied.
 
 ## Course Engine v1.1: add a course safely
 
 Use `node scripts/course-cli.mjs new python python-temelleri "Python Temelleri"` to generate an ignored authoring draft. Complete its public lessons/questions and separate private answers, mark both editorial review gates after actual review, then run `node scripts/course-cli.mjs check python-temelleri` and `node scripts/course-cli.mjs publish python-temelleri --reviewed`. Run `corepack pnpm check`, inspect the Git diff and open a PR. Details: [Course authoring guide](docs/content/ADD-A-COURSE.md) and [ADR-0005](docs/architecture/ADR-0005-course-authoring.md). New runtimes are **never automatically enabled**.
+
+## Python Fundamentals (published, editing-only)
+
+Python Temelleri is available under `/kurslar/python-temelleri`. It contains five Turkish lessons and ten server-graded prediction questions. Reviewed Python 3.12 examples run in CI only; student Python code is not executed on the web server or in any local runtime. The independent course-authoring drafts stored under `content/course-drafts/` are intentionally untracked and are not automatically published. If you previously created a `python-temelleri` draft locally, it remains separate from the published Git content. Avoid publishing the obsolete draft; archive it for reference instead.

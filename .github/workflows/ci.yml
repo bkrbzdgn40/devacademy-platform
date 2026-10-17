@@ -29,6 +29,12 @@ jobs:
           java-version: '21'
       - name: Compile and verify all reviewed Java lessons and question keys
         run: node apps/web/tests/java-snippets.mjs
+      - name: Install Python 3.12 for reviewed curriculum fixtures
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run all reviewed Python lesson examples and verify private answer keys
+        run: node apps/web/tests/python-snippets.mjs
       - name: Exercise production HTTP routes and grading
         run: node apps/web/tests/http-smoke.mjs
       - name: Check responsive viewport widths in headless Chrome

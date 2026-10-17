@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { courses,lessonsForCourse } from "@/lib/courses";
-export const metadata:Metadata={title:"Yazılım kursları",description:"Türkçe JavaScript ve Java kurslarıyla programlama öğren."};
+export const metadata:Metadata={title:"Yazılım kursları",description:"Türkçe JavaScript, Java ve Python kurslarıyla programlama öğren."};
 export default function CourseList(){
   return <section className="shell listing-page">
     <Link href="/" className="back-link">← Ana sayfa</Link>

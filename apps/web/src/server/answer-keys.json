@@ -78,5 +78,45 @@
   "java.polymorphism.field": {
     "optionId": "a",
     "explanation": "Alan erişimi referansın derleme zamanı türüne göre seçilir. Animal a referansında a.kind animal değerini verir."
+  },
+  "python.variables.reassignment": {
+    "optionId": "a",
+    "explanation": "x önce 4 değerini alır. Ardından x + 3 işlemiyle yeni değer 7 olarak atanır."
+  },
+  "python.variables.division": {
+    "optionId": "b",
+    "explanation": "Python 3'te / operatörü 5 / 2 için 2.5 üretir. Bunun türü float olur."
+  },
+  "python.conditions.age": {
+    "optionId": "a",
+    "explanation": "17 sayısı 18'den küçük olduğu için koşul yanlıştır ve else bloğu çalışır."
+  },
+  "python.conditions.empty-list": {
+    "optionId": "b",
+    "explanation": "Boş liste False kabul edilir; bool([]) çıktısı False olur."
+  },
+  "python.loops.range-step": {
+    "optionId": "a",
+    "explanation": "range(1, 6, 2) 1'den başlar, ikişer artar ve 6'yı dahil etmez: 1, 3, 5."
+  },
+  "python.loops.continue": {
+    "optionId": "b",
+    "explanation": "n=1 olduğunda continue print çağrısını atlar. Bu nedenle yalnızca 0 ve 2 yazdırılır."
+  },
+  "python.functions.return": {
+    "optionId": "b",
+    "explanation": "double(6), 6 * 2 hesaplayarak 12 döndürür; print bu değeri yazar."
+  },
+  "python.functions.default": {
+    "optionId": "b",
+    "explanation": "greet() çağrısı name argümanı almadığı için varsayılan Ada değerini kullanır."
+  },
+  "python.collections.slice": {
+    "optionId": "a",
+    "explanation": "Dilimleme 1. indeksten başlar ve 3. indeksi dışarıda bırakır: 20 ve 30."
+  },
+  "python.collections.get": {
+    "optionId": "c",
+    "explanation": "city anahtarı sözlükte olmadığı için get ikinci argümandaki 'bilinmiyor' değerini döndürür."
   }
 }

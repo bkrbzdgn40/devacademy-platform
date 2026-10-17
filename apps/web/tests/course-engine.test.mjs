@@ -11,13 +11,17 @@ const reference={
   catalog:load("catalog.json"),answerKeyIds:answerKeyIds()
 };
 const clone=()=>structuredClone(reference);
-test("two courses share lesson/assessment contract with no JS identity migration",()=>{
-  assert.deepEqual(validateCourseCatalog(reference),{courseCount:2,lessonCount:10,questionCount:20});
+test("three courses share lesson/assessment contract with no JS identity migration",()=>{
+  assert.deepEqual(validateCourseCatalog(reference),{courseCount:3,lessonCount:15,questionCount:30});
   const oldJs=load("lessons.json").filter(x=>x.id.startsWith("lesson.javascript."));
   assert.equal(reference.courses[0].lessonIds.length,7);
   assert.deepEqual(reference.courses[0].lessonIds,oldJs.map(x=>x.id));
   assert.equal(reference.courses[1].lessonIds.length,3);
   assert.ok(reference.courses[1].capabilities.run===false);
+  assert.equal(reference.courses[2].languageId,'language.python');
+  assert.equal(reference.courses[2].lessonIds.length,5);
+  assert.equal(reference.courses[2].editorLanguage,'plain');
+  assert.equal(reference.courses[2].capabilities.run,false);
 });
 test("curriculum validator blocks orphaned lessons and stale IDs",()=>{
   const c=clone();c.courses[1].lessonIds.push("lesson.java.unknown");

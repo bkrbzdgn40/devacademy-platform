@@ -214,5 +214,113 @@
     "prerequisites": [
       "lesson.java.methods"
     ]
+  },
+  {
+    "id": "lesson.python.variables",
+    "slug": "degiskenler-ve-turler",
+    "title": "Değişkenler ve veri türleri",
+    "level": "Başlangıç",
+    "durationMinutes": 9,
+    "objective": "Python'da değişken atamasını ve int, float, str türlerini ayırt edebilmek.",
+    "summary": "Dinamik tipleri ve değişkenlere değer atamayı öğren.",
+    "explanation": "Python'da bir değişkene değer atamak için = kullanılır ve türü ayrı belirtmen gerekmez. Bir değerin türünü type() ile inceleyebilirsin. int tam sayı, float ondalıklı sayı, str metindir. / işleci sayılar tam olsa bile Python 3'te float döndürür. f-string, ifadeleri okunaklı biçimde metnin içine yerleştirir.",
+    "code": "name = \"Ada\"\nage = 20\nprint(f\"{name}: {age + 1}\")  # Ada: 21",
+    "takeaways": [
+      "= değişkene değer atar; == ise değerleri karşılaştırır.",
+      "/ işleci Python 3'te ondalıklı sonuç üretir; türü type() ile görebilirsin."
+    ],
+    "questionIds": [
+      "python.variables.reassignment",
+      "python.variables.division"
+    ],
+    "prerequisites": []
+  },
+  {
+    "id": "lesson.python.conditions",
+    "slug": "kosullar",
+    "title": "Koşullar ve karşılaştırmalar",
+    "level": "Başlangıç",
+    "durationMinutes": 9,
+    "objective": "if/else ile farklı koşullara göre hangi kodun çalışacağını tahmin edebilmek.",
+    "summary": "Karşılaştırmalar ve girintilemeyle karar veren kod yaz.",
+    "explanation": "Python'da if, elif ve else koşullu dallanma sağlar. Kod bloğu süslü parantezle değil girintiyle belirlenir. == iki değeri karşılaştırırken = değer atar. Boş listeler gibi bazı değerler False kabul edilir; bu davranışa truthiness denir. Kod okunaklılığı için tutarlı dört boşluk kullan.",
+    "code": "score = 75\nif score >= 70:\n    print(\"Geçti\")\nelse:\n    print(\"Tekrar\")",
+    "takeaways": [
+      "Koşul doğruysa if bloğu, değilse uygun elif/else bloğu çalışır.",
+      "Python'da girinti sözdiziminin parçasıdır ve kod bloğunun sınırını belirler."
+    ],
+    "questionIds": [
+      "python.conditions.age",
+      "python.conditions.empty-list"
+    ],
+    "prerequisites": [
+      "lesson.python.variables"
+    ]
+  },
+  {
+    "id": "lesson.python.loops",
+    "slug": "donguler",
+    "title": "Döngüler ve range",
+    "level": "Başlangıç",
+    "durationMinutes": 10,
+    "objective": "for, range ve continue davranışını takip ederek döngü çıktısı üretebilmek.",
+    "summary": "Tekrarlanan işleri döngülerle ve aralıklarla ifade et.",
+    "explanation": "for döngüsü bir koleksiyondaki öğeleri sırayla işler. range(start, stop, step) aralığında stop değeri dahil değildir. range(1, 5) bu nedenle 1, 2, 3, 4 değerlerini üretir. continue mevcut adımın kalanını atlar; break döngüden tamamen çıkar. Sonsuz döngülerden kaçınmak için bitiş koşullarını açık tut.",
+    "code": "total = 0\nfor number in range(1, 5):\n    total += number\nprint(total)  # 10",
+    "takeaways": [
+      "range için üst sınır dahil değildir.",
+      "continue yalnızca o yinelemenin kalanını atlar; break döngüyü bitirir."
+    ],
+    "questionIds": [
+      "python.loops.range-step",
+      "python.loops.continue"
+    ],
+    "prerequisites": [
+      "lesson.python.conditions"
+    ]
+  },
+  {
+    "id": "lesson.python.functions",
+    "slug": "fonksiyonlar",
+    "title": "Fonksiyonlar ve return",
+    "level": "Başlangıç",
+    "durationMinutes": 10,
+    "objective": "Parametre, varsayılan argüman ve return değerini kullanabilmek.",
+    "summary": "Tekrar kullanılabilir fonksiyonlar tanımla ve sonuç döndür.",
+    "explanation": "def ile fonksiyon tanımlanır, parametreler parantez içinde belirtilir. return sonucu çağıran yere verir ve fonksiyonun o çağrısı için yürütmeyi sonlandırır. print yalnızca çıktı yazar; geri döndürülen değerin yerine geçmez. Varsayılan parametreler, argüman gönderilmediğinde kullanılır. Fonksiyonların küçük, tek amaçlı olması test etmeyi kolaylaştırır.",
+    "code": "def square(value):\n    return value * value\n\nprint(square(4))  # 16",
+    "takeaways": [
+      "return bir değeri çağırana iletir; print çıktıyı ekrana yazar.",
+      "Varsayılan parametre, ilgili argüman verilmediğinde kullanılır."
+    ],
+    "questionIds": [
+      "python.functions.return",
+      "python.functions.default"
+    ],
+    "prerequisites": [
+      "lesson.python.loops"
+    ]
+  },
+  {
+    "id": "lesson.python.collections",
+    "slug": "listeler-ve-sozlukler",
+    "title": "Listeler ve sözlükler",
+    "level": "Başlangıç",
+    "durationMinutes": 12,
+    "objective": "Liste dilimlemeyi ve sözlükten varsayılan değer okumayı açıklayabilmek.",
+    "summary": "Koleksiyonları güvenli biçimde oku ve dönüştür.",
+    "explanation": "Listeler sıralı, değiştirilebilir öğe koleksiyonlarıdır. Dilimleme list[start:stop] ile yapılır; stop indeksi dahil değildir. Sözlükler anahtar-değer eşlemesi tutar. dict.get(key, default), anahtar bulunamazsa hata vermek yerine belirtilen varsayılan değeri döndürür. Liste üreteçleri basit dönüşüm ve filtrelerde kısa bir yazım sağlar; okunaklılığı koru.",
+    "code": "scores = {\"Ada\": 80, \"Ece\": 95}\npassed = [name for name, score in scores.items() if score >= 90]\nprint(passed)  # ['Ece']",
+    "takeaways": [
+      "Liste dilimleme bitiş indeksini içermez.",
+      "get ile olmayan sözlük anahtarları için varsayılan değer belirlenebilir."
+    ],
+    "questionIds": [
+      "python.collections.slice",
+      "python.collections.get"
+    ],
+    "prerequisites": [
+      "lesson.python.functions"
+    ]
   }
 ]
