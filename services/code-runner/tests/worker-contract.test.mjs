@@ -8,7 +8,7 @@ const config={
   image:"node@sha256:"+"a".repeat(64)
 };
 const id="2d860ddd-f098-4f61-bcbb-2e06bd836cfa";
-const ticket={id,source:"console.log(42)",runtimeId:"nodejs-24",leaseToken:"d".repeat(64)};
+const ticket={id,mode:"run",exerciseId:null,exerciseRevision:null,source:"console.log(42)",runtimeId:"nodejs-24",leaseToken:"d".repeat(64)};
 
 test("worker rejects non-local, weak-token and mutable runtime image configuration",()=>{
   assert.throws(()=>validateWorkerConfig({...config,origin:"https://prod.example"}),/LOOPBACK_ONLY/);

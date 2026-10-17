@@ -1,6 +1,7 @@
 // Trusted queue orchestrator. Run separately from the Next server.
 // Never pass APP_ORIGIN credentials or worker bearer into the untrusted Docker container.
 import { runIsolatedJavaScript } from "./run-isolated.mjs";
+import { evaluateExercise, validExercise } from "./evaluate-exercise.mjs";
 
 const UUID=/^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
 const TOKEN=/^[a-f0-9]{64}$/;
@@ -31,11 +32,20 @@ export async function processOne({origin,token,image,transport=fetch,execute=run
   const job=await claim.json();
   if(!UUID.test(job?.id??"") || !TOKEN.test(job?.leaseToken??"") ||
     job?.runtimeId!=="nodejs-24" || typeof job.source!=="string" ||
-    Buffer.byteLength(job.source,"utf8")>8192)
+    Buffer.byteLength(job.source,"utf8")>8192 ||
+    !["run","assess"].includes(job.mode) ||
+    (job.mode==="assess" && (!validExercise(job.exerciseId,job.exerciseRevision) ||
+      Buffer.byteLength(job.source,"utf8")>6000)) ||
+    (job.mode==="run" && (job.exerciseId!==null || job.exerciseRevision!==null)))
     throw Error("WORKER_JOB_CONTRACT_INVALID");
   let result;
   try {
-    result=await execute(job.source,{image:config.image});
+    result=job.mode==="assess" ?
+      await evaluateExercise({
+        source:job.source,exerciseId:job.exerciseId,exerciseRevision:job.exerciseRevision,
+        image:config.image,execute
+      }) :
+      await execute(job.source,{image:config.image});
   } catch {
     result={status:"infrastructure_error",stdout:"",stderr:"Runtime unavailable.",exitCode:null,durationMs:0};
   }
@@ -44,7 +54,8 @@ export async function processOne({origin,token,image,transport=fetch,execute=run
     id:job.id,leaseToken:job.leaseToken,status:result.status,
     stdout:bounded(result.stdout),stderr:bounded(result.stderr),
     exitCode:Number.isInteger(result.exitCode) && result.exitCode>=-128 && result.exitCode<=255 ? result.exitCode : null,
-    durationMs:Number.isInteger(result.durationMs) ? Math.max(0,Math.min(result.durationMs,10000)) : 0
+    durationMs:Number.isInteger(result.durationMs) ? Math.max(0,Math.min(result.durationMs,10000)) : 0,
+    assessment:job.mode==="assess" ? (result.assessment??null) : null
   };
   const reply=await transport(config.origin+"/api/internal/executions/complete",{
     method:"POST",headers:jsonHeaders(config.token),body:JSON.stringify(payload),signal:AbortSignal.timeout(10000)

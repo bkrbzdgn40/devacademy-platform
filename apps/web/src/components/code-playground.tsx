@@ -12,6 +12,8 @@ const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
 
 type ExecutionJob = {
   id: string;
+  mode: "run" | "assess";
+  assessment: null | { verdict: "passed" | "failed"; passed: number; total: number; publicCases: {label:string;passed:boolean}[] };
   status: "queued" | "running" | "completed" | "runtime_error" | "timed_out" | "output_limit" | "infrastructure_error";
   stdout: string;
   stderr: string;
@@ -27,7 +29,7 @@ const labels: Record<ExecutionJob["status"],string> = {
 };
 const sleep = (ms:number) => new Promise<void>(resolve=>setTimeout(resolve,ms));
 
-export function CodePlayground({ starterCode, label = "JavaScript kod editörü" }: { starterCode: string; label?: string }) {
+export function CodePlayground({ starterCode, label = "JavaScript kod editörü", exerciseId, exerciseRevision }: { starterCode: string; label?: string; exerciseId?: string; exerciseRevision?: number }) {
   const [code, setCode] = useState(starterCode);
   const [capability, setCapability] = useState<Capability | null>(null);
   const [job,setJob]=useState<ExecutionJob | null>(null);
@@ -38,6 +40,7 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
   const changed = code !== starterCode;
   const bytes = new TextEncoder().encode(code).byteLength;
   const available=capability?.enabled===true;
+  const assessmentMode=Boolean(exerciseId && exerciseRevision);
 
   useEffect(()=>{
     const abort=new AbortController();
@@ -51,8 +54,8 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
 
   async function runCode() {
     if(!available || busy)return;
-    if(bytes>8192 || !code.trim()){
-      setError("Kod boş olamaz veya 8 KiB sınırını aşamaz.");
+    if(bytes>(assessmentMode?6000:8192) || !code.trim()){
+      setError("Kod boş veya boyut sınırını aşıyor.");
       return;
     }
     setBusy(true);setJob(null);setError("");
@@ -60,7 +63,8 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
     try{
       const posted=await fetch("/api/executions",{
         method:"POST",headers:{"Content-Type":"application/json"},signal,
-        body:JSON.stringify({requestId:crypto.randomUUID(),source:code})
+        body:JSON.stringify({requestId:crypto.randomUUID(),source:code,
+          ...(assessmentMode?{mode:"assess",exerciseId,exerciseRevision}:{})})
       });
       if(!posted.ok){
         setError(posted.status===401?"Çalıştırma için önce oturum açmalısın.":posted.status===429?
@@ -100,14 +104,23 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
     />
     <div className="editor-footer">
       <span aria-live="polite">{bytes.toLocaleString("tr-TR")} bayt · {code.split("\n").length} satır</span>
-      <button type="button" disabled={!available||busy||bytes>8192||!code.trim()}
+      <button type="button" disabled={!available||busy||bytes>(assessmentMode?6000:8192)||!code.trim()}
         aria-disabled={!available||busy} title={!available?"İzole çalıştırma yalnızca özel yerel laboratuvarda kullanılabilir.":undefined}
-        onClick={runCode}>{busy?"Çalıştırılıyor…":available?"Çalıştır (yerel laboratuvar)":"Çalıştır (hazırlanıyor)"}</button>
+        onClick={runCode}>{busy?"Değerlendiriliyor…":assessmentMode?
+          (available?"Çözümü değerlendir (yerel lab)":"Değerlendirme (laboratuvar kapalı)"):
+          (available?"Çalıştır (yerel laboratuvar)":"Çalıştır (hazırlanıyor)")}</button>
     </div>
     {error && <p className="editor-error" role="alert">{error} {error.includes("oturum") && <Link href="/hesap">Hesabıma git →</Link>}</p>}
     {job && <div className="execution-output" role="status" aria-live="polite">
       <div><strong>İş durumu: {labels[job.status]}</strong>{job.durationMs!==null && <span>{job.durationMs} ms</span>}</div>
-      {finalStatuses.has(job.status) && <>
+      {job.assessment && <div className="assessment-summary">
+        <strong>{job.assessment.verdict==="passed"?"Çözüm bütün testlerden geçti.":"Çözüm henüz doğru değil."}</strong>
+        <p>{job.assessment.passed}/{job.assessment.total} test başarılı. Gizli testlerin giriş ve beklenen sonuçları gösterilmez.</p>
+        <ul>{job.assessment.publicCases.map(item=><li key={item.label}>
+          {item.passed?"✓":"✗"} {item.label}: {item.passed?"Başarılı":"Başarısız"}
+        </li>)}</ul>
+      </div>}
+      {finalStatuses.has(job.status) && !assessmentMode && <>
         <p>Standart çıktı</p><pre>{job.stdout || "(Çıktı yok)"}</pre>
         {!!job.stderr && <><p>Hata çıktısı</p><pre>{job.stderr}</pre></>}
         <small>Çıkış kodu: {job.exitCode===null?"Yok":job.exitCode}</small>

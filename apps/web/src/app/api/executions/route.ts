@@ -13,8 +13,13 @@ export async function POST(request:Request) {
     if(!learner)return json({error:"Oturum gerekli."},401);
     const body=await readJson(request,10000);
     if(body.error)return body.error;
-    const {source,requestId}=body.value as Record<string,unknown>;
-    const result=await enqueueExecution(learner.learnerId,{source,requestId});
+    const {source,requestId,mode,exerciseId,exerciseRevision}=body.value as Record<string,unknown>;
+    const result=await enqueueExecution(learner.learnerId,{
+      source,requestId,
+      mode:typeof mode==="string" ? mode : undefined,
+      exerciseId:typeof exerciseId==="string" ? exerciseId : null,
+      exerciseRevision:typeof exerciseRevision==="number" ? exerciseRevision : null
+    });
     if(result.status==="invalid")return json({error:"Geçersiz veya fazla büyük kod/istek kimliği."},400);
     if(result.status==="limited")return json({error:"Çalıştırma kotasına ulaşıldı."},429);
     return json(result.job,result.status==="queued"?202:200);

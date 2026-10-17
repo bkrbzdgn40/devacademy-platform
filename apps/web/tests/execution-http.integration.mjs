@@ -83,6 +83,28 @@ try{
   assert.equal((await post("/api/executions",input,{cookie:a})).status,200);
   const duplicate=await (await post("/api/executions",input,{cookie:a})).json();
   assert.equal(duplicate.id,job.id);
+  // M4: assessment input is validated on the server; the worker owns the verdict.
+  assert.equal((await post("/api/executions",{requestId:randomUUID(),source:"function f(){}",mode:"assess",exerciseId:"made-up",exerciseRevision:1},{cookie:a})).status,400);
+  const assessmentRequest={requestId:randomUUID(),source:"function sumEven(numbers){return 0}",mode:"assess",exerciseId:"js.sum-even",exerciseRevision:1};
+  const queuedAssessment=await post("/api/executions",assessmentRequest,{cookie:a});
+  assert.equal(queuedAssessment.status,202,await queuedAssessment.clone().text());
+  const assessJob=await queuedAssessment.json();
+  assert.equal(assessJob.mode,"assess");
+  assert.equal(assessJob.assessment,null);
+  assert.equal((await fetch(base+"/api/executions/"+assessJob.id,{headers:{cookie:b}})).status,404);
+  const assessmentClaim=await post("/api/internal/executions/claim",{}, {worker:true});
+  assert.equal(assessmentClaim.status,200);
+  const assessmentTicket=await assessmentClaim.json();
+  assert.equal(assessmentTicket.exerciseId,"js.sum-even");
+  assert.equal(assessmentTicket.exerciseRevision,1);
+  const summary={verdict:"failed",passed:2,total:5,publicCases:[{label:"Karma pozitif ve negatifler",passed:true},{label:"Çift sayı bulunmuyor",passed:true}]};
+  const graded={id:assessJob.id,leaseToken:assessmentTicket.leaseToken,status:"completed",stdout:"",stderr:"",exitCode:0,durationMs:210,assessment:summary};
+  assert.equal((await post("/api/internal/executions/complete",{...graded,assessment:{...summary,total:0}},{worker:true})).status,400);
+  assert.equal((await post("/api/internal/executions/complete",graded,{worker:true})).status,200);
+  const ownerAssessment=await (await fetch(base+"/api/executions/"+assessJob.id,{headers:{cookie:a}})).json();
+  assert.equal(ownerAssessment.assessment.verdict,"failed");
+  assert.equal(ownerAssessment.assessment.passed,2);
+  assert.equal(JSON.stringify(ownerAssessment).includes(assessmentRequest.source),false);
   assert.equal((await post("/api/auth/delete",{confirmation:"DELETE",password},{cookie:a})).status,200);
   assert.equal((await fetch(base+"/api/executions/"+job.id,{headers:{cookie:a}})).status,401);
   assert.equal((await post("/api/auth/delete",{confirmation:"DELETE",password},{cookie:b})).status,200);

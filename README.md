@@ -23,6 +23,7 @@ Open http://localhost:3000. `pnpm check` runs lint, type checks, catalog unit te
 - A Turkish landing page with a seven-lesson JavaScript learning path and three exploration routes.
 - Catalog previews for languages, concepts and technologies, including the uncommon **COW** language.
 - Seven reviewed JavaScript lessons and fourteen output-prediction exercises with server-side scoring and explanations.
+- Three function-writing challenges under `/pratik`, with open examples and worker-only hidden test cases. Evaluation is available only in an explicitly configured **local sandbox laboratory**, never in production.
 - PostgreSQL migrations for learner/attempt/progress, username credentials and server-side sessions, plus local registration/login, saved quiz attempts and account deletion. These features are active only with a configured database. Answers are not shipped in public question JSON.
 - Responsive styling, keyboard skip link and basic semantic markup.
 - All sample catalog items explicitly report **no runnable runtime**. Anonymous quiz responses are not persisted; authenticated quiz responses are stored if the local database is configured. Public registration/abuse controls remain incomplete.
@@ -52,6 +53,7 @@ Stack foundation: Next.js, React, TypeScript, pnpm and Turborepo. Runtime execut
 - [ADR-0001](docs/architecture/ADR-0001-foundation.md)
 - [Content model](docs/content/CONTENT_MODEL.md)
 - [Threat model](docs/security/THREAT_MODEL.md)
+- [Code assessment ADR](docs/architecture/ADR-0003-code-assessment.md)
 - [Roadmap](docs/roadmap/ROADMAP.md)
 - [Contributor guide](CONTRIBUTING.md)
 - [Agent instructions](AGENTS.md)

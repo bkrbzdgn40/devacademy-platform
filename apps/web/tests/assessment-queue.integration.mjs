@@ -1,0 +1,54 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {randomUUID,randomBytes} from "node:crypto";
+import {createAccount} from "../src/server/auth.mjs";
+import {database} from "../src/server/db.mjs";
+import {enqueueExecution,getExecution,claimExecution,completeExecution,validCompletion} from "../src/server/execution-store.mjs";
+const pw="Test-Assessment-Account-2026";
+test("graded jobs are owner scoped, revision checked and only worker summary is persisted",async()=>{
+  const suffix=randomBytes(5).toString("hex");
+  const a=await createAccount("gradea_"+suffix,pw);
+  const b=await createAccount("gradeb_"+suffix,pw);
+  assert.equal(a.status,"created");assert.equal(b.status,"created");
+  try{
+    const source="function sumEven(numbers){return 0;}";
+    assert.equal((await enqueueExecution(a.learnerId,{source,requestId:randomUUID(),mode:"assess",exerciseId:"unknown",exerciseRevision:1})).status,"invalid");
+    assert.equal((await enqueueExecution(a.learnerId,{source,requestId:randomUUID(),mode:"assess",exerciseId:"js.sum-even",exerciseRevision:2})).status,"invalid");
+    assert.equal((await enqueueExecution(a.learnerId,{source:"x".repeat(6001),requestId:randomUUID(),mode:"assess",exerciseId:"js.sum-even",exerciseRevision:1})).status,"invalid");
+    const req=randomUUID();
+    const result=await enqueueExecution(a.learnerId,{source,requestId:req,mode:"assess",exerciseId:"js.sum-even",exerciseRevision:1});
+    assert.equal(result.status,"queued");
+    assert.equal(result.job.mode,"assess");
+    assert.equal(result.job.exerciseId,"js.sum-even");
+    assert.equal(result.job.assessment,null);
+    assert.equal(JSON.stringify(result.job).includes(source),false);
+    const other=await getExecution(b.learnerId,result.job.id);
+    assert.equal(other,null);
+    const duplicate=await enqueueExecution(a.learnerId,{source:"irrelevant",requestId:req,mode:"assess",exerciseId:"js.sum-even",exerciseRevision:1});
+    assert.equal(duplicate.job.id,result.job.id);
+    const claimed=await claimExecution();
+    assert.equal(claimed.id,result.job.id);
+    assert.equal(claimed.mode,"assess");
+    assert.equal(claimed.exerciseId,"js.sum-even");
+    assert.equal(claimed.exerciseRevision,1);
+    const summary={verdict:"failed",passed:2,total:5,publicCases:[{label:"Karma pozitif ve negatifler",passed:true},{label:"Çift sayı bulunmuyor",passed:true}]};
+    const completed={id:claimed.id,leaseToken:claimed.leaseToken,status:"completed",stdout:"",stderr:"",exitCode:0,durationMs:370,assessment:summary};
+    assert.equal(validCompletion({...completed,assessment:{...summary,passed:7}}),false);
+    assert.equal(await completeExecution({...completed,assessment:null}),false);
+    assert.equal(await completeExecution({...completed,leaseToken:"a".repeat(64)}),false);
+    assert.equal(await completeExecution(completed),true);
+    assert.equal(await completeExecution(completed),false);
+    const saved=await getExecution(a.learnerId,result.job.id);
+    assert.equal(saved.assessment.verdict,"failed");
+    assert.equal(saved.assessment.passed,2);
+    assert.equal(Object.hasOwn(saved,"source_code"),false);
+    const internal=await database().query("SELECT source_code,assessment FROM execution_jobs WHERE id=$1",[result.job.id]);
+    assert.equal(internal.rows[0].source_code,"");
+    assert.equal(internal.rows[0].assessment.total,5);
+    await database().query("DELETE FROM learner_accounts WHERE id=$1",[a.learnerId]);
+    assert.equal(await getExecution(a.learnerId,result.job.id),null);
+  }finally{
+    await database().query("DELETE FROM learner_accounts WHERE id=ANY($1::uuid[])",[[a.learnerId,b.learnerId]]);
+  }
+});
+test.after(async()=>database().end());

@@ -21,8 +21,10 @@ jobs:
         with:
           node-version: '24'
       - name: Check worker protocol and pinned runtime policy
-        run: node --test services/code-runner/tests/worker-contract.test.mjs
+        run: node --test services/code-runner/tests/worker-contract.test.mjs services/code-runner/tests/evaluator.test.mjs
       - name: Pull development-only Node runtime image
         run: docker pull node:24-alpine
       - name: Exercise sandbox in disposable Docker environments
-        run: node services/code-runner/tests/isolation-smoke.mjs
+        run: |
+          node services/code-runner/tests/isolation-smoke.mjs
+          node services/code-runner/tests/assessment-docker-smoke.mjs
