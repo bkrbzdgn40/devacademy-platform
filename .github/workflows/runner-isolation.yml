@@ -1,0 +1,26 @@
+name: Isolated runner prototype
+on:
+  pull_request:
+    paths:
+      - "services/code-runner/**"
+      - ".github/workflows/runner-isolation.yml"
+  push:
+    branches: [main]
+    paths:
+      - "services/code-runner/**"
+      - ".github/workflows/runner-isolation.yml"
+permissions:
+  contents: read
+jobs:
+  sandbox-fixtures:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Pull development-only Node runtime image
+        run: docker pull node:24-alpine
+      - name: Exercise sandbox in disposable Docker environments
+        run: node services/code-runner/tests/isolation-smoke.mjs
