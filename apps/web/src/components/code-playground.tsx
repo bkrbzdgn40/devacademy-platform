@@ -29,7 +29,7 @@ const labels: Record<ExecutionJob["status"],string> = {
 };
 const sleep = (ms:number) => new Promise<void>(resolve=>setTimeout(resolve,ms));
 
-export function CodePlayground({ starterCode, label = "JavaScript kod editörü",  exerciseId, exerciseRevision, language="javascript" }: { starterCode: string; label?: string; exerciseId?: string; exerciseRevision?: number; language?:"javascript"|"java"|"plain" }) {
+export function CodePlayground({ starterCode, label = "JavaScript kod editörü",  exerciseId, exerciseRevision, language="javascript", displayLanguage }: { starterCode: string; label?: string; exerciseId?: string; exerciseRevision?: number; language?:"javascript"|"java"|"plain"; displayLanguage?:string }) {
   const [code, setCode] = useState(starterCode);
   const [capability, setCapability] = useState<Capability | null>(null);
   const [job,setJob]=useState<ExecutionJob | null>(null);
@@ -93,7 +93,7 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
 
   return <section aria-label={label} className="editor-shell">
     <div className="editor-toolbar">
-      <div><strong>{language==="java"?"Java":language==="plain"?"Genel kod":"JavaScript"} editörü</strong><span>CodeMirror 6 · {language==="javascript"?"JavaScript sözdizimi":"Düz metin modu"}</span></div>
+      <div><strong>{displayLanguage ?? (language==="java"?"Java":language==="plain"?"Genel kod":"JavaScript")} editörü</strong><span>CodeMirror 6 · {language==="javascript"?"JavaScript sözdizimi":"Düz metin modu"}</span></div>
       <button type="button" onClick={()=>{setCode(starterCode);setJob(null);setError("");}} disabled={!changed}>Örneği sıfırla</button>
     </div>
     <CodeMirror

@@ -44,5 +44,28 @@
       "lesson.java.methods",
       "lesson.java.polymorphism"
     ]
+  },
+  {
+    "id": "course.python.fundamentals",
+    "slug": "python-temelleri",
+    "languageId": "language.python",
+    "title": "Python Temelleri",
+    "summary": "Değişkenlerden koleksiyonlara beş derste Python'ın temel yapılarını öğren.",
+    "level": "Başlangıç",
+    "locale": "tr",
+    "editorLanguage": "plain",
+    "runtimeId": null,
+    "capabilities": {
+      "editor": true,
+      "run": false,
+      "codeAssessment": false
+    },
+    "lessonIds": [
+      "lesson.python.variables",
+      "lesson.python.conditions",
+      "lesson.python.loops",
+      "lesson.python.functions",
+      "lesson.python.collections"
+    ]
   }
 ]

@@ -58,3 +58,7 @@ Inspect the Git diff, review pedagogy, code correctness, accessibility and sourc
 ## Failure recovery
 
 If validation fails, fix the draft and rerun check. If an interrupted write occurs, inspect `git diff` and revert only the affected generated files as appropriate; never indiscriminately discard other contributors' edits. If a course is already published, creating a draft under the same course slug or publishing a duplicate fails closed. This tool only adds courses; modifying a published curriculum or migrating its IDs needs a separate versioned review.
+
+## Published Python course and older local drafts
+
+`python-temelleri` is now a reviewed and published course, so attempting `new python python-temelleri` or `publish python-temelleri --reviewed` on an old local draft will fail due to duplicate course IDs. The published course is already available under `/kurslar/python-temelleri` after `git pull`. Your old, gitignored `content/course-drafts/python-temelleri/` directory is not deleted or changed by pulling and can be archived separately. To create a different Python course, use a new course slug such as `python-ileri`.
