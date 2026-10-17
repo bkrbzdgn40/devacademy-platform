@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import type { PublicQuestion } from "@/lib/lessons";
 
-type GradeResponse = { status: "graded"; questionId: string; correct: boolean; correctOptionId: string; explanation: string };
+type GradeResponse = { status: "graded"; questionId: string; correct: boolean; correctOptionId: string; explanation: string; saved: boolean };
 
 export function QuizCard({ question, number }: { question: PublicQuestion; number: number }) {
   const [selected, setSelected] = useState("");
@@ -49,6 +49,7 @@ export function QuizCard({ question, number }: { question: PublicQuestion; numbe
       {result && <div className={`quiz-feedback ${result.correct ? "is-correct" : "is-wrong"}`}>
         <strong>{result.correct ? "Doğru cevap." : "Henüz doğru değil."}</strong>
         <p>{result.explanation}</p>
+        <p className="quiz-save-state">{result.saved ? "Cevabın hesabına kaydedildi." : "Bu deneme kalıcı kaydedilmedi. Kayıt için oturum açmalısın."}</p>
         {!result.correct && <span>Doğru seçenek: {question.options.find((option) => option.id === result.correctOptionId)?.text}</span>}
       </div>}
     </div>
