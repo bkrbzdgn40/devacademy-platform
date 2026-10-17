@@ -79,7 +79,7 @@ try {
   assert.equal(pythonLesson.status,200);
   const pythonHtml=await pythonLesson.text();
   assert.match(pythonHtml,/Python/);
-  assert.match(pythonHtml,/Düz metin modu/);
+  assert.match(pythonHtml,/Python sözdizimi renklendirme/);
   assert.match(pythonHtml,/Cevabımı kontrol et/);
   assert.equal((await fetch(`${base}/kurslar/python-temelleri/olmayan-ders`)).status,404);
   const pythonCorrect=await jsonPost({questionId:"python.variables.division",optionId:"b"});

@@ -110,7 +110,7 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
         aria-disabled={!available||busy} title={!available?(language!=="javascript"?"Bu dil için izole kod çalıştırma henüz etkin değil.":"İzole çalıştırma yalnızca özel yerel laboratuvarda kullanılabilir."):undefined}
         onClick={runCode}>{busy?"Değerlendiriliyor…":assessmentMode?
           (available?"Çözümü değerlendir (yerel lab)":"Değerlendirme (laboratuvar kapalı)"):
-          (available?"Çalıştır (yerel laboratuvar)":"Çalıştır (hazırlanıyor)")}</button>
+          (available?"Çalıştır (yerel laboratuvar)":language!=="javascript"?"Bu dilde çalıştırma kapalı":"Çalıştır (hazırlanıyor)")}</button>
     </div>
     {error && <p className="editor-error" role="alert">{error} {error.includes("oturum") && <Link href="/hesap">Hesabıma git →</Link>}</p>}
     {job && <div className="execution-output" role="status" aria-live="polite">
