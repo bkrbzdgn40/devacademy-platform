@@ -12,7 +12,11 @@ export function isSameOrigin(request) {
   if (!process.env.APP_ORIGIN && process.env.NODE_ENV === "production") return false;
   const expected = process.env.APP_ORIGIN || new URL(request.url).origin;
   try {
-    return new URL(origin).origin === expected;
+    const target = new URL(expected);
+    // Outside loopback, any production login requires TLS on the public origin.
+    const loopback = ["localhost", "127.0.0.1", "[::1]"].includes(target.hostname);
+    if (process.env.NODE_ENV === "production" && target.protocol !== "https:" && !loopback) return false;
+    return new URL(origin).origin === target.origin;
   } catch { return false; }
 }
 export async function readJson(request, limit=2048) {

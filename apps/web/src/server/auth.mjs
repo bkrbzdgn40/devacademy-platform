@@ -95,8 +95,12 @@ export async function issueSession(learnerId) {
   return { token, expires };
 }
 
+function externallySecure(request) {
+  // Browser-facing APP_ORIGIN is the trust anchor when the web process sits behind TLS termination.
+  return new URL(process.env.APP_ORIGIN || request.url).protocol === "https:";
+}
 export function sessionCookieName(request) {
-  return new URL(request.url).protocol === "https:" ? "__Host-devacademy_session" : "devacademy_session";
+  return externallySecure(request) ? "__Host-devacademy_session" : "devacademy_session";
 }
 function extractToken(request) {
   const name = sessionCookieName(request);
@@ -122,13 +126,13 @@ export async function revokeSession(request) {
 }
 export function setSessionCookie(response, request, token, expires) {
   const name = sessionCookieName(request);
-  const secure = new URL(request.url).protocol === "https:";
+  const secure = externallySecure(request);
   const maxAge = Math.max(0, Math.floor((expires.getTime() - Date.now()) / 1000));
   response.headers.append("Set-Cookie", `${name}=${token}; HttpOnly; Path=/; SameSite=Lax; Max-Age=${maxAge}${secure ? "; Secure" : ""}`);
 }
 export function clearSessionCookie(response, request) {
   const name = sessionCookieName(request);
-  const secure = new URL(request.url).protocol === "https:";
+  const secure = externallySecure(request);
   response.headers.append("Set-Cookie", `${name}=; HttpOnly; Path=/; SameSite=Lax; Max-Age=0${secure ? "; Secure" : ""}`);
 }
 export async function deleteLearnerAccount(learnerId, password) {
