@@ -22,6 +22,36 @@ export function harness(source,functionName,args) {
   validateSource(program);
   return program;
 }
+// The source, exact arguments and a small result serializer are the ONLY code
+// sent into a sandbox. Hidden expected values stay with the trusted worker.
+export function harnessPython(source,functionName,args) {
+  if(!/^[a-zA-Z_][a-zA-Z_0-9]*$/.test(functionName))throw Error("INVALID_ENTRYPOINT");
+  if(typeof source!=="string" ||Buffer.byteLength(source,"utf8")>6000 ||!source.trim())
+    throw Error("INVALID_SUBMISSION");
+  const program=source+"\n\nimport json as _devacademy_json\n"+
+    "_devacademy_result="+functionName+"(*"+JSON.stringify(args)+")\n"+
+    "print(_devacademy_json.dumps(_devacademy_result, allow_nan=False, ensure_ascii=False))\n";
+  validateSource(program);
+  return program;
+}
+export function harnessJava(source,functionName,args){
+  if(!/^[a-zA-Z_$][\w$]*$/.test(functionName))throw Error("INVALID_ENTRYPOINT");
+  if(typeof source!=="string"||Buffer.byteLength(source,"utf8")>6000||!source.trim()||
+    !Array.isArray(args)||args.some(x=>!Number.isInteger(x)||Math.abs(x)>1000000))
+    throw Error("INVALID_SUBMISSION");
+  const program=source+"\n\npublic class Main { public static void main(String[] args) {"+
+    "System.out.print(Solution."+functionName+"("+args.join(",")+"));"+
+    "} }\n";
+  validateSource(program);
+  return program;
+}
+export function harnessForRuntime(source,functionName,args,runtimeId){
+  if(runtimeId==="python-3.12")return harnessPython(source,functionName,args);
+  if(runtimeId==="java-21")return harnessJava(source,functionName,args);
+  if(runtimeId==="nodejs-24")return harness(source,functionName,args);
+  throw Error("UNKNOWN_RUNTIME");
+}
+
 export async function evaluateExercise({source,exerciseId,exerciseRevision,image,execute}) {
   if(!validExercise(exerciseId,exerciseRevision))throw Error("UNKNOWN_EXERCISE");
   const definition=caseBank[exerciseId];
@@ -29,7 +59,8 @@ export async function evaluateExercise({source,exerciseId,exerciseRevision,image
   let passed=0;
   let durationMs=0;
   for(const scenario of definition.cases) {
-    const program=harness(source,definition.functionName,scenario.args);
+    const runtimeId=definition.runtimeId??"nodejs-24";
+    const program=harnessForRuntime(source,definition.functionName,scenario.args,runtimeId);
     let output;
     try {output=await execute(program,{image});}
     catch {return {status:"infrastructure_error",stdout:"",stderr:"Sandbox unavailable.",exitCode:null,durationMs:0,assessment:null};}

@@ -84,3 +84,7 @@ Java and Python lessons now follow **predict, trace, debug, transfer**, with gra
 ## M7: Kişisel tekrar
 
 Authenticated learners can visit `/tekrar`. Questions answered incorrectly return after 10 minutes; successful scheduled reviews return after 1, 3, 7, 14, or 30 days. Historical completions are unchanged. Requires additive PostgreSQL migration `db/migrations/0005_spaced_reviews.sql` before first M7 graded attempt. The review schedule is not an AI mastery score. [Architecture notes](docs/architecture/ADR-0006-spaced-reviews.md).
+
+## M7.2: Python/Java local code judge
+
+Two programming challenges are available at `/pratik/python-cift-topla` and `/pratik/java-araliga-sinirla`. The ordinary site **never runs learner code**. An explicitly opted-in localhost-only Docker lab supports compiling/executing each attempt in fresh network-disabled, read-only, least-privilege short-lived containers. The worker checks hidden expected outputs, while the student sees only a bounded result summary. Deploying the judge publicly still requires an external security audit and VM-grade isolation. See [ADR-0007](docs/architecture/ADR-0007-multilang-lab.md). Apply additive migration `db/migrations/0006_multilang_lab.sql` in addition to `0005` before using the lab with existing local PostgreSQL.

@@ -99,5 +99,73 @@
         "expected": 0
       }
     ]
+  },
+  {
+    "id": "python.sum-even",
+    "revision": 1,
+    "slug": "python-cift-topla",
+    "title": "Python: Çift sayıları topla",
+    "level": "Başlangıç",
+    "language": "python",
+    "functionName": "sum_even",
+    "description": "Bir tam sayı listesindeki çift sayıların toplamını döndüren sum_even(numbers) fonksiyonunu yaz. Listeyi değiştirme.",
+    "starterCode": "def sum_even(numbers):\n    # Çift sayıların toplamını hesapla.\n    return 0",
+    "publicCases": [
+      {
+        "label": "Pozitif ve negatif karışık",
+        "args": [
+          [
+            -3,
+            -2,
+            0,
+            1,
+            4
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "label": "Hiç çift sayı yok",
+        "args": [
+          [
+            1,
+            3,
+            5
+          ]
+        ],
+        "expected": 0
+      }
+    ]
+  },
+  {
+    "id": "java.clamp",
+    "revision": 1,
+    "slug": "java-araliga-sinirla",
+    "title": "Java: Aralığa sınırla",
+    "level": "Başlangıç",
+    "language": "java",
+    "functionName": "clamp",
+    "description": "Solution sınıfına public static int clamp(int value,int min,int max) metodunu yaz. min <= max. Sonuç iki sınır arasında kalmalı.",
+    "starterCode": "class Solution {\n    public static int clamp(int value, int min, int max) {\n        // value değerini aralığa sınırla.\n        return value;\n    }\n}",
+    "publicCases": [
+      {
+        "label": "Üst sınır dışı",
+        "args": [
+          12,
+          0,
+          10
+        ],
+        "expected": 10
+      },
+      {
+        "label": "Alt sınır dışı",
+        "args": [
+          -4,
+          0,
+          10
+        ],
+        "expected": 0
+      }
+    ]
   }
 ]

@@ -27,5 +27,21 @@ export const caseBank = Object.freeze({
       {public:false,args:[10,0,10],expected:10},
       {public:false,args:[4,4,4],expected:4}
     ]
+  },
+  "python.sum-even": {
+    revision:1,runtimeId:"python-3.12",functionName:"sum_even",cases:[
+      {label:"Pozitif ve negatif karışık",public:true,args:[[-3,-2,0,1,4]],expected:2},
+      {label:"Hiç çift sayı yok",public:true,args:[[1,3,5]],expected:0},
+      {public:false,args:[[2,4,6,8]],expected:20},
+      {public:false,args:[[-8,-1,2,3,0]],expected:-6}
+    ]
+  },
+  "java.clamp": {
+    revision:1,runtimeId:"java-21",functionName:"clamp",cases:[
+      {label:"Üst sınır dışı",public:true,args:[12,0,10],expected:10},
+      {label:"Alt sınır dışı",public:true,args:[-4,0,10],expected:0},
+      {public:false,args:[5,0,10],expected:5},
+      {public:false,args:[4,4,4],expected:4}
+    ]
   }
 });

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import practice from "@/data/practice.json";
-export const metadata: Metadata={title:"Kod pratiği",description:"Gerçek JavaScript fonksiyonları yazma alıştırmaları."};
+export const metadata: Metadata={title:"Kod pratiği",description:"JavaScript, Python ve Java fonksiyonları yazma alıştırmaları."};
 export default function PracticeIndex(){
   return <section className="shell listing-page">
     <Link href="/dersler" className="back-link">← Derslere dön</Link>

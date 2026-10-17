@@ -62,3 +62,50 @@ test("worker refuses malformed/untrusted claimed payloads",async()=>{
   const transport=async()=>Response.json({...ticket,runtimeId:"python"});
   await assert.rejects(()=>processOne({...config,transport}),/JOB_CONTRACT_INVALID/);
 });
+
+const extraImages={pythonImage:"python@sha256:"+"b".repeat(64),
+  javaImage:"eclipse-temurin@sha256:"+"c".repeat(64)};
+test("worker routes Python and Java assessment tickets to their own pinned images",async()=>{
+  for(const [runtimeId,exerciseId,source,key] of [
+    ["python-3.12","python.sum-even","def sum_even(numbers):\n return 0","pythonImage"],
+    ["java-21","java.clamp","class Solution {static int clamp(int v,int a,int b){return v;}}","javaImage"]
+  ]){
+    const result={status:"completed",exitCode:0,stdout:"",stderr:"",durationMs:1,
+      assessment:{verdict:"failed",passed:0,total:4,publicCases:[
+        {label:runtimeId==="python-3.12"?"Pozitif ve negatif karışık":"Üst sınır dışı",passed:false},
+        {label:runtimeId==="python-3.12"?"Hiç çift sayı yok":"Alt sınır dışı",passed:false}
+      ]}};
+    const ticketLang={...ticket,mode:"assess",runtimeId,exerciseId,exerciseRevision:1,source};
+    let ran=0,complete=null;
+    const transport=async(url,opts)=>{
+      if(url.endsWith("/claim"))return Response.json(ticketLang);
+      complete=JSON.parse(opts.body);
+      return Response.json({accepted:true});
+    };
+    const processed=await processOne({...config,...extraImages,transport,
+      executeLanguage:async(program,opts)=>{
+        assert.equal(opts.runtimeId,runtimeId);
+        assert.equal(opts.image,extraImages[key]);
+        assert.ok(!program.includes("expected"));
+        ran++;
+        return {status:"completed",stdout:"null",stderr:"",exitCode:0,durationMs:10};
+      }});
+    assert.equal(processed.status,"processed");
+    assert.equal(ran,4);
+    assert.equal(complete.assessment.total,4);
+    assert.equal(complete.assessment.verdict,"failed");
+    assert.ok(!JSON.stringify(complete).includes(source));
+  }
+});
+test("missing pinned language images fail closed and never execute",async()=>{
+  const lang={...ticket,mode:"assess",runtimeId:"python-3.12",exerciseId:"python.sum-even",exerciseRevision:1,source:"def sum_even(numbers):\n return 0"};
+  let output;
+  const transport=async(url,opts)=>{
+    if(url.endsWith("/claim"))return Response.json(lang);
+    output=JSON.parse(opts.body);return Response.json({accepted:true});
+  };
+  await processOne({...config,transport,executeLanguage:()=>{throw Error("Never invoked");}});
+  assert.equal(output.status,"infrastructure_error");
+  assert.equal(output.assessment,null);
+  assert.throws(()=>validateWorkerConfig({...config,pythonImage:"python:3.12-alpine"}),/PINNED_PYTHON_IMAGE/);
+});
