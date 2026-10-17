@@ -25,7 +25,21 @@ export function ReviewSession(){
    setStatus("ready");
   }catch{setStatus("unavailable");}
  },[]);
- useEffect(()=>{void load();},[load]);
+ useEffect(()=>{
+   const abort=new AbortController();
+   fetch("/api/progress",{cache:"no-store",signal:abort.signal})
+    .then(async response=>{
+      if(response.status===401){if(!abort.signal.aborted)setStatus("login");return;}
+      if(!response.ok){if(!abort.signal.aborted)setStatus("unavailable");return;}
+      const data=await response.json() as Learning;
+      if(abort.signal.aborted)return;
+      setRows((Array.isArray(data.reviewDue)?data.reviewDue:[]).filter(x=>publicQuestions.some(q=>q.id===x.exerciseId)));
+      setTotal(data.reviewSummary?.total??0);
+      setDueCount(data.reviewSummary?.due??0);
+      setStatus("ready");
+    }).catch(()=>{if(!abort.signal.aborted)setStatus("unavailable");});
+   return ()=>abort.abort();
+ },[]);
  if(status==="loading")return <p role="status">Tekrar planın yükleniyor…</p>;
  if(status==="login")return <div className="review-card"><h2>Tekrar planın hesapla saklanır.</h2><p>Hatalarını ve ilerlemeni başka kişilerle karıştırmamak için oturum açmalısın.</p><Link href="/hesap">Hesabıma git →</Link></div>;
  if(status==="unavailable")return <div className="review-card" role="status"><h2>Tekrar planına ulaşılamadı.</h2><p>Hesap ve PostgreSQL bağlantısı olmadan sahte bir tekrar listesi gösterilmiyor.</p><button type="button" className="subtle-action" onClick={()=>void load()}>Tekrar dene</button></div>;

@@ -1,6 +1,5 @@
 "use client";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
-import Link from "next/link";
 import { ProgressDashboard } from "@/components/progress-dashboard";
 
 type Viewer = { authenticated: boolean; configured: boolean; username?: string };
