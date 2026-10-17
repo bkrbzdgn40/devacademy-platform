@@ -1,21 +1,46 @@
-name: Database schema
+name: Database and account integration
 on:
   pull_request:
     paths:
       - "db/**"
       - ".github/workflows/db-schema.yml"
+      - "apps/web/src/server/**"
+      - "apps/web/src/app/api/**"
+      - "apps/web/src/components/account-panel.tsx"
+      - "apps/web/src/components/complete-lesson.tsx"
+      - "apps/web/tests/auth-*.integration.mjs"
+      - "apps/web/package.json"
+      - "pnpm-lock.yaml"
   push:
     branches: [main]
     paths:
       - "db/**"
       - ".github/workflows/db-schema.yml"
+      - "apps/web/src/server/**"
+      - "apps/web/src/app/api/**"
+      - "apps/web/src/components/account-panel.tsx"
+      - "apps/web/src/components/complete-lesson.tsx"
+      - "apps/web/tests/auth-*.integration.mjs"
+      - "apps/web/package.json"
+      - "pnpm-lock.yaml"
 permissions:
   contents: read
 jobs:
-  postgres-contract:
+  database-auth:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - name: Test PostgreSQL DDL and constraints
-        run: bash db/tests/check-schema.sh
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.7
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install exact dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build for HTTP integration
+        run: pnpm build
+      - name: Exercise SQL, identity, ownership and account deletion
+        run: RUN_APP_TESTS=1 bash db/tests/check-schema.sh

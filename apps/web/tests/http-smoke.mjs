@@ -28,7 +28,7 @@ let logs = "";
 for (const output of [child.stdout, child.stderr]) output.on("data", (data) => { logs = (logs + data.toString()).slice(-5000); });
 
 async function jsonPost(input) {
-  return fetch(`${base}/api/assess`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(input) });
+  return fetch(`${base}/api/assess`, { method: "POST", headers: { "Content-Type": "application/json", "Origin": base }, body: JSON.stringify(input) });
 }
 try {
   let ready = false;
@@ -57,6 +57,8 @@ try {
   assert.match(await lesson.text(), /Cevabımı kontrol et/);
   assert.equal((await fetch(`${base}/dersler/not-a-lesson`)).status, 404);
 
+  assert.equal((await fetch(`${base}/hesap`)).status, 200);
+  assert.equal((await fetch(`${base}/api/me`)).status, 200);
   const valid = await jsonPost({ questionId: "js.binding.increment", optionId: "b" });
   assert.equal(valid.status, 200);
   assert.equal(valid.headers.get("cache-control"), "no-store");
@@ -68,9 +70,9 @@ try {
   assert.equal((await incorrect.json()).correct, false);
   assert.equal((await jsonPost({ questionId: "unknown", optionId: "a" })).status, 400);
   assert.equal((await jsonPost({ questionId: "js.binding.increment", optionId: "x" })).status, 400);
-  const oversized = await fetch(`${base}/api/assess`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "x".repeat(4096) });
+  const oversized = await fetch(`${base}/api/assess`, { method: "POST", headers: { "Content-Type": "application/json", "Origin": base }, body: "x".repeat(4096) });
   assert.equal(oversized.status, 413);
-  const unsupportedType = await fetch(`${base}/api/assess`, { method: "POST", headers: { "Content-Type": "text/plain" }, body: "hello" });
+  const unsupportedType = await fetch(`${base}/api/assess`, { method: "POST", headers: { "Content-Type": "text/plain", "Origin": base }, body: "hello" });
   assert.equal(unsupportedType.status, 415);
   assert.equal((await fetch(`${base}/api/assess`)).status, 405);
   console.log("Production HTTP smoke PASS: routes, grading, invalid inputs and body limits.");

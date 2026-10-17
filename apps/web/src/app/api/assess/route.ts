@@ -1,47 +1,31 @@
 import { gradeSubmission } from "@/server/grade";
+import { currentLearner } from "@/server/auth.mjs";
+import { recordAttempt } from "@/server/learning-store.mjs";
+import { checkMutatingRequest, isDatabaseConfigured, json, readJson } from "@/server/http.mjs";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-const MAX_BODY_BYTES = 2048;
-const headers = { "Cache-Control": "no-store" };
 
-async function parseSmallJson(request: Request): Promise<unknown> {
-  const reader = request.body?.getReader();
-  if (!reader) throw new Error("invalid");
-  let bytes = 0;
-  let text = "";
-  const decoder = new TextDecoder("utf-8", { fatal: true });
-  try {
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      bytes += value.byteLength;
-      if (bytes > MAX_BODY_BYTES) {
-        await reader.cancel();
-        throw new Error("too-large");
-      }
-      text += decoder.decode(value, { stream: true });
-    }
-    text += decoder.decode();
-    return JSON.parse(text) as unknown;
-  } finally {
-    reader.releaseLock();
-  }
-}
-
+// Grading is public educational feedback; persistence requires an authenticated session.
 export async function POST(request: Request) {
-  if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) {
-    return Response.json({ error: "Yalnızca JSON destekleniyor." }, { status: 415, headers });
+  const forbidden = checkMutatingRequest(request);
+  if (forbidden) return forbidden;
+  const parsed = await readJson(request);
+  if (parsed.error) return parsed.error;
+  const grade = gradeSubmission(parsed.value);
+  if (grade.status === "invalid") return json({ error: "Soru veya cevap geçersiz." }, 400);
+  let saved = false;
+  if (isDatabaseConfigured()) {
+    try {
+      const learner = await currentLearner(request);
+      if (learner) {
+        const { optionId } = parsed.value as { optionId: string };
+        await recordAttempt(learner.learnerId, grade, optionId);
+        saved = true;
+      }
+    } catch {
+      return json({ error: "Sonuç kaydedilemedi. Lütfen tekrar deneyin." }, 503);
+    }
   }
-  let submission: unknown;
-  try { submission = await parseSmallJson(request); }
-  catch (error) {
-    const isLarge = error instanceof Error && error.message === "too-large";
-    return Response.json({ error: isLarge ? "İstek çok büyük." : "Geçersiz JSON." }, { status: isLarge ? 413 : 400, headers });
-  }
-  const grade = gradeSubmission(submission);
-  if (grade.status === "invalid") {
-    return Response.json({ error: "Soru veya cevap geçersiz." }, { status: 400, headers });
-  }
-  return Response.json(grade, { status: 200, headers });
+  return json({ ...grade, saved });
 }

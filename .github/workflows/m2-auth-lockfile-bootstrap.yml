@@ -1,0 +1,32 @@
+# ONE-TIME lockfile regeneration workflow. Remove from feature branch before PR.
+name: M2 auth lockfile bootstrap
+on:
+  push:
+    branches: [feat/m2-auth-progress-persistence]
+permissions:
+  contents: write
+jobs:
+  generate:
+    if: github.repository == 'bkrbzdgn40/devacademy-platform'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.7
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Resolve pinned pg dependency
+        run: pnpm install --lockfile-only --ignore-scripts
+      - name: Commit lockfile on feature branch only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pnpm-lock.yaml
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: pin PostgreSQL client dependencies"
+            git push origin HEAD:feat/m2-auth-progress-persistence
+          fi

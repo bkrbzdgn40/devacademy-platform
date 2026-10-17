@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { QuizCard } from "@/components/quiz-card";
+import { CompleteLesson } from "@/components/complete-lesson";
 import { findLesson, lessons, questionsForLesson } from "@/lib/lessons";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -25,7 +26,8 @@ export default async function LessonPage({ params }: Props) {
     <section className="lesson-section" aria-labelledby="explanation-title"><h2 id="explanation-title">Konuyu anlayalım</h2><p>{lesson.explanation}</p><div className="code-label">JavaScript · İncelenebilir örnek (çalıştırma henüz mevcut değil)</div><pre className="lesson-code"><code>{lesson.code}</code></pre></section>
     <section className="lesson-section" aria-labelledby="practice-title"><h2 id="practice-title">Kendini test et</h2><p>Önce sonucu kendi başına tahmin et. Gönderdikten sonra açıklamayı inceleyebilirsin.</p><div className="quiz-stack">{questions.map((question, i) => <QuizCard key={question.id} question={question} number={i + 1} />)}</div></section>
     <section className="lesson-section takeaway-section" aria-labelledby="takeaway-title"><h2 id="takeaway-title">Aklında kalsın</h2><ul>{lesson.takeaways.map((takeaway) => <li key={takeaway}>{takeaway}</li>)}</ul></section>
+    <CompleteLesson lessonId={lesson.id} />
     <nav aria-label="Ders gezinmesi" className="lesson-nav"><Link className="subtle-button" href="/dersler">← Tüm dersler</Link>{next ? <Link className="primary-button" href={`/dersler/${next.slug}`}>Sonraki ders →</Link> : <Link className="primary-button" href="/dersler">Ders listesine dön →</Link>}</nav>
-    <p className="small-note">Bu sürümde alıştırma sonuçları hesabına kaydedilmez. Kod örnekleri yalnızca okumak içindir.</p>
+    <p className="small-note">Oturum açan kullanıcıların cevapları veritabanına kaydedilir. Kod örnekleri yalnızca okumak içindir.</p>
   </article>;
 }
