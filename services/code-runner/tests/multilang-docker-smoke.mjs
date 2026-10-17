@@ -34,5 +34,21 @@ for(const testcase of cases){
     {runtimeId:testcase.runtimeId,image:images[testcase.runtimeId]});
   assert.equal(secret.status,"completed",JSON.stringify(secret));
   assert.equal(secret.stdout.trim(),"no-worker-secret");
-  console.log("Multilang sandbox PASS:",testcase.runtimeId,"correct/overfit/crash/no-secret");
+  if(testcase.runtimeId==="python-3.12"){
+    const noNetwork=await runIsolatedLanguage(
+      "import socket\ntry:\n s=socket.create_connection(('1.1.1.1',443),timeout=0.3)\n print('bad-network')\nexcept OSError:\n print('network-denied')",
+      {runtimeId:testcase.runtimeId,image:images[testcase.runtimeId]});
+    assert.equal(noNetwork.status,"completed",JSON.stringify(noNetwork));
+    assert.equal(noNetwork.stdout.trim(),"network-denied");
+    const timeout=await runIsolatedLanguage("while True:\n pass",
+      {runtimeId:testcase.runtimeId,image:images[testcase.runtimeId]});
+    assert.equal(timeout.status,"timed_out",JSON.stringify(timeout));
+  }else{
+    const flood=await runIsolatedLanguage(
+      'public class Main {public static void main(String[] a) {System.out.print("x".repeat(30000));}}',
+      {runtimeId:testcase.runtimeId,image:images[testcase.runtimeId]});
+    assert.equal(flood.status,"output_limit",JSON.stringify(flood));
+    assert.ok(Buffer.byteLength(flood.stdout,"utf8")<=8192);
+  }
+  console.log("Multilang sandbox PASS:",testcase.runtimeId,"correct/overfit/crash/no-secret/adversarial");
 }
