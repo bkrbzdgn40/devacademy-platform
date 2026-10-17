@@ -21,7 +21,8 @@ Open http://localhost:3000. `pnpm check` runs lint, type checks, catalog unit te
 ## Current preview
 
 - A Turkish landing page with a JavaScript learning path and three exploration routes.
-- Catalog previews for languages, concepts and technologies, including the uncommon **COW** language.\n- Three beginner JavaScript lessons and six output-prediction exercises with server-side scoring and explanations. Answers are not shipped in public question JSON.
+- Catalog previews for languages, concepts and technologies, including the uncommon **COW** language.
+- Three beginner JavaScript lessons and six output-prediction exercises with server-side scoring and explanations. Answers are not shipped in public question JSON.
 - Responsive styling, keyboard skip link and basic semantic markup.
 - All sample catalog items explicitly report **no runnable runtime**. Quiz responses are not persisted, and the scoring endpoint is a preview without production-grade abuse controls.
 - Technology news is a truthful empty state, not a synthetic live feed.

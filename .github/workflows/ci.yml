@@ -21,4 +21,6 @@ jobs:
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
       - name: Validate app
-        run: pnpm check\n      - name: Exercise production HTTP routes and grading\n        run: node apps/web/tests/http-smoke.mjs
+        run: pnpm check
+      - name: Exercise production HTTP routes and grading
+        run: node apps/web/tests/http-smoke.mjs
