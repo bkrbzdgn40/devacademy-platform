@@ -6,10 +6,13 @@ export function json(value, status=200) {
 export function isSameOrigin(request) {
   const origin = request.headers.get("origin");
   if (!origin) return false;
+  // Public deployments MUST configure the trusted canonical browser origin.
+  // Next.js can receive an internal loopback URL behind a reverse proxy; never
+  // require that internal URL to match the browser-facing APP_ORIGIN.
+  if (!process.env.APP_ORIGIN && process.env.NODE_ENV === "production") return false;
   const expected = process.env.APP_ORIGIN || new URL(request.url).origin;
   try {
-    const normalized = new URL(origin).origin;
-    return normalized === expected && new URL(request.url).origin === expected;
+    return new URL(origin).origin === expected;
   } catch { return false; }
 }
 export async function readJson(request, limit=2048) {

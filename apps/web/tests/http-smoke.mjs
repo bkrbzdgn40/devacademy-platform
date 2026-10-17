@@ -23,7 +23,7 @@ const port = await reserveAvailablePort();
 const base = `http://127.0.0.1:${port}`;
 const nextCli = join(cwd, "node_modules", "next", "dist", "bin", "next");
 const child = spawn(process.execPath, [nextCli, "start", "--hostname", "127.0.0.1", "--port", String(port)],
-  { cwd, env: { ...process.env, NEXT_TELEMETRY_DISABLED: "1" }, stdio: ["ignore", "pipe", "pipe"] });
+  { cwd, env: { ...process.env, APP_ORIGIN: base, NEXT_TELEMETRY_DISABLED: "1" }, stdio: ["ignore", "pipe", "pipe"] });
 let logs = "";
 for (const output of [child.stdout, child.stderr]) output.on("data", (data) => { logs = (logs + data.toString()).slice(-5000); });
 
