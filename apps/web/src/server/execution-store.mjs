@@ -64,6 +64,14 @@ export async function enqueueExecution(learnerId,{source,requestId}) {
 }
 export async function getExecution(learnerId,id) {
   if(!validExecutionId(id))return null;
+  // Polls must also expire abandoned work when no worker is available to claim it.
+  await database().query(`UPDATE execution_jobs SET
+    status='infrastructure_error',source_code='',stdout='',
+    stderr='Execution job expired before completion.',completed_at=now(),
+    lease_deadline=NULL,lease_token_hash=NULL
+    WHERE id=$1 AND learner_id=$2 AND
+    ((status='queued' AND created_at<now()-interval '10 minutes')
+      OR (status='running' AND lease_deadline<now()))`,[id,learnerId]);
   const result=await database().query("SELECT * FROM execution_jobs WHERE id=$1 AND learner_id=$2",
     [id,learnerId]);
   return result.rowCount?publicJob(result.rows[0]):null;

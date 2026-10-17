@@ -1,7 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { javascript } from "@codemirror/lang-javascript";
 
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
@@ -9,28 +10,111 @@ const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
   loading: () => <p role="status" className="editor-loading">Kod editörü yükleniyor…</p>,
 });
 
+type ExecutionJob = {
+  id: string;
+  status: "queued" | "running" | "completed" | "runtime_error" | "timed_out" | "output_limit" | "infrastructure_error";
+  stdout: string;
+  stderr: string;
+  exitCode: number | null;
+  durationMs: number | null;
+};
+type Capability = { enabled: boolean; runtimeId: string; maxSourceBytes: number };
+const finalStatuses = new Set(["completed","runtime_error","timed_out","output_limit","infrastructure_error"]);
+const labels: Record<ExecutionJob["status"],string> = {
+  queued:"Kuyrukta",running:"Çalışıyor",completed:"Tamamlandı",
+  runtime_error:"Kod hatası",timed_out:"Süre aşıldı",
+  output_limit:"Çıktı sınırına ulaşıldı",infrastructure_error:"Çalıştırıcı hatası",
+};
+const sleep = (ms:number) => new Promise<void>(resolve=>setTimeout(resolve,ms));
+
 export function CodePlayground({ starterCode, label = "JavaScript kod editörü" }: { starterCode: string; label?: string }) {
   const [code, setCode] = useState(starterCode);
+  const [capability, setCapability] = useState<Capability | null>(null);
+  const [job,setJob]=useState<ExecutionJob | null>(null);
+  const [error,setError]=useState("");
+  const [busy,setBusy]=useState(false);
+  const controller=useRef<AbortController | null>(null);
   const extensions = useMemo(() => [javascript()], []);
   const changed = code !== starterCode;
+  const bytes = new TextEncoder().encode(code).byteLength;
+  const available=capability?.enabled===true;
+
+  useEffect(()=>{
+    const abort=new AbortController();
+    controller.current=abort;
+    fetch("/api/executions/availability",{signal:abort.signal,cache:"no-store"})
+      .then(async r=>r.ok ? await r.json() as Capability : null)
+      .then(data=>{if(!abort.signal.aborted)setCapability(data);})
+      .catch(()=>{if(!abort.signal.aborted)setCapability(null);});
+    return ()=>abort.abort();
+  },[]);
+
+  async function runCode() {
+    if(!available || busy)return;
+    if(bytes>8192 || !code.trim()){
+      setError("Kod boş olamaz veya 8 KiB sınırını aşamaz.");
+      return;
+    }
+    setBusy(true);setJob(null);setError("");
+    const signal=controller.current?.signal;
+    try{
+      const posted=await fetch("/api/executions",{
+        method:"POST",headers:{"Content-Type":"application/json"},signal,
+        body:JSON.stringify({requestId:crypto.randomUUID(),source:code})
+      });
+      if(!posted.ok){
+        setError(posted.status===401?"Çalıştırma için önce oturum açmalısın.":posted.status===429?
+          "Kota doldu. Mevcut işlemlerin tamamlanmasını bekle.":"İş kuyruğu isteği kabul etmedi.");
+        return;
+      }
+      const accepted=(await posted.json()) as ExecutionJob;
+      setJob(accepted);
+      for(let i=0;i<70 && !signal?.aborted;i++){
+        if(finalStatuses.has(accepted.status))break;
+        await sleep(500);
+        if(signal?.aborted)break;
+        const response=await fetch("/api/executions/"+encodeURIComponent(accepted.id),{cache:"no-store",signal});
+        if(!response.ok)throw Error("STATUS_UNAVAILABLE");
+        const status=(await response.json()) as ExecutionJob;
+        setJob(status);
+        if(finalStatuses.has(status.status))return;
+      }
+      setError("İşlem yanıt vermedi. Kuyruk durumunu tekrar kontrol etmek için sayfayı yenileyebilirsin.");
+    }catch{
+      if(!signal?.aborted)setError("Çalıştırma sonucu alınamadı.");
+    }finally{
+      if(!signal?.aborted)setBusy(false);
+    }
+  }
+
   return <section aria-label={label} className="editor-shell">
     <div className="editor-toolbar">
       <div><strong>JavaScript editörü</strong><span>CodeMirror 6 · Düzenleme modu</span></div>
-      <button type="button" onClick={() => setCode(starterCode)} disabled={!changed}>Örneği sıfırla</button>
+      <button type="button" onClick={()=>{setCode(starterCode);setJob(null);setError("");}} disabled={!changed}>Örneği sıfırla</button>
     </div>
     <CodeMirror
-      value={code}
-      theme="dark"
-      extensions={extensions}
-      height="320px"
+      value={code} theme="dark" extensions={extensions} height="320px"
       basicSetup={{lineNumbers:true,highlightActiveLine:true,foldGutter:true,autocompletion:true}}
-      onChange={setCode}
+      onChange={value=>{setCode(value);if(!busy){setJob(null);setError("");}}}
       aria-label={label}
     />
     <div className="editor-footer">
-      <span aria-live="polite">{code.length.toLocaleString("tr-TR")} karakter · {code.split("\n").length} satır</span>
-      <button type="button" disabled aria-disabled="true" title="İzole çalıştırıcı güvenlik denetimi bitmedi">Çalıştır (hazırlanıyor)</button>
+      <span aria-live="polite">{bytes.toLocaleString("tr-TR")} bayt · {code.split("\n").length} satır</span>
+      <button type="button" disabled={!available||busy||bytes>8192||!code.trim()}
+        aria-disabled={!available||busy} title={!available?"İzole çalıştırma yalnızca özel yerel laboratuvarda kullanılabilir.":undefined}
+        onClick={runCode}>{busy?"Çalıştırılıyor…":available?"Çalıştır (yerel laboratuvar)":"Çalıştır (hazırlanıyor)"}</button>
     </div>
-    <p className="editor-privacy">Bu editör kodu tarayıcıda düzenler. Kod çalıştırılmaz, sunucuya gönderilmez ve hesabına kaydedilmez. Değişiklikler sayfadan ayrılınca kaybolur.</p>
+    {error && <p className="editor-error" role="alert">{error} {error.includes("oturum") && <Link href="/hesap">Hesabıma git →</Link>}</p>}
+    {job && <div className="execution-output" role="status" aria-live="polite">
+      <div><strong>İş durumu: {labels[job.status]}</strong>{job.durationMs!==null && <span>{job.durationMs} ms</span>}</div>
+      {finalStatuses.has(job.status) && <>
+        <p>Standart çıktı</p><pre>{job.stdout || "(Çıktı yok)"}</pre>
+        {!!job.stderr && <><p>Hata çıktısı</p><pre>{job.stderr}</pre></>}
+        <small>Çıkış kodu: {job.exitCode===null?"Yok":job.exitCode}</small>
+      </>}
+    </div>}
+    <p className="editor-privacy">{available?
+      "Özel yerel laboratuvar etkin: Kod yalnızca oturumunla yetkilendirilen geçici bir işe gönderilir; izole çalışma sonrasında iş kaydından silinir. Genel kullanıma açık değildir.":
+      "Bu editör kodu tarayıcıda düzenler. Kod çalıştırılmaz, sunucuya gönderilmez ve hesabına kaydedilmez. Değişiklikler sayfadan ayrılınca kaybolur."}</p>
   </section>;
 }

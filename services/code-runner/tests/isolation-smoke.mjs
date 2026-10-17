@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { LIMITS, dockerArgs, runIsolatedJavaScript, validateSource } from "../src/run-isolated.mjs";
 
 const flags=dockerArgs({name:"devacademy-sandbox-"+"a".repeat(24),scriptPath:"/tmp/runner-fixture.js"});
-for(const flag of ["--network=none","--read-only","--cap-drop=ALL","--security-opt=no-new-privileges","--pids-limit","--cpus","--memory","--memory-swap","--user","--ipc=none","--tmpfs","--pull=never"]){
+for(const flag of ["--network=none","--read-only","--cap-drop=ALL","--cgroupns=private","--security-opt=no-new-privileges","--pids-limit","--cpus","--memory","--memory-swap","--user","--ipc=none","--tmpfs","--pull=never"]){
   assert.ok(flags.includes(flag), `missing sandbox flag: ${flag}`);
 }
 assert.equal(flags[flags.indexOf("--user")+1],"65534:65534");
@@ -14,7 +14,11 @@ const start=Date.now();
 const ok=await runIsolatedJavaScript("console.log('runner-ok')");
 assert.equal(ok.status,"completed",JSON.stringify(ok));
 assert.equal(ok.stdout.trim(),"runner-ok");
+process.env.RUNNER_WORKER_TOKEN="mock-worker-token-is-not-sent-to-sandbox";
 const noSecret=await runIsolatedJavaScript("console.log(process.env.DATABASE_URL || 'no-secrets')");
+const noWorkerSecret=await runIsolatedJavaScript("console.log(process.env.RUNNER_WORKER_TOKEN || 'no-worker-secret')");
+delete process.env.RUNNER_WORKER_TOKEN;
+assert.equal(noWorkerSecret.stdout.trim(),"no-worker-secret");
 assert.equal(noSecret.stdout.trim(),"no-secrets");
 const network=await runIsolatedJavaScript(`const net = require('node:net');
 const s=net.connect({host:'1.1.1.1',port:443});
