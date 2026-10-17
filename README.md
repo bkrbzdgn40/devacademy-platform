@@ -2,7 +2,7 @@
 
 **Interactive software learning, practice, assessment and industry awareness.**
 
-> Status: **M1 development preview**. The web shell and an illustrative catalog have been scaffolded. No lessons, accounts, execution environment, code grading, database, or live news feed are deployed yet.
+> Status: **M1 development preview**. The web shell, illustrative catalog, three JavaScript lessons and six server-graded output-prediction exercises have been scaffolded. No accounts, saved progress, code execution environment, database or live news feed are deployed yet.
 
 DevAcademy connects programming languages, software engineering concepts and modern technology stacks to interactive lessons, programming practice, skill checks, learning paths and attributed technology updates.
 
@@ -20,10 +20,11 @@ Open http://localhost:3000. `pnpm check` runs lint, type checks, catalog unit te
 
 ## Current preview
 
-- A Turkish landing page with three clear exploration routes.
+- A Turkish landing page with a JavaScript learning path and three exploration routes.
 - Catalog previews for languages, concepts and technologies, including the uncommon **COW** language.
+- Three beginner JavaScript lessons and six output-prediction exercises with server-side scoring and explanations. Answers are not shipped in public question JSON.
 - Responsive styling, keyboard skip link and basic semantic markup.
-- All sample catalog items explicitly report **no runnable runtime**.
+- All sample catalog items explicitly report **no runnable runtime**. Quiz responses are not persisted, and the scoring endpoint is a preview without production-grade abuse controls.
 - Technology news is a truthful empty state, not a synthetic live feed.
 
 ## Proposed architecture (future work, not implemented)
