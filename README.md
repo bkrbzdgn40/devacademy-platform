@@ -2,7 +2,7 @@
 
 **Interactive software learning, practice, assessment and industry awareness.**
 
-> Status: **M1 development preview**. The web shell, illustrative catalog, three JavaScript lessons and six server-graded output-prediction exercises have been scaffolded. Local PostgreSQL account sessions and persistent learning progress are available only after database configuration; no public service, code execution environment or live news feed is deployed.
+> Status: **M1 development preview**. The web shell, illustrative catalog, three JavaScript lessons and six server-graded output-prediction exercises have been scaffolded. Local PostgreSQL account sessions, a visual learning dashboard and persistent learning progress are available only after database configuration; no public service, code execution environment or live news feed is deployed.
 
 DevAcademy connects programming languages, software engineering concepts and modern technology stacks to interactive lessons, programming practice, skill checks, learning paths and attributed technology updates.
 
@@ -20,9 +20,9 @@ Open http://localhost:3000. `pnpm check` runs lint, type checks, catalog unit te
 
 ## Current preview
 
-- A Turkish landing page with a JavaScript learning path and three exploration routes.
+- A Turkish landing page with a seven-lesson JavaScript learning path and three exploration routes.
 - Catalog previews for languages, concepts and technologies, including the uncommon **COW** language.
-- Three beginner JavaScript lessons and six output-prediction exercises with server-side scoring and explanations.
+- Seven reviewed JavaScript lessons and fourteen output-prediction exercises with server-side scoring and explanations.
 - PostgreSQL migrations for learner/attempt/progress, username credentials and server-side sessions, plus local registration/login, saved quiz attempts and account deletion. These features are active only with a configured database. Answers are not shipped in public question JSON.
 - Responsive styling, keyboard skip link and basic semantic markup.
 - All sample catalog items explicitly report **no runnable runtime**. Anonymous quiz responses are not persisted; authenticated quiz responses are stored if the local database is configured. Public registration/abuse controls remain incomplete.

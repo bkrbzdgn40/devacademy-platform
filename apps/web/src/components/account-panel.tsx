@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
-import { lessons } from "@/lib/lessons";
+import { ProgressDashboard } from "@/components/progress-dashboard";
 
 type Viewer = { authenticated: boolean; configured: boolean; username?: string };
 type Progress = {
@@ -110,13 +110,7 @@ export function AccountPanel() {
         <p>Bu hesabın ilerlemesi sunucu tarafında saklanır. Diğer kullanıcılar bu kayıtlara erişemez.</p>
         <button className="subtle-action" disabled={busy} onClick={logout}>Oturumu kapat</button>
       </section>
-      <section className="account-section">
-        <h2>Öğrenme geçmişim</h2>
-        <p>{progress ? `${progress.lessons.length} ders kaydı ve son ${progress.recentAttempts.length} deneme` : "Kayıtlar alınamadı."}</p>
-        {progress?.lessons.length ? <ul className="progress-list">{progress.lessons.map((item) =>
-          <li key={item.lessonId}><strong>{lessons.find((lesson)=>lesson.id===item.lessonId)?.title ?? item.lessonId}</strong><span>{item.completedAt ? "Tamamlandı" : "Devam ediyor"}</span></li>
-        )}</ul> : <p>Henüz kaydedilmiş dersin yok. <Link href="/dersler">JavaScript derslerine başla →</Link></p>}
-      </section>
+      <section className="account-section"><h2>Öğrenme geçmişim</h2><ProgressDashboard progress={progress} /></section>
       <section className="account-section danger-section">
         <h2>Hesabı kalıcı olarak sil</h2>
         <p>Bu işlem geri alınamaz. Hesabınla birlikte tüm oturumlar, alıştırma cevapları ve ders ilerlemesi silinir.</p>

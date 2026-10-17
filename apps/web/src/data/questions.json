@@ -118,5 +118,165 @@
         "text": "undefined"
       }
     ]
+  },
+  {
+    "id": "js.functions.return",
+    "lessonId": "lesson.javascript.functions",
+    "prompt": "Bir fonksiyonun return değeri nedir?",
+    "code": "function f(x) { return x + 2; }\nconsole.log(f(5));",
+    "options": [
+      {
+        "id": "a",
+        "text": "5"
+      },
+      {
+        "id": "b",
+        "text": "7"
+      },
+      {
+        "id": "c",
+        "text": "undefined"
+      }
+    ]
+  },
+  {
+    "id": "js.functions.arrow",
+    "lessonId": "lesson.javascript.functions",
+    "prompt": "Ok fonksiyonunun çıktısı nedir?",
+    "code": "const twice = x => x * 2;\nconsole.log(twice(4));",
+    "options": [
+      {
+        "id": "a",
+        "text": "8"
+      },
+      {
+        "id": "b",
+        "text": "4"
+      },
+      {
+        "id": "c",
+        "text": "NaN"
+      }
+    ]
+  },
+  {
+    "id": "js.scope.inner",
+    "lessonId": "lesson.javascript.scope",
+    "prompt": "İç blok hangi değeri yazdırır?",
+    "code": "let n = 2;\n{ let n = 5; console.log(n); }",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "5"
+      },
+      {
+        "id": "c",
+        "text": "undefined"
+      }
+    ]
+  },
+  {
+    "id": "js.scope.outer",
+    "lessonId": "lesson.javascript.scope",
+    "prompt": "Blok bittiğinde dışarıdaki değişkenin değeri nedir?",
+    "code": "let n = 2;\n{ let n = 5; }\nconsole.log(n);",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "5"
+      },
+      {
+        "id": "c",
+        "text": "ReferenceError"
+      }
+    ]
+  },
+  {
+    "id": "js.filter.evens",
+    "lessonId": "lesson.javascript.filter",
+    "prompt": "filter sonrası hangi sayılar görüntülenir?",
+    "code": "console.log([1,2,3,4].filter(x => x % 2 === 0).join(','));",
+    "options": [
+      {
+        "id": "a",
+        "text": "1,3"
+      },
+      {
+        "id": "b",
+        "text": "2,4"
+      },
+      {
+        "id": "c",
+        "text": "1,2,3,4"
+      }
+    ]
+  },
+  {
+    "id": "js.reduce.sum",
+    "lessonId": "lesson.javascript.filter",
+    "prompt": "Başlangıç değeri sıfır olan reduce kaç döndürür?",
+    "code": "console.log([2,3,5].reduce((sum, n) => sum + n, 0));",
+    "options": [
+      {
+        "id": "a",
+        "text": "5"
+      },
+      {
+        "id": "b",
+        "text": "15"
+      },
+      {
+        "id": "c",
+        "text": "10"
+      }
+    ]
+  },
+  {
+    "id": "js.async.sync",
+    "lessonId": "lesson.javascript.async",
+    "prompt": "Senkron satır ilk hangi karakteri yazar?",
+    "code": "console.log('A');\nPromise.resolve().then(() => console.log('C'));\nconsole.log('B');",
+    "options": [
+      {
+        "id": "a",
+        "text": "A"
+      },
+      {
+        "id": "b",
+        "text": "B"
+      },
+      {
+        "id": "c",
+        "text": "C"
+      }
+    ]
+  },
+  {
+    "id": "js.async.microtask",
+    "lessonId": "lesson.javascript.async",
+    "prompt": "Aşağıdaki Promise ardından hangi metni oluşturur?",
+    "code": "const events = [];\nPromise.resolve().then(() => events.push('micro'));\nevents.push('sync');\nqueueMicrotask(() => console.log(events.join(',')));",
+    "options": [
+      {
+        "id": "a",
+        "text": "micro,sync"
+      },
+      {
+        "id": "b",
+        "text": "sync,micro"
+      },
+      {
+        "id": "c",
+        "text": "sync"
+      }
+    ]
   }
 ]
