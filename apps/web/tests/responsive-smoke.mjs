@@ -282,7 +282,7 @@ try{
   const optionPalette=async()=> {
     const response=await cdp.send("Runtime.evaluate",{expression:
       "(() => {const select=document.querySelector('.theme-control select');"+
-      "const option=select.querySelector('option[value=system]');"+
+      "const option=select.querySelector('option[value=light]');"+
       "const s=getComputedStyle(select),o=getComputedStyle(option);"+
       "return {scheme:s.colorScheme,selectBg:s.backgroundColor,"+
       "optionBg:o.backgroundColor,optionInk:o.color};})()",
