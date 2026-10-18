@@ -199,7 +199,34 @@ try{
   assert.ok(studioFinal.result.value.results.every(x=>x.includes("Doğru tahmin")),
     "Learning Studio expected 7/9 for the initial JS case");
 
-  console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery, guided Apply and mobile Learning Studio.");
+  // M8.5.1: representative new lessons in all three languages must display
+  // their own authored trace and deeper concept lens at 320px.
+  for(const [path,stepIndex] of [
+    ["/kurslar/javascript-temelleri/esitlik",0],
+    ["/kurslar/java-temelleri/metotlar-ve-return",1],
+    ["/kurslar/python-temelleri/listeler-ve-sozlukler",1]
+  ]){
+    await cdp.send("Page.navigate",{url:base+path},sessionId);
+    await waitFor(async()=>{
+      const result=await cdp.send("Runtime.evaluate",{expression:
+        "(() => {if(document.readyState!=='complete')return false;"+
+        "const b=document.querySelector('[data-lesson-step=\""+stepIndex+"\"]');"+
+        "if(b&&b.getAttribute('aria-current')!=='step')b.click();"+
+        "return !!document.querySelector('.lesson-step-panel:not([hidden]) .learning-studio .studio-predict') && "+
+        "!!document.querySelector('.lesson-step-panel:not([hidden]) .lesson-depth');})()",
+        returnByValue:true},sessionId);
+      return result.result?.value===true;
+    },"M8.5.1 studio and concept lens did not load at 320px: "+path,100);
+    const result=await cdp.send("Runtime.evaluate",{expression:
+      "({overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,"+
+      "inputs:document.querySelectorAll('.lesson-step-panel:not([hidden]) .studio-inputs input').length,"+
+      "details:document.querySelectorAll('.lesson-step-panel:not([hidden]) .lesson-depth details').length})",
+      returnByValue:true},sessionId);
+    assert.deepEqual(result.result.value,{overflow:false,inputs:2,details:2},
+      "M8.5.1 mobile content integration mismatch at "+path);
+  }
+
+  console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery, guided Apply mobile Learning Studio, and M8.5.1 expanded lessons.");
 } catch(error){
   console.error("Production server output:",serverLog);
   throw error;
