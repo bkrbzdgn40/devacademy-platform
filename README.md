@@ -96,3 +96,7 @@ The top navigation now offers **Öğren**, **Pratik yap**, **Keşfet** (Diller/K
 ## M8.0B security maintenance
 
 Registration has shared database-backed quotas before password hashing, and defensive browser headers are enabled. A **read-only-by-default** auth cleanup command handles expired sessions and stale login/registration counters only, never learner progress. Worker CI path coverage and scheduled dependency scanning have been expanded. See [M8.0B operations](docs/security/M8-0B-OPERATIONS.md) for the controls, safe invocation, rollback and remaining launch gates.
+
+## M8.0C performance measurements
+
+GitHub CI records real headless-Chrome lesson/editor loading and Docker execution timings, with downloadable JSON evidence. Disposable PostgreSQL tests record concurrent connection pool size and query wait distributions. Language-specific CodeMirror grammars now load on demand. Database connection max (10) and sandbox resource ceilings remain unchanged until comparable measurements justify revision. See [methodology](docs/qa/M8-0C-PERFORMANCE.md).
