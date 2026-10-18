@@ -11,6 +11,11 @@ export async function POST(request: Request) {
     const { username, password } = input.value as Record<string, unknown>;
     const account = await createAccount(username, password);
     if (account.status === "invalid") return json({ error: "Kullanıcı adı 3-24 karakter, parola en az 15 karakter olmalı." }, 400);
+    if (account.status === "limited") {
+      const response = json({ error: "Çok fazla hesap oluşturma denemesi. 15 dakika sonra tekrar deneyin." }, 429);
+      response.headers.set("Retry-After", "900");
+      return response;
+    }
     if (account.status === "conflict") return json({ error: "Kullanıcı adı kullanılamıyor." }, 409);
     const session = await issueSession(account.learnerId);
     const response = json({ authenticated: true, username: account.username }, 201);
