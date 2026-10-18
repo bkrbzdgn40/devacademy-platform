@@ -71,3 +71,7 @@ Follow-up experiments should compare independent performance on unseen
 code-writing challenges, track calibration trends with consent, randomize
 misconception-driven hints and run user studies. No claims of proven
 learning improvement without controlled evidence.
+
+## Runtime correctness gate
+
+The main CI now executes two independently seeded examples for each of the six missions with actual Java 21, Python 3.12 or Node.js 24 runtimes. Java program bodies compile inside temporary directories; the fixture checks the final two output lines against the server evaluator and deletes its temporary files. This runs authored generator output in CI only; no learner-supplied code is executed in the web process.

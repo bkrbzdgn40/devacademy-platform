@@ -38,9 +38,12 @@ export function transferProblem(lessonId,seed) {
     case "lesson.java.variables": {
       const parts=next(2,4)*2,whole=next(1,4),total=parts*whole+parts/2;
       return {title:"Cast ne zaman yapılır?",
-        code:["int total = "+total+";","int parts = "+parts+";",
-          "double a = total / parts;","double b = (double) total / parts;",
-          "System.out.println(a); // A","System.out.println(b); // B"].join("\n"),
+        code:["class Main {",
+          "  public static void main(String[] args) {",
+          "    int total = "+total+";","    int parts = "+parts+";",
+          "    double a = total / parts;","    double b = (double) total / parts;",
+          "    System.out.println(a); // A","    System.out.println(b); // B",
+          "  }","}"].join("\n"),
         promptA:"A çıktısı? (Örn. 2.0)",promptB:"B çıktısı? (Örn. 2.5)",
         expected:[String(whole),String(whole+.5)],
         explanation:"İki int arasındaki bölme önce tam sayıya kesilir. Cast işlemin öncesinde olunca kesir korunur."};
@@ -50,9 +53,12 @@ export function transferProblem(lessonId,seed) {
       return {title:"Overload mı, override mı?",
         code:["class Animal { int speak() { return "+base+"; } }",
           "class Dog extends Animal { int speak(int x) { return x + "+plus+"; } }",
-          "// main içinde:","Dog d = new Dog();",
-          "System.out.println(d.speak());      // A",
-          "System.out.println(d.speak("+arg+"));  // B"].join("\n"),
+          "class Main {",
+          "  public static void main(String[] args) {",
+          "    Dog d = new Dog();",
+          "    System.out.println(d.speak());      // A",
+          "    System.out.println(d.speak("+arg+")); // B",
+          "  }","}"].join("\n"),
         promptA:"Parametresiz çağrı A kaç üretir?",promptB:"Argümanlı çağrı B kaç üretir?",
         expected:[String(base),String(arg+plus)],
         explanation:"speak(int) yeni bir aşırı yüklemedir. Parametresiz speak() override edilmediği için Animal'dan gelir."};
