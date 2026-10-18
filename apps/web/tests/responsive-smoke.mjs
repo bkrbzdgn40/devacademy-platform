@@ -287,7 +287,7 @@ try{
   const darkColors=await cdp.send("Runtime.evaluate",{expression:
     "(() => {const root=document.documentElement; const style=getComputedStyle(root);"+
     "const panel=document.querySelector('.feature-card');"+
-    "const button=document.querySelector('.primary-button');"+
+    "const button=document.querySelector('.ui-button-primary');"+
     "return {scheme:style.colorScheme,background:getComputedStyle(document.body).color,"+
     "panel:getComputedStyle(panel).backgroundColor,action:getComputedStyle(button).backgroundColor,"+
     "select:document.querySelector('.theme-control select').value,overflow:root.scrollWidth>root.clientWidth+1};})()",
