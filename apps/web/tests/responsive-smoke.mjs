@@ -243,7 +243,7 @@ try{
     return result.result?.value||null;
   },"Olive Earth palette not loaded in production browser");
   assert.deepEqual(renderedTheme,{
-    scheme:"light",olive:"#485C32",canvas:"#F8F5EF",
+    scheme:"light",olive:"#485c32",canvas:"#f8f5ef",
     text:"rgb(47, 42, 34)",action:"rgb(72, 92, 50)",
     card:"rgb(255, 253, 250)"
   },"M8.6A warm theme did not reach the rendered UI");
