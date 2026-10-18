@@ -344,7 +344,7 @@ try{
     return r.result?.value?.action==="rgb(186, 204, 150)"?r.result.value:null;
   },"Dark olive primary button did not settle after theme switch");
   assert.deepEqual(darkColors,{scheme:"dark",background:"rgb(245, 239, 229)",
-    panel:"rgb(41, 39, 32)",action:"rgb(186, 204, 150)",trigger:"Koyu⌄",overflow:false},
+    panel:"rgb(41, 39, 32)",action:"rgb(186, 204, 150)",trigger:"Koyu",overflow:false},
     "Dark olive/espresso palette did not render correctly");
   await openThemeMenu();
   assert.deepEqual(await menuPalette(),{
