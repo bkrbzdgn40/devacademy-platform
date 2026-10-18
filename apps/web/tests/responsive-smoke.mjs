@@ -277,6 +277,22 @@ try{
     "(() => {const x=document.querySelector('.theme-control select'); x.value="+JSON.stringify(value)+
     ";x.dispatchEvent(new Event('change',{bubbles:true}));return true;})()",
     returnByValue:true},sessionId);
+  // M8.6B.1: native <option> popup must inherit the actual chosen scheme
+  // and carry explicit theme colors, not the browser's default white menu.
+  const optionPalette=async()=> {
+    const response=await cdp.send("Runtime.evaluate",{expression:
+      "(() => {const select=document.querySelector('.theme-control select');"+
+      "const option=select.querySelector('option[value=system]');"+
+      "const s=getComputedStyle(select),o=getComputedStyle(option);"+
+      "return {scheme:s.colorScheme,selectBg:s.backgroundColor,"+
+      "optionBg:o.backgroundColor,optionInk:o.color};})()",
+      returnByValue:true},sessionId);
+    return response.result.value;
+  };
+  assert.deepEqual(await optionPalette(),{
+    scheme:"light",selectBg:"rgb(255, 253, 250)",
+    optionBg:"rgb(255, 253, 250)",optionInk:"rgb(47, 42, 34)"
+  },"Light appearance dropdown options must use warm paper and dark ink");
   await selectTheme("dark");
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
@@ -300,6 +316,10 @@ try{
   assert.deepEqual(darkColors,{scheme:"dark",background:"rgb(245, 239, 229)",
     panel:"rgb(41, 39, 32)",action:"rgb(186, 204, 150)",select:"dark",overflow:false},
     "Dark olive/espresso palette did not render correctly");
+  assert.deepEqual(await optionPalette(),{
+    scheme:"dark",selectBg:"rgb(41, 39, 32)",
+    optionBg:"rgb(41, 39, 32)",optionInk:"rgb(245, 239, 229)"
+  },"Dark appearance dropdown options must use espresso and warm light text");
   await cdp.send("Page.navigate",{url:base+"/kurslar/javascript-temelleri/degiskenler"},sessionId);
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
