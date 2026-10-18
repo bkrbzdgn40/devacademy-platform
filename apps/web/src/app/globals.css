@@ -210,3 +210,18 @@
 .transfer-hypothesis strong{color:#e8d9ff}
 .transfer-hypothesis p{color:#dce0f2;line-height:1.65;margin:9px 0}
 .transfer-hypothesis small{display:block;color:#b3bed4;font-size:12px;line-height:1.5}
+
+/* M8.3 verified code-writing proof, clear about lab-only execution. */
+.code-transfer-lab {min-width:0;margin-top:24px;padding:24px;border:1px solid #4e806c;background:#131f23;border-radius:14px}
+.code-transfer-lab h2 {font-size:23px;margin:8px 0 10px}
+.code-transfer-lab h3 {font-size:18px;margin:18px 0 10px}
+.code-transfer-lab p {line-height:1.7;color:#d0dfe0}
+.code-transfer-lab .editor-shell {margin:16px 0}
+.code-transfer-examples {border:1px solid #39534e;border-radius:10px;padding:16px;margin-top:16px}
+.code-transfer-examples ul {padding-left:18px;margin:9px 0 0}
+.code-transfer-examples li {min-width:0;margin:10px 0}
+.code-transfer-examples li span {display:block;font-size:13px;color:#c5d4d4}
+.code-transfer-examples li code {display:block;overflow:auto;white-space:nowrap;color:#bef4db;font-size:12px}
+.code-transfer-verified {padding:15px;background:#183028;border:1px solid #508b78;border-radius:10px}
+.inline-action {background:none;border:0;text-decoration:underline;color:#b9f1d7;cursor:pointer;font:inherit;padding:0}
+@media(max-width:600px){.code-transfer-lab{padding:15px}.code-transfer-examples{padding:11px}}
