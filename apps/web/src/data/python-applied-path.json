@@ -1,0 +1,442 @@
+[
+  {
+    "lessonId": "lesson.python.variables",
+    "topic": "Küçük bir kafenin hesap fişi",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "İki içecek kaç lira?",
+        "context": "Kasadaki fiyat ve adet sayısal değişkenlerdir.",
+        "code": "price = 35\ncount = 2\nprint(price * count)",
+        "expected": "70",
+        "choices": [
+          {
+            "text": "70",
+            "feedback": "Doğru: sayısal iki değişken çarpılır, fiyat × adet toplamı verir."
+          },
+          {
+            "text": "37",
+            "feedback": "35 + 2 toplama olurdu. Burada çarpma işlecine bak."
+          },
+          {
+            "text": "352",
+            "feedback": "Metinleri yan yana eklemek sayısal çarpmadan farklıdır; değerler int."
+          }
+        ],
+        "hint": "İşleç yıldız mı artı mı? İki int çarpılıyor.",
+        "why": "Değişkenlerin isimleri değil, tuttuğu tür ve kullanılan işleç sonucu belirler."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Servis ücretini ekle",
+        "context": "Fiyatın yüzde 10'u servis ücreti olarak ekleniyor.",
+        "code": "bill = 120\nservice_rate = 0.10\ntotal = bill * (1 + service_rate)\nprint(f\"{total:.2f}\")",
+        "expected": "132.00",
+        "choices": [
+          {
+            "text": "132.00",
+            "feedback": "Doğru: 120 × 1.10, iki ondalıkla 132.00 yazılır."
+          },
+          {
+            "text": "120.10",
+            "feedback": "Yüzde oranını doğrudan toplamak, tutarın yüzde 10'unu hesaplamaz."
+          },
+          {
+            "text": "132",
+            "feedback": "Değer doğru hesaplanmış olabilir; ancak :.2f iki ondalık basamak yazdırır."
+          }
+        ],
+        "hint": "Önce 120'nin yüzde 10'unu bul, sonra f-string biçimlendirmesine bak.",
+        "why": "Sayı hesaplama ile çıktıyı metin biçiminde sunma ayrı işlemlerdir."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Metin olarak gelen tutar",
+        "context": "Ödeme sisteminden bakiye metin olarak geliyor. Sayısal depozitoyu ekle.",
+        "code": "balance_text = \"150\"\ndeposit = 25\nprint(int(balance_text) + deposit)",
+        "expected": "175",
+        "choices": [
+          {
+            "text": "175",
+            "feedback": "Doğru: int ile metin tam sayıya çevrilir, sonra 25 eklenir."
+          },
+          {
+            "text": "15025",
+            "feedback": "Yan yana ekleme metin birleştirmedir. Burada int dönüşümü yapıldı."
+          },
+          {
+            "text": "TypeError",
+            "feedback": "Metinle sayıyı doğrudan toplamak hata olurdu; int dönüşümü bunu önlüyor."
+          }
+        ],
+        "hint": "balance_text başlangıçta str, int(...) sonrasında hangi tür?",
+        "why": "Girdinin kaynağı metinse hesaplamadan önce güvenilir tür dönüşümü gerekir."
+      }
+    ],
+    "independent": {
+      "title": "Kasada toplam tutar yazdır",
+      "brief": "Birim fiyat 24 TL, 3 ürün ve 12 TL teslimat ücreti için toplamı hesapla. 'Toplam: 84.00 TL' biçiminde yazdır. Ardından adedi 2 yapınca sonuç nasıl değişiyor kontrol et.",
+      "starterCode": "unit_price = 24\nquantity = 3\ndelivery = 12\n# total değişkenini hesapla ve iki ondalıkla yazdır.\n",
+      "modelCode": "unit_price = 24\nquantity = 3\ndelivery = 12\ntotal = unit_price * quantity + delivery\nprint(f\"Toplam: {total:.2f} TL\")",
+      "expectedOutput": "Toplam: 84.00 TL",
+      "variationCode": "unit_price = 24\nquantity = 2\ndelivery = 12\ntotal = unit_price * quantity + delivery\nprint(f\"Toplam: {total:.2f} TL\")",
+      "variationExpected": "Toplam: 60.00 TL",
+      "reflection": "Fiyat yanlışlıkla tırnak içinde metin olarak verilirse hangi işlem artık çalışmaz?"
+    }
+  },
+  {
+    "lessonId": "lesson.python.conditions",
+    "topic": "Teslimat ve sipariş kararları",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Not sisteminin kararı",
+        "context": "Çevrimiçi eğitimde başarı sınırı 70.",
+        "code": "score = 68\nprint(\"Geçti\" if score >= 70 else \"Tekrar\")",
+        "expected": "Tekrar",
+        "choices": [
+          {
+            "text": "Geçti",
+            "feedback": "68, 70'ten küçük. >= karşılaştırması burada False verir."
+          },
+          {
+            "text": "Tekrar",
+            "feedback": "Doğru: koşul yanlış olduğu için else ifadesi seçilir."
+          },
+          {
+            "text": "68",
+            "feedback": "Program sayıyı değil, koşula göre seçilmiş metni yazdırır."
+          }
+        ],
+        "hint": "68 >= 70 sorusunun doğru mu yanlış mı olduğunu kontrol et.",
+        "why": "if/else akışı, karşılaştırmanın boolean sonucuna göre tek bir seçenek seçer."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Üyelere ayrı teslimat",
+        "context": "Sipariş toplamı 200 TL üstü bedava; üyeyse ve 150 TL üstü indirimli.",
+        "code": "total = 180\nmember = True\nif total >= 200:\n    print(\"Ücretsiz\")\nelif member and total >= 150:\n    print(\"İndirimli\")\nelse:\n    print(\"Standart\")",
+        "expected": "İndirimli",
+        "choices": [
+          {
+            "text": "Ücretsiz",
+            "feedback": "180, 200 sınırına ulaşmıyor; ilk koşul False."
+          },
+          {
+            "text": "İndirimli",
+            "feedback": "Doğru: üye ve 150 koşulları beraber sağlanıyor."
+          },
+          {
+            "text": "Standart",
+            "feedback": "elif koşulu doğruysa else bloğuna geçilmez."
+          }
+        ],
+        "hint": "İlk if yanlışsa elif kontrol edilir; and iki koşulun da doğru olmasını ister.",
+        "why": "Sıralı if/elif dallarında ilk eşleşen dal çalışır."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Stok yok ama ön sipariş var",
+        "context": "Depoda ürün yok; fakat ön sipariş talebi alınabiliyor.",
+        "code": "stock = 0\npreorders = 3\nif stock > 0:\n    print(\"Stokta\")\nelif preorders > 0:\n    print(\"Ön sipariş\")\nelse:\n    print(\"Tükendi\")",
+        "expected": "Ön sipariş",
+        "choices": [
+          {
+            "text": "Stokta",
+            "feedback": "stock sıfır; stok > 0 koşulu doğru değil."
+          },
+          {
+            "text": "Tükendi",
+            "feedback": "else yalnızca hem stok hem ön sipariş koşulu yanlışsa çalışır."
+          },
+          {
+            "text": "Ön sipariş",
+            "feedback": "Doğru: stok yok ama preorders > 0 olduğu için ikinci dal çalışır."
+          }
+        ],
+        "hint": "if'ten sonraki elif, ilk koşul yanlışsa yeniden kontrol edilir.",
+        "why": "Bir ürün 'stokta yok' olsa da bir sonraki koşul yeni bir seçenek sunabilir."
+      }
+    ],
+    "independent": {
+      "title": "Sipariş durumunu seç",
+      "brief": "score değeri 85 ise 'Başarılı', 60 ise 'Geliştirilmeli', 40 ise 'Yeniden çalış' yazdıran if/elif/else akışını kur. Sınırlar: 80 ve 50 dahil.",
+      "starterCode": "score = 85\n# if / elif / else yazarak uygun durumu yazdır.\n",
+      "modelCode": "score = 85\nif score >= 80:\n    print(\"Başarılı\")\nelif score >= 50:\n    print(\"Geliştirilmeli\")\nelse:\n    print(\"Yeniden çalış\")",
+      "expectedOutput": "Başarılı",
+      "variationCode": "score = 50\nif score >= 80:\n    print(\"Başarılı\")\nelif score >= 50:\n    print(\"Geliştirilmeli\")\nelse:\n    print(\"Yeniden çalış\")",
+      "variationExpected": "Geliştirilmeli",
+      "reflection": "Tam 80 puan alan bir öğrenci hangi grupta olmalı ve neden?"
+    }
+  },
+  {
+    "lessonId": "lesson.python.loops",
+    "topic": "Günlük satış ve ölçüm özeti",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Dört günün toplamı",
+        "context": "Bir kafede günlük satışlar 1, 2, 3 ve 4 birim.",
+        "code": "total = 0\nfor units in range(1, 5):\n    total += units\nprint(total)",
+        "expected": "10",
+        "choices": [
+          {
+            "text": "10",
+            "feedback": "Doğru: 1+2+3+4=10; 5 bitiş sınırı dahil değil."
+          },
+          {
+            "text": "15",
+            "feedback": "range(1,5) içinde 5 üretilmez. Bu yaygın sınır hatasıdır."
+          },
+          {
+            "text": "4",
+            "feedback": "4 toplam değil, son işlenen değerdir."
+          }
+        ],
+        "hint": "range(1,5) hangi dört sayıyı üretir?",
+        "why": "range üst sınırı içermez; toplam her döngü adımında değişir."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "İade ve boş kayıtları atla",
+        "context": "Satış kayıtlarında sıfır ve negatif değerler gelirden sayılmıyor.",
+        "code": "sales = [12, 0, 8, -2]\ntotal = 0\nfor amount in sales:\n    if amount <= 0:\n        continue\n    total += amount\nprint(total)",
+        "expected": "20",
+        "choices": [
+          {
+            "text": "18",
+            "feedback": "-2'yi toplamdan çıkarınca 18 olurdu; continue o adımı tamamen atlıyor."
+          },
+          {
+            "text": "20",
+            "feedback": "Doğru: yalnızca 12 ve 8 toplanır."
+          },
+          {
+            "text": "22",
+            "feedback": "Sıfır zaten toplama etki etmez; -2'yi ters işaretli eklemek de burada yapılmıyor."
+          }
+        ],
+        "hint": "continue hangi satıra geçilmesini engeller?",
+        "why": "continue, o döngü turunun kalanını atlayıp sıradaki elemana geçer."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Sensörü üçer adımla örnekle",
+        "context": "Ölçüm saniyeleri 2'den başlıyor ve üçer artıyor.",
+        "code": "for second in range(2, 9, 3):\n    print(second, end=\" \")",
+        "expected": "2 5 8",
+        "choices": [
+          {
+            "text": "2 5 8",
+            "feedback": "Doğru: 2, 5, 8; sonraki 11 bitişi aşıyor."
+          },
+          {
+            "text": "2 5",
+            "feedback": "8 de 9'dan küçüktür, bu nedenle aralığa dahildir."
+          },
+          {
+            "text": "2 5 8 11",
+            "feedback": "11, stop=9 sınırının dışında kalır."
+          }
+        ],
+        "hint": "Bir sonraki değer 8+3=11; 9'dan küçük mü?",
+        "why": "Adım sayısı ile üst sınırı birlikte düşünmek gerekir."
+      }
+    ],
+    "independent": {
+      "title": "Hatalı ölçümleri ayıkla",
+      "brief": "Sıcaklık sensöründen [12, -1, 7, 0, 3] geldi. -1 geçersiz değer, sıfır geçerli. Geçerli ölçümleri for ile toplayıp tek sayı yazdır. Yeni kayıtta [2, -2, 8] için sonucu sınamayı dene.",
+      "starterCode": "readings = [12, -1, 7, 0, 3]\ntotal = 0\n# Sadece negatif olmayan ölçümleri topla.\nprint(total)",
+      "modelCode": "readings = [12, -1, 7, 0, 3]\ntotal = 0\nfor reading in readings:\n    if reading < 0:\n        continue\n    total += reading\nprint(total)",
+      "expectedOutput": "22",
+      "variationCode": "readings = [2, -2, 8]\ntotal = 0\nfor reading in readings:\n    if reading < 0:\n        continue\n    total += reading\nprint(total)",
+      "variationExpected": "10",
+      "reflection": "Sıfır geçerli ölçümse <= 0 yazmak neden yanlış olur?"
+    }
+  },
+  {
+    "lessonId": "lesson.python.functions",
+    "topic": "Sipariş hesaplama fonksiyonları",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Ekrana yazmak dönmek değildir",
+        "context": "Bir fonksiyon iki katını yazıyor, ama çağıran değeri kullanmak istiyor.",
+        "code": "def double(x):\n    print(x * 2)\n\nprint(double(3))",
+        "expected": "6\nNone",
+        "choices": [
+          {
+            "text": "6",
+            "feedback": "İlk satır 6'dır, ama fonksiyon return kullanmadığı için ikinci satır None yazılır."
+          },
+          {
+            "text": "6\nNone",
+            "feedback": "Doğru: içteki print 6, dıştaki print ise geri dönüş değeri None yazar."
+          },
+          {
+            "text": "None",
+            "feedback": "İçteki print yine 6 yazdırır; yalnızca dönüş None değildir."
+          }
+        ],
+        "hint": "İki ayrı print var. Hangisi fonksiyonun içinde?",
+        "why": "print yan etki olarak yazar; return çağırana değer verir."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Varsayılan teslimat oranı",
+        "context": "Bir fonksiyon standart ağırlık ücretini kullanır, isteğe bağlı farklı oran alır.",
+        "code": "def shipping(weight, rate=5):\n    return weight * rate\n\nprint(shipping(2))\nprint(shipping(2, 3))",
+        "expected": "10\n6",
+        "choices": [
+          {
+            "text": "10\n10",
+            "feedback": "İkinci çağrıda rate=3 açıkça verildi, varsayılan 5 kullanılmaz."
+          },
+          {
+            "text": "6\n10",
+            "feedback": "Çıktı sırasına dikkat et: önce varsayılan, sonra açık oran kullanılır."
+          },
+          {
+            "text": "10\n6",
+            "feedback": "Doğru: ilk çağrı 2×5, ikinci çağrı 2×3."
+          }
+        ],
+        "hint": "Fonksiyonda rate=5 ancak çağrıda rate verilmeyen durumda devreye girer.",
+        "why": "Varsayılan parametre, belirtilmiş argümanı geçersiz kılmaz."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Erken geri dönüş",
+        "context": "200 TL ve üstünde ücretsiz kargo uygulayan fonksiyon.",
+        "code": "def delivery(total):\n    if total >= 200:\n        return \"Ücretsiz\"\n    return \"Ücretli\"\n\nprint(delivery(200))\nprint(delivery(199))",
+        "expected": "Ücretsiz\nÜcretli",
+        "choices": [
+          {
+            "text": "Ücretli\nÜcretli",
+            "feedback": "İlk çağrıda 200 >= 200 olduğu için return Ücretsiz gerçekleşir."
+          },
+          {
+            "text": "Ücretsiz\nÜcretli",
+            "feedback": "Doğru: ilk çağrı erken döner, ikinci çağrı alttaki return'e gelir."
+          },
+          {
+            "text": "Ücretsiz\nÜcretsiz",
+            "feedback": "İkinci çağrıda 199 eşik değere ulaşmaz."
+          }
+        ],
+        "hint": "return yürütmeyi bitirir. İlk return çalışırsa alttaki return'e gidilir mi?",
+        "why": "Fonksiyonun dönüş yolu, çağrıya verilen argümana göre değişebilir."
+      }
+    ],
+    "independent": {
+      "title": "Sepet toplamı döndüren fonksiyon",
+      "brief": "calculate_total(price, quantity, tax_rate=0.1) fonksiyonunu yaz. KDV dahil toplamı return ile döndür, sonucu iki ondalık basamağa yuvarla. Ardından 0 vergi oranını dene.",
+      "starterCode": "def calculate_total(price, quantity, tax_rate=0.1):\n    # Sonucu yazdırma; çağırana return ile ilet.\n    pass\n\nprint(calculate_total(50, 2))\nprint(calculate_total(25, 2, 0))",
+      "modelCode": "def calculate_total(price, quantity, tax_rate=0.1):\n    return round(price * quantity * (1 + tax_rate), 2)\n\nprint(calculate_total(50, 2))\nprint(calculate_total(25, 2, 0))",
+      "expectedOutput": "110.0\n50.0",
+      "variationCode": "def calculate_total(price, quantity, tax_rate=0.1):\n    return round(price * quantity * (1 + tax_rate), 2)\n\nprint(calculate_total(20, 3, 0.2))",
+      "variationExpected": "72.0",
+      "reflection": "Fonksiyonun içinde print kullanmak, başka bir fonksiyonun bu sonucu toplamasına neden yardımcı olmaz?"
+    }
+  },
+  {
+    "lessonId": "lesson.python.collections",
+    "topic": "Kütüphane ve stok verisi",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Liste dilimlemeyi oku",
+        "context": "Bir kütüphanede ortadaki iki kitabı seçiyoruz.",
+        "code": "books = [\"Roman\", \"Şiir\", \"Tarih\", \"Bilim\"]\nprint(books[1:3])",
+        "expected": "['Şiir', 'Tarih']",
+        "choices": [
+          {
+            "text": "['Şiir', 'Tarih']",
+            "feedback": "Doğru: başlangıç 1, bitiş 3 hariç; indeksler 1 ve 2 alınır."
+          },
+          {
+            "text": "['Şiir', 'Tarih', 'Bilim']",
+            "feedback": "3 bitiş indeksi dahil edilmez; Bilim indeks 3'te."
+          },
+          {
+            "text": "['Roman', 'Şiir', 'Tarih']",
+            "feedback": "Başlangıç 1 olduğu için indeks 0'daki Roman seçilmez."
+          }
+        ],
+        "hint": "0'dan indeksle: 1 ve 2 seçilir, 3 hariç tutulur.",
+        "why": "Dilimleme sınırı, döngülerdeki range gibi bitişi hariç tutar."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Olmayan anahtara varsayılan ver",
+        "context": "Depoda çay var, kahve stok kaydı yok.",
+        "code": "stock = {\"çay\": 4}\nprint(stock.get(\"kahve\", 0))\nprint(stock[\"çay\"])",
+        "expected": "0\n4",
+        "choices": [
+          {
+            "text": "KeyError\n4",
+            "feedback": "get eksik anahtar için hata yerine varsayılan 0 döndürür."
+          },
+          {
+            "text": "0\n4",
+            "feedback": "Doğru: kahve yoksa 0, çay için gerçek stok 4."
+          },
+          {
+            "text": "4\n0",
+            "feedback": "İlk sorgu kahve, ikinci çay içindir; sözlük sırasına göre otomatik seçim yapılmaz."
+          }
+        ],
+        "hint": "get(key, default), key bulunmazsa ikinci değeri döndürür.",
+        "why": "Koleksiyondan güvenli okuma, olmayan anahtarı açıkça ele alır."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Başarılı öğrencileri filtrele",
+        "context": "90 ve üzeri puan alanları sırayla listele.",
+        "code": "scores = {\"Ada\": 80, \"Ece\": 95, \"Can\": 90}\nnames = [name for name, score in scores.items() if score >= 90]\nprint(names)",
+        "expected": "['Ece', 'Can']",
+        "choices": [
+          {
+            "text": "['Ada', 'Ece', 'Can']",
+            "feedback": "80 puan alan Ada, >=90 koşulunu geçemiyor."
+          },
+          {
+            "text": "['Ece', 'Can']",
+            "feedback": "Doğru: 95 ve sınır olan 90 dahildir."
+          },
+          {
+            "text": "['Ece']",
+            "feedback": ">=90 ifadesi 90'ı da içerir; Can dışlanmaz."
+          }
+        ],
+        "hint": "90 >= 90 doğru mu? Sözlüğün elemanlarını sırayla gez.",
+        "why": "Sözlükten filtreyle üretilen liste, koşulu geçen anahtarları korur."
+      }
+    ],
+    "independent": {
+      "title": "Kritik stok ürünlerini bul",
+      "brief": "low_stock(stock, limit) fonksiyonunu yaz. Stok adedi limit değerinden KÜÇÜK olan ürünlerin adlarını listede döndür. Eksik ürün varsayma; yalnızca verilen sözlüğü kullan.",
+      "starterCode": "def low_stock(stock, limit):\n    # Sözlük öğelerinden limitin altındakileri listele.\n    return []\n\nprint(low_stock({\"çay\": 1, \"kahve\": 4, \"su\": 0}, 2))",
+      "modelCode": "def low_stock(stock, limit):\n    return [name for name, count in stock.items() if count < limit]\n\nprint(low_stock({\"çay\": 1, \"kahve\": 4, \"su\": 0}, 2))",
+      "expectedOutput": "['çay', 'su']",
+      "variationCode": "def low_stock(stock, limit):\n    return [name for name, count in stock.items() if count < limit]\n\nprint(low_stock({\"kalem\": 2, \"defter\": 1}, 2))",
+      "variationExpected": "['defter']",
+      "reflection": "limit=2 olduğunda stok adedi tam 2 olan ürün neden sonuç listesinde yok?"
+    }
+  }
+]
