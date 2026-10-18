@@ -50,8 +50,7 @@ export function searchLearningPaths(paths,query){
       ...path.foundation].some(v=>clean(v).includes(q));
     const matches=path.lessons.filter(l=>
       clean(l.title).includes(q)||clean(l.summary).includes(q));
-    return inCourse?{...path,matches:[]}:
-      matches.length?{...path,matches}:null;
+    return (inCourse||matches.length)?{...path,matches}:null;
   }).filter(Boolean);
 }
 export function resolveLearningJourney(paths,rows){
