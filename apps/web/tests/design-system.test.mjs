@@ -12,10 +12,12 @@ const course=read("app/kurslar/page.tsx");
 const progress=read("components/progress-dashboard.tsx");
 
 function value(name){
-  const escaped=name.replace(/[-/\\^$*+?.()|[\]{}]/g,"\\$&");
-  const m=tokens.match(new RegExp(escaped+":(#[A-Fa-f0-9]{6})"));
-  assert.ok(m,name+" missing literal theme color");
-  return m[1];
+  const needle=name+":";
+  const start=tokens.indexOf(needle);
+  assert.ok(start>=0,name+" missing literal theme color");
+  const hex=tokens.slice(start+needle.length,start+needle.length+7);
+  assert.match(hex,/^#[A-Fa-f0-9]{6}$/,name+" invalid theme color");
+  return hex;
 }
 function linear(n){return n<=.04045?n/12.92:Math.pow((n+.055)/1.055,2.4)}
 function luminance(hex){
