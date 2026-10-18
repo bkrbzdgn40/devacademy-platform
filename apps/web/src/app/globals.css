@@ -204,3 +204,9 @@
 .transfer-feedback {margin-top:20px;padding:15px 18px;border:1px solid #5b7294;background:#15233b;border-radius:10px}
 .transfer-feedback p {color:#d9e4f6;line-height:1.6}
 @media(max-width:600px){.transfer-lab{padding:16px}.transfer-answers{grid-template-columns:1fr}.transfer-heading h2{font-size:20px}}
+
+/* M8.2 diagnostic focus: a visible but explicitly non-credentialed intervention. */
+.transfer-hypothesis{border:1px solid #8979bb;background:#22203a;padding:16px;border-radius:10px;margin:12px 0 18px}
+.transfer-hypothesis strong{color:#e8d9ff}
+.transfer-hypothesis p{color:#dce0f2;line-height:1.65;margin:9px 0}
+.transfer-hypothesis small{display:block;color:#b3bed4;font-size:12px;line-height:1.5}
