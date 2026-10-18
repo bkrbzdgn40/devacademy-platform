@@ -3,11 +3,29 @@ on:
   pull_request:
     paths:
       - "services/code-runner/**"
+      - "apps/web/src/server/execution-store.mjs"
+      - "apps/web/src/server/execution-worker-auth.mjs"
+      - "apps/web/src/app/api/executions/**"
+      - "apps/web/src/app/api/internal/executions/**"
+      - "apps/web/tests/*queue.integration.mjs"
+      - "apps/web/src/data/practice.json"
+      - "db/migrations/0003_execution_queue.sql"
+      - "db/migrations/0004_code_assessment.sql"
+      - "db/migrations/0006_multilang_lab.sql"
       - ".github/workflows/runner-isolation.yml"
   push:
     branches: [main]
     paths:
       - "services/code-runner/**"
+      - "apps/web/src/server/execution-store.mjs"
+      - "apps/web/src/server/execution-worker-auth.mjs"
+      - "apps/web/src/app/api/executions/**"
+      - "apps/web/src/app/api/internal/executions/**"
+      - "apps/web/tests/*queue.integration.mjs"
+      - "apps/web/src/data/practice.json"
+      - "db/migrations/0003_execution_queue.sql"
+      - "db/migrations/0004_code_assessment.sql"
+      - "db/migrations/0006_multilang_lab.sql"
       - ".github/workflows/runner-isolation.yml"
 permissions:
   contents: read

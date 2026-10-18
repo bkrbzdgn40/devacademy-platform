@@ -45,6 +45,9 @@ try {
 
   const home = await fetch(base);
   assert.equal(home.status, 200);
+  assert.equal(home.headers.get("x-frame-options"),"DENY");
+  assert.equal(home.headers.get("x-content-type-options"),"nosniff");
+  assert.equal(home.headers.get("referrer-policy"),"strict-origin-when-cross-origin");
   assert.match(await home.text(), /İlk derslere başla/);
   const catalog = await fetch(`${base}/kutuphane/diller`);
   assert.equal(catalog.status, 200);

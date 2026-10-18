@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { once } from "node:events";
 import { createServer } from "node:net";
-import { randomBytes } from "node:crypto";
+import { randomBytes, createHash } from "node:crypto";
+import { database } from "../src/server/db.mjs";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 
@@ -66,6 +67,18 @@ try {
   assert.equal(registeredB.status,201);
   const cookieB=sessionCookie(registeredB);
   assert.equal((await post("/api/auth/register",{username:usernameA,password})).status,409);
+  const blocked="limited_"+randomBytes(5).toString("hex");
+  const key=createHash("sha256").update("register:"+blocked).digest("hex");
+  await database().query("INSERT INTO auth_attempt_limits(key_hash,attempt_count,window_start) VALUES($1,5,now())",[key]);
+  try {
+    const response=await post("/api/auth/register",{username:blocked,password});
+    assert.equal(response.status,429);
+    assert.equal(response.headers.get("retry-after"),"900");
+    assert.match((await response.json()).error,/Çok fazla/);
+    assert.equal((await database().query("SELECT 1 FROM learner_credentials WHERE username=$1",[blocked])).rowCount,0);
+  } finally {
+    await database().query("DELETE FROM auth_attempt_limits WHERE key_hash=$1",[key]);
+  }
   const meA=await read("/api/me",cookieA);
   assert.equal((await meA.json()).username,usernameA);
   assert.equal((await post("/api/progress",{lessonId:"lesson.javascript.let-const",operation:"complete"},{cookie:cookieA})).status,409);
@@ -129,4 +142,5 @@ try {
   throw error;
 } finally {
   app.kill("SIGTERM");
+  await database().end();
 }

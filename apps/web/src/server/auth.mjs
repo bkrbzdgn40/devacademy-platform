@@ -8,6 +8,9 @@ const SESSION_DAYS = 7;
 const NAME_PATTERN = /^[a-z][a-z0-9_]{2,23}$/;
 const TOKEN_PATTERN = /^[a-f0-9]{64}$/;
 const DUMMY_SALT = Buffer.alloc(16, 71);
+// Shared DB quotas run before expensive registration scrypt.
+const REGISTER_PER_NAME_LIMIT = 5;
+const REGISTER_GLOBAL_LIMIT = 120;
 
 export function normalizeUsername(name) {
   if (typeof name !== "string") return null;
@@ -40,6 +43,13 @@ const expiryDate = () => new Date(Date.now() + SESSION_DAYS * 24 * 60 * 60 * 100
 export async function createAccount(usernameInput, password) {
   const username = normalizeUsername(usernameInput);
   if (!username || !passwordIsValid(password)) return { status: "invalid" };
+  // Limit expensive signups across workers before running scrypt.
+  const nameQuota = await claimAttempt("register:" + username, REGISTER_PER_NAME_LIMIT);
+  if (!nameQuota.allowed) return { status: "limited" };
+  const globalQuota = await claimAttempt("register:global", REGISTER_GLOBAL_LIMIT);
+  if (!globalQuota.allowed) return { status: "limited" };
+  const duplicate = await database().query("SELECT 1 FROM learner_credentials WHERE username=$1", [username]);
+  if (duplicate.rowCount) return { status: "conflict" };
   const passwordHash = await hashPassword(password);
   try {
     return await transaction(async (client) => {
@@ -54,18 +64,21 @@ export async function createAccount(usernameInput, password) {
   }
 }
 
-async function claimAttempt(subject) {
+async function claimAttempt(subject, limit=5) {
   const keyHash = digest(subject);
-  // Atomic UPSERT handles concurrent login requests across worker processes.
+  // Atomic across workers; saturating the counter prevents integer overflow.
   const result = await database().query(`
     INSERT INTO auth_attempt_limits(key_hash,attempt_count,window_start)
     VALUES($1,1,now())
     ON CONFLICT(key_hash) DO UPDATE SET
-      attempt_count = CASE WHEN auth_attempt_limits.window_start < now() - interval '15 minutes' THEN 1 ELSE auth_attempt_limits.attempt_count + 1 END,
-      window_start = CASE WHEN auth_attempt_limits.window_start < now() - interval '15 minutes' THEN now() ELSE auth_attempt_limits.window_start END
-    RETURNING attempt_count
-  `, [keyHash]);
-  return { allowed: result.rows[0].attempt_count <= 5, keyHash };
+      attempt_count = CASE
+        WHEN auth_attempt_limits.window_start < now() - interval '15 minutes' THEN 1
+        ELSE LEAST(auth_attempt_limits.attempt_count, $2) + 1 END,
+      window_start = CASE WHEN auth_attempt_limits.window_start < now() - interval '15 minutes'
+        THEN now() ELSE auth_attempt_limits.window_start END
+    RETURNING attempt_count <= $2 AS allowed
+  `, [keyHash, limit]);
+  return { allowed: result.rows[0].allowed, keyHash };
 }
 
 export async function authenticate(usernameInput, password) {
