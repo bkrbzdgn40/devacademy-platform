@@ -174,7 +174,7 @@
  .nav-links {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;width:100%;order:2;justify-content:initial;margin-left:0}
  .nav-links>a,.nav-discovery>summary {display:flex;justify-content:center;align-items:center;text-align:center;min-height:42px;padding:6px 3px;font-size:12px}
  .nav-discovery {min-width:0;text-align:center}
- .nav-discovery-links {left:0;min-width:160px}
+ .nav-discovery-links {left:auto;right:0;min-width:160px}
  .lesson-objective {padding:14px 16px;margin:23px 0 27px}
  .lesson-stepper-nav ol {grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
  .lesson-stepper-nav button {min-height:52px;padding:9px 5px;font-size:12px}

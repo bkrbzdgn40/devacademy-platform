@@ -27,7 +27,7 @@ export function LessonStepper({ steps }: { steps: LessonStep[] }) {
       <ol>{steps.map((step, index) => <li key={step.id}>
         <button type="button" data-lesson-step={index}
           aria-current={active === index ? "step" : undefined}
-          aria-controls={"lesson-step-panel-" + step.id}
+          aria-controls={visited.includes(index) ? "lesson-step-panel-" + step.id : undefined}
           onClick={() => openStep(index)}>
           <span className="lesson-step-number">{index + 1}</span>
           <span>{step.label}</span>
