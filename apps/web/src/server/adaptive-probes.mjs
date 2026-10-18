@@ -88,9 +88,9 @@ export function adaptiveProblem(lessonId,seed,focus="standard") {
            "console.log(source[0]);  // A","console.log(changed[0]); // B"],
           [a,a*k],"map'in döndürdüğü dizi değişir; orijinal source öğeleri yerinde kalır.");
     case "lesson.java.variables": {
-      const total=b*c+b/2;
+      const parts=n(2,4)*2,total=parts*c+parts/2;
       const boiler=(expressions)=>["class Main {","  public static void main(String[] args) {",
-        "    int total = "+total+";","    int parts = "+b+";",
+        "    int total = "+total+";","    int parts = "+parts+";",
         ...expressions.map(s=>"    "+s),"  }","}"];
       return focus==="a"
         ?task("Sonradan yapılan cast kesri geri getirmez",
