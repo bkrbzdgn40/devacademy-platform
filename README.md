@@ -112,3 +112,7 @@ Wrong output predictions now lead to an author-reviewed, A- or B-focused concept
 ## M8.3: Independent code-writing transfer
 
 Six concept-aligned JavaScript/Python/Java tasks now ask students to author actual function behavior and pass a trusted worker's public **and hidden** tests. Proof is derived from completed, owner-scoped job records created after an independent counterfactual pass, never from client-reported success. Public code execution remains disabled; the new feature can earn a verified code-writing result only in an explicitly enabled, isolated localhost laboratory. Read [M8.3 operational design](docs/learning/M8-3-INDEPENDENT-CODE-TRANSFER.md).
+
+## M8.4 gVisor staging profile (not public)
+
+An optional `gvisor-staging` execution profile inserts Docker `--runtime=runsc` for JS/Python/Java worker sandboxes. The worker checks Docker runtime registration before claiming any jobs and fails closed when missing. The existing `docker-lab` default is unchanged; **public/production execution remains disabled**, and untrusted users cannot choose the runtime. An explicit three-language canary can be run on a separate disposable Linux staging host with pinned images. See [M8.4 isolated staging runbook](docs/security/M8-4-GVISOR-STAGING.md).
