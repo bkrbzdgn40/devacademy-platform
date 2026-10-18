@@ -1,0 +1,152 @@
+[
+  {
+    "id": "lesson.javascript.let-const",
+    "model": "Değişken adı bir etikettir. let etiketi yeni değere yönlendirebilir; const aynı etiketi başka değere bağlamayı engeller. Bir nesnenin içeriği ise ayrı bir konudur.",
+    "pitfall": "const ile tanımlanan nesnenin hiçbir alanının değiştirilemeyeceğini sanmak.",
+    "contrast": "const user = {score: 1}; user.score = 2 geçerlidir. Ancak user = {score: 2} yeniden atama hatasıdır.",
+    "why": "İlkinde aynı nesnenin alanı değişir; ikincisinde const bağının kendisi yeniden atanmak istenir.",
+    "challenge": "Bir const diziye push yapıldıktan sonra aynı değişkene yeni [] atamayı denesen, hangi işlem çalışır?",
+    "answer": "push mevcut diziyi değiştirir ve çalışır; yeni [] atamak const bağını yeniden atamaya çalıştığından hata verir.",
+    "application": "Form durumu veya uygulama ayarlarını güncellerken nesne değişimi ile değişken yeniden atamasını ayırt et."
+  },
+  {
+    "id": "lesson.javascript.equality",
+    "model": "Eşitlikte önce değerlerin türünü düşün. === değeri ve türü eşleştirir; == bazı kombinasyonlarda otomatik dönüşüm kuralları uygular.",
+    "pitfall": "'0' == 0 doğru olduğuna göre her metin sayı gibi davranır diye genellemek.",
+    "contrast": "'5' == 5 true, '5' === 5 false. 'abc' == 0 ise false: her metin sayıya dönüştürülebilir değildir.",
+    "why": "Gevşek eşitlik bazı tür eşleşmelerinde dönüşüm dener; katı eşitlik farklı türleri doğrudan reddeder.",
+    "challenge": "Bir API'den '42' metni geldi. 42 sayısıyla karşılaştırmadan önce nasıl daha okunaklı bir işlem yaparsın?",
+    "answer": "İçeriğin gerçekten sayısal olduğunu doğrular, Number(value) ile açık dönüşüm yapar ve === kullanırsın; NaN gibi hatalı girdileri ayrıca ele alırsın.",
+    "application": "HTTP yanıtlarındaki metin kimlikleri ve form input değerlerini karşılaştırırken beklenmeyen tür dönüşümünden kaçın."
+  },
+  {
+    "id": "lesson.javascript.array-map",
+    "model": "map, eski dizinin öğelerini tek tek dönüştüren bir bant gibidir. Sonuç bir başka dizidir; varsayılan davranış kaynak diziyi yerinde değiştirmek değildir.",
+    "pitfall": "map'i yeni dizi döndürmeyen forEach ile aynı görmek veya callback'te return yazmayı unutmak.",
+    "contrast": "[1,2].map(n => n * 2) [2,4] verir. [1,2].map(n => { n * 2; }) [undefined,undefined] üretir.",
+    "why": "Blok gövdeli callback'te return yoksa her öğenin dönüş değeri undefined olur.",
+    "challenge": "Bir listedeki fiyatların vergili değerlerini üretirken orijinal fiyatları korumak niçin işine yarar?",
+    "answer": "Eski fiyatları kıyaslama veya yeniden hesaplama için tutarsın; map sonucu yeni fiyat listesidir.",
+    "application": "Ürün kartları, tablo satırları ve API yanıtlarını farklı ekranda kullanacağın veri biçimine dönüştür."
+  },
+  {
+    "id": "lesson.javascript.functions",
+    "model": "Bir fonksiyon bir sonuç üretebilir, çıktı yazabilir veya ikisini birden yapabilir. return, değeri çağırana taşır; console.log yalnızca gözlemlenebilir bir yan etkidir.",
+    "pitfall": "Konsolda sayı gördüğün için fonksiyonun o sayıyı döndürdüğünü varsaymak.",
+    "contrast": "function a(n){console.log(n*2)} çağrısının dönüşü undefined'dır. function b(n){return n*2} çağrısı sayıyı döndürür.",
+    "why": "Çıktı akışı ile dönüş kanalı bağımsızdır. Arrow function'da süslü parantez kullanınca açık return gerekebilir.",
+    "challenge": "Bir hesaplama fonksiyonunun sonucunu başka bir fonksiyona geçirmek istiyorsan print/log yerine ne gerekir?",
+    "answer": "return kullanmalısın. Çağıran fonksiyon dönen değeri değişkende saklayabilir veya başka işleme verebilir.",
+    "application": "Veri doğrulama, fiyat hesaplama ve yeniden kullanılabilir iş kurallarını konsola bağlı olmadan yaz."
+  },
+  {
+    "id": "lesson.javascript.scope",
+    "model": "Her blok kendi isim alanını oluşturabilir. Aynı isim iç ve dış bloklarda iki farklı let bağı temsil edebilir.",
+    "pitfall": "İçte let count = 9 yazmanın dışarıdaki count değişkenine yeni değer atadığını sanmak.",
+    "contrast": "let n=1; { let n=4; } dışarıda n hâlâ 1'dir. let n=1; { n=4; } dışarıda n artık 4'tür.",
+    "why": "İlk örnek yeni iç bağ ilan eder; ikincisi görünen dış bağa atama yapar.",
+    "challenge": "Bir döngü veya koşul bloğunda geçici hesaplama değişkeni oluştururken aynı ismi kullanmak hata ayıklamayı nasıl etkiler?",
+    "answer": "Gölgeleme nedeniyle hangi bağın değiştiğini karıştırabilirsin. Açık isimler ve dar kapsam kullanmak izlemeyi kolaylaştırır.",
+    "application": "Büyük fonksiyonlarda geçici değişkenlerin ve callback parametrelerinin yanlış değerleri gölgelemesini önle."
+  },
+  {
+    "id": "lesson.javascript.filter",
+    "model": "filter hangi öğelerin kaldığını seçer; reduce kalanların üzerinde bir akümülatör taşır. Biri üyelik, diğeri birikim kararını temsil eder.",
+    "pitfall": "filter sonucunu doğrudan tek bir toplam sanmak veya reduce için başlangıç değeri vermemek.",
+    "contrast": "[1,2,3].filter(n=>n>1) [2,3] dizisini verir. [1,2,3].reduce((a,n)=>a+n,0) 6 sayısını verir.",
+    "why": "İlkinin sonucu dizi; ikincisinin sonucu bu örnekte tek sayıdır. Başlangıç değeri boş diziyi de güvenli kılar.",
+    "challenge": "Yalnızca stokta bulunan ürünlerin fiyatlarını toplamak için önce hangi iki işlemi uygularsın?",
+    "answer": "Önce filter ile stoktaki ürünleri seç, sonra reduce ile fiyatları 0'dan başlayarak topla.",
+    "application": "Sepet tutarı, işlem raporu ve tablo toplamları gibi gerçek arayüz verilerini hesapla."
+  },
+  {
+    "id": "lesson.javascript.async",
+    "model": "Promise.then, kayıt edildiği anda çalışmaz. Senkron çağrı yığını bittikten sonra microtask kuyruğunda çalıştırılır.",
+    "pitfall": "Promise.resolve ile hemen çözülen değerin callback'ini de hemen çalıştırdığını sanmak.",
+    "contrast": "console.log(1); Promise.resolve().then(()=>console.log(3)); console.log(2) sırasıyla 1, 2, 3 yazar.",
+    "why": "Callback microtask olarak ertelenir; ardından gelen senkron ifade önce çalışır.",
+    "challenge": "Bir buton tıklamasında önce loading=true yazıp ardından then callback'inde sonucu gösterirsen ekranda hangi durum değişimini beklersin?",
+    "answer": "Senkron state güncellemesi önce planlanır; Promise callback'i asenkron sırada çalışır. Gerçek çizim zamanı framework'ün render planlamasına bağlıdır.",
+    "application": "Ağ istekleri, kullanıcı arayüzü yükleme durumları ve hata yönetimi için olay sıralamasını doğru kur."
+  },
+  {
+    "id": "lesson.java.variables",
+    "model": "Java'da işlemin türü, işlem sırasında kullanılan operandların türüne bağlıdır. Sonucun atanacağı double değişkeni geçmişte kesilmiş ondalığı geri getiremez.",
+    "pitfall": "int / int ifadesi double'a atanıyorsa otomatik olarak kesirli bölme yapılacağını sanmak.",
+    "contrast": "double a = 5 / 2; değeri 2.0 olur. double b = (double)5 / 2; değeri 2.5 olur.",
+    "why": "İlk işlem int olarak yürütülür; ikinci işlemde cast bölmeden önce etkili olur.",
+    "challenge": "7 ve 4 tam sayısının oranını hesaplayıp 1.75 saklamak için cast'i hangi tarafa koyarsın?",
+    "answer": "Bölmeden önce en az bir operandı double'a dönüştür: (double)7 / 4. Sıfıra bölme koşulunu ayrı ele almalısın.",
+    "application": "Puan ortalamaları, istatistikler ve ölçüm oranlarında sessiz kesir kaybından kaçın."
+  },
+  {
+    "id": "lesson.java.methods",
+    "model": "Metodun imzası hangi girdiyi aldığını ve ne döndürdüğünü belirler. return, çağırana bir değer iletir; println başka bir gözlemlenebilir eylemdir.",
+    "pitfall": "void ile int döndüren metodun kullanımını aynı görmek veya dönüşü yazdırılmadan ekranda beklemek.",
+    "contrast": "static int square(int n){return n*n;} dönüştürür. System.out.println(square(4)); dönüşü konsola yazar; square(4); tek başına ekrana bir şey yazmaz.",
+    "why": "Metodun dönüş değeri ile konsol yazma işi iki farklı sorumluluktur.",
+    "challenge": "Bir hesaplama metodunu hem ekranda göstermek hem başka işlemde kullanmak istiyorsan iki işi nerede ayırırsın?",
+    "answer": "Hesaplama metodu değeri return etsin; çağıran kod sonucu saklayıp istenirse println ile göstersin.",
+    "application": "Test edilebilir servis metotları ve iş mantığı için giriş, dönüş ve yan etki ayrımını kur."
+  },
+  {
+    "id": "lesson.java.polymorphism",
+    "model": "Bir Animal değişkeni Dog nesnesini tutabilir. Override edilmiş örnek metodun davranışı nesnenin çalışma zamanı türüne göre seçilir.",
+    "pitfall": "Aynı adlı ama farklı parametreli metodun override olduğunu varsaymak.",
+    "contrast": "Dog sınıfında speak(int x) yazmak, Animal.speak() metodunu değiştirmez. Aynı imzayla speak() override edilirse Dog davranışı seçilir.",
+    "why": "Java metod seçiminde imza önemlidir. Aşırı yükleme yeni imza, override kalıtılan imzanın yeniden tanımıdır.",
+    "challenge": "Animal pet = new Dog(); pet.speak() çağrısı Dog.speak() override edilmişse hangi sınıfın davranışını üretir?",
+    "answer": "Nesnenin gerçek türü Dog olduğu için override edilmiş Dog.speak() çalışır; statik tür Animal olması bunu engellemez.",
+    "application": "Arayüzler, strateji örüntüsü ve farklı ödeme sağlayıcıları için ortak API altında değişen davranışı modelle."
+  },
+  {
+    "id": "lesson.python.variables",
+    "model": "Bir değişken farklı türde değer taşıyabilir, ama her işlem yine değerlerin gerçek türüne göre davranır. f-string sayısal değeri gösterilecek metne çevirir.",
+    "pitfall": "'Yaş: ' + age biçiminde str ve int değerlerini doğrudan + ile birleştirmek.",
+    "contrast": "age=20 iken 'Yaş: '+age TypeError üretir. f'Yaş: {age}' ise 'Yaş: 20' metnini oluşturur.",
+    "why": "Python str ile int toplamayı otomatik yapmaz; f-string açık bir biçimlendirme ifadesidir.",
+    "challenge": "Bir sayıyı hesaplamada tutup UI'da etiket olarak göstermek için neden iki farklı ifade kullanırsın?",
+    "answer": "Sayısal işlemde int değerini korursun; kullanıcıya göstermek için f-string veya str ile biçimlendirirsin.",
+    "application": "Form yanıtları, log mesajları ve kullanıcı ekranında doğru tür ve sunum ayrımını yap."
+  },
+  {
+    "id": "lesson.python.conditions",
+    "model": "if/elif/else yalnızca sağlanan koşulun bloğunu seçer; girinti hangi ifadenin bu bloğa ait olduğunu tanımlar.",
+    "pitfall": "if altındaki girintisiz print'in yine sadece koşul doğru olduğunda çalışacağını sanmak.",
+    "contrast": "if age>=18: print('Yetişkin') bir dalın çıktısıdır. Girintisiz ayrı print('Kontrol') her durumda çalışır.",
+    "why": "Girinti Python'da görsel tercih değil sözdiziminin bir parçasıdır.",
+    "challenge": "Yaşı 17 olan kullanıcıda yetişkin mesajını göstermeden genel kontrol mesajını yazdırmak için iki print'in girintisi nasıl olmalı?",
+    "answer": "Yetişkin mesajı if bloğunda girintili; genel mesaj if/else dışına alınarak girintisiz olmalıdır.",
+    "application": "Yetkilendirme, kayıt doğrulama ve hata mesajlarında yanlış koşul dalının çalışmasını önle."
+  },
+  {
+    "id": "lesson.python.loops",
+    "model": "range(start, stop) start değerini içerir, stop değerini içermez. Döngü her yeni değerde gövdeyi bir kez yürütür.",
+    "pitfall": "range(1,5) listesinin 5 değerini de ürettiğini sanmak.",
+    "contrast": "list(range(1,5)) [1,2,3,4] verir; list(range(1,6)) [1,2,3,4,5] verir.",
+    "why": "Bitiş sınırı hariçtir, bu yüzden kapsama almak istediğin son değerden bir fazlasını yazarsın.",
+    "challenge": "0,1,2,3 indeksleriyle dört öğeyi işlemek için range'in bitiş parametresi kaç olmalı?",
+    "answer": "range(0,4) dört değer üretir: 0,1,2,3. Listenin uzunluğu için range(len(items)) kullanılabilir.",
+    "application": "Dizi indeksleri, raporlama aralıkları ve sayısal döngülerde taşma ve eksik öğe hatalarını azalt."
+  },
+  {
+    "id": "lesson.python.functions",
+    "model": "Bir fonksiyon içinde print çalışması yalnızca konsol yan etkisi doğurur. return ifade edilmemişse fonksiyon otomatik None döndürür.",
+    "pitfall": "print(n*2) yazılan fonksiyonun n*2 döndürdüğünü sanmak.",
+    "contrast": "def show(n): print(n*2) çıktıyı gösterir ve None döndürür. def double(n): return n*2 gerçek sonucu döndürür.",
+    "why": "print ekrana bilgi gönderir; return hesaplanan değeri çağıran koda iletir.",
+    "challenge": "Bir toplamı başka fonksiyonun hesaplamasında kullanacaksan print yerine hangi ifadeyi kullanmalısın?",
+    "answer": "return kullanmalısın; aksi halde başka hesaplamaya sayı yerine None ulaşabilir.",
+    "application": "İş mantığı, otomatik testler ve tekrar kullanılabilir veri dönüştürme fonksiyonları tasarla."
+  },
+  {
+    "id": "lesson.python.collections",
+    "model": "Listeler sıralı öğeleri indeksle, sözlükler anahtarları değerlerle ilişkilendirir. Sözlük.get eksik anahtarlar için güvenli varsayılan değer sunar.",
+    "pitfall": "person['city'] yoksa None gelir sanmak; köşeli parantezle erişim KeyError üretir.",
+    "contrast": "person={'age':20} için person['city'] KeyError verir. person.get('city','Bilinmiyor') ise metin döndürür.",
+    "why": "get varsayılan değer mantığına sahiptir; indeksle anahtar erişiminin böyle bir alternatifi yoktur.",
+    "challenge": "Profilde olmayan şehir bilgisini gösterirken uygulamayı durdurmadan hangi erişimi kullanırsın?",
+    "answer": "person.get('city', 'Bilinmiyor') gibi bir varsayılan değer kullan; city zorunluysa eksik veriyi ayrıca doğrula.",
+    "application": "Eksik API alanları, kullanıcı profilleri ve konfigürasyon sözlüklerini daha dayanıklı oku."
+  }
+]
