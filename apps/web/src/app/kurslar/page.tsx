@@ -1,19 +1,30 @@
-import type { Metadata } from "next";
+import type {Metadata} from "next";
 import Link from "next/link";
-import { courses,lessonsForCourse } from "@/lib/courses";
-export const metadata:Metadata={title:"Yazılım kursları",description:"Türkçe JavaScript, Java ve Python kurslarıyla programlama öğren."};
+import {CourseExplorer} from "@/components/course-explorer";
+import {learningPaths} from "@/lib/learning-paths.mjs";
+export const metadata:Metadata={
+  title:"Öğrenme yolları ve kurs keşfi",
+  description:"JavaScript, Java ve Python kurslarını ve mevcut derslerini arayarak sana uygun öğrenme yolunu seç."
+};
 export default function CourseList(){
-  return <section className="shell listing-page">
+  const count=learningPaths.reduce((n:number,p:{lessonCount:number})=>n+p.lessonCount,0);
+  return <section className="shell listing-page course-discovery-page">
     <Link href="/" className="back-link">← Ana sayfa</Link>
-    <div className="listing-header"><p className="overline">DevAcademy öğrenme yolları</p>
-      <h1>Öğrenmek istediğin dili seç.</h1>
-      <p>Her kurs aynı ders, soru ve ilerleme altyapısını kullanır. Kod çalıştırma desteği dil bazında ayrı değerlendirilir.</p>
-    </div>
-    <ul className="catalog-grid">{courses.map(course=><li className="catalog-card ui-card" key={course.id}>
-      <div className="catalog-top"><span className="level-chip">{course.level}</span><span className="locked-chip">Kurs önizlemesi</span></div>
-      <h2>{course.title}</h2><p>{course.summary}</p>
-      <p>{lessonsForCourse(course).length} ders · {lessonsForCourse(course).reduce((n,x)=>n+x.questionIds.length,0)} bilgi sorusu</p>
-      <Link className="catalog-lesson-link" href={"/kurslar/"+course.slug}>Kursa başla →</Link>
-    </li>)}</ul>
+    <header className="listing-header discovery-header">
+      <p className="overline">Öğrenme yolları · DevAcademy</p>
+      <h1>Önce ne öğrenmek istediğini bul.</h1>
+      <p>Web geliştirme, nesne yönelimli programlama veya Python ile problem çözme. Bütün kurslar gerçek derslerden oluşur; aradığın kavramı doğrudan açabilirsin.</p>
+      <div className="discovery-facts">
+        <span><strong>{learningPaths.length}</strong> yayımlanmış kurs</span>
+        <span><strong>{count}</strong> ders</span>
+        <span><strong>3</strong> programlama dili</span>
+      </div>
+    </header>
+    <CourseExplorer/>
+    <aside className="discovery-guidance">
+      <h2>Nereden başlayacağından emin değil misin?</h2>
+      <p>Okunaklı sözdizimi ve genel problem çözme ilgini çekiyorsa Python; web üzerinde etkileşimler oluşturmak istiyorsan JavaScript; türler ve nesne yönelimli düşünmeyle ilerlemek istiyorsan Java uygun başlangıç seçenekleridir.</p>
+      <Link href="/kutuphane/kavramlar">Önce temel kavramlara göz at →</Link>
+    </aside>
   </section>;
 }
