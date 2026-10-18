@@ -76,3 +76,49 @@ test("staging worker forwards gVisor profile through isolated executor, never as
   assert.equal(calls[0].status,"completed");
   assert.ok(!JSON.stringify(result).includes(base.token));
 });
+
+test("staging JS hidden-case assessments also require runsc for every container",async()=>{
+  const exerciseId="js.sum-even";
+  const ticket={id:"b27a3b71-50a9-4166-ad62-2bd9ea6d4c3a",
+    mode:"assess",runtimeId:"nodejs-24",
+    exerciseId,exerciseRevision:1,
+    source:"function sumEven(numbers){return 0}",
+    leaseToken:"e".repeat(64)};
+  const images=[];
+  let completed;
+  const transport=async(url,opts)=>{
+    if(url.endsWith("/claim"))return Response.json(ticket);
+    completed=JSON.parse(opts.body);return Response.json({accepted:true});
+  };
+  const r=await processOne({...base,sandboxProfile:"gvisor-staging",transport,
+    execute:async(program,options)=>{
+      images.push(options);
+      assert.ok(program.includes("sumEven"));
+      return {status:"completed",stdout:"0",stderr:"",exitCode:0,durationMs:1};
+    }});
+  assert.equal(r.status,"processed");
+  assert.equal(images.length,5);
+  for(const options of images)
+    assert.deepEqual(options,{image,sandboxProfile:"gvisor-staging"});
+  assert.equal(completed.assessment.total,5);
+  assert.equal(completed.assessment.verdict,"failed");
+});
+test("staging Python assessment passes runsc option to all isolation calls",async()=>{
+  const job={id:"a98c26a7-f562-4235-9e19-d34a4ae42278",
+    mode:"assess",runtimeId:"python-3.12",exerciseId:"python.sum-even",
+    exerciseRevision:1,source:"def sum_even(numbers):\n    return 0",
+    leaseToken:"e".repeat(64)};
+  let count=0;
+  const transport=async(url,opts)=>url.endsWith("/claim")?
+    Response.json(job):Response.json({accepted:true});
+  const r=await processOne({...base,pythonImage:"python@sha256:"+"c".repeat(64),
+    sandboxProfile:"gvisor-staging",transport,executeLanguage:async(program,options)=>{
+      assert.equal(options.runtimeId,"python-3.12");
+      assert.equal(options.sandboxProfile,"gvisor-staging");
+      assert.equal(options.image,"python@sha256:"+"c".repeat(64));
+      count++;
+      return {status:"completed",stdout:"0",stderr:"",exitCode:0,durationMs:1};
+    }});
+  assert.equal(r.status,"processed");
+  assert.equal(count,4);
+});

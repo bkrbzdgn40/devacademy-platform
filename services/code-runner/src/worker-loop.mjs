@@ -63,7 +63,8 @@ export async function processOne({origin,token,image,pythonImage,javaImage,sandb
       result=await evaluateExercise({
         source:job.source,exerciseId:job.exerciseId,exerciseRevision:job.exerciseRevision,
         image:imageForJob,
-        execute:job.runtimeId==="nodejs-24"?execute:
+        execute:job.runtimeId==="nodejs-24"?
+          (program,{image})=>execute(program,sandboxOptions(image)):
           (program,{image})=>executeLanguage(program,{runtimeId:job.runtimeId,...sandboxOptions(image)})
       });
     }else{
