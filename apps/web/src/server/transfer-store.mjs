@@ -1,28 +1,32 @@
 import {randomInt} from "node:crypto";
 import {database,transaction} from "./db.mjs";
-import {transferProblem,transferLessonIds,evaluateTransfer} from "./transfer-missions.mjs";
+import {transferLessonIds,evaluateTransfer} from "./transfer-missions.mjs";
+import {adaptiveProblem,errorPattern,nextFocus,diagnosticHypothesis} from "./adaptive-probes.mjs";
 
-const DELAY_MS=24*60*60*1000, MAX_ATTEMPTS=8;
+const DELAY_MS=24*60*60*1000,MAX_ATTEMPTS=8;
 export const supportsTransfer=(lessonId)=>
-  typeof lessonId==="string" && transferLessonIds.includes(lessonId);
+  typeof lessonId==="string"&&transferLessonIds.includes(lessonId);
 const seed=()=>randomInt(1,2147483647);
-function distinctSeed(lessonId,previousSeed) {
+function distinctSeed(lessonId,previousSeed,oldFocus="standard",newFocus="standard") {
   if(previousSeed===undefined||previousSeed===null)return seed();
-  const before=transferProblem(lessonId,previousSeed).code;
+  const before=adaptiveProblem(lessonId,previousSeed,oldFocus).code;
   for(let i=0;i<100;i++) {
     const candidate=seed();
-    if(transferProblem(lessonId,candidate).code!==before)return candidate;
+    if(adaptiveProblem(lessonId,candidate,newFocus).code!==before)return candidate;
   }
   throw Error("NO_DISTINCT_VARIANT");
 }
 function publicProblem(lessonId,row) {
-  const {title,code,promptA,promptB}=transferProblem(lessonId,row.variant_seed);
-  return {title,code,promptA,promptB,stage:row.stage,
+  const focus=row.probe_focus??"standard";
+  const {title,code,promptA,promptB}=adaptiveProblem(lessonId,row.variant_seed,focus);
+  return {title,code,promptA,promptB,stage:row.stage,focus,assisted:focus!=="standard",
+    challengeToken:row.challenge_token,
+    hypothesis:focus==="standard"?null:diagnosticHypothesis(lessonId,row.last_error_pattern??focus,focus),
     attemptsRemaining:Math.max(0,MAX_ATTEMPTS-row.attempt_count)};
 }
 async function rowsFor(client,learnerId,lessonId,lock=false) {
   const q=await client.query(
-    "SELECT stage,variant_seed,attempt_count,passed_at,updated_at,last_confidence FROM learning_transfer_trials WHERE learner_id=$1 AND lesson_id=$2 ORDER BY stage"+(lock?" FOR UPDATE":""),
+    "SELECT stage,variant_seed,attempt_count,passed_at,updated_at,last_confidence,probe_focus,last_error_pattern,challenge_token FROM learning_transfer_trials WHERE learner_id=$1 AND lesson_id=$2 ORDER BY stage"+(lock?" FOR UPDATE":""),
     [learnerId,lessonId]);
   return q.rows;
 }
@@ -57,7 +61,7 @@ export async function getTransferState(learnerId,lessonId) {
 export async function startTransfer(learnerId,lessonId) {
   if(!supportsTransfer(lessonId))return {status:"unsupported"};
   return transaction(async client=>{
-    // Lock the progress row to serialize all start/submit transitions per owner.
+    // Serialize all transitions by locking the owner/lesson progress row.
     const progress=await client.query(
       "SELECT completed_at FROM lesson_progress WHERE learner_id=$1 AND lesson_id=$2 FOR UPDATE",
       [learnerId,lessonId]);
@@ -66,13 +70,15 @@ export async function startTransfer(learnerId,lessonId) {
     const status=stateFor(lessonId,progress.rows[0].completed_at,rows);
     if(status.status==="ready") {
       if(status.retry) {
+        const previous=rows.find(x=>x.stage===status.stage);
         await client.query(
-          "UPDATE learning_transfer_trials SET attempt_count=0,variant_seed=$4,updated_at=now() WHERE learner_id=$1 AND lesson_id=$2 AND stage=$3",
-          [learnerId,lessonId,status.stage,distinctSeed(lessonId,rows.find(x=>x.stage===status.stage)?.variant_seed)]);
+          "UPDATE learning_transfer_trials SET attempt_count=0,variant_seed=$4,probe_focus='standard',last_error_pattern=NULL,challenge_token=gen_random_uuid(),updated_at=now() WHERE learner_id=$1 AND lesson_id=$2 AND stage=$3",
+          [learnerId,lessonId,status.stage,distinctSeed(lessonId,previous.variant_seed,previous.probe_focus??"standard")]);
       } else {
+        const previous=rows.find(x=>x.stage===0);
         await client.query(
           "INSERT INTO learning_transfer_trials(learner_id,lesson_id,stage,variant_seed) VALUES($1,$2,$3,$4) ON CONFLICT (learner_id,lesson_id,stage) DO NOTHING",
-          [learnerId,lessonId,status.stage,distinctSeed(lessonId,rows.find(x=>x.stage===0)?.variant_seed)]);
+          [learnerId,lessonId,status.stage,distinctSeed(lessonId,previous?.variant_seed,previous?.probe_focus??"standard")]);
       }
     }
     return stateFor(lessonId,progress.rows[0].completed_at,
@@ -83,7 +89,9 @@ export async function submitTransfer(learnerId,input) {
   if(!input||typeof input!=="object"||Array.isArray(input)||
      !supportsTransfer(input.lessonId)||typeof input.answerA!=="string"||
      typeof input.answerB!=="string"||input.answerA.length>24||input.answerB.length>24||
-     !["low","medium","high"].includes(input.confidence)||![0,1].includes(input.stage))
+     !["low","medium","high"].includes(input.confidence)||![0,1].includes(input.stage)||
+     typeof input.challengeToken!=="string"||
+     !/^[a-f0-9-]{36}$/i.test(input.challengeToken))
     return {status:"invalid"};
   return transaction(async client=>{
     const progress=await client.query(
@@ -91,23 +99,37 @@ export async function submitTransfer(learnerId,input) {
       [learnerId,input.lessonId]);
     if(!progress.rows[0]?.completed_at)return {status:"locked"};
     const rows=await rowsFor(client,learnerId,input.lessonId,true);
-    const status=stateFor(input.lessonId,progress.rows[0].completed_at,rows);
-    if(status.status!=="active"||status.problem.stage!==input.stage)return {status:"unavailable"};
-    const item=rows.find(r=>r.stage===input.stage);
-    const task=transferProblem(input.lessonId,item.variant_seed);
+    const state=stateFor(input.lessonId,progress.rows[0].completed_at,rows);
+    if(state.status!=="active"||state.problem.stage!==input.stage)return {status:"unavailable"};
+    const row=rows.find(r=>r.stage===input.stage);
+    if(String(row.challenge_token)!==input.challengeToken)return {status:"stale"};
+    const focus=row.probe_focus??"standard";
+    const task=adaptiveProblem(input.lessonId,row.variant_seed,focus);
     const result=evaluateTransfer(task,input.answerA,input.answerB);
     if(!result)return {status:"invalid"};
-    if(result.correct) {
+    const pattern=errorPattern(task,input.answerA,input.answerB);
+    if(result.correct&&focus==="standard") {
       await client.query(
         "UPDATE learning_transfer_trials SET attempt_count=attempt_count+1,passed_at=now(),last_confidence=$4,updated_at=now() WHERE learner_id=$1 AND lesson_id=$2 AND stage=$3",
         [learnerId,input.lessonId,input.stage,input.confidence]);
-    } else {
+    } else if(result.correct) {
+      // Coached success never counts as independent proof. Require fresh neutral test.
       await client.query(
-        "UPDATE learning_transfer_trials SET attempt_count=attempt_count+1,variant_seed=$4,last_confidence=$5,updated_at=now() WHERE learner_id=$1 AND lesson_id=$2 AND stage=$3",
-        [learnerId,input.lessonId,input.stage,distinctSeed(input.lessonId,item.variant_seed),input.confidence]);
+        "UPDATE learning_transfer_trials SET attempt_count=attempt_count+1,variant_seed=$4,probe_focus='standard',last_error_pattern=NULL,challenge_token=gen_random_uuid(),last_confidence=$5,updated_at=now() WHERE learner_id=$1 AND lesson_id=$2 AND stage=$3",
+        [learnerId,input.lessonId,input.stage,distinctSeed(input.lessonId,row.variant_seed,focus,"standard"),input.confidence]);
+    } else {
+      const next=nextFocus(pattern,row.attempt_count);
+      await client.query(
+        "UPDATE learning_transfer_trials SET attempt_count=attempt_count+1,variant_seed=$4,probe_focus=$5,last_error_pattern=$6,challenge_token=gen_random_uuid(),last_confidence=$7,updated_at=now() WHERE learner_id=$1 AND lesson_id=$2 AND stage=$3",
+        [learnerId,input.lessonId,input.stage,distinctSeed(input.lessonId,row.variant_seed,focus,next),next,pattern,input.confidence]);
     }
     return {status:"graded",correct:result.correct,
       expected:task.expected,explanation:task.explanation,
-      confidence:input.confidence,stage:input.stage};
+      confidence:input.confidence,stage:input.stage,
+      independent:result.correct&&focus==="standard",
+      coached:result.correct&&focus!=="standard",
+      diagnosis:result.correct?null:diagnosticHypothesis(input.lessonId,pattern,nextFocus(pattern,row.attempt_count)),
+      // The next exercise is always re-fetched using its new challenge token.
+      next:"refresh"};
   });
 }

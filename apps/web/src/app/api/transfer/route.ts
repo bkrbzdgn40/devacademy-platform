@@ -30,7 +30,7 @@ export async function POST(request:Request) {
       await startTransfer(user.learnerId,input.lessonId):
       await submitTransfer(user.learnerId,input);
     if(result.status==="invalid")return json({error:"Yanıt biçimi geçersiz."},400);
-    if(["locked","unavailable","waiting","cooldown"].includes(result.status))return json(result,409);
+    if(["locked","unavailable","waiting","cooldown","stale"].includes(result.status))return json(result,409);
     return json(result);
   } catch {return json({error:"Transfer kaydedilemedi."},503);}
 }
