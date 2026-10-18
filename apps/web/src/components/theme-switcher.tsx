@@ -133,12 +133,12 @@ export function ThemeSwitcher(){
   return <div className="theme-control" ref={containerRef}>
     <span className="theme-control-label">Görünüm</span>
     <button ref={triggerRef} type="button" className="theme-control-trigger"
-      aria-label={"Görünüm teması: "+label}
-      aria-haspopup="menu" aria-expanded={open} aria-controls={menuId}
-      onClick={()=>{initialFocus.current=preference;setOpen(previous=>!previous);}}
-      onKeyDown={onTriggerKeyDown}>
-      <span>{label}</span><span className="theme-control-chevron" aria-hidden="true">⌄</span>
-    </button>
+  aria-label={"Görünüm teması: "+label}
+  aria-haspopup="menu" aria-expanded={open} aria-controls={menuId}
+  onClick={()=>{initialFocus.current=preference;setOpen(previous=>!previous);}}
+  onKeyDown={onTriggerKeyDown}>
+  <span>{label}</span>
+</button>
     {open&&<div id={menuId} ref={menuRef} className="theme-control-menu"
       role="menu" aria-label="Görünüm teması seçenekleri" onKeyDown={onMenuKeyDown}>
       {choices.map(choice=><button key={choice.value} type="button"
