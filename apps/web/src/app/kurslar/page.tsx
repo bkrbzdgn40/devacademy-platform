@@ -9,7 +9,7 @@ export default function CourseList(){
       <h1>Öğrenmek istediğin dili seç.</h1>
       <p>Her kurs aynı ders, soru ve ilerleme altyapısını kullanır. Kod çalıştırma desteği dil bazında ayrı değerlendirilir.</p>
     </div>
-    <ul className="catalog-grid">{courses.map(course=><li className="catalog-card" key={course.id}>
+    <ul className="catalog-grid">{courses.map(course=><li className="catalog-card ui-card" key={course.id}>
       <div className="catalog-top"><span className="level-chip">{course.level}</span><span className="locked-chip">Kurs önizlemesi</span></div>
       <h2>{course.title}</h2><p>{course.summary}</p>
       <p>{lessonsForCourse(course).length} ders · {lessonsForCourse(course).reduce((n,x)=>n+x.questionIds.length,0)} bilgi sorusu</p>

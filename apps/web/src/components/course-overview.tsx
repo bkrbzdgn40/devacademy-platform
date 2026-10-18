@@ -17,7 +17,7 @@ export function CourseOverview({course,legacy=false}:{course:Course;legacy?:bool
     </div>
     <CourseProgress courseSlug={course.slug} lessons={entries.map(x=>({id:x.id,slug:x.slug,title:x.title}))}/>
     <ol className="lesson-list">{entries.map((lesson,index)=><li key={lesson.id}>
-      <Link href={legacy?"/dersler/"+lesson.slug:"/kurslar/"+course.slug+"/"+lesson.slug} className="lesson-item">
+      <Link href={legacy?"/dersler/"+lesson.slug:"/kurslar/"+course.slug+"/"+lesson.slug} className="lesson-item ui-card">
         <span className="lesson-number">{String(index+1).padStart(2,"0")}</span>
         <span className="lesson-item-body"><strong>{lesson.title}</strong><span>{lesson.summary}</span>
           <small>{lesson.durationMinutes} dk · {lesson.questionIds.length} soru</small></span>
