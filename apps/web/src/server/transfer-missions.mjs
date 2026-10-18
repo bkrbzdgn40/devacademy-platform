@@ -77,7 +77,7 @@ export function transferProblem(lessonId,seed) {
     case "lesson.python.functions": {
       const x=next(2,11),factor=next(2,5);
       return {title:"Yazdırmak döndürmek değildir",
-        code:["def show(n):","    print(n * "+factor,"",
+        code:["def show(n):","    print(n * "+factor+")","",
           "def give(n):","    return n * "+factor,"",
           "first = show("+x+")","second = give("+x+")",
           "print(first)  # A","print(second) # B"].join("\n"),
