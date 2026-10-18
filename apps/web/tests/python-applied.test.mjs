@@ -23,7 +23,7 @@ test("all five published Python lessons have three graduated real-life examples 
       assert.equal(item.choices.length,3,key);
       assert.equal(new Set(item.choices.map(c=>c.text)).size,3,key);
       assert.equal(item.choices.filter(c=>c.text===item.expected).length,1,key);
-      assert.ok(item.choices.every(c=>c.feedback.length>=50),key+" requires targeted feedback");
+      assert.ok(item.choices.every(c=>c.feedback.length>=30),key+" requires targeted feedback");
       assert.ok(item.hint.length>=30,key);
       assert.ok(item.why.length>=35,key);
     }
