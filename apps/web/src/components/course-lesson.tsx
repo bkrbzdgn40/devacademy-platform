@@ -4,6 +4,8 @@ import { CodePlayground } from "@/components/code-playground";
 import { CompleteLesson } from "@/components/complete-lesson";
 import { TraceWalkthrough } from "@/components/trace-walkthrough";
 import { LessonStepper, type LessonStep } from "@/components/lesson-stepper";
+import { TransferLab } from "@/components/transfer-lab";
+import { transferLessonIds } from "@/server/transfer-missions.mjs";
 import guides from "@/data/lesson-guides.json";
 import { lessonsForCourse, type Course } from "@/lib/courses";
 import { questionsForLesson, type Lesson } from "@/lib/lessons";
@@ -60,6 +62,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
         <ul>{lesson.takeaways.map((takeaway) => <li key={takeaway}>{takeaway}</li>)}</ul>
       </div>
       {completion}
+      {transferLessonIds.includes(lesson.id) && <TransferLab lessonId={lesson.id}/>}
     </> },
   ] : [
     { id: "understand", label: "Öğren", title: "Konuyu anlayalım", content: <>
@@ -79,6 +82,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
         <ul>{lesson.takeaways.map((takeaway) => <li key={takeaway}>{takeaway}</li>)}</ul>
       </div>
       {completion}
+      {transferLessonIds.includes(lesson.id) && <TransferLab lessonId={lesson.id}/>}
     </> },
   ];
 
