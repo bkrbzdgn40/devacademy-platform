@@ -4,6 +4,7 @@ import { CodePlayground } from "@/components/code-playground";
 import { CompleteLesson } from "@/components/complete-lesson";
 import { TraceWalkthrough } from "@/components/trace-walkthrough";
 import { LearningStudio } from "@/components/learning-studio";
+import { LessonDepth } from "@/components/lesson-depth";
 import {studioHasLesson} from "@/lib/studio-scenarios.mjs";
 import { LessonStepper, type LessonStep } from "@/components/lesson-stepper";
 import { TransferLab } from "@/components/transfer-lab";
@@ -51,6 +52,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
       <div className="code-label">{name} · Örnek kod</div>
       <pre className="lesson-code"><code>{lesson.code}</code></pre>
       {studio ?? <TraceWalkthrough steps={guide.trace}/>}
+      <LessonDepth lessonId={lesson.id}/>
       {studio && <p className="lesson-step-tip">Bu inceleme, gözden geçirilmiş bir deney üzerinde kodun davranışını izlemeni sağlar; ders içindeki diğer soruların yanıtlarını otomatik olarak değiştirmez.</p>}
     </> },
     { id: "debug", label: "Hata avcısı", title: "Hatayı düzelt", content: <>
@@ -83,6 +85,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
       <div className="code-label">{name} · Örnek kod</div>
       <pre className="lesson-code"><code>{lesson.code}</code></pre>
       {studio}
+      <LessonDepth lessonId={lesson.id}/>
     </> },
     { id: "apply", label: "Kodla", title: "Örneği kendin değiştir", content: <>
       <p className="lesson-step-intro">Örneği düzenle. Kod çalıştırma yalnızca yetkilendirilmiş yerel laboratuvar ortamında etkinleşir.</p>

@@ -291,3 +291,30 @@
 @media(max-width:790px){.studio-workspace{grid-template-columns:minmax(0,1fr)}.studio-source{border-right:0;border-bottom:1px solid #303c51}.studio-toolbar .studio-mode{margin-left:0}}
 @media(max-width:480px){.studio-header,.studio-source,.studio-inspector{padding:15px}.studio-toolbar{padding:12px 15px}.studio-toolbar select{width:100%}.studio-inputs,.studio-review-grid{grid-template-columns:minmax(0,1fr)}.studio-reset-actions button,.studio-step-actions button{justify-content:center}.studio-code-row{font-size:11px}.studio-review{padding:15px}.studio-mode{width:100%}}
 @media(prefers-reduced-motion:reduce){.learning-studio *{scroll-behavior:auto}}
+
+
+/* M8.5.1: authored deep-learning lenses shared by all 15 lessons. */
+.lesson-depth{border:1px solid #3a4e62;border-radius:15px;background:linear-gradient(150deg,#121d2b,#171b2a);padding:22px;margin:24px 0;min-width:0}
+.lesson-depth-header h3{font-size:22px;letter-spacing:-.4px;margin:5px 0 7px}
+.lesson-depth-header p{font-size:13px;color:#bfd0e3;line-height:1.7}
+.lesson-depth-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 12px}
+.lesson-depth-grid article{min-width:0;border:1px solid #35485a;border-radius:11px;padding:16px;background:#101a27}
+.lesson-depth-model{border-top:2px solid #7ee3c3!important}
+.lesson-depth-mistake{border-top:2px solid #f0c58f!important}
+.lesson-depth-kicker{font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:800;color:#9cdacb}
+.lesson-depth-mistake .lesson-depth-kicker{color:#f0c58f}
+.lesson-depth h4{font-size:16px;line-height:1.4;margin:9px 0}
+.lesson-depth article p,.lesson-depth-checkpoint p,.lesson-depth-contrast p{font-size:13px;line-height:1.75;color:#d7e3ef;margin:0}
+.lesson-depth-contrast{border:1px solid #475371;border-radius:11px;background:#1c2335;margin-top:12px}
+.lesson-depth-contrast summary,.lesson-depth-checkpoint details summary{padding:13px 16px;color:#dddeff;cursor:pointer;font-size:13px;font-weight:750}
+.lesson-depth-contrast>div{padding:0 16px 16px}
+.lesson-depth-contrast-example{padding:11px 13px;background:#101927;border-radius:8px;margin:0 0 10px!important;overflow-wrap:anywhere}
+.lesson-depth-contrast summary:focus-visible,.lesson-depth-checkpoint summary:focus-visible{outline:3px solid #7ee3c3;outline-offset:3px}
+.lesson-depth-checkpoint{margin-top:14px;padding:18px;border:1px solid #43665f;border-radius:11px;background:#132923}
+.lesson-depth-checkpoint>p{margin-bottom:12px}
+.lesson-depth-checkpoint details{border-top:1px solid #37564d;margin:12px 0}
+.lesson-depth-checkpoint details summary{padding:12px 0;color:#b7f2d8}
+.lesson-depth-checkpoint details p{padding:0 0 12px}
+.lesson-depth-real-world{border-top:1px solid #37564d;padding-top:11px;color:#c9d7e4!important}
+.lesson-depth-note{font-size:11px;color:#98a9bd;margin:12px 0 0}
+@media(max-width:640px){.lesson-depth{padding:15px}.lesson-depth-grid{grid-template-columns:minmax(0,1fr)}.lesson-depth-contrast summary{padding:12px}}
