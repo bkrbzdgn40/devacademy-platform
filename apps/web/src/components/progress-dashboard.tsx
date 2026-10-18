@@ -2,6 +2,8 @@ import Link from "next/link";
 import { allLessons } from "@/lib/lessons";
 import { courses, lessonsForCourse, lessonHref } from "@/lib/courses";
 import { summarizeProgress, type ProgressLesson, type ProgressAttempt } from "@/lib/progress-summary";
+import {chooseLearningAction} from "@/lib/learning-journey";
+import practice from "@/data/practice.json";
 
 type Props = { progress: { lessons: ProgressLesson[]; recentAttempts: ProgressAttempt[]; reviewSummary?:{total:number;due:number};transferSummary?:{first:number;retained:number};codeTransferSummary?:{verified:number} } | null };
 const dateText=(value:string)=>{const d=new Date(value);return Number.isNaN(d.getTime())?"Bilinmiyor":new Intl.DateTimeFormat("tr-TR",{day:"numeric",month:"short",year:"numeric"}).format(d);};
@@ -9,7 +11,43 @@ export function ProgressDashboard({progress}:Props){
   if(!progress)return <p role="status">İlerleme verileri alınamadı. Daha sonra yeniden dene.</p>;
   const s=summarizeProgress(allLessons.length,progress.lessons,progress.recentAttempts);
   const records=new Map(progress.lessons.map(x=>[x.lessonId,x]));
+  const independentLessons=new Set(practice.filter(item=>"transferLessonId" in item)
+    .map(item=>item.transferLessonId));
+  const journeyLessons=courses.flatMap(course=>lessonsForCourse(course).map(lesson=>({
+    id:lesson.id,title:lesson.title,href:lessonHref(lesson.id),
+    courseId:course.id,courseTitle:course.title,
+    independentLab:independentLessons.has(lesson.id)
+  })));
+  const recommendation=chooseLearningAction(journeyLessons,progress);
+  const evidence=[
+    {label:"Rehberli ders tamamlaması",value:s.completed,
+      note:"Kurs soruları doğru tamamlandı; bağımsız yeterlilik değildir."},
+    {label:"İlk yardımsız çıktı tahmini",value:progress.transferSummary?.first??0,
+      note:"Yalnızca desteklenen kavramlarda, yeni değişkenlerle bağımsız çözüm."},
+    {label:"Gecikmeli kavram doğrulaması",value:progress.transferSummary?.retained??0,
+      note:"En az 24 saat sonra yeni örnekle yeniden doğru yanıt."},
+    {label:"Bağımsız kod üretimi",value:progress.codeTransferSummary?.verified??0,
+      note:"Yalnızca yetkili yerel laboratuvarın açık ve gizli testleri."}
+  ];
   return <div className="learning-dashboard">
+    <section className="learning-next-action ui-card" aria-labelledby="learning-next-title">
+      <div className="learning-next-copy">
+        <span className="ui-eyebrow">{recommendation.eyebrow}</span>
+        <h2 id="learning-next-title">{recommendation.title}</h2>
+        <p>{recommendation.description}</p>
+        <Link href={recommendation.href} className="ui-button ui-button-primary">
+          {recommendation.label} <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+      <div className="learning-next-context">
+        <strong>Öğrenme kanıtların</strong>
+        <p>Bu göstergeler birbirinden farklı becerileri ölçer. Birinin tamamlanması diğerini otomatik olarak doğrulamaz.</p>
+        <ol>{evidence.map(item=><li key={item.label}>
+          <div><span>{item.label}</span><strong>{item.value}</strong></div>
+          <small>{item.note}</small>
+        </li>)}</ol>
+      </div>
+    </section>
     <div className="dashboard-stats">
       <div className="dashboard-stat ui-card"><span>Tamamlanan dersler</span><strong>{s.completed}/{s.total}</strong></div>
       <div className="dashboard-stat"><span>Başlanan dersler</span><strong>{s.started}</strong></div>
