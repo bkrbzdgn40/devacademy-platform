@@ -102,7 +102,7 @@ export function TransferLab({lessonId}:{lessonId:string}) {
     </div>
     {loadStatus==="loading"&&<p role="status">Bağımsız görev durumun okunuyor…</p>}
     {loadStatus==="signedout"&&<p>Bu kanıtı hesabına bağlamak için <Link href="/hesap">oturum aç</Link>.</p>}
-    {loadStatus==="unavailable"&&<div><p role="status">Bu oturumda bağımsız doğrulama açılamadı. Veritabanında 0007 ve 0008 migration'ları gerekli olabilir.</p>
+    {loadStatus==="unavailable"&&<div><p role="status">Bu oturumda bağımsız doğrulama açılamadı. Veritabanında 0007 ve 0008 şema güncellemeleri gerekli olabilir.</p>
       <button className="subtle-action" type="button" onClick={()=>{setLoadStatus("loading");void refresh().catch(()=>setLoadStatus("unavailable"));}}>Yeniden dene</button></div>}
     {loadStatus==="ready"&&state?.status==="locked"&&<div>
       <p>Önce bu dersin rehberli sorularını tamamlayıp <strong>Dersi tamamla</strong> düğmesine bas. İlerleme kaydedildikten sonra kanıt görevini açabilirsin.</p>
