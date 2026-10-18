@@ -6,6 +6,7 @@ import {randomBytes} from "node:crypto";
 import {mkdtemp,rm,writeFile} from "node:fs/promises";
 import {tmpdir} from "node:os";
 import {join} from "node:path";
+import {sandboxRuntimeArgs} from "./sandbox-profile.mjs";
 import {validateSource} from "./run-isolated.mjs";
 
 const prefix="devacademy-sandbox-";
@@ -15,13 +16,13 @@ const specs=Object.freeze({
     // Only a constant command, NEVER untrusted source, is passed to sh.
     cmd:["sh","-c","javac -encoding UTF-8 -d /tmp /work/Main.java && java -Xmx128m -XX:ActiveProcessorCount=1 -cp /tmp Main"]}
 });
-export function multiDockerArgs({name,scriptPath,image,runtimeId}){
+export function multiDockerArgs({name,scriptPath,image,runtimeId,sandboxProfile="docker-lab"}){
   const spec=specs[runtimeId];
   if(!spec || !/^devacademy-sandbox-[a-f0-9]{24}$/.test(name) ||
      typeof scriptPath!=="string" || !scriptPath.startsWith("/") ||
      typeof image!=="string" || !/^[a-z][a-z0-9_.-]*(:[a-z0-9_.-]+|@sha256:[a-f0-9]{64})$/.test(image))
     throw Error("INVALID_MULTILANG_SANDBOX_ARGUMENTS");
-  return ["run","--rm","--pull=never","--name",name,
+  return ["run","--rm",...sandboxRuntimeArgs(sandboxProfile),"--pull=never","--name",name,
     "--network=none","--read-only","--cap-drop=ALL","--cgroupns=private",
     "--security-opt=no-new-privileges","--pids-limit","64",
     "--cpus","1","--memory",spec.mem,"--memory-swap",spec.mem,
@@ -37,7 +38,7 @@ function removeContainer(name){
   p.once("close",()=>resolve());
  });
 }
-export async function runIsolatedLanguage(source,{runtimeId,image}){
+export async function runIsolatedLanguage(source,{runtimeId,image,sandboxProfile="docker-lab"}){
   validateSource(source);
   const spec=specs[runtimeId];
   if(!spec)throw Error("UNSUPPORTED_LANGUAGE_RUNTIME");
@@ -48,7 +49,7 @@ export async function runIsolatedLanguage(source,{runtimeId,image}){
   const start=Date.now();
   try{
     await writeFile(scriptPath,source,{mode:0o644,flag:"wx"});
-    child=spawn("docker",multiDockerArgs({name,scriptPath,image,runtimeId}),{
+    child=spawn("docker",multiDockerArgs({name,scriptPath,image,runtimeId,sandboxProfile}),{
       stdio:["ignore","pipe","pipe"],env:{PATH:process.env.PATH||"/usr/bin:/bin"}
     });
     let stdout="",stderr="",timedOut=false,outputLimit=false,infra=false,stopped=false;

@@ -5,6 +5,7 @@ import { randomBytes } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import {sandboxRuntimeArgs} from "./sandbox-profile.mjs";
 
 export const LIMITS = Object.freeze({
   maxSourceBytes: 8192,
@@ -21,12 +22,12 @@ export function validateSource(source) {
   if (Buffer.byteLength(source, "utf8") > LIMITS.maxSourceBytes) throw new Error("SOURCE_LIMIT");
 }
 
-export function dockerArgs({name, scriptPath, image="node:24-alpine"}){
+export function dockerArgs({name, scriptPath, image="node:24-alpine",sandboxProfile="docker-lab"}){
   if (!/^devacademy-sandbox-[a-f0-9]{24}$/.test(name)) throw new Error("INVALID_CONTAINER_NAME");
   if (typeof scriptPath !== "string" || !scriptPath.startsWith("/")) throw new Error("INVALID_SCRIPT_PATH");
   // Never use a shell or expose host credentials. Image is preinstalled and does not auto-pull.
   return [
-    "run","--rm","--pull=never","--name",name,
+    "run","--rm",...sandboxRuntimeArgs(sandboxProfile),"--pull=never","--name",name,
     "--network=none","--read-only","--cap-drop=ALL","--cgroupns=private",
     "--security-opt=no-new-privileges","--pids-limit",LIMITS.processCount,
     "--cpus",LIMITS.cpus,"--memory",LIMITS.memory,"--memory-swap",LIMITS.memory,
@@ -47,7 +48,7 @@ function removeContainer(name) {
   });
 }
 
-export async function runIsolatedJavaScript(source,{image="node:24-alpine"}={}){
+export async function runIsolatedJavaScript(source,{image="node:24-alpine",sandboxProfile="docker-lab"}={}){
   validateSource(source);
   const dir=await mkdtemp(join(tmpdir(),"devacademy-runner-"));
   const scriptPath=join(dir,"main.js");
@@ -57,7 +58,7 @@ export async function runIsolatedJavaScript(source,{image="node:24-alpine"}={}){
   let timer=null;
   try {
     await writeFile(scriptPath,source,{encoding:"utf8",mode:0o644,flag:"wx"});
-    const args=dockerArgs({name,scriptPath,image});
+    const args=dockerArgs({name,scriptPath,image,sandboxProfile});
     child=spawn("docker",args,{stdio:["ignore","pipe","pipe"],env:{PATH:process.env.PATH || "/usr/bin:/bin"}});
     let stdout="",stderr="",timedOut=false,outputLimited=false,infraError=false;
     let stopped=false;
