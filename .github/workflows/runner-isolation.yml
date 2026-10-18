@@ -51,6 +51,7 @@ jobs:
           node services/code-runner/tests/isolation-smoke.mjs
           node services/code-runner/tests/assessment-docker-smoke.mjs
           node services/code-runner/tests/multilang-docker-smoke.mjs
+          node services/code-runner/tests/code-transfer-docker-smoke.mjs
       - name: Measure isolated Docker startup and runtime cost
         run: node services/code-runner/tests/performance-probe.mjs
       - name: Store isolated runtime performance report

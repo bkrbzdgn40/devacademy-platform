@@ -108,3 +108,7 @@ Six selected JavaScript/Java/Python lessons now add a separate, login-gated **tw
 ## M8.2 Adaptive Misconception Lab
 
 Wrong output predictions now lead to an author-reviewed, A- or B-focused concept experiment. Twelve focused variants cover six JS/Java/Python lessons. Coached success never grants independent evidence; it instead unlocks a fresh unguided problem. Authenticated challenges use one-time IDs to reject stale answers without saving raw responses. Additive migration 0008 follows 0007. See [design and operational limits](docs/learning/M8-2-ADAPTIVE-PROBES.md). No public source execution is enabled.
+
+## M8.3: Independent code-writing transfer
+
+Six concept-aligned JavaScript/Python/Java tasks now ask students to author actual function behavior and pass a trusted worker's public **and hidden** tests. Proof is derived from completed, owner-scoped job records created after an independent counterfactual pass, never from client-reported success. Public code execution remains disabled; the new feature can earn a verified code-writing result only in an explicitly enabled, isolated localhost laboratory. Read [M8.3 operational design](docs/learning/M8-3-INDEPENDENT-CODE-TRANSFER.md).
