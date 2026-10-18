@@ -44,4 +44,54 @@ export const caseBank = Object.freeze({
       {public:false,args:[4,4,4],expected:4}
     ]
   }
-});
+,
+  "transfer.js.snapshot": {
+    revision:1,functionName:"snapshotScore",cases:[
+      {label:"Artan skor",public:true,args:[6,3],expected:[6,9]},
+      {label:"Azalan skor",public:true,args:[8,-2],expected:[8,6]},
+      {public:false,args:[-5,9],expected:[-5,4]},
+      {public:false,args:[0,0],expected:[0,0]},
+      {public:false,args:[19,-30],expected:[19,-11]}
+    ]
+  },
+  "transfer.js.map": {
+    revision:1,functionName:"scaleCopy",cases:[
+      {label:"Karma sayılar",public:true,args:[[-2,0,3],3],expected:[-6,0,9]},
+      {label:"Boş liste",public:true,args:[[],5],expected:[]},
+      {public:false,args:[[1,2,-5],-2],expected:[-2,-4,10]},
+      {public:false,args:[[0,0,0],4],expected:[0,0,0]},
+      {public:false,args:[[11],0],expected:[0]}
+    ]
+  },
+  "transfer.java.divide": {
+    revision:1,runtimeId:"java-21",functionName:"exactDivide",cases:[
+      {label:"Kesirli bölüm",public:true,args:[7,2],expected:3.5},
+      {label:"Tam bölüm",public:true,args:[8,4],expected:2},
+      {public:false,args:[9,4],expected:2.25},
+      {public:false,args:[-3,4],expected:-0.75}
+    ]
+  },
+  "transfer.java.overload": {
+    revision:1,runtimeId:"java-21",functionName:"combineSounds",cases:[
+      {label:"İki çağrının toplamı",public:true,args:[4,3,5],expected:12},
+      {label:"Sıfır değer",public:true,args:[0,2,6],expected:8},
+      {public:false,args:[-4,9,2],expected:7},
+      {public:false,args:[11,-4,-1],expected:6}
+    ]
+  },
+  "transfer.python.range": {
+    revision:1,runtimeId:"python-3.12",functionName:"sum_exclusive",cases:[
+      {label:"Pozitif aralık",public:true,args:[2,5],expected:9},
+      {label:"Boş aralık",public:true,args:[3,3],expected:0},
+      {public:false,args:[-3,2],expected:-5},
+      {public:false,args:[8,11],expected:27}
+    ]
+  },
+  "transfer.python.return": {
+    revision:1,runtimeId:"python-3.12",functionName:"return_product",cases:[
+      {label:"Çarpan pozitif",public:true,args:[4,3],expected:12},
+      {label:"Sıfır çarpanı",public:true,args:[8,0],expected:0},
+      {public:false,args:[-7,5],expected:-35},
+      {public:false,args:[-3,-4],expected:12}
+    ]
+  },});
