@@ -1,6 +1,6 @@
 /*
  * DevAcademy / M8.6A - reusable semantic design tokens.
- * One accessible warm LIGHT theme with intentionally DARK code surfaces.
+ * Warm LIGHT and espresso DARK themes with intentionally deeper code surfaces.
  * Typography uses local system stacks; no fonts or third-party requests.
  */
 :root{
@@ -88,4 +88,45 @@
   --muted:var(--ui-ink-subtle);
   --accent:var(--color-terracotta-700);
   --green:var(--ui-action);
+}
+
+
+/* M8.6A dark counterpart: espresso + sage olive + copper terracotta.
+ * Override existing semantic colors, never invert content with CSS filters.
+ * Page surfaces stay low-glare; code gets its own deeper cocoa layer. */
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --color-cream:#1B1A16;
+  --color-paper:#292720;
+  --color-sand:#343127;
+  --color-ink:#F5EFE5;
+  --color-ink-muted:#CEC4B4;
+  --color-olive-950:#D5E3B9;
+  --color-olive-800:#BACC96;
+  --color-olive-700:#AFC48B;
+  --color-olive-600:#94A976;
+  --color-olive-300:#728461;
+  --color-olive-100:#303C2C;
+  --color-terracotta-700:#E6A180;
+  --color-terracotta-500:#C98263;
+  --color-terracotta-100:#432F27;
+  --color-cinnamon:#E8B18B;
+  --color-tan:#CAA17B;
+  --color-camel:#5B4C3C;
+  --color-cocoa:#17130F;
+  --color-border:#51493D;
+  --color-border-strong:#7E715F;
+  --color-critical:#F3AC9F;
+  --color-critical-bg:#4A2B29;
+  --color-success:#BED49F;
+  --color-success-bg:#283A29;
+  --color-code-bg:#15120F;
+  --color-code-surface:#211B16;
+  --color-code-ink:#F1E9DB;
+  --color-code-muted:#C9B9A2;
+  --ui-action-ink:#1B2315;
+  --ui-focus:#E8B18B;
+  --shadow-card:0 12px 30px rgba(0,0,0,.15);
+  --shadow-hover:0 18px 40px rgba(0,0,0,.24);
+  --shadow-focus:0 0 0 3px rgba(232,177,139,.35);
 }

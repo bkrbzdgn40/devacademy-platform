@@ -128,3 +128,7 @@ All **15 published JavaScript, Java and Python lessons** now have a reviewed pre
 ## M8.6A · Olive & Earth design system
 
 A light warm-cream learning surface, accessible olive navigation/actions, terracotta editorial accents and deep-cocoa code panels now establish the shared brand. Semantic tokens, local font stacks and typed ActionLink/SurfaceCard/SectionHeading/StatusPill primitives are documented in [the design system](docs/design/M8-6A-OLIVE-EARTH.md). Existing quiz, lessons, transfer lab, code editor and progress behavior is unchanged; no dependency or migration is required. Primary body/CTA/code contrast is validated in CI, alongside 320px+ browser smoke checks.
+
+## M8.6A.1 · Dark espresso learning theme
+
+DevAcademy now provides **Sistem / Açık / Koyu** appearance preferences. The dark palette combines espresso surfaces, legible sage-olive primary actions and copper-terracotta accents, with a darker code canvas. Choices survive navigation and refresh; System follows live OS color preference. The theme toggle does not change learning records or server state. See [dark theme design and testing](docs/design/M8-6A-1-DARK-THEME.md).
