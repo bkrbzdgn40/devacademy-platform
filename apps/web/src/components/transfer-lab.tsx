@@ -32,9 +32,21 @@ export function TransferLab({lessonId}:{lessonId:string}) {
   },[lessonId]);
   useEffect(()=>{
     const abort=new AbortController();
-    void refresh(abort.signal).catch(()=>{if(!abort.signal.aborted)setLoadStatus("unavailable");});
+    void fetch("/api/transfer?lessonId="+encodeURIComponent(lessonId),
+      {cache:"no-store",signal:abort.signal})
+      .then(async response=>{
+        if(response.status===401)return {kind:"signedout" as const};
+        if(!response.ok)return {kind:"unavailable" as const};
+        return {kind:"ready" as const,data:await response.json() as State};
+      }).then(result=>{
+        if(abort.signal.aborted)return;
+        if(result.kind==="ready"){setState(result.data);setLoadStatus("ready");}
+        else setLoadStatus(result.kind);
+      }).catch(()=>{
+        if(!abort.signal.aborted)setLoadStatus("unavailable");
+      });
     return ()=>abort.abort();
-  },[refresh]);
+  },[lessonId]);
 
   async function post(payload:Record<string,unknown>) {
     const response=await fetch("/api/transfer",{

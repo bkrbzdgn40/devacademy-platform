@@ -54,6 +54,10 @@ test("transfer proves distinct correct cases after guided completion and cannot 
       [a.learnerId,id]);
     assert.equal(afterWrong.rows[0].attempt_count,beforeWrong.rows[0].attempt_count+1);
     assert.notEqual(afterWrong.rows[0].variant_seed,beforeWrong.rows[0].variant_seed);
+    assert.notEqual(
+      transferProblem(id,afterWrong.rows[0].variant_seed).code,
+      transferProblem(id,beforeWrong.rows[0].variant_seed).code
+    );
     const valid=await solve(a.learnerId,0,true);
     assert.equal(valid.correct,true);
     assert.equal((await getTransferState(a.learnerId,id)).status,"waiting");
@@ -69,6 +73,12 @@ test("transfer proves distinct correct cases after guided completion and cannot 
       [a.learnerId,id]);
     assert.equal((await getTransferState(a.learnerId,id)).stage,1);
     assert.equal((await startTransfer(a.learnerId,id)).problem.stage,1);
+    const pair=await database().query(
+      "SELECT stage,variant_seed FROM learning_transfer_trials WHERE learner_id=$1 AND lesson_id=$2 ORDER BY stage",[a.learnerId,id]);
+    assert.notEqual(
+      transferProblem(id,pair.rows[0].variant_seed).code,
+      transferProblem(id,pair.rows[1].variant_seed).code
+    );
     assert.equal((await solve(a.learnerId,1,true)).correct,true);
     assert.equal((await getTransferState(a.learnerId,id)).status,"retained");
     assert.equal((await getLearningProgress(a.learnerId)).transferSummary.retained,1);

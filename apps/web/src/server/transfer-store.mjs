@@ -6,6 +6,15 @@ const DELAY_MS=24*60*60*1000, MAX_ATTEMPTS=8;
 export const supportsTransfer=(lessonId)=>
   typeof lessonId==="string" && transferLessonIds.includes(lessonId);
 const seed=()=>randomInt(1,2147483647);
+function distinctSeed(lessonId,previousSeed) {
+  if(previousSeed===undefined||previousSeed===null)return seed();
+  const before=transferProblem(lessonId,previousSeed).code;
+  for(let i=0;i<100;i++) {
+    const candidate=seed();
+    if(transferProblem(lessonId,candidate).code!==before)return candidate;
+  }
+  throw Error("NO_DISTINCT_VARIANT");
+}
 function publicProblem(lessonId,row) {
   const {title,code,promptA,promptB}=transferProblem(lessonId,row.variant_seed);
   return {title,code,promptA,promptB,stage:row.stage,
@@ -59,11 +68,11 @@ export async function startTransfer(learnerId,lessonId) {
       if(status.retry) {
         await client.query(
           "UPDATE learning_transfer_trials SET attempt_count=0,variant_seed=$4,updated_at=now() WHERE learner_id=$1 AND lesson_id=$2 AND stage=$3",
-          [learnerId,lessonId,status.stage,seed()]);
+          [learnerId,lessonId,status.stage,distinctSeed(lessonId,rows.find(x=>x.stage===status.stage)?.variant_seed)]);
       } else {
         await client.query(
           "INSERT INTO learning_transfer_trials(learner_id,lesson_id,stage,variant_seed) VALUES($1,$2,$3,$4) ON CONFLICT (learner_id,lesson_id,stage) DO NOTHING",
-          [learnerId,lessonId,status.stage,seed()]);
+          [learnerId,lessonId,status.stage,distinctSeed(lessonId,rows.find(x=>x.stage===0)?.variant_seed)]);
       }
     }
     return stateFor(lessonId,progress.rows[0].completed_at,
@@ -95,7 +104,7 @@ export async function submitTransfer(learnerId,input) {
     } else {
       await client.query(
         "UPDATE learning_transfer_trials SET attempt_count=attempt_count+1,variant_seed=$4,last_confidence=$5,updated_at=now() WHERE learner_id=$1 AND lesson_id=$2 AND stage=$3",
-        [learnerId,input.lessonId,input.stage,seed(),input.confidence]);
+        [learnerId,input.lessonId,input.stage,distinctSeed(input.lessonId,item.variant_seed),input.confidence]);
     }
     return {status:"graded",correct:result.correct,
       expected:task.expected,explanation:task.explanation,
