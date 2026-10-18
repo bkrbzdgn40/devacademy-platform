@@ -92,8 +92,10 @@ export function normalizedAnswer(value) {
   if(typeof value!=="string"||value.length>24)return null;
   const clean=value.trim();
   if(/^none$/i.test(clean))return "none";
-  if(!/^-?\d{1,7}(?:\.\d{1,3})?$/.test(clean))return null;
-  const n=Number(clean);
+  // Turkish learners may enter 2,5 instead of 2.5.
+  const numeric=clean.replace(",",".");
+  if(!/^-?\d{1,7}(?:\.\d{1,3})?$/.test(numeric))return null;
+  const n=Number(numeric);
   return Number.isFinite(n)?String(n):null;
 }
 export function evaluateTransfer(problem,answerA,answerB) {

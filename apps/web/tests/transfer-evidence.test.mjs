@@ -23,7 +23,8 @@ test("independently parameterized cases across six lessons and 3 languages",()=>
 test("only bounded typed numeric or None answers are accepted",()=>{
   assert.equal(normalizedAnswer(" 02.500 "),"2.5");
   assert.equal(normalizedAnswer("none"),"none");
-  for(const unsafe of ["1+1","__proto__","NaN","Infinity","0x1","1,5","", "a".repeat(30)])
+  assert.equal(normalizedAnswer("2,5"),"2.5");
+  for(const unsafe of ["1+1","__proto__","NaN","Infinity","0x1","1,2,3","", "a".repeat(30)])
     assert.equal(normalizedAnswer(unsafe),null);
 });
 test("24 hour retention proof and cooldown cannot be unlocked client-side",()=>{

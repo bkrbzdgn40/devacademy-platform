@@ -8,7 +8,7 @@ type State={status:"locked"|"ready"|"active"|"waiting"|"retained"|"cooldown"|"un
 type Feedback={correct:boolean;expected:string[];explanation:string;confidence:"low"|"medium"|"high";stage:number};
 type Status="loading"|"signedout"|"unavailable"|"ready";
 const when=(value:string)=>new Intl.DateTimeFormat("tr-TR",
-  {day:"numeric",month:"long",hour:"2-digit",minute:"2-digit",timeZone:"Europe/Istanbul"}).format(new Date(value));
+  {day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"}).format(new Date(value));
 
 export function TransferLab({lessonId}:{lessonId:string}) {
   const [loadStatus,setLoadStatus]=useState<Status>("loading");
