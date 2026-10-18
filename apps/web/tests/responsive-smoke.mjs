@@ -264,6 +264,87 @@ try{
     sample:"rgb(37, 31, 26)",panel:"rgb(255, 253, 250)"
   },"Warm studio chrome must retain a readable cocoa code surface");
 
+  // M8.6A.1: real Chrome interaction, persistence, OS-following preference.
+  // Start with system: no persisted theme and a light OS at this point.
+  await cdp.send("Page.navigate",{url:base+"/"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && !!document.querySelector('.theme-control select')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"Theme switcher did not hydrate");
+  const selectTheme=(value)=>cdp.send("Runtime.evaluate",{expression:
+    "(() => {const x=document.querySelector('.theme-control select'); x.value="+JSON.stringify(value)+
+    ";x.dispatchEvent(new Event('change',{bubbles:true}));return true;})()",
+    returnByValue:true},sessionId);
+  await selectTheme("dark");
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.documentElement.dataset.theme==='dark' && localStorage.getItem('devacademy-theme')==='dark'",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"Selecting dark mode did not persist and apply");
+  const darkColors=await cdp.send("Runtime.evaluate",{expression:
+    "(() => {const root=document.documentElement; const style=getComputedStyle(root);"+
+    "const panel=document.querySelector('.feature-card');"+
+    "const button=document.querySelector('.primary-button');"+
+    "return {scheme:style.colorScheme,background:getComputedStyle(document.body).color,"+
+    "panel:getComputedStyle(panel).backgroundColor,action:getComputedStyle(button).backgroundColor,"+
+    "select:document.querySelector('.theme-control select').value,overflow:root.scrollWidth>root.clientWidth+1};})()",
+    returnByValue:true},sessionId);
+  assert.deepEqual(darkColors.result.value,{scheme:"dark",background:"rgb(245, 239, 229)",
+    panel:"rgb(41, 39, 32)",action:"rgb(186, 204, 150)",select:"dark",overflow:false},
+    "Dark olive/espresso palette did not render correctly");
+  await cdp.send("Page.navigate",{url:base+"/kurslar/javascript-temelleri/degiskenler"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && document.documentElement.dataset.theme==='dark' && "+
+      "!!document.querySelector('.lesson-step-panel:not([hidden]) .learning-studio')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"Dark selection was lost on a new lesson page");
+  const darkLesson=await cdp.send("Runtime.evaluate",{expression:
+    "(() => {const e=document.documentElement; return {"+
+    "studio:getComputedStyle(document.querySelector('.learning-studio')).backgroundColor,"+
+    "source:getComputedStyle(document.querySelector('.studio-code')).backgroundColor,"+
+    "overflow:e.scrollWidth>e.clientWidth+1};})()",
+    returnByValue:true},sessionId);
+  assert.deepEqual(darkLesson.result.value,{
+    studio:"rgb(41, 39, 32)",source:"rgb(21, 18, 15)",overflow:false
+  },"Learning Studio dark surfaces are inconsistent");
+
+  // Switching to System follows a simulated OS setting without storing an override.
+  await cdp.send("Emulation.setEmulatedMedia",{
+    features:[{name:"prefers-color-scheme",value:"dark"}]},sessionId);
+  await selectTheme("system");
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.documentElement.dataset.theme==='dark' && "+
+      "document.documentElement.dataset.themePreference==='system' && "+
+      "localStorage.getItem('devacademy-theme')===null",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"System preference did not clear manual override");
+  await cdp.send("Emulation.setEmulatedMedia",{
+    features:[{name:"prefers-color-scheme",value:"light"}]},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.documentElement.dataset.theme==='light' && document.documentElement.dataset.themePreference==='system'",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"System theme did not follow OS media change");
+
+  // Explicit light always wins over a dark system preference.
+  await cdp.send("Emulation.setEmulatedMedia",{
+    features:[{name:"prefers-color-scheme",value:"dark"}]},sessionId);
+  await selectTheme("light");
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.documentElement.dataset.theme==='light' && localStorage.getItem('devacademy-theme')==='light'",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"Explicit light preference did not override dark OS");
+
   console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery, guided Apply mobile Learning Studio, and M8.5.1 expanded lessons.");
 } catch(error){
   console.error("Production server output:",serverLog);
