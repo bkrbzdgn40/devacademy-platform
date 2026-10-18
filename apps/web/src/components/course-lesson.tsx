@@ -139,7 +139,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
     <div className="lesson-workspace-layout">
       <LessonCourseMap courseTitle={course.title} courseHref={path}
         lessons={entries} currentIndex={index} lessonBase={path}/>
-      <main className="lesson-workspace-main" id="ders-calisma">
+      <div className="lesson-workspace-main" id="ders-calisma">
         <section className="lesson-objective" aria-labelledby="objective-title">
           <div><span className="ui-eyebrow">Bu dersin hedefi</span>
             <h2 id="objective-title">Öğrenme hedefin</h2></div>
@@ -153,7 +153,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
             <Link className="primary-button" href="/kurslar">Kurslara dön →</Link>}
         </nav>
         <p className="small-note">Soru sonuçları ve ders tamamlama kaydı yalnızca oturum açtığında hesabına kaydedilir. Düzenlediğin kod, genel kullanıma açık bir kod çalıştırma hizmetinde yürütülmez.</p>
-      </main>
+      </div>
     </div>
   </article>;
 }
