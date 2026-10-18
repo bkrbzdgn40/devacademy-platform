@@ -257,7 +257,7 @@
     ],
     "independent": {
       "title": "Ürün vergili fiyatlarını üret",
-      "brief": "[100, 200, 50] ürün fiyatlarını map kullanarak yüzde 10 KDV dahil yeni bir diziye çevir ve virgülle yazdır. Orijinal listeyi değiştirme. İkinci denemede [20, 40] kullan.",
+      "brief": "Fiyatları [100, 200, 50] olan ürünleri map ile yüzde 10 KDV dahil fiyatlara dönüştür. Her fiyatı tam TL'ye Math.round ile yuvarla, yeni diziyi virgülle yazdır ve orijinalini değiştirme. İkinci test için [20, 40] kullan.",
       "starterCode": "const prices = [100, 200, 50];\n// map ile yeni liste oluştur, virgülle yazdır.\n",
       "modelCode": "const prices = [100, 200, 50];\nconst taxed = prices.map(price => Math.round(price * 1.1));\nconsole.log(taxed.join(','));",
       "expectedOutput": "110,220,55",
