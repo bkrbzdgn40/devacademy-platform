@@ -24,6 +24,16 @@ BEGIN
   EXCEPTION WHEN unique_violation THEN invalid:=true;
   END;
   IF NOT invalid THEN RAISE EXCEPTION 'duplicate evidence accepted'; END IF;
+  IF (SELECT probe_focus FROM learning_transfer_trials
+     WHERE learner_id=owner_a AND stage=0) <> 'standard'
+    THEN RAISE EXCEPTION 'existing trial does not default to independent mode'; END IF;
+  invalid:=false;
+  BEGIN
+    UPDATE learning_transfer_trials SET probe_focus='fake'
+      WHERE learner_id=owner_a AND stage=0;
+  EXCEPTION WHEN check_violation THEN invalid:=true;
+  END;
+  IF NOT invalid THEN RAISE EXCEPTION 'invalid coaching mode accepted'; END IF;
   DELETE FROM learner_accounts WHERE id=owner_a;
   IF EXISTS(SELECT 1 FROM learning_transfer_trials WHERE learner_id=owner_a)
     THEN RAISE EXCEPTION 'evidence orphaned after owner deletion'; END IF;

@@ -5,7 +5,8 @@ import {spawnSync} from "node:child_process";
 import {mkdtempSync,writeFileSync,rmSync} from "node:fs";
 import {tmpdir} from "node:os";
 import {join} from "node:path";
-import {transferLessonIds,transferProblem,normalizedAnswer} from "../src/server/transfer-missions.mjs";
+import {transferLessonIds,normalizedAnswer} from "../src/server/transfer-missions.mjs";
+import {adaptiveProblem} from "../src/server/adaptive-probes.mjs";
 
 function run(program,args,options={}) {
   const result=spawnSync(program,args,{encoding:"utf8",timeout:8000,maxBuffer:8192,...options});
@@ -14,8 +15,8 @@ function run(program,args,options={}) {
 }
 let validated=0;
 for(const lessonId of transferLessonIds) {
-  for(const seed of [37,2801]) {
-    const problem=transferProblem(lessonId,seed);
+  for(const focus of ["standard","a","b"]) for(const seed of [37,2801]) {
+    const problem=adaptiveProblem(lessonId,seed,focus);
     let output;
     if(lessonId.startsWith("lesson.javascript.")) {
       output=run(process.execPath,["-e",problem.code]);
@@ -35,4 +36,4 @@ for(const lessonId of transferLessonIds) {
     validated++;
   }
 }
-console.log("Counterfactual transfer runtime PASS: "+validated+" real JS/Python/Java programs.");
+console.log("Counterfactual and adaptive diagnostic runtime PASS: "+validated+" real JS/Python/Java programs.");
