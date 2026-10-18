@@ -139,7 +139,7 @@ test("retention dry run, bounded apply and live-session preservation", async()=>
     for(const value of stale)await database().query(
       "INSERT INTO auth_attempt_limits(key_hash,attempt_count,window_start) VALUES($1,1,now()-interval '2 days')",[value]);
     await database().query("INSERT INTO auth_attempt_limits(key_hash,attempt_count,window_start) VALUES($1,1,now())",[active]);
-    assert.throws(()=>cleanupAuthState({batchSize:0}),RangeError);
+    await assert.rejects(cleanupAuthState({batchSize:0}),RangeError);
     const dry=await cleanupAuthState();
     assert.equal(dry.applied,false);
     assert.ok(dry.expiredSessions>=2);

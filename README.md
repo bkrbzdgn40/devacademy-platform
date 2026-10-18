@@ -2,7 +2,7 @@
 
 **Interactive software learning, practice, assessment and industry awareness.**
 
-> Status: local development preview. Two shared course paths (JavaScript and Java), authenticated progress, and a localhost-only experimental JavaScript sandbox/assessment are implemented. Public code execution and production deployment remain disabled.
+> Status: local development preview. Three shared course paths (JavaScript, Java and Python), authenticated progress, and a localhost-only experimental JavaScript sandbox/assessment are implemented. Public code execution and production deployment remain disabled.
 
 DevAcademy connects programming languages, software engineering concepts and modern technology stacks to interactive lessons, programming practice, skill checks, learning paths and attributed technology updates.
 
@@ -25,7 +25,7 @@ Open http://localhost:3000. `corepack pnpm check` runs lint, type checks, catalo
 - Three function-writing challenges under `/pratik`, with open examples and worker-only hidden test cases. Evaluation is available only in an explicitly configured **local sandbox laboratory**, never in production.
 - PostgreSQL migrations for learner/attempt/progress, username credentials and server-side sessions, plus local registration/login, saved quiz attempts and account deletion. These features are active only with a configured database. Answers are not shipped in public question JSON.
 - Responsive styling, keyboard skip link and basic semantic markup.
-- All sample catalog items explicitly report **no runnable runtime**. Anonymous quiz responses are not persisted; authenticated quiz responses are stored if the local database is configured. Public registration/abuse controls remain incomplete.
+- All sample catalog items explicitly report **no runnable runtime**. Anonymous quiz responses are not persisted; authenticated quiz responses are stored if the local database is configured. Registration has initial DB-backed abuse limits; edge-level protections are still required before public signup.
 - Technology news is a truthful empty state, not a synthetic live feed.
 
 ## Architecture (current and future)
@@ -92,3 +92,7 @@ Two programming challenges are available at `/pratik/python-cift-topla` and `/pr
 ## M8.0A: Focused learner navigation and lesson stages
 
 The top navigation now offers **Öğren**, **Pratik yap**, **Keşfet** (Diller/Kavramlar/Teknolojiler), and **İlerlemem**. Scheduled review remains one click away from the signed-in progress dashboard and course progress card. Guided Java/Python lessons use four stages (predict, understand/trace, diagnose, apply); JavaScript lessons use three (understand, code, assess). Only the visited stage content is mounted and prior stage answers stay mounted when revisiting. The guided debug stage deliberately shows the source as read-only, since only the repair choice is graded; the single editable CodeMirror is deferred until apply. No question IDs, private answer keys, database schema, account records, or runtime gates were changed. The full course completion requirements remain server-enforced.
+
+## M8.0B security maintenance
+
+Registration has shared database-backed quotas before password hashing, and defensive browser headers are enabled. A **read-only-by-default** auth cleanup command handles expired sessions and stale login/registration counters only, never learner progress. Worker CI path coverage and scheduled dependency scanning have been expanded. See [M8.0B operations](docs/security/M8-0B-OPERATIONS.md) for the controls, safe invocation, rollback and remaining launch gates.
