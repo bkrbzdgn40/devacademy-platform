@@ -108,10 +108,24 @@ try {
   assert.equal("expected" in activeEvidence.problem,false);
   const wrongEvidence=await post("/api/transfer",{
     lessonId:"lesson.javascript.let-const",operation:"submit",stage:0,
+    challengeToken:activeEvidence.problem.challengeToken,
     answerA:"-123456",answerB:"-123456",confidence:"low",learnerId:"spoofed"
   },{cookie:cookieA});
   assert.equal(wrongEvidence.status,200);
-  assert.equal((await wrongEvidence.json()).correct,false);
+  const wrongBody=await wrongEvidence.json();
+  assert.equal(wrongBody.correct,false);
+  assert.equal(wrongBody.diagnosis.pattern,"both");
+  const guided=await (await read("/api/transfer?lessonId=lesson.javascript.let-const",cookieA)).json();
+  assert.equal(guided.problem.assisted,true);
+  assert.notEqual(guided.problem.challengeToken,activeEvidence.problem.challengeToken);
+  assert.equal("expected" in guided.problem,false);
+  const stalePost=await post("/api/transfer",{
+    lessonId:"lesson.javascript.let-const",operation:"submit",stage:0,
+    challengeToken:activeEvidence.problem.challengeToken,
+    answerA:"1",answerB:"2",confidence:"low"
+  },{cookie:cookieA});
+  assert.equal(stalePost.status,409);
+  assert.equal((await stalePost.json()).status,"stale");
   assert.equal((await (await read("/api/transfer?lessonId=lesson.javascript.let-const",cookieB)).json()).status,"locked");
   const progressA=await (await read("/api/progress",cookieA)).json();
   const progressB=await (await read("/api/progress",cookieB)).json();

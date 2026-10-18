@@ -24,6 +24,7 @@ docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0005_spaced_reviews.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0006_multilang_lab.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0007_transfer_evidence.sql
+docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/migrations/0008_adaptive_probes.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/learning_core.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/auth_core.sql
 docker exec -i "$container" psql -U postgres -d devacademy_test -v ON_ERROR_STOP=1 < db/tests/execution_queue.sql

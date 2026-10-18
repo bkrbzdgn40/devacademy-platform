@@ -2,10 +2,13 @@
 import {useCallback,useEffect,useState,type FormEvent} from "react";
 import Link from "next/link";
 
-type Task={title:string;code:string;promptA:string;promptB:string;stage:number;attemptsRemaining:number};
+type Hypothesis={pattern:"a"|"b"|"both";focus:"a"|"b";title:string;rationale:string;disclaimer:string};
+type Task={title:string;code:string;promptA:string;promptB:string;stage:number;attemptsRemaining:number;
+  focus:"standard"|"a"|"b";assisted:boolean;challengeToken:string;hypothesis:Hypothesis|null};
 type State={status:"locked"|"ready"|"active"|"waiting"|"retained"|"cooldown"|"unsupported";
   stage?:number;retry?:boolean;problem?:Task;dueAt?:string;passedAt?:string};
-type Feedback={correct:boolean;expected:string[];explanation:string;confidence:"low"|"medium"|"high";stage:number};
+type Feedback={correct:boolean;expected:string[];explanation:string;confidence:"low"|"medium"|"high";
+  stage:number;independent:boolean;coached:boolean;diagnosis:Hypothesis|null};
 type Status="loading"|"signedout"|"unavailable"|"ready";
 const when=(value:string)=>new Intl.DateTimeFormat("tr-TR",
   {day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"}).format(new Date(value));
@@ -18,6 +21,7 @@ export function TransferLab({lessonId}:{lessonId:string}) {
   const [reflection,setReflection]=useState("");
   const [confidence,setConfidence]=useState<"low"|"medium"|"high">("medium");
   const [feedback,setFeedback]=useState<Feedback|null>(null);
+ 
   const [error,setError]=useState("");
   const [pending,setPending]=useState(false);
 
@@ -57,6 +61,7 @@ export function TransferLab({lessonId}:{lessonId:string}) {
     if(!response.ok)throw Error(
       result?.status==="locked"?"Önce rehberli dersi tamamlamalısın.":
       result?.status==="cooldown"?"Günlük deneme sınırına ulaştın.":
+      result?.status==="stale"?"Bu problem daha önce yanıtlandı. Güncel deney yükleniyor.":
       result?.error||"İşlem tamamlanamadı.");
     return result;
   }
@@ -78,22 +83,26 @@ export function TransferLab({lessonId}:{lessonId:string}) {
     setPending(true);setError("");
     try {
       const grade=await post({operation:"submit",stage:state.problem?.stage,
+        challengeToken:state.problem?.challengeToken,
         answerA,answerB,confidence}) as Feedback & {status:string};
       setFeedback(grade);
-      setAnswerA("");setAnswerB("");setReflection("");
+       setAnswerA("");setAnswerB("");setReflection("");
       await refresh();
-    } catch(e){setError(e instanceof Error?e.message:"Yanıt gönderilemedi.");}
+    } catch(e){
+      setError(e instanceof Error?e.message:"Yanıt gönderilemedi.");
+      await refresh().catch(()=>setLoadStatus("unavailable"));
+    }
     finally{setPending(false);}
   }
 
   return <section className="transfer-lab" aria-labelledby="transfer-title">
     <div className="transfer-heading"><span className="overline">DENEYSEL · KANIT DÖNGÜSÜ</span>
       <h2 id="transfer-title">Ezberi boz: tek değişiklik, iki sonuç</h2>
-      <p>Hazır seçenek yok. Kodun iki farklı sonucunu tahmin et, nedenini kendi cümlelerinle açıkla ve eminlik düzeyini belirt. Sunucu burada öğrenci kodu çalıştırmaz.</p>
+      <p>Hazır seçenek yok. Önce iki sonucu tahmin et. Birinde hata yaparsan sistem hangi varsayımı sınaman gerektiğine dair bir hipotez kurup odaklı bir deney verecek. Yardımlı deney bağımsız başarı sayılmaz.</p>
     </div>
     {loadStatus==="loading"&&<p role="status">Bağımsız görev durumun okunuyor…</p>}
     {loadStatus==="signedout"&&<p>Bu kanıtı hesabına bağlamak için <Link href="/hesap">oturum aç</Link>.</p>}
-    {loadStatus==="unavailable"&&<div><p role="status">Bu oturumda kayıtlı bağımsız doğrulama açılamadı. Yerel veritabanında migration 0007 gerekli olabilir.</p>
+    {loadStatus==="unavailable"&&<div><p role="status">Bu oturumda bağımsız doğrulama açılamadı. Veritabanında 0007 ve 0008 şema güncellemeleri gerekli olabilir.</p>
       <button className="subtle-action" type="button" onClick={()=>{setLoadStatus("loading");void refresh().catch(()=>setLoadStatus("unavailable"));}}>Yeniden dene</button></div>}
     {loadStatus==="ready"&&state?.status==="locked"&&<div>
       <p>Önce bu dersin rehberli sorularını tamamlayıp <strong>Dersi tamamla</strong> düğmesine bas. İlerleme kaydedildikten sonra kanıt görevini açabilirsin.</p>
@@ -120,8 +129,15 @@ export function TransferLab({lessonId}:{lessonId:string}) {
     </p>}
     {loadStatus==="ready"&&state?.status==="active"&&state.problem&&
       <form className="transfer-form" onSubmit={submit}>
-        <p className="transfer-phase">{state.problem.stage===0?"1 / 2 · Bağımsız transfer":
-          "2 / 2 · Gecikmeli transfer"} · Kalan deneme: {state.problem.attemptsRemaining}</p>
+        <p className="transfer-phase">{state.problem.assisted?"Yanılgı Laboratuvarı · Yardımlı teşhis":
+          state.problem.stage===0?"1 / 2 · Bağımsız transfer":"2 / 2 · Gecikmeli transfer"}
+          {" · "}Kalan deneme: {state.problem.attemptsRemaining}</p>
+        {state.problem.assisted&&state.problem.hypothesis&&<aside className="transfer-hypothesis" aria-label="Sınanacak hipotez">
+          <strong>{state.problem.hypothesis.title}</strong>
+          <p>{state.problem.hypothesis.rationale}</p>
+          <small>{state.problem.hypothesis.disclaimer}</small>
+          <p>Bu deneyden sonra yeni ve yardımsız bir soru çözeceksin. Şu anki cevap transfer kanıtı sayılmaz.</p>
+        </aside>}
         <h3>{state.problem.title}</h3>
         <pre className="lesson-code"><code>{state.problem.code}</code></pre>
         <div className="transfer-answers">
@@ -145,12 +161,19 @@ export function TransferLab({lessonId}:{lessonId:string}) {
           {pending?"İki sonuç doğrulanıyor…":"Tahminimi doğrula"}</button>
       </form>}
     {feedback&&<div className="transfer-feedback" role="status" aria-live="polite">
-      <strong>{feedback.correct?"İki çıktı da doğru.":"Tahminlerden en az biri beklenenden farklı."}</strong>
+      <strong>{feedback.coached?"Teşhis deneyi çözüldü; henüz bağımsız kanıt değil.":
+        feedback.independent?"Yardımsız iki çıktı da doğru.":"Tahminlerden en az biri beklenenden farklı."}</strong>
       <p>Beklenen sonuç: <strong>A = {feedback.expected[0]}, B = {feedback.expected[1]}</strong></p>
       <p>{feedback.explanation}</p>
       {feedback.confidence==="high"&&!feedback.correct&&
         <p>Yüksek güvenle yapılan yanlış tahmin, gözden geçirmen gereken bir varsayımı işaret ediyor.</p>}
-      {feedback.correct&&feedback.stage===0&&<p>İlk kanıt kaydedildi. Kalıcılık için farklı bir görev daha gerekecek.</p>}
+      {feedback.diagnosis&&<div className="transfer-hypothesis">
+        <strong>Sonraki deneyin nedeni: {feedback.diagnosis.title}</strong>
+        <p>{feedback.diagnosis.rationale}</p>
+        <small>{feedback.diagnosis.disclaimer}</small>
+      </div>}
+      {feedback.coached&&<p>Şimdi yardımsız, başka değerlerle oluşturulan bir görev açıldı. İlk kanıt ancak onu doğru çözdüğünde kaydedilir.</p>}
+      {feedback.independent&&feedback.stage===0&&<p>İlk bağımsız kanıt kaydedildi. Kalıcılık için farklı bir görevi en az 24 saat sonra çözmen gerekecek.</p>}
     </div>}
     {error&&<p className="quiz-error" role="alert">{error}</p>}
   </section>;

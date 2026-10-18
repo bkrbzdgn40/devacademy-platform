@@ -8,16 +8,19 @@ import {recordAttempt,updateLessonProgress,getLearningProgress} from "../src/ser
 import {gradeSubmission} from "../src/server/grade.ts";
 import {getTransferState,startTransfer,submitTransfer} from "../src/server/transfer-store.mjs";
 import {transferProblem} from "../src/server/transfer-missions.mjs";
+import {adaptiveProblem} from "../src/server/adaptive-probes.mjs";
 
 const password="A-Long-Test-Passphrase-2026";
 const id="lesson.javascript.let-const";
 async function solve(owner,stage,correct=true) {
+  const state=await getTransferState(owner,id);
+  assert.equal(state.status,"active");
   const row=await database().query(
-    "SELECT variant_seed FROM learning_transfer_trials WHERE learner_id=$1 AND lesson_id=$2 AND stage=$3",
+    "SELECT variant_seed,probe_focus FROM learning_transfer_trials WHERE learner_id=$1 AND lesson_id=$2 AND stage=$3",
     [owner,id,stage]);
-  const expected=transferProblem(id,row.rows[0].variant_seed).expected;
-  return submitTransfer(owner,{lessonId:id,stage,answerA:correct?expected[0]:"-123456",
-    answerB:correct?expected[1]:"-123456",confidence:"high"});
+  const expected=adaptiveProblem(id,row.rows[0].variant_seed,row.rows[0].probe_focus).expected;
+  return submitTransfer(owner,{lessonId:id,stage,challengeToken:state.problem.challengeToken,
+    answerA:correct?expected[0]:"-123456",answerB:correct?expected[1]:"-123456",confidence:"high"});
 }
 test("transfer proves distinct correct cases after guided completion and cannot bypass 24h",async()=>{
   const a=await createAccount("transa_"+randomBytes(6).toString("hex"),password);
@@ -40,7 +43,7 @@ test("transfer proves distinct correct cases after guided completion and cannot 
     assert.equal(first.problem.stage,0);
     assert.equal("expected" in first.problem,false);
     assert.deepEqual((await startTransfer(a.learnerId,id)).problem,first.problem);
-    assert.equal((await submitTransfer(a.learnerId,{lessonId:id,stage:0,answerA:"1+1",
+    assert.equal((await submitTransfer(a.learnerId,{lessonId:id,stage:0,challengeToken:first.problem.challengeToken,answerA:"1+1",
       answerB:"1",confidence:"high"})).status,"invalid");
     const beforeWrong=await database().query(
       "SELECT variant_seed,attempt_count FROM learning_transfer_trials WHERE learner_id=$1 AND lesson_id=$2 AND stage=0",
@@ -50,19 +53,33 @@ test("transfer proves distinct correct cases after guided completion and cannot 
     assert.equal(bad.expected.length,2);
     assert.ok(bad.explanation.length>15);
     const afterWrong=await database().query(
-      "SELECT variant_seed,attempt_count FROM learning_transfer_trials WHERE learner_id=$1 AND lesson_id=$2 AND stage=0",
+      "SELECT variant_seed,attempt_count,probe_focus,last_error_pattern FROM learning_transfer_trials WHERE learner_id=$1 AND lesson_id=$2 AND stage=0",
       [a.learnerId,id]);
     assert.equal(afterWrong.rows[0].attempt_count,beforeWrong.rows[0].attempt_count+1);
     assert.notEqual(afterWrong.rows[0].variant_seed,beforeWrong.rows[0].variant_seed);
+    assert.equal(afterWrong.rows[0].probe_focus,"a");
+    assert.equal(afterWrong.rows[0].last_error_pattern,"both");
+    assert.ok((await getTransferState(a.learnerId,id)).problem.assisted);
     assert.notEqual(
-      transferProblem(id,afterWrong.rows[0].variant_seed).code,
+      adaptiveProblem(id,afterWrong.rows[0].variant_seed,"a").code,
       transferProblem(id,beforeWrong.rows[0].variant_seed).code
     );
+    // A stale form cannot be graded against a freshly generated probe.
+    assert.equal((await submitTransfer(a.learnerId,{lessonId:id,stage:0,
+      challengeToken:first.problem.challengeToken,answerA:"123",answerB:"123",
+      confidence:"high"})).status,"stale");
+    const coached=await solve(a.learnerId,0,true);
+    assert.equal(coached.correct,true);
+    assert.equal(coached.coached,true);
+    assert.equal(coached.independent,false);
+    assert.equal((await getTransferState(a.learnerId,id)).status,"active");
+    assert.equal((await getTransferState(a.learnerId,id)).problem.assisted,false);
     const valid=await solve(a.learnerId,0,true);
-    assert.equal(valid.correct,true);
+    assert.equal(valid.independent,true);
     assert.equal((await getTransferState(a.learnerId,id)).status,"waiting");
     assert.equal((await startTransfer(a.learnerId,id)).status,"waiting");
-    assert.equal((await submitTransfer(a.learnerId,{lessonId:id,stage:0,answerA:"0",
+    assert.equal((await submitTransfer(a.learnerId,{lessonId:id,stage:0,
+      challengeToken:first.problem.challengeToken,answerA:"0",
       answerB:"0",confidence:"high"})).status,"unavailable");
     assert.equal((await getTransferState(b.learnerId,id)).status,"locked");
     assert.equal((await getLearningProgress(a.learnerId)).transferSummary.first,1);
