@@ -136,3 +136,7 @@ DevAcademy now provides **Sistem / Açık / Koyu** appearance preferences. The d
 ## M8.6B · Ana Sayfa ve Kurs Keşfi 2.0
 
 The homepage offers a genuine authenticated resume-to-lesson panel (never invented progress), themed learning path comparisons for 3 real courses/15 lessons, a causal-learning walkthrough and explicitly labeled software news *sources* rather than fictional live headlines. The course catalog searches actual course and lesson content with direct lesson links. No new migrations, third-party data transmission or production deployment. [M8.6B product design](docs/design/M8-6B-HOME-DISCOVERY.md).
+
+## M8.6C · Lesson Workstation 2.0
+
+All 15 published lessons have a responsive course map, stage orientation and focused workstation. Source samples and causal counterexamples expand only on demand, while Studio remains central. Visited quizzes and editors retain in-page state; assessments and user progress remain untouched. See [M8.6C learning workstation](docs/design/M8-6C-LESSON-WORKSTATION.md).

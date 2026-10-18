@@ -5,6 +5,7 @@ import { CompleteLesson } from "@/components/complete-lesson";
 import { TraceWalkthrough } from "@/components/trace-walkthrough";
 import { LearningStudio } from "@/components/learning-studio";
 import { LessonDepth } from "@/components/lesson-depth";
+import { LessonCourseMap } from "@/components/lesson-course-map";
 import {studioHasLesson} from "@/lib/studio-scenarios.mjs";
 import { LessonStepper, type LessonStep } from "@/components/lesson-stepper";
 import { TransferLab } from "@/components/transfer-lab";
@@ -25,6 +26,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
   const index = entries.findIndex((item) => item.id === lesson.id);
   if (index < 0) throw new Error("Lesson not in course");
   const next = entries[index + 1];
+  const previous = entries[index - 1];
   const questions = questionsForLesson(lesson);
   const guide = guides.find((item) => item.lessonId === lesson.id);
   const studio = studioHasLesson(lesson.id) ? <LearningStudio lessonId={lesson.id}/> : null;
@@ -49,10 +51,18 @@ export function CourseLesson({ course, lesson, legacy = false }: {
     </> },
     { id: "understand", label: "Anla ve izle", title: "Konuyu anlayalım", content: <>
       <p className="lesson-step-intro">{lesson.explanation}</p>
-      <div className="code-label">{name} · Örnek kod</div>
-      <pre className="lesson-code"><code>{lesson.code}</code></pre>
+      <details className="lesson-supplement lesson-sample-disclosure">
+        <summary>Temel örnek kodu karşılaştır</summary>
+        <div className="lesson-supplement-content">
+          <div className="code-label">{name} · Örnek kod</div>
+          <pre className="lesson-code"><code>{lesson.code}</code></pre>
+        </div>
+      </details>
       {studio ?? <TraceWalkthrough steps={guide.trace}/>}
-      <LessonDepth lessonId={lesson.id}/>
+      <details className="lesson-supplement lesson-depth-disclosure">
+        <summary>Kavramı karşı örneklerle derinleştir</summary>
+        <LessonDepth lessonId={lesson.id}/>
+      </details>
       {studio && <p className="lesson-step-tip">Bu inceleme, gözden geçirilmiş bir deney üzerinde kodun davranışını izlemeni sağlar; ders içindeki diğer soruların yanıtlarını otomatik olarak değiştirmez.</p>}
     </> },
     { id: "debug", label: "Hata avcısı", title: "Hatayı düzelt", content: <>
@@ -82,10 +92,18 @@ export function CourseLesson({ course, lesson, legacy = false }: {
   ] : [
     { id: "understand", label: "Öğren", title: "Konuyu anlayalım", content: <>
       <p className="lesson-step-intro">{lesson.explanation}</p>
-      <div className="code-label">{name} · Örnek kod</div>
-      <pre className="lesson-code"><code>{lesson.code}</code></pre>
+      <details className="lesson-supplement lesson-sample-disclosure">
+        <summary>Temel örnek kodu karşılaştır</summary>
+        <div className="lesson-supplement-content">
+          <div className="code-label">{name} · Örnek kod</div>
+          <pre className="lesson-code"><code>{lesson.code}</code></pre>
+        </div>
+      </details>
       {studio}
-      <LessonDepth lessonId={lesson.id}/>
+      <details className="lesson-supplement lesson-depth-disclosure">
+        <summary>Kavramı karşı örneklerle derinleştir</summary>
+        <LessonDepth lessonId={lesson.id}/>
+      </details>
     </> },
     { id: "apply", label: "Kodla", title: "Örneği kendin değiştir", content: <>
       <p className="lesson-step-intro">Örneği düzenle. Kod çalıştırma yalnızca yetkilendirilmiş yerel laboratuvar ortamında etkinleşir.</p>
@@ -104,7 +122,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
     </> },
   ];
 
-  return <article className="shell lesson-page">
+  return <article className="shell lesson-page lesson-workspace-page">
     <nav aria-label="İçerik konumu" className="breadcrumb">
       <Link href="/kurslar">Kurslar</Link><span aria-hidden="true">/</span>
       <Link href={path}>{course.title}</Link><span aria-hidden="true">/</span>
@@ -118,15 +136,24 @@ export function CourseLesson({ course, lesson, legacy = false }: {
         <span>{questions.length} soru</span>
       </div>
     </header>
-    <section className="lesson-objective" aria-labelledby="objective-title">
-      <h2 id="objective-title">Bu derste öğreneceksin</h2><p>{lesson.objective}</p>
-    </section>
-    <LessonStepper steps={steps}/>
-    <nav aria-label="Ders gezinmesi" className="lesson-nav">
-      <Link className="subtle-button" href={path}>← Kurs dersleri</Link>
-      {next ? <Link className="primary-button" href={path + "/" + next.slug}>Sonraki ders →</Link> :
-        <Link className="primary-button" href="/kurslar">Kurslara dön →</Link>}
-    </nav>
-    <p className="small-note">Oturum açtıysan soru sonuçları ve ders ilerlemesi hesabına kaydedilir. Kod düzenleme, genel kullanıma açık bir kod çalıştırma hizmeti değildir.</p>
+    <div className="lesson-workspace-layout">
+      <LessonCourseMap courseTitle={course.title} courseHref={path}
+        lessons={entries} currentIndex={index} lessonBase={path}/>
+      <div className="lesson-workspace-main" id="ders-calisma">
+        <section className="lesson-objective" aria-labelledby="objective-title">
+          <div><span className="ui-eyebrow">Bu dersin hedefi</span>
+            <h2 id="objective-title">Öğrenme hedefin</h2></div>
+          <p>{lesson.objective}</p>
+        </section>
+        <LessonStepper steps={steps}/>
+        <nav aria-label="Ders gezinmesi" className="lesson-nav">
+          {previous ? <Link className="ui-button ui-button-secondary" href={path + "/" + previous.slug}>← Önceki ders</Link> :
+            <Link className="ui-button ui-button-secondary" href={path}>← Kurs dersleri</Link>}
+          {next ? <Link className="primary-button" href={path + "/" + next.slug}>Sonraki ders →</Link> :
+            <Link className="primary-button" href="/kurslar">Kurslara dön →</Link>}
+        </nav>
+        <p className="small-note">Soru sonuçları ve ders tamamlama kaydı yalnızca oturum açtığında hesabına kaydedilir. Düzenlediğin kod, genel kullanıma açık bir kod çalıştırma hizmetinde yürütülmez.</p>
+      </div>
+    </div>
   </article>;
 }

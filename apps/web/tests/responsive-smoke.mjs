@@ -344,7 +344,7 @@ try{
     return r.result?.value?.action==="rgb(186, 204, 150)"?r.result.value:null;
   },"Dark olive primary button did not settle after theme switch");
   assert.deepEqual(darkColors,{scheme:"dark",background:"rgb(245, 239, 229)",
-    panel:"rgb(41, 39, 32)",action:"rgb(186, 204, 150)",trigger:"Koyu⌄",overflow:false},
+    panel:"rgb(41, 39, 32)",action:"rgb(186, 204, 150)",trigger:"Koyu",overflow:false},
     "Dark olive/espresso palette did not render correctly");
   await openThemeMenu();
   assert.deepEqual(await menuPalette(),{
@@ -491,6 +491,126 @@ try{
     return r.result?.value===true;
   },"M8.6B new course cards do not inherit the dark palette");
   await selectTheme("light");
+
+  // M8.6C: desktop 1280px real course map, then 320px mobile disclosure
+  // and the actual lesson-stage workflow. The map never claims completion.
+  const lessonUrl=base+"/kurslar/python-temelleri/degiskenler-ve-turler";
+  await cdp.send("Emulation.setDeviceMetricsOverride",{
+    width:1280,height:900,deviceScaleFactor:1,mobile:false
+  },sessionId);
+  await cdp.send("Page.navigate",{url:lessonUrl},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && !!document.querySelector('.course-map-desktop')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6C desktop course map did not mount");
+  const desktopMap=await cdp.send("Runtime.evaluate",{expression:
+    "(() => {const m=document.querySelector('.course-map-desktop');const doc=document.documentElement;"+
+    "return {visible:getComputedStyle(m).display!=='none',sticky:getComputedStyle(m).position,"+
+    "links:m.querySelectorAll('a.course-map-lesson').length,"+
+    "current:m.querySelectorAll('a[aria-current=page]').length,"+
+    "overflow:doc.scrollWidth>doc.clientWidth+1};})()",
+    returnByValue:true},sessionId);
+  assert.deepEqual(desktopMap.result.value,{visible:true,sticky:"sticky",
+    links:5,current:1,overflow:false},"Desktop map must show real lesson navigation");
+
+  await cdp.send("Emulation.setDeviceMetricsOverride",{
+    width:320,height:850,deviceScaleFactor:1,mobile:true
+  },sessionId);
+  await cdp.send("Page.navigate",{url:lessonUrl},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && !!document.querySelector('.course-map-mobile summary') && "+
+      "!!document.querySelector('[data-lesson-step=\"3\"]')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6C mobile lesson map and stepper did not hydrate");
+  const beforeMap=await cdp.send("Runtime.evaluate",{expression:
+    "(() => {const m=document.querySelector('.course-map-mobile');const bar=document.querySelector('.lesson-stepper-nav ol');"+
+    "return {visible:getComputedStyle(m).display!=='none',open:m.open,"+
+    "steps:bar.querySelectorAll('button').length,stage:document.querySelector('.lesson-stage-position').textContent,"+
+    "scrollable:bar.scrollWidth>bar.clientWidth,editor:!!document.querySelector('.cm-editor')};})()",
+    returnByValue:true},sessionId);
+  assert.equal(beforeMap.result.value.visible,true);
+  assert.equal(beforeMap.result.value.open,false);
+  assert.equal(beforeMap.result.value.steps,4);
+  assert.ok(beforeMap.result.value.stage.includes("Aşama 1 / 4"));
+  assert.equal(beforeMap.result.value.scrollable,true,
+    "Mobile lesson steps should scroll inside their own bar");
+  assert.equal(beforeMap.result.value.editor,false,
+    "CodeMirror must be lazy-mounted only after visiting Apply");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('.course-map-mobile summary').click()",
+    returnByValue:true},sessionId);
+  const expandedMap=await cdp.send("Runtime.evaluate",{expression:
+    "(() => {const m=document.querySelector('.course-map-mobile');"+
+    "const doc=document.documentElement;return {open:m.open,"+
+    "links:m.querySelectorAll('.course-map-lesson').length,"+
+    "current:m.querySelectorAll('[aria-current=page]').length,"+
+    "overflow:doc.scrollWidth>doc.clientWidth+1};})()",
+    returnByValue:true},sessionId);
+  assert.deepEqual(expandedMap.result.value,{open:true,links:5,current:1,overflow:false},
+    "Mobile course map must show links without page overflow");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('.course-map-mobile summary').click();"+
+    "document.querySelector('[data-lesson-step=\"1\"]').click()",
+    returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelector('[data-lesson-step=\"1\"]').getAttribute('aria-current')==='step' && "+
+      "!!document.querySelector('.lesson-step-panel:not([hidden]) .learning-studio')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6C guided studio not available in Understand step");
+  const hiddenSupplements=await cdp.send("Runtime.evaluate",{expression:
+    "({sample:document.querySelector('.lesson-sample-disclosure').open,"+
+    "depth:document.querySelector('.lesson-depth-disclosure').open,"+
+    "previous:!!document.querySelector('#lesson-step-panel-predict[hidden]')})",
+    returnByValue:true},sessionId);
+  assert.deepEqual(hiddenSupplements.result.value,{sample:false,depth:false,previous:true});
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('.lesson-sample-disclosure summary').click();"+
+    "document.querySelector('.lesson-depth-disclosure summary').click()",
+    returnByValue:true},sessionId);
+  const expandedLesson=await cdp.send("Runtime.evaluate",{expression:
+    "(() => {const doc=document.documentElement;return {"+
+    "sample:document.querySelector('.lesson-sample-disclosure').open,"+
+    "depth:document.querySelector('.lesson-depth-disclosure').open,"+
+    "code:!!document.querySelector('.lesson-sample-disclosure .lesson-code'),"+
+    "overflow:doc.scrollWidth>doc.clientWidth+1};})()",
+    returnByValue:true},sessionId);
+  assert.deepEqual(expandedLesson.result.value,{sample:true,depth:true,code:true,overflow:false});
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('[data-stage-next]').click()",returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelector('[data-lesson-step=\"2\"]').getAttribute('aria-current')==='step' && "+
+      "document.activeElement?.id==='lesson-step-heading-debug'",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6C stage-next failed to focus newly opened step");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('[data-stage-previous]').click()",returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelector('[data-lesson-step=\"1\"]').getAttribute('aria-current')==='step' && "+
+      "document.querySelector('.lesson-depth-disclosure').open",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6C returning to visited stage lost prior reading state");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('[data-lesson-step=\"3\"]').click()",returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "!!document.querySelector('.lesson-step-panel:not([hidden]) .cm-editor')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6C guided Apply did not mount the existing CodeMirror editor");
+  const finishedLayout=await cdp.send("Runtime.evaluate",{expression:diagnostic,
+    returnByValue:true},sessionId);
+  assert.ok(finishedLayout.result.value.scrollWidth<=finishedLayout.result.value.viewport+1,
+    "M8.6C guided Apply overflow at 320px: "+JSON.stringify(finishedLayout.result.value));
 
   console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery, guided Apply mobile Learning Studio, and M8.5.1 expanded lessons.");
 } catch(error){

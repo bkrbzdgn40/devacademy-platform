@@ -25,9 +25,9 @@ test("guided lessons preserve all existing assessment identities",()=>{
 });
 test("lesson stages have accessible navigation, preserve visited answers and lazy-mount editor",()=>{
   assert.match(stepper,/aria-label="Ders aşamaları"/);
-  assert.match(stepper,/aria-current=\{active === index \? "step"/);
+  assert.match(stepper,/aria-current=\{active\s*===\s*index\s*\?\s*"step"/);
   assert.match(stepper,/visited.includes\(index\)/);
-  assert.match(stepper,/hidden=\{active !== index\}/);
+  assert.match(stepper,/hidden=\{active\s*!==\s*index\}/);
   assert.match(lesson,/id: "predict"/);
   assert.match(lesson,/id: "debug"/);
   assert.match(lesson,/id: "apply"/);
