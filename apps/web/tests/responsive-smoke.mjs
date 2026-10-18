@@ -332,6 +332,14 @@ try{
   },"System preference did not clear manual override");
   await cdp.send("Emulation.setEmulatedMedia",{
     features:[{name:"prefers-color-scheme",value:"light"}]},sessionId);
+  const emulated=await cdp.send("Runtime.evaluate",{expression:
+    "window.matchMedia('(prefers-color-scheme: dark)').matches",
+    returnByValue:true},sessionId);
+  assert.equal(emulated.result.value,false,"Chrome did not emulate a light OS scheme");
+  // CDP emulation does not always raise MediaQueryList 'change' like a real
+  // OS setting change. The app also rechecks when the tab regains focus.
+  await cdp.send("Runtime.evaluate",{expression:
+    "window.dispatchEvent(new Event('focus'))",returnByValue:true},sessionId);
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
       "document.documentElement.dataset.theme==='light' && document.documentElement.dataset.themePreference==='system'",
