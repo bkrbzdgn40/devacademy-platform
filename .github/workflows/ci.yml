@@ -41,3 +41,11 @@ jobs:
         run: node apps/web/tests/http-smoke.mjs
       - name: Check responsive viewport widths in headless Chrome
         run: node apps/web/tests/responsive-smoke.mjs
+      - name: Measure real browser and editor chunk cost
+        run: node apps/web/tests/performance-probe.mjs
+      - name: Store browser performance report
+        uses: actions/upload-artifact@v4
+        with:
+          name: m8-0c-browser-${{ github.sha }}
+          path: apps/web/perf-results.json
+          retention-days: 14
