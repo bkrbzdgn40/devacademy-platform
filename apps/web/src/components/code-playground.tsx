@@ -1,11 +1,19 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { javascript } from "@codemirror/lang-javascript";
-import { java } from "@codemirror/lang-java";
-import { python } from "@codemirror/lang-python";
+// Only the selected editor language loads its grammar package.
+type EditorLanguage = "javascript" | "java" | "python" | "plain";
+type GrammarExtension = ReturnType<(typeof import("@codemirror/lang-javascript"))["javascript"]>;
+async function loadGrammar(language: EditorLanguage): Promise<GrammarExtension[]> {
+  switch (language) {
+    case "javascript": return [(await import("@codemirror/lang-javascript")).javascript()];
+    case "java": return [(await import("@codemirror/lang-java")).java()];
+    case "python": return [(await import("@codemirror/lang-python")).python()];
+    case "plain": return [];
+  }
+}
 
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
   ssr: false,
@@ -38,7 +46,17 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
   const [error,setError]=useState("");
   const [busy,setBusy]=useState(false);
   const controller=useRef<AbortController | null>(null);
-  const extensions = useMemo(() => language==="javascript" ? [javascript()] : language==="java" ? [java()] : language==="python" ? [python()] : [], [language]);
+  const [grammar, setGrammar] = useState<{language:EditorLanguage;extensions:GrammarExtension[]} | null>(null);
+  const extensions = grammar?.language === language ? grammar.extensions : null;
+  useEffect(() => {
+    let cancelled = false;
+    void loadGrammar(language).then((value) => {
+      if (!cancelled) setGrammar({language,extensions:value});
+    }).catch(() => {
+      if (!cancelled) setError("Dil araçları yüklenemedi. Sayfayı yenileyip tekrar deneyin.");
+    });
+    return () => {cancelled = true;};
+  }, [language]);
   const changed = code !== starterCode;
   const bytes = new TextEncoder().encode(code).byteLength;
   const assessmentMode=Boolean(exerciseId && exerciseRevision);
@@ -99,12 +117,12 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
       <div><strong>{displayLanguage ?? (language==="java"?"Java":language==="python"?"Python":language==="plain"?"Genel kod":"JavaScript")} editörü</strong><span>CodeMirror 6 · {language==="plain"?"Düz metin modu":(displayLanguage ?? (language==="java"?"Java":language==="python"?"Python":"JavaScript"))+" sözdizimi renklendirme"}</span></div>
       <button type="button" onClick={()=>{setCode(starterCode);setJob(null);setError("");}} disabled={!changed}>Örneği sıfırla</button>
     </div>
-    <CodeMirror
+    {extensions ? <CodeMirror
       value={code} theme="dark" extensions={extensions} height="320px"
       basicSetup={{lineNumbers:true,highlightActiveLine:true,foldGutter:true,autocompletion:true}}
       onChange={value=>{setCode(value);if(!busy){setJob(null);setError("");}}}
       aria-label={label}
-    />
+    /> : <p role="status" className="editor-loading">Dil araçları yükleniyor…</p>}
     <div className="editor-footer">
       <span aria-live="polite">{bytes.toLocaleString("tr-TR")} bayt · {code.split("\n").length} satır</span>
       <button type="button" disabled={!available||busy||bytes>(assessmentMode?6000:8192)||!code.trim()}
