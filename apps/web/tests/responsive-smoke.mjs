@@ -358,6 +358,86 @@ try{
     return r.result?.value===true;
   },"Explicit light preference did not override dark OS");
 
+  // M8.6B: actual search/clear and directly linked lesson interaction on 320px.
+  await cdp.send("Emulation.setDeviceMetricsOverride",{
+    width:320,height:850,deviceScaleFactor:1,mobile:true
+  },sessionId);
+  await cdp.send("Page.navigate",{url:base+"/kurslar"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && !!document.querySelector('#course-search') && "+
+      "document.querySelectorAll('.path-card').length===3",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6B explorer did not render three verified courses");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('#course-search').focus()",returnByValue:true},sessionId);
+  await cdp.send("Input.insertText",{text:"Promise"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelectorAll('.path-card').length===1 && "+
+      "!!document.querySelector('.path-matches a[href$=\"asenkron-temeller\"]')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6B Promise search failed to link to its actual lesson");
+  let mobile=await cdp.send("Runtime.evaluate",{expression:diagnostic,returnByValue:true},sessionId);
+  assert.ok(mobile.result.value.scrollWidth<=mobile.result.value.viewport+1,
+    "M8.6B course search overflows at 320px: "+JSON.stringify(mobile.result.value));
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('.explorer-search-row button').click()",
+    returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelectorAll('.path-card').length===3 && !document.querySelector('#course-search').value",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6B course-search clear control did not work");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('#course-search').focus()",returnByValue:true},sessionId);
+  await cdp.send("Input.insertText",{text:"olmayan yazılım"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelectorAll('.path-card').length===0 && !!document.querySelector('.explorer-empty')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6B empty search state did not render");
+  // Verify home progression never fabricates account completion when no DB exists.
+  await cdp.send("Page.navigate",{url:base+"/"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && !!document.querySelector('.journey-card') && "+
+      "!document.querySelector('.journey-card [role=status]')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6B home personalized panel did not resolve its initial state");
+  const discoveryHome=await cdp.send("Runtime.evaluate",{expression:
+    "(() => {const d=document.documentElement;return {"+
+    "paths:document.querySelectorAll('.home-path-grid .path-card').length,"+
+    "radar:document.querySelectorAll('.radar-source').length,"+
+    "newsPlaceholder:document.body.textContent.includes('Canlı haber akışı henüz bağlı değil'),"+
+    "resume:!!document.querySelector('.journey-card a[href=\"/kurslar\"]'),"+
+    "overflow:d.scrollWidth>d.clientWidth+1};})()",
+    returnByValue:true},sessionId);
+  assert.deepEqual(discoveryHome.result.value,{paths:3,radar:3,
+    newsPlaceholder:true,resume:true,overflow:false},
+    "M8.6B home orientation/radar unconfigured state invalid");
+  // The same new cards must render dark; keep earlier theme tests intact.
+  await cdp.send("Runtime.evaluate",{expression:
+    "(() => {const x=document.querySelector('.theme-control select');"+
+    "x.value='dark';x.dispatchEvent(new Event('change',{bubbles:true}));})()",
+    returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.documentElement.dataset.theme==='dark' && "+
+      "getComputedStyle(document.querySelector('.home-path-grid .path-card')).backgroundColor==='rgb(41, 39, 32)'",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M8.6B new course cards do not inherit the dark palette");
+  await cdp.send("Runtime.evaluate",{expression:
+    "(() => {const x=document.querySelector('.theme-control select');"+
+    "x.value='light';x.dispatchEvent(new Event('change',{bubbles:true}));})()",
+    returnByValue:true},sessionId);
+
   console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery, guided Apply mobile Learning Studio, and M8.5.1 expanded lessons.");
 } catch(error){
   console.error("Production server output:",serverLog);

@@ -61,7 +61,10 @@ test("shared basic components are used in actual pages, not merely authored",()=
   assert.match(home,/SectionHeading eyebrow="Yolculuğun başlangıcı"/);
   assert.match(home,/feature-card ui-card/);
   assert.match(layout,/StatusPill tone="terracotta"/);
-  assert.match(course,/catalog-card ui-card/);
+  assert.match(course,/CourseExplorer/);
+  const card=read("components/learning-path-card.tsx");
+  assert.match(card,/ui-card path-/);
+  assert.match(card,/className="path-cta"/);
   assert.match(progress,/dashboard-stat ui-card/);
   assert.match(styles,/\.studio-code\{background:var\(--ui-code\)/);
 });

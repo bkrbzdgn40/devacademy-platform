@@ -132,3 +132,7 @@ A light warm-cream learning surface, accessible olive navigation/actions, terrac
 ## M8.6A.1 · Dark espresso learning theme
 
 DevAcademy now provides **Sistem / Açık / Koyu** appearance preferences. The dark palette combines espresso surfaces, legible sage-olive primary actions and copper-terracotta accents, with a darker code canvas. Choices survive navigation and refresh; System follows live OS color preference. The theme toggle does not change learning records or server state. See [dark theme design and testing](docs/design/M8-6A-1-DARK-THEME.md).
+
+## M8.6B · Ana Sayfa ve Kurs Keşfi 2.0
+
+The homepage offers a genuine authenticated resume-to-lesson panel (never invented progress), themed learning path comparisons for 3 real courses/15 lessons, a causal-learning walkthrough and explicitly labeled software news *sources* rather than fictional live headlines. The course catalog searches actual course and lesson content with direct lesson links. No new migrations, third-party data transmission or production deployment. [M8.6B product design](docs/design/M8-6B-HOME-DISCOVERY.md).

@@ -48,7 +48,10 @@ try {
   assert.equal(home.headers.get("x-frame-options"),"DENY");
   assert.equal(home.headers.get("x-content-type-options"),"nosniff");
   assert.equal(home.headers.get("referrer-policy"),"strict-origin-when-cross-origin");
-  assert.match(await home.text(), /İlk derslere başla/);
+  const homeHtml=await home.text();
+  assert.match(homeHtml,/Öğrenme yollarını keşfet/);
+  assert.match(homeHtml,/Kaldığın yeri arama/);
+  assert.match(homeHtml,/Canlı haber akışı henüz bağlı değil/);
   const catalog = await fetch(`${base}/kutuphane/diller`);
   assert.equal(catalog.status, 200);
   assert.ok((await catalog.text()).includes('href="/kurslar/javascript-temelleri"'));
@@ -63,7 +66,9 @@ try {
   // Generic course routes and second-language questions remain fully server-rendered.
   const courseList = await fetch(`${base}/kurslar`);
   assert.equal(courseList.status,200);
-  assert.match(await courseList.text(),/Java Temelleri/);
+  const courseHtml=await courseList.text();
+  assert.match(courseHtml,/Java Temelleri/);
+  assert.match(courseHtml,/Kurs veya ders ara/);
   const javaCourse = await fetch(`${base}/kurslar/java-temelleri`);
   assert.equal(javaCourse.status,200);
   assert.match(await javaCourse.text(),/Değişkenler ve veri türleri/);
