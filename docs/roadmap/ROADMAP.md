@@ -39,6 +39,11 @@ başka bir duruma aktarabilir ve mümkün olduğunda kendi kodunu oluşturabilir
 **Tek paket içinde yapılacaklar:**
 - Var olan ders, tekrar, transfer ve kod kanıtı kayıtlarından **dürüst ve
   eyleme dönük öğrenme önerisi**. Ders tamamlama asla mastery etiketi olmaz.
+- **Python Temelleri'nin beş dersine** gerçek yaşam senaryoları, üç kademeli
+  uygulamalı sorular, açıklayıcı çeldirici geri bildirimi ve açıkça
+  değerlendirilmeyen sıfırdan kod denemeleri eklendi (M9 içerik paketi).
+  Bu içerikler öğrenci pilotu yapılmış veya otomatik kod başarı
+  kanıtına dönüşmüş değildir.
 - Öncelikle **Python Temelleri'nin beş dersinde** öğretim akışını baştan
   sona gözden geçir: yanlış anlama, gerçek kullanım, kademeli ipucu,
   bağımsız senaryo, sağlam geri bildirim ve konu bağlantısı.
