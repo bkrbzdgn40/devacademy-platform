@@ -1,3 +1,6 @@
+import {extraStudioLessons,extraStudioVariantCount,buildExtraStudioScenario}
+  from "./studio-scenarios-extra.mjs";
+
 // M8.5: client-safe, reviewed teaching traces. This is NOT a general-purpose
 // interpreter, an assessment oracle, or a graded independent transfer attempt.
 // Every source variant is generated from a fixed, bounded authored model.
@@ -7,7 +10,8 @@ export const studioLessons=Object.freeze([
   "lesson.java.variables",
   "lesson.java.polymorphism",
   "lesson.python.loops",
-  "lesson.python.functions"
+  "lesson.python.functions",
+  ...extraStudioLessons
 ]);
 const descriptions=Object.freeze({
   "lesson.javascript.let-const":{title:"Değişken ve nesne izleyicisi",question:"Nesnenin alanı güncellenince score değişir mi?",hint:"İki ayrı sayı değeri mi, yoksa aynı nesneye verilen iki isim mi var?",topics:["Değerin kopyalanması","Nesne alanı"]},
@@ -25,7 +29,7 @@ const inputs=Object.freeze({
   "lesson.python.loops":[{start:1,stop:5},{start:2,stop:6},{start:3,stop:8}],
   "lesson.python.functions":[{value:4,factor:2},{value:7,factor:3},{value:5,factor:4}]
 });
-export function studioVariantCount(lessonId){return inputs[lessonId]?.length??0;}
+export function studioVariantCount(lessonId){return inputs[lessonId]?.length??extraStudioVariantCount(lessonId);}
 export function studioHasLesson(lessonId){return studioLessons.includes(lessonId);}
 function traceBuilder() {
   const steps=[],outputs=[];
@@ -39,6 +43,7 @@ export function buildStudioScenario(lessonId,variant=0) {
   if(!studioHasLesson(lessonId))return null;
   if(!Number.isInteger(variant)||variant<0||variant>=studioVariantCount(lessonId))
     throw Error("STUDIO_VARIANT_OUT_OF_RANGE");
+  if(extraStudioLessons.includes(lessonId))return buildExtraStudioScenario(lessonId,variant);
   const p=inputs[lessonId][variant], meta=descriptions[lessonId], {steps,add}=traceBuilder();
   let code,expected;
   switch(lessonId) {

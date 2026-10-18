@@ -120,3 +120,7 @@ An optional `gvisor-staging` execution profile inserts Docker `--runtime=runsc` 
 ## M8.5 Learning Studio 2.0
 
 Six JavaScript, Python and Java concepts now include a responsive prediction-first line-by-line trace studio. Learners enter two outputs before seeing program state, inspect variables and console changes, compare causal errors and try three reviewed input variants. All 18 examples are verified with actual language runtimes in CI and the mobile interaction is exercised by headless Chrome. These authored traces are for teaching only and never grant independent grade or execute arbitrary student code. See [Learning Studio pedagogy and limits](docs/learning/M8-5-LEARNING-STUDIO.md).
+
+## M8.5.1 Complete Studio Coverage
+
+All **15 published JavaScript, Java and Python lessons** now have a reviewed prediction-first Learning Studio with three input variants per lesson (**45 runnable cases**). Every lesson also includes a conceptual mental model, a likely misconception, a contrast with a causal explanation, a reflection prompt with a reveal-on-demand answer, and a practical use case. CI checks the entire authored catalog against real language runtimes and mobile Chrome behavior. No arbitrary browser execution, new code grading, production deployment or DB migration. See [M8.5.1 implementation and editorial scope](docs/learning/M8-5-1-FULL-CURRICULUM.md).

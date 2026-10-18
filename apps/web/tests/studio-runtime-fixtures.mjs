@@ -39,4 +39,4 @@ for(const lesson of studioLessons) {
     checked++;
   }
 }
-console.log("M8.5 studio real-runtime fixtures PASS: "+checked+" independent Node/Java/Python cases.");
+console.log("M8.5.1 studio real-runtime fixtures PASS: "+checked+" independent Node/Java/Python cases.");

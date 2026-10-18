@@ -1,10 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import lessons from "../src/data/lessons.json" with {type:"json"};
 import {studioLessons,studioHasLesson,studioVariantCount,buildStudioScenario,
   gradeStudioPrediction,normalizeStudioAnswer} from "../src/lib/studio-scenarios.mjs";
 
 test("studio has three distinct, bounded reviewed variants per supported concept",()=>{
-  assert.equal(studioLessons.length,6);
+  assert.equal(studioLessons.length,15);
+  assert.deepEqual([...studioLessons].sort(),lessons.map(x=>x.id).sort(),
+    "Every currently published lesson must have an independent authored trace.");
   assert.ok(studioLessons.some(x=>x.includes(".java.")));
   assert.ok(studioLessons.some(x=>x.includes(".python.")));
   assert.ok(studioLessons.some(x=>x.includes(".javascript.")));
@@ -61,4 +64,21 @@ test("python return traces show side-effect output before A/B, preventing false 
   assert.equal(out[0].label,"Ara çıktı");
   assert.equal(out[1].value,"None");
   assert.notEqual(out[1].value,out[0].value);
+});
+
+test("new teaching traces cover language-specific causal distinctions",()=>{
+  const scope=buildStudioScenario("lesson.javascript.scope",0);
+  assert.notEqual(scope.expected[0],scope.expected[1]);
+  assert.match(scope.code,/let count =/);
+  const async=buildStudioScenario("lesson.javascript.async",0);
+  assert.ok(async.steps.findIndex(x=>x.line===6)<async.steps.findIndex(x=>x.line===3),
+    "microtask must execute after later synchronous source line");
+  const filter=buildStudioScenario("lesson.javascript.filter",1);
+  assert.deepEqual(filter.expected,["0","0"]);
+  const conditions=buildStudioScenario("lesson.python.conditions",0);
+  assert.ok(conditions.steps.some(x=>x.line===5)&&!conditions.steps.some(x=>x.line===3));
+  const dict=buildStudioScenario("lesson.python.collections",0);
+  assert.match(dict.code,/get\("score"/);
+  const java=buildStudioScenario("lesson.java.methods",2);
+  assert.ok(java.expected.some(x=>x.startsWith("-")));
 });
