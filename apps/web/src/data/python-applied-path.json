@@ -85,7 +85,8 @@
       "variationCode": "unit_price = 24\nquantity = 2\ndelivery = 12\ntotal = unit_price * quantity + delivery\nprint(f\"Toplam: {total:.2f} TL\")",
       "variationExpected": "Toplam: 60.00 TL",
       "reflection": "Fiyat yanlışlıkla tırnak içinde metin olarak verilirse hangi işlem artık çalışmaz?"
-    }
+    },
+    "language": "python"
   },
   {
     "lessonId": "lesson.python.conditions",
@@ -173,7 +174,8 @@
       "variationCode": "score = 50\nif score >= 80:\n    print(\"Başarılı\")\nelif score >= 50:\n    print(\"Geliştirilmeli\")\nelse:\n    print(\"Yeniden çalış\")",
       "variationExpected": "Geliştirilmeli",
       "reflection": "Tam 80 puan alan bir öğrenci hangi grupta olmalı ve neden?"
-    }
+    },
+    "language": "python"
   },
   {
     "lessonId": "lesson.python.loops",
@@ -261,7 +263,8 @@
       "variationCode": "readings = [2, -2, 8]\ntotal = 0\nfor reading in readings:\n    if reading < 0:\n        continue\n    total += reading\nprint(total)",
       "variationExpected": "10",
       "reflection": "Sıfır geçerli ölçümse <= 0 yazmak neden yanlış olur?"
-    }
+    },
+    "language": "python"
   },
   {
     "lessonId": "lesson.python.functions",
@@ -349,7 +352,8 @@
       "variationCode": "def calculate_total(price, quantity, tax_rate=0.1):\n    return round(price * quantity * (1 + tax_rate), 2)\n\nprint(calculate_total(20, 3, 0.2))",
       "variationExpected": "72.0",
       "reflection": "Fonksiyonun içinde print kullanmak, başka bir fonksiyonun bu sonucu toplamasına neden yardımcı olmaz?"
-    }
+    },
+    "language": "python"
   },
   {
     "lessonId": "lesson.python.collections",
@@ -437,6 +441,7 @@
       "variationCode": "def low_stock(stock, limit):\n    return [name for name, count in stock.items() if count < limit]\n\nprint(low_stock({\"kalem\": 2, \"defter\": 1}, 2))",
       "variationExpected": "['defter']",
       "reflection": "limit=2 olduğunda stok adedi tam 2 olan ürün neden sonuç listesinde yok?"
-    }
+    },
+    "language": "python"
   }
 ]
