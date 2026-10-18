@@ -345,7 +345,7 @@
       "brief": "calculate_total(price, quantity, tax_rate=0.1) fonksiyonunu yaz. KDV dahil toplamı return ile döndür, sonucu iki ondalık basamağa yuvarla. Ardından 0 vergi oranını dene.",
       "starterCode": "def calculate_total(price, quantity, tax_rate=0.1):\n    # Sonucu yazdırma; çağırana return ile ilet.\n    pass\n\nprint(calculate_total(50, 2))\nprint(calculate_total(25, 2, 0))",
       "modelCode": "def calculate_total(price, quantity, tax_rate=0.1):\n    return round(price * quantity * (1 + tax_rate), 2)\n\nprint(calculate_total(50, 2))\nprint(calculate_total(25, 2, 0))",
-      "expectedOutput": "110.0\n50.0",
+      "expectedOutput": "110.0\n50",
       "variationCode": "def calculate_total(price, quantity, tax_rate=0.1):\n    return round(price * quantity * (1 + tax_rate), 2)\n\nprint(calculate_total(20, 3, 0.2))",
       "variationExpected": "72.0",
       "reflection": "Fonksiyonun içinde print kullanmak, başka bir fonksiyonun bu sonucu toplamasına neden yardımcı olmaz?"
