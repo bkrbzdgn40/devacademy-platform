@@ -39,7 +39,7 @@ const labels: Record<ExecutionJob["status"],string> = {
 };
 const sleep = (ms:number) => new Promise<void>(resolve=>setTimeout(resolve,ms));
 
-export function CodePlayground({ starterCode, label = "JavaScript kod editörü",  exerciseId, exerciseRevision, language="javascript", displayLanguage }: { starterCode: string; label?: string; exerciseId?: string; exerciseRevision?: number; language?:"javascript"|"java"|"python"|"plain"; displayLanguage?:string }) {
+export function CodePlayground({ starterCode, label = "JavaScript kod editörü",  exerciseId, exerciseRevision, language="javascript", displayLanguage,onAssessmentFinished }: { starterCode: string; label?: string; exerciseId?: string; exerciseRevision?: number; language?:"javascript"|"java"|"python"|"plain"; displayLanguage?:string;onAssessmentFinished?:()=>void }) {
   const [code, setCode] = useState(starterCode);
   const [capability, setCapability] = useState<Capability | null>(null);
   const [job,setJob]=useState<ExecutionJob | null>(null);
@@ -102,7 +102,10 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
         if(!response.ok)throw Error("STATUS_UNAVAILABLE");
         const status=(await response.json()) as ExecutionJob;
         setJob(status);
-        if(finalStatuses.has(status.status))return;
+        if(finalStatuses.has(status.status)){
+          if(status.status==="completed"&&status.assessment?.verdict==="passed")onAssessmentFinished?.();
+          return;
+        }
       }
       setError("İşlem yanıt vermedi. Kuyruk durumunu tekrar kontrol etmek için sayfayı yenileyebilirsin.");
     }catch{

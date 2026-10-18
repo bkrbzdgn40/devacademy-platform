@@ -167,5 +167,201 @@
         "expected": 0
       }
     ]
+  },
+  {
+    "id": "transfer.js.snapshot",
+    "revision": 1,
+    "slug": "bagimsiz-js-nesne-kopyasi",
+    "language": "javascript",
+    "level": "Bağımsız transfer",
+    "title": "JavaScript · Değer ve nesne",
+    "functionName": "snapshotScore",
+    "transferLessonId": "lesson.javascript.let-const",
+    "description": "snapshotScore(score, delta) işlevi, [orijinal skor, nesne içindeki güncellenmiş skor] çiftini döndürsün. Bunu kendi fonksiyonunla üret. Sabit sonuç yazma.",
+    "starterCode": "function snapshotScore(score, delta) {\n  // İki sonucu [eski, yeni] sırasıyla döndür.\n  return [];\n}",
+    "publicCases": [
+      {
+        "label": "Artan skor",
+        "args": [
+          6,
+          3
+        ],
+        "expected": [
+          6,
+          9
+        ]
+      },
+      {
+        "label": "Azalan skor",
+        "args": [
+          8,
+          -2
+        ],
+        "expected": [
+          8,
+          6
+        ]
+      }
+    ]
+  },
+  {
+    "id": "transfer.js.map",
+    "revision": 1,
+    "slug": "bagimsiz-js-dizi-donusumu",
+    "language": "javascript",
+    "level": "Bağımsız transfer",
+    "title": "JavaScript · map ile yeni dizi",
+    "functionName": "scaleCopy",
+    "transferLessonId": "lesson.javascript.array-map",
+    "description": "scaleCopy(values, factor) işlevi, her elemanı factor ile çarpan yeni bir dizi döndürsün. Kaynak diziyi değiştirme. Boş diziyi de destekle.",
+    "starterCode": "function scaleCopy(values, factor) {\n  // Yeni bir dizi döndür.\n  return [];\n}",
+    "publicCases": [
+      {
+        "label": "Karma sayılar",
+        "args": [
+          [
+            -2,
+            0,
+            3
+          ],
+          3
+        ],
+        "expected": [
+          -6,
+          0,
+          9
+        ]
+      },
+      {
+        "label": "Boş liste",
+        "args": [
+          [],
+          5
+        ],
+        "expected": []
+      }
+    ]
+  },
+  {
+    "id": "transfer.java.divide",
+    "revision": 1,
+    "slug": "bagimsiz-java-gercek-bolme",
+    "language": "java",
+    "level": "Bağımsız transfer",
+    "title": "Java · Kesri koruyarak böl",
+    "functionName": "exactDivide",
+    "transferLessonId": "lesson.java.variables",
+    "description": "Solution sınıfında public static double exactDivide(int numerator, int denominator) yaz. denominator sıfır değildir. Tamsayı bölmesi kesri kaybettirmemeli.",
+    "starterCode": "class Solution {\n  public static double exactDivide(int numerator, int denominator) {\n    // Kesri koruyan bölmeyi yaz.\n    return 0;\n  }\n}",
+    "publicCases": [
+      {
+        "label": "Kesirli bölüm",
+        "args": [
+          7,
+          2
+        ],
+        "expected": 3.5
+      },
+      {
+        "label": "Tam bölüm",
+        "args": [
+          8,
+          4
+        ],
+        "expected": 2
+      }
+    ]
+  },
+  {
+    "id": "transfer.java.overload",
+    "revision": 1,
+    "slug": "bagimsiz-java-metot-cagrisi",
+    "language": "java",
+    "level": "Bağımsız transfer",
+    "title": "Java · Metot davranışını üret",
+    "functionName": "combineSounds",
+    "transferLessonId": "lesson.java.polymorphism",
+    "description": "Solution.combineSounds(base,extra,value) metodu base + (value + extra) değerini döndürsün. Çözümünde kalıtılan parametresiz speak() ve speak(int) aşırı yüklemesini kullanmayı dene. Otomatik testler çıktı davranışını ölçer, kaynak kodun bu yöntemleri kullandığını doğrulamaz.",
+    "starterCode": "class Solution {\n  public static int combineSounds(int base, int extra, int value) {\n    // Kalıtım ve overload ile iki metot çağrısının toplamını üret.\n    return 0;\n  }\n}",
+    "publicCases": [
+      {
+        "label": "İki çağrının toplamı",
+        "args": [
+          4,
+          3,
+          5
+        ],
+        "expected": 12
+      },
+      {
+        "label": "Sıfır değer",
+        "args": [
+          0,
+          2,
+          6
+        ],
+        "expected": 8
+      }
+    ]
+  },
+  {
+    "id": "transfer.python.range",
+    "revision": 1,
+    "slug": "bagimsiz-python-range-toplam",
+    "language": "python",
+    "level": "Bağımsız transfer",
+    "title": "Python · Bitiş hariç toplam",
+    "functionName": "sum_exclusive",
+    "transferLessonId": "lesson.python.loops",
+    "description": "sum_exclusive(start,stop) fonksiyonunu yaz. start dahil, stop hariç tüm tam sayıların toplamını döndürsün. Aralık boşsa sıfır dönsün.",
+    "starterCode": "def sum_exclusive(start, stop):\n    # stop değerini dahil etme.\n    return 0",
+    "publicCases": [
+      {
+        "label": "Pozitif aralık",
+        "args": [
+          2,
+          5
+        ],
+        "expected": 9
+      },
+      {
+        "label": "Boş aralık",
+        "args": [
+          3,
+          3
+        ],
+        "expected": 0
+      }
+    ]
+  },
+  {
+    "id": "transfer.python.return",
+    "revision": 1,
+    "slug": "bagimsiz-python-return",
+    "language": "python",
+    "level": "Bağımsız transfer",
+    "title": "Python · Yazdırma değil döndür",
+    "functionName": "return_product",
+    "transferLessonId": "lesson.python.functions",
+    "description": "return_product(value,factor) işlevi iki sayının çarpımını döndürsün. Sadece print etmek yeterli değildir; çağıran bu değeri kullanabilmeli.",
+    "starterCode": "def return_product(value, factor):\n    # Sonucu ekrana yazmak yerine çağırana döndür.\n    return None",
+    "publicCases": [
+      {
+        "label": "Çarpan pozitif",
+        "args": [
+          4,
+          3
+        ],
+        "expected": 12
+      },
+      {
+        "label": "Sıfır çarpanı",
+        "args": [
+          8,
+          0
+        ],
+        "expected": 0
+      }
+    ]
   }
 ]

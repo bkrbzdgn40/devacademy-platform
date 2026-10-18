@@ -5,6 +5,8 @@ import { CompleteLesson } from "@/components/complete-lesson";
 import { TraceWalkthrough } from "@/components/trace-walkthrough";
 import { LessonStepper, type LessonStep } from "@/components/lesson-stepper";
 import { TransferLab } from "@/components/transfer-lab";
+import { CodeTransferLab } from "@/components/code-transfer-lab";
+import practice from "@/data/practice.json";
 import { transferLessonIds } from "@/server/transfer-missions.mjs";
 import guides from "@/data/lesson-guides.json";
 import { lessonsForCourse, type Course } from "@/lib/courses";
@@ -30,6 +32,12 @@ export function CourseLesson({ course, lesson, legacy = false }: {
   const editor = <CodePlayground starterCode={lesson.code} displayLanguage={name}
     language={editorLanguage} label={lesson.title + " kod editörü"}/>;
   const completion = <CompleteLesson lessonId={lesson.id} questionCount={questions.length}/>;
+  const task = practice.find(item=>"transferLessonId" in item && item.transferLessonId===lesson.id);
+  const codeProof = task ? <CodeTransferLab lessonId={lesson.id} task={{
+    id:task.id,revision:task.revision,title:task.title,description:task.description,
+    language:task.language as "javascript"|"java"|"python",
+    functionName:task.functionName,starterCode:task.starterCode,publicCases:task.publicCases
+  }}/> : null;
   const steps: LessonStep[] = guide && diagnostic ? [
     { id: "predict", label: "Tahmin et", title: "Önce kendi tahminini yap", content: <>
       <p className="lesson-step-intro">Açıklamayı görmeden önce kodun ne yapacağını düşün. Yanlış cevap öğrenme fırsatıdır.</p>
@@ -63,6 +71,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
       </div>
       {completion}
       {transferLessonIds.includes(lesson.id) && <TransferLab lessonId={lesson.id}/>}
+      {codeProof}
     </> },
   ] : [
     { id: "understand", label: "Öğren", title: "Konuyu anlayalım", content: <>
@@ -83,6 +92,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
       </div>
       {completion}
       {transferLessonIds.includes(lesson.id) && <TransferLab lessonId={lesson.id}/>}
+      {codeProof}
     </> },
   ];
 

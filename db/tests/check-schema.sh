@@ -42,6 +42,7 @@ if [[ "${RUN_APP_TESTS:-}" == "1" ]]; then
   node apps/web/tests/db-pool-benchmark.mjs
   node apps/web/tests/auth-db.integration.mjs
   node apps/web/tests/transfer-db.integration.mjs
+  node apps/web/tests/code-transfer-db.integration.mjs
   node apps/web/tests/execution-queue.integration.mjs
   node apps/web/tests/assessment-queue.integration.mjs
   node apps/web/tests/multilang-queue.integration.mjs
