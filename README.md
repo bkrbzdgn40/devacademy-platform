@@ -2,7 +2,7 @@
 
 **Interactive software learning, practice, assessment and industry awareness.**
 
-> Status: local development preview. Three shared course paths (JavaScript, Java and Python), authenticated progress, and a localhost-only experimental JavaScript sandbox/assessment are implemented. Public code execution and production deployment remain disabled.
+> Status: local development preview. Three published course paths (7 JavaScript, 3 Java and 5 Python lessons), 45 reviewed Learning Studio traces, authenticated progress, and optional isolated localhost-only JS/Java/Python code assessments are implemented. Public code execution and production deployment remain disabled.
 
 DevAcademy connects programming languages, software engineering concepts and modern technology stacks to interactive lessons, programming practice, skill checks, learning paths and attributed technology updates.
 
@@ -19,14 +19,14 @@ Open http://localhost:3000. `corepack pnpm check` runs lint, type checks, catalo
 
 ## Current preview
 
-- A Turkish landing page with a seven-lesson JavaScript learning path and three exploration routes.
+- An Olive & Earth light/dark learning homepage, searchable JavaScript/Java/Python courses and responsive lesson workstation.
 - Catalog previews for languages, concepts and technologies, including the uncommon **COW** language.
-- Seven reviewed JavaScript lessons and fourteen output-prediction exercises with server-side scoring and explanations.
+- 15 published lessons, 38 server-graded knowledge questions, 45 reviewed, real-runtime-checked Studio traces; independent prediction and code-transfer evidence exists for a six-concept subset only.
 - Three function-writing challenges under `/pratik`, with open examples and worker-only hidden test cases. Evaluation is available only in an explicitly configured **local sandbox laboratory**, never in production.
 - PostgreSQL migrations for learner/attempt/progress, username credentials and server-side sessions, plus local registration/login, saved quiz attempts and account deletion. These features are active only with a configured database. Answers are not shipped in public question JSON.
 - Responsive styling, keyboard skip link and basic semantic markup.
 - All sample catalog items explicitly report **no runnable runtime**. Anonymous quiz responses are not persisted; authenticated quiz responses are stored if the local database is configured. Registration has initial DB-backed abuse limits; edge-level protections are still required before public signup.
-- Technology news is a truthful empty state, not a synthetic live feed.
+- Sector Radar displays labelled sources only; there is no live technology news ingestion yet.
 
 ## Architecture (current and future)
 
@@ -42,6 +42,10 @@ docs/                     # project decisions, risks and roadmap
 ```
 
 Stack foundation: Next.js, React, TypeScript, pnpm and Turborepo. The execution worker is opt-in localhost-only and remains disabled by default. Redis is not used. Authentication and PostgreSQL storage operate in a configured local development environment, not a public hosted deployment.
+
+## Current product direction · M9–M11
+
+The initial M0–M7 roadmap is now historical. **M9 (active)** focuses on a coherent, evidence-aware learning journey, starting with the five-lesson Python course and an explicit pilot method. **M10** connects verified software news sources to learning concepts. **M11** validates the learning experience with volunteers and expands content deliberately. A new account progress card recommends an actual next step and labels guided completion, independent prediction, delayed retention and lab-verified code writing distinctly. Neither course completion nor local CI is treated as proof of independent mastery. See [current roadmap](docs/roadmap/ROADMAP.md), [updated PRD](docs/requirements/PRD.md), and [pilot method](docs/learning/M9-PILOT-PROTOCOL.md).
 
 ## Planning and governance
 
