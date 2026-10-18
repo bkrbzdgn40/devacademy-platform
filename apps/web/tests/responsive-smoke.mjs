@@ -706,6 +706,91 @@ try{
   assert.ok(finalMobile.result.value.scrollWidth<=finalMobile.result.value.viewport+1,
     "M9 independent code editor caused 320px overflow: "+JSON.stringify(finalMobile.result.value));
 
+  // M9 curriculum parity: seven JavaScript and three Java lessons now share
+  // the real-life interactive practice path, without altering quizzes.
+  await cdp.send("Emulation.setDeviceMetricsOverride",{
+    width:320,height:850,deviceScaleFactor:1,mobile:true
+  },sessionId);
+  const otherCurriculum=[
+    ["javascript-temelleri","degiskenler","1"],
+    ["javascript-temelleri","esitlik","1"],
+    ["javascript-temelleri","dizilerde-map","1"],
+    ["javascript-temelleri","fonksiyonlar","1"],
+    ["javascript-temelleri","kapsam","1"],
+    ["javascript-temelleri","dizilerde-filter","1"],
+    ["javascript-temelleri","asenkron-temeller","1"],
+    ["java-temelleri","degiskenler-ve-turler","3"],
+    ["java-temelleri","metotlar-ve-return","3"],
+    ["java-temelleri","polymorphism","3"]
+  ];
+  for(const [courseSlug,slug,step] of otherCurriculum){
+    await cdp.send("Page.navigate",{
+      url:base+"/kurslar/"+courseSlug+"/"+slug},sessionId);
+    await waitFor(async()=>{
+      const r=await cdp.send("Runtime.evaluate",{expression:
+        "document.readyState==='complete' && !!document.querySelector('[data-lesson-step="+JSON.stringify(step)+"]')",
+        returnByValue:true},sessionId);
+      return r.result?.value===true;
+    },"M9 course lesson did not hydrate: "+slug);
+    await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelector('[data-lesson-step="+JSON.stringify(step)+"]').click()",
+      returnByValue:true},sessionId);
+    await waitFor(async()=>{
+      const r=await cdp.send("Runtime.evaluate",{expression:
+        "!!document.querySelector('.lesson-step-panel:not([hidden]) .python-applied-studio')",
+        returnByValue:true},sessionId);
+      return r.result?.value===true;
+    },"M9 shared applied studio missing for "+slug);
+    const ui=await cdp.send("Runtime.evaluate",{expression:
+      "(() => {const panel=document.querySelector('.lesson-step-panel:not([hidden])');"+
+      "const lab=panel.querySelector('.python-applied-studio');const root=document.documentElement;"+
+      "return {tiers:lab.querySelectorAll('.python-applied-tier-nav button').length,"+
+      "choices:lab.querySelectorAll('.python-applied-choices input').length,"+
+      "references:lab.querySelectorAll('.python-applied-public-checks pre').length,"+
+      "notScored:lab.textContent.includes('sonuç otomatik değerlendirilmiyor'),"+
+      "overflow:root.scrollWidth>root.clientWidth+1};})()",
+      returnByValue:true},sessionId);
+    assert.deepEqual(ui.result.value,{tiers:3,choices:3,references:2,
+      notScored:true,overflow:false},
+      "M9 applied studio fails 320px course parity: "+slug);
+  }
+  await cdp.send("Page.navigate",{
+    url:base+"/kurslar/javascript-temelleri/degiskenler"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && !!document.querySelector('[data-lesson-step=\"1\"]')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"JavaScript feedback demo not hydrated");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('[data-lesson-step=\"1\"]').click()",returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "!!document.querySelector('.python-applied-choices input')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"JavaScript applied exercise not hydrated");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelectorAll('.python-applied-choices input')[1].click();"+
+    "document.querySelector('.python-applied-answer button[type=submit]').click()",
+    returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "!!document.querySelector('.python-applied-feedback.is-try-again')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"JavaScript misconception feedback missing");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelectorAll('.python-applied-choices input')[0].click();"+
+    "document.querySelector('.python-applied-answer button[type=submit]').click()",
+    returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "!!document.querySelector('.python-applied-feedback.is-correct')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"JavaScript corrected feedback missing");
+
   console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery, guided Apply mobile Learning Studio, and M8.5.1 expanded lessons.");
 } catch(error){
   console.error("Production server output:",serverLog);

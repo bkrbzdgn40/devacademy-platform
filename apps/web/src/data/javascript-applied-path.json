@@ -1,0 +1,625 @@
+[
+  {
+    "language": "javascript",
+    "lessonId": "lesson.javascript.let-const",
+    "topic": "Mağaza kasasında değişen toplam ve sabit veri bağları",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Kasa toplamı artıyor",
+        "context": "Sepet toplamı let ile tutuluyor; yeni ürün gelince değer değiştiriliyor.",
+        "code": "let total = 30;\ntotal += 12;\nconsole.log(total);",
+        "expected": "42",
+        "choices": [
+          {
+            "text": "42",
+            "feedback": "Doğru: let yeniden atamaya izin verir; toplam artık 42 olur."
+          },
+          {
+            "text": "30",
+            "feedback": "Toplama atamasından önceki değerdir; += 12 aynı bağın değerini günceller."
+          },
+          {
+            "text": "3012",
+            "feedback": "Sayılarla toplama yapılır; metin birleştirme burada yoktur."
+          }
+        ],
+        "hint": "Değişkenin başlangıç değerine 12 ekleniyor mu?",
+        "why": "let yeniden atamaya izin verir; toplam artık 42 olur."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "const nesnenin stok alanı",
+        "context": "Ürün nesnesinin bağını değiştirmeden stok sayısı güncelleniyor.",
+        "code": "const product = {stock: 4};\nproduct.stock -= 2;\nconsole.log(product.stock);",
+        "expected": "2",
+        "choices": [
+          {
+            "text": "4",
+            "feedback": "const nesnenin iç alanını sabitlemez; stock alanı değiştirildi."
+          },
+          {
+            "text": "TypeError",
+            "feedback": "Nesnenin kendisi yeniden atanmadı; mevcut alan değiştiği için hata oluşmaz."
+          },
+          {
+            "text": "2",
+            "feedback": "Doğru: const yeniden bağlamayı engeller, nesne içeriğini dondurmaz."
+          }
+        ],
+        "hint": "const bağın mı, nesnenin tüm alanlarının mı yeniden atanmasını engeller?",
+        "why": "const yeniden bağlamayı engeller, nesne içeriğini dondurmaz."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "İki değişken bir nesneye bakıyor",
+        "context": "İndirim nesnesini iki farklı değişken kullanıyor; alan güncellemesi paylaşılıyor.",
+        "code": "const price = {amount: 100};\nconst checkout = price;\ncheckout.amount = 85;\nconsole.log(price.amount);",
+        "expected": "85",
+        "choices": [
+          {
+            "text": "undefined",
+            "feedback": "amount alanı nesneden silinmedi; sadece 85 olarak güncellendi."
+          },
+          {
+            "text": "85",
+            "feedback": "Doğru: Nesne referansı kopyalandığında alan değişimleri aynı nesne üzerinde görünür."
+          },
+          {
+            "text": "100",
+            "feedback": "İki değişken aynı nesneyi gösterir; checkout üzerinden yapılan değişiklik price ile de görülür."
+          }
+        ],
+        "hint": "İki ad ayrı nesneler mi, yoksa aynı nesnenin iki referansı mı?",
+        "why": "Nesne referansı kopyalandığında alan değişimleri aynı nesne üzerinde görünür."
+      }
+    ],
+    "independent": {
+      "title": "Günlük stok düşümü",
+      "brief": "Başlangıç stok adedi 12. İki siparişte sırasıyla 3 ve 2 ürün satılıyor. let kullanarak kalan stoğu hesapla ve konsola tek sayı yazdır. İkinci senaryoda ikinci siparişi 5 yap.",
+      "starterCode": "let stock = 12;\nconst firstOrder = 3;\nconst secondOrder = 2;\n// Kalan stoğu hesapla ve yazdır.\n",
+      "modelCode": "let stock = 12;\nconst firstOrder = 3;\nconst secondOrder = 2;\nstock -= firstOrder;\nstock -= secondOrder;\nconsole.log(stock);",
+      "expectedOutput": "7",
+      "variationCode": "let stock = 12;\nconst firstOrder = 3;\nconst secondOrder = 5;\nstock -= firstOrder;\nstock -= secondOrder;\nconsole.log(stock);",
+      "variationExpected": "4",
+      "reflection": "Stok nesne içinde tutulursa const ile tanımlanan nesnenin stock alanı değiştirilebilir mi?"
+    }
+  },
+  {
+    "language": "javascript",
+    "lessonId": "lesson.javascript.equality",
+    "topic": "Kullanıcı kimlikleri ve doğrulama kararları",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Kimlik türleri karşılaşıyor",
+        "context": "API kimliği metin, dahili kullanıcı kimliği sayı olarak gelmiş.",
+        "code": "console.log('12' === 12);",
+        "expected": "false",
+        "choices": [
+          {
+            "text": "false",
+            "feedback": "Doğru: === otomatik tür dönüşümü olmadan hem türü hem değeri karşılaştırır."
+          },
+          {
+            "text": "true",
+            "feedback": "Katı eşitlikte türler farklıdır; sayı 12 ile metin '12' eşit sayılmaz."
+          },
+          {
+            "text": "12",
+            "feedback": "Karşılaştırmanın çıktısı bir sayı değil boolean değeridir."
+          }
+        ],
+        "hint": "Operatör üç eşitlik işareti mi? Veri türlerine bak.",
+        "why": "=== otomatik tür dönüşümü olmadan hem türü hem değeri karşılaştırır."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Esnek eşitlik sürprizi",
+        "context": "Formun metin kimliği sayı kimlikle gevşek karşılaştırılıyor.",
+        "code": "console.log('7' == 7);\nconsole.log('7' === 7);",
+        "expected": "true\nfalse",
+        "choices": [
+          {
+            "text": "false\nfalse",
+            "feedback": "İlk == karşılaştırması dönüşüm yaptığı için true; ikinci === yapmadığı için false."
+          },
+          {
+            "text": "true\ntrue",
+            "feedback": "İkinci karşılaştırmada dönüşüm olmadığı için iki tür eşit kabul edilmez."
+          },
+          {
+            "text": "true\nfalse",
+            "feedback": "Doğru: == bazı türleri dönüştürür, === dönüşüm yapmaz."
+          }
+        ],
+        "hint": "İlk ve ikinci satırda farklı operatörler kullanılıyor.",
+        "why": "== bazı türleri dönüştürür, === dönüşüm yapmaz."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Metni açıkça sayıya çevir",
+        "context": "Depodan gelen stok metni sayıya çevrilip eşikle karşılaştırılıyor.",
+        "code": "const count = Number('5');\nconsole.log(count === 5);\nconsole.log('5' === 5);",
+        "expected": "true\nfalse",
+        "choices": [
+          {
+            "text": "true\ntrue",
+            "feedback": "Metin '5' ile sayı 5, dönüştürülmeden katı eşit olamaz."
+          },
+          {
+            "text": "true\nfalse",
+            "feedback": "Doğru: Açık dönüşüm, belirsiz gevşek eşitlik yerine türleri kontrollü eşitler."
+          },
+          {
+            "text": "false\nfalse",
+            "feedback": "Number('5') sayı 5 üretir, ilk karşılaştırma katı eşitlikte doğrudur."
+          }
+        ],
+        "hint": "Hangi satır Number(...) ile tür dönüşümü yapıyor?",
+        "why": "Açık dönüşüm, belirsiz gevşek eşitlik yerine türleri kontrollü eşitler."
+      }
+    ],
+    "independent": {
+      "title": "Sipariş kimliğini karşılaştır",
+      "brief": "requestId metin '42', storedId sayı 42. Number dönüşümü kullanarak kimliklerin eşit olup olmadığını === ile kontrol et ve boolean sonucu yazdır. İkinci örnekte requestId '43' olsun.",
+      "starterCode": "const requestId = '42';\nconst storedId = 42;\n// Metni sayıya çevirip === ile karşılaştır.\n",
+      "modelCode": "const requestId = '42';\nconst storedId = 42;\nconsole.log(Number(requestId) === storedId);",
+      "expectedOutput": "true",
+      "variationCode": "const requestId = '43';\nconst storedId = 42;\nconsole.log(Number(requestId) === storedId);",
+      "variationExpected": "false",
+      "reflection": "requestId sayıya dönüştürülemeyen bir metinse Number sonucu ne olur ve karşılaştırma nasıl etkilenir?"
+    }
+  },
+  {
+    "language": "javascript",
+    "lessonId": "lesson.javascript.array-map",
+    "topic": "Ürün listesini farklı gösterimlere dönüştürme",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Fiyatları ikiye katla",
+        "context": "Bir kargo testinde fiyatların iki katını içeren yeni liste gerekiyor.",
+        "code": "const prices = [10, 20];\nconsole.log(prices.map(p => p * 2).join(','));",
+        "expected": "20,40",
+        "choices": [
+          {
+            "text": "20,40",
+            "feedback": "Doğru: map, her orijinal öğenin dönüştürülmüş karşılığını içeren yeni dizi üretir."
+          },
+          {
+            "text": "10,20",
+            "feedback": "map yeni öğeler üretir; burada her fiyat ikiyle çarpılıyor."
+          },
+          {
+            "text": "30",
+            "feedback": "30 toplam olurdu; map öğeleri tek bir sayıda birleştirmez."
+          }
+        ],
+        "hint": "map callback'i her öğe için ne döndürüyor?",
+        "why": "map, her orijinal öğenin dönüştürülmüş karşılığını içeren yeni dizi üretir."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Orijinal liste korunuyor",
+        "context": "Yeni indirimli liste hesaplanırken eski etiketler bozulmamalı.",
+        "code": "const prices = [50, 80];\nconst discounted = prices.map(p => p - 10);\nconsole.log(prices.join(','));\nconsole.log(discounted.join(','));",
+        "expected": "50,80\n40,70",
+        "choices": [
+          {
+            "text": "40,70\n40,70",
+            "feedback": "map normal sayısal öğeleri değiştirmez; ilk satır orijinal fiyatları yazdırır."
+          },
+          {
+            "text": "50,80\n50,80",
+            "feedback": "İkinci satır map çıktısıdır, her fiyat 10 azalır."
+          },
+          {
+            "text": "50,80\n40,70",
+            "feedback": "Doğru: map yeni bir dizi döndürür; kaynak sayılar değişmeden kalır."
+          }
+        ],
+        "hint": "prices ve discounted aynı dizi mi, farklı dizi mi?",
+        "why": "map yeni bir dizi döndürür; kaynak sayılar değişmeden kalır."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Kargo etiketleri türet",
+        "context": "Stok adlarına sabit bir etiket öneki ekleniyor.",
+        "code": "const names = ['Ada', 'Ece'];\nconst tags = names.map(n => 'Müşteri:' + n);\nconsole.log(tags.join('|'));",
+        "expected": "Müşteri:Ada|Müşteri:Ece",
+        "choices": [
+          {
+            "text": "Müşteri:Ada,Ece",
+            "feedback": "join('|') iki öğeyi dik çizgiyle birleştirir; tek metin gibi toplamaz."
+          },
+          {
+            "text": "Müşteri:Ada|Müşteri:Ece",
+            "feedback": "Doğru: map metinsel dönüşüm yapabilir; son join yeni listenin öğelerini birleştirir."
+          },
+          {
+            "text": "Ada|Ece",
+            "feedback": "Callback önek metnini her bir öğeye ekler; isimler tek başına kalmaz."
+          }
+        ],
+        "hint": "Callback'ın döndürdüğü metni iki öğe için ayrı hesapla.",
+        "why": "map metinsel dönüşüm yapabilir; son join yeni listenin öğelerini birleştirir."
+      }
+    ],
+    "independent": {
+      "title": "Ürün vergili fiyatlarını üret",
+      "brief": "Fiyatları [100, 200, 50] olan ürünleri map ile yüzde 10 KDV dahil fiyatlara dönüştür. Her fiyatı tam TL'ye Math.round ile yuvarla, yeni diziyi virgülle yazdır ve orijinalini değiştirme. İkinci test için [20, 40] kullan.",
+      "starterCode": "const prices = [100, 200, 50];\n// map ile yeni liste oluştur, virgülle yazdır.\n",
+      "modelCode": "const prices = [100, 200, 50];\nconst taxed = prices.map(price => Math.round(price * 1.1));\nconsole.log(taxed.join(','));",
+      "expectedOutput": "110,220,55",
+      "variationCode": "const prices = [20, 40];\nconst taxed = prices.map(price => Math.round(price * 1.1));\nconsole.log(taxed.join(','));",
+      "variationExpected": "22,44",
+      "reflection": "Ondalıklı fiyatların kayan nokta hatalarını kullanıcıya göstermemek için hangi biçimlendirme yaklaşımını seçersin?"
+    }
+  },
+  {
+    "language": "javascript",
+    "lessonId": "lesson.javascript.functions",
+    "topic": "Sipariş ücreti üreten tekrar kullanılabilir işlevler",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Yazdırmak return değildir",
+        "context": "İşlev maliyeti konsola yazıyor ama çağıran da dönüşünü yazdırıyor.",
+        "code": "function total(x) { console.log(x + 2); }\nconsole.log(total(5));",
+        "expected": "7\nundefined",
+        "choices": [
+          {
+            "text": "7\nundefined",
+            "feedback": "Doğru: console.log çıktı üretir; return yoksa JavaScript fonksiyonu undefined döndürür."
+          },
+          {
+            "text": "7\n7",
+            "feedback": "İç console.log 7 yazsa da return yoktur, ikinci çağrı undefined yazdırır."
+          },
+          {
+            "text": "undefined",
+            "feedback": "Fonksiyon içindeki console.log yine 7 yazdığı için iki satır vardır."
+          }
+        ],
+        "hint": "Fonksiyonun içinde return ifadesi bulunuyor mu?",
+        "why": "console.log çıktı üretir; return yoksa JavaScript fonksiyonu undefined döndürür."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Kıvrık parantezli arrow function",
+        "context": "Kargo fiyatını ikiyle çarpan fonksiyonun gövdesi bloklu.",
+        "code": "const cost = x => { x * 2; };\nconsole.log(cost(4));",
+        "expected": "undefined",
+        "choices": [
+          {
+            "text": "8",
+            "feedback": "Blok gövdesindeki ifade otomatik döndürülmez; return eksiktir."
+          },
+          {
+            "text": "4",
+            "feedback": "Argüman fonksiyona girer ama return olmadığı için sonuç 4 değil undefined'dır."
+          },
+          {
+            "text": "undefined",
+            "feedback": "Doğru: İfade gövdeli arrow function örtük dönebilir; bloklu gövde açık return ister."
+          }
+        ],
+        "hint": "Kıvrık parantez kullanan arrow function otomatik return yapar mı?",
+        "why": "İfade gövdeli arrow function örtük dönebilir; bloklu gövde açık return ister."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Varsayılan indirim oranı",
+        "context": "Bir hesap fonksiyonu oran verilmezse yüzde 10 indiriyor.",
+        "code": "function net(price, discount = 0.1) {\n  return price * (1 - discount);\n}\nconsole.log(net(100));\nconsole.log(net(100, 0.2));",
+        "expected": "90\n80",
+        "choices": [
+          {
+            "text": "80\n90",
+            "feedback": "İlk çağrıda oran yok, varsayılan 0.1 kullanılır; sıra ters değil."
+          },
+          {
+            "text": "90\n80",
+            "feedback": "Doğru: Varsayılan parametre yalnızca değer verilmediğinde uygulanır."
+          },
+          {
+            "text": "90\n90",
+            "feedback": "İkinci çağrıda 0.2 ile varsayılan oran geçersiz kılınmıştır."
+          }
+        ],
+        "hint": "Hangi çağrıda ikinci argüman eksik?",
+        "why": "Varsayılan parametre yalnızca değer verilmediğinde uygulanır."
+      }
+    ],
+    "independent": {
+      "title": "Ücret hesaplayan fonksiyon",
+      "brief": "deliveryTotal(price, quantity, shipping = 10) fonksiyonunu oluştur. Ürün fiyatı, adet ve kargoyu toplayan bir sayı return et; iki test çağrısını console.log ile yazdır. İkinci örnekte farklı kargo kullan.",
+      "starterCode": "function deliveryTotal(price, quantity, shipping = 10) {\n  // Sonucu return et.\n}\nconsole.log(deliveryTotal(20, 3));\nconsole.log(deliveryTotal(20, 3, 0));",
+      "modelCode": "function deliveryTotal(price, quantity, shipping = 10) {\n  return price * quantity + shipping;\n}\nconsole.log(deliveryTotal(20, 3));\nconsole.log(deliveryTotal(20, 3, 0));",
+      "expectedOutput": "70\n60",
+      "variationCode": "function deliveryTotal(price, quantity, shipping = 10) {\n  return price * quantity + shipping;\n}\nconsole.log(deliveryTotal(15, 2, 5));",
+      "variationExpected": "35",
+      "reflection": "Neden fonksiyon içinde console.log yapmak, sonucu başka bir fonksiyonla tekrar kullanmayı zorlaştırır?"
+    }
+  },
+  {
+    "language": "javascript",
+    "lessonId": "lesson.javascript.scope",
+    "topic": "Farklı kampanya bloklarında geçici değerler",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Yerel kampanya katsayısı",
+        "context": "İç blok kendi indirim oranını tanımlıyor.",
+        "code": "let rate = 5;\n{ let rate = 9; console.log(rate); }\nconsole.log(rate);",
+        "expected": "9\n5",
+        "choices": [
+          {
+            "text": "9\n5",
+            "feedback": "Doğru: Gölgeleme yeni bir blok bağı oluşturur, dış değeri değiştirmez."
+          },
+          {
+            "text": "9\n9",
+            "feedback": "İçteki let, dıştaki ayrı değişkeni gölgeler; dış rate 5 kalır."
+          },
+          {
+            "text": "5\n9",
+            "feedback": "Blok içinde 9, blok dışında dış bağdaki 5 okunur."
+          }
+        ],
+        "hint": "İki ayrı let ile tanımlanmış aynı isimli bağ var.",
+        "why": "Gölgeleme yeni bir blok bağı oluşturur, dış değeri değiştirmez."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Yeniden atama ile gölgeleme farklıdır",
+        "context": "Kampanya fiyatı gerçekten dış değişkene yazılıyor.",
+        "code": "let total = 30;\n{ total += 10; }\nconsole.log(total);",
+        "expected": "40",
+        "choices": [
+          {
+            "text": "30",
+            "feedback": "İç blokta yeni let yok, dolayısıyla dış total güncellenir."
+          },
+          {
+            "text": "10",
+            "feedback": "+=10 önceki 30 değerini korur ve üzerine ekler."
+          },
+          {
+            "text": "40",
+            "feedback": "Doğru: Yeni bağ oluşturulmadığında atama dış değişkeni değiştirir."
+          }
+        ],
+        "hint": "İç blokta let total yeniden tanımlanmış mı?",
+        "why": "Yeni bağ oluşturulmadığında atama dış değişkeni değiştirir."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Fonksiyonun yerel toplamı",
+        "context": "Fonksiyon içindeki sayaç aynı isimli dış değişkeni etkilemiyor.",
+        "code": "let count = 1;\nfunction tally() { let count = 4; return count; }\nconsole.log(tally());\nconsole.log(count);",
+        "expected": "4\n1",
+        "choices": [
+          {
+            "text": "1\n4",
+            "feedback": "Önce tally dönüşü 4, sonra dış count 1 yazılır."
+          },
+          {
+            "text": "4\n1",
+            "feedback": "Doğru: Fonksiyon kapsamındaki yeni bağ, dışarıdaki bağı otomatik değiştirmez."
+          },
+          {
+            "text": "4\n4",
+            "feedback": "Fonksiyondaki let dış sayacı değiştirmez; ikinci satır 1'dir."
+          }
+        ],
+        "hint": "Fonksiyon içinde yeni let count tanımlanmış mı?",
+        "why": "Fonksiyon kapsamındaki yeni bağ, dışarıdaki bağı otomatik değiştirmez."
+      }
+    ],
+    "independent": {
+      "title": "Kampanya indirimi yap",
+      "brief": "Dışarıda let discount = 5 tanımla. Ayrı bir blokta let discount = 10 tanımlayıp iç değeri ve ardından dış değeri konsola yazdır. Yeni durumda iç değer 20 olsun.",
+      "starterCode": "let discount = 5;\n// İç bloktaki aynı adlı farklı indirimi yazdır.\n// Sonra dıştaki indirimi yazdır.\n",
+      "modelCode": "let discount = 5;\n{\n  let discount = 10;\n  console.log(discount);\n}\nconsole.log(discount);",
+      "expectedOutput": "10\n5",
+      "variationCode": "let discount = 5;\n{\n  let discount = 20;\n  console.log(discount);\n}\nconsole.log(discount);",
+      "variationExpected": "20\n5",
+      "reflection": "İç bloktaki let yerine yalnızca discount = 20 yazarsan dışarıdaki değer ne olur?"
+    }
+  },
+  {
+    "language": "javascript",
+    "lessonId": "lesson.javascript.filter",
+    "topic": "Satış verisini süzme ve özetleme",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Yüksek satışları filtrele",
+        "context": "Yüz ve üzeri satış tutarları ayrıca raporlanacak.",
+        "code": "const sales = [80, 120, 150];\nconsole.log(sales.filter(v => v >= 100).join(','));",
+        "expected": "120,150",
+        "choices": [
+          {
+            "text": "120,150",
+            "feedback": "Doğru: filter koşulu geçen her öğeyi korur; yalnızca ilk veya son öğeyi değil."
+          },
+          {
+            "text": "80,120,150",
+            "feedback": "80 değeri 100'den küçük; filter koşulundan geçmez."
+          },
+          {
+            "text": "150",
+            "feedback": "120 de >=100 koşulunu sağlar, yalnızca 150 kalmaz."
+          }
+        ],
+        "hint": "filter koşulu >=100, 120 için de doğru mu?",
+        "why": "filter koşulu geçen her öğeyi korur; yalnızca ilk veya son öğeyi değil."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Toplamı reduce ile hesapla",
+        "context": "Filtrelenmiş sepet tutarlarının toplamı hesaplanıyor.",
+        "code": "const prices = [10, 20, 30];\nconsole.log(prices.reduce((sum, p) => sum + p, 0));",
+        "expected": "60",
+        "choices": [
+          {
+            "text": "30",
+            "feedback": "Son öğe 30'dur, fakat reduce tüm öğeleri birikimli olarak toplar."
+          },
+          {
+            "text": "NaN",
+            "feedback": "Başlangıç akümülatörü 0; tüm öğeler sayısal olduğu için NaN oluşmaz."
+          },
+          {
+            "text": "60",
+            "feedback": "Doğru: reduce birikimli değeri döngünün her adımında yeniler."
+          }
+        ],
+        "hint": "reduce callback'i her turda sum'a ne ekliyor?",
+        "why": "reduce birikimli değeri döngünün her adımında yeniler."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Boş raporda güvenilir sonuç",
+        "context": "Hiç seçilen satış yoksa reduce için sıfır başlangıcı verilmiş.",
+        "code": "const values = [5, 7];\nconst filtered = values.filter(n => n > 10);\nconsole.log(filtered.reduce((sum, n) => sum + n, 0));",
+        "expected": "0",
+        "choices": [
+          {
+            "text": "TypeError",
+            "feedback": "reduce sıfır başlangıç değeri aldığı için boş dizi hata vermez."
+          },
+          {
+            "text": "0",
+            "feedback": "Doğru: Boş dizide reduce başlangıç değeri kullanılırsa güvenilir bir sonuç dönebilir."
+          },
+          {
+            "text": "12",
+            "feedback": "Hiç öğe koşulu geçmiyor; toplam filtrelenmiş boş dizi üstünden yapılıyor."
+          }
+        ],
+        "hint": "filtered boşsa reduce ikinci argümanındaki başlangıç değeri ne?",
+        "why": "Boş dizide reduce başlangıç değeri kullanılırsa güvenilir bir sonuç dönebilir."
+      }
+    ],
+    "independent": {
+      "title": "Uygun siparişleri topla",
+      "brief": "[20, -2, 30, 0] tutarlarındaki pozitif siparişleri filter ile seç, sonra reduce ile toplamını hesapla ve yazdır. Yeni listedeki [8, -1, 4] değerlerini de sınama amacıyla değiştir.",
+      "starterCode": "const amounts = [20, -2, 30, 0];\n// Pozitifleri filter ile seç, reduce ile topla.\n",
+      "modelCode": "const amounts = [20, -2, 30, 0];\nconst total = amounts.filter(n => n > 0).reduce((sum, n) => sum + n, 0);\nconsole.log(total);",
+      "expectedOutput": "50",
+      "variationCode": "const amounts = [8, -1, 4];\nconst total = amounts.filter(n => n > 0).reduce((sum, n) => sum + n, 0);\nconsole.log(total);",
+      "variationExpected": "12",
+      "reflection": "Hiç pozitif tutar kalmayan bir listede reduce başlangıç değeri verilmemişse ne olur?"
+    }
+  },
+  {
+    "language": "javascript",
+    "lessonId": "lesson.javascript.async",
+    "topic": "Sipariş onayı ve Promise sıralaması",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Önce hangi log gelir?",
+        "context": "Sunucudan çözülmüş bir söz, mevcut senkron işlemlerin ardından işlenir.",
+        "code": "console.log('Başla');\nPromise.resolve().then(() => console.log('Onay'));\nconsole.log('Bitti');",
+        "expected": "Başla\nBitti\nOnay",
+        "choices": [
+          {
+            "text": "Başla\nBitti\nOnay",
+            "feedback": "Doğru: Promise callback'leri mevcut senkron koddan sonra microtask olarak yürür."
+          },
+          {
+            "text": "Başla\nOnay\nBitti",
+            "feedback": "then callback microtask'tır; senkron Bitti satırından önce çalışmaz."
+          },
+          {
+            "text": "Onay\nBaşla\nBitti",
+            "feedback": "Promise callback'i mevcut senkron akış sona ermeden önce sırayı ele geçirmez."
+          }
+        ],
+        "hint": "Promise.resolve anında çözülse de then ne zaman çalışır?",
+        "why": "Promise callback'leri mevcut senkron koddan sonra microtask olarak yürür."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Zincirleme sonra çağrıları",
+        "context": "Sipariş doğrulaması iki aşamalı Promise zinciri kullanıyor.",
+        "code": "console.log('A');\nPromise.resolve().then(() => console.log('B')).then(() => console.log('C'));\nconsole.log('D');",
+        "expected": "A\nD\nB\nC",
+        "choices": [
+          {
+            "text": "A\nB\nC\nD",
+            "feedback": "Senkron D, kuyruğa alınan then callback'lerinden önce yazılır."
+          },
+          {
+            "text": "A\nD\nC\nB",
+            "feedback": "Zincirin ikinci then'i ilk then tamamlandıktan sonra çalışır."
+          },
+          {
+            "text": "A\nD\nB\nC",
+            "feedback": "Doğru: Zincirli then callback'leri birbirinin tamamlanmasını bekler ve senkron kodu geçmez."
+          }
+        ],
+        "hint": "İkinci then, birinci then bitmeden başlayabilir mi?",
+        "why": "Zincirli then callback'leri birbirinin tamamlanmasını bekler ve senkron kodu geçmez."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Microtask kuyruğu FIFO",
+        "context": "İki bağımsız, çözümlenmiş Promise callback'i sırayla çalıştırılıyor.",
+        "code": "Promise.resolve().then(() => console.log('ilk'));\nPromise.resolve().then(() => console.log('ikinci'));\nconsole.log('anlık');",
+        "expected": "anlık\nilk\nikinci",
+        "choices": [
+          {
+            "text": "anlık\nikinci\nilk",
+            "feedback": "Callback'ler eklenme sırasıyla microtask kuyruğunda işler."
+          },
+          {
+            "text": "anlık\nilk\nikinci",
+            "feedback": "Doğru: Önce senkron kod, sonra sırayla microtask kuyruğundaki then callback'leri yürütülür."
+          },
+          {
+            "text": "ilk\nikinci\nanlık",
+            "feedback": "anlık senkron satırdır, iki Promise callback'inden önce çalışır."
+          }
+        ],
+        "hint": "Senkron console.log sıranın hangi aşamasında?",
+        "why": "Önce senkron kod, sonra sırayla microtask kuyruğundaki then callback'leri yürütülür."
+      }
+    ],
+    "independent": {
+      "title": "Sipariş bildirim sırasını üret",
+      "brief": "Konsola önce 'İşlem başlıyor', sonra 'İşlem bitti', en son Promise.then ile 'Onay geldi' yazdır. İkinci örnekte bildirimi 'Hazır' olarak değiştir.",
+      "starterCode": "// Önce senkron logları, sonrasında Promise.then içindeki logu kur.\n",
+      "modelCode": "console.log('İşlem başlıyor');\nPromise.resolve().then(() => console.log('Onay geldi'));\nconsole.log('İşlem bitti');",
+      "expectedOutput": "İşlem başlıyor\nİşlem bitti\nOnay geldi",
+      "variationCode": "console.log('İşlem başlıyor');\nPromise.resolve().then(() => console.log('Hazır'));\nconsole.log('İşlem bitti');",
+      "variationExpected": "İşlem başlıyor\nİşlem bitti\nHazır",
+      "reflection": "Promise çözülmüşken bile then callback'i neden daha önce başlayan senkron console.log satırını geçemez?"
+    }
+  }
+]

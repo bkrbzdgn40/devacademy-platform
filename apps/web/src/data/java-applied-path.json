@@ -1,0 +1,269 @@
+[
+  {
+    "language": "java",
+    "lessonId": "lesson.java.variables",
+    "topic": "Fiyat, ölçüm ve sayı türlerinin hesaplama sırası",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Bölüm başına düşen ürün",
+        "context": "Beş ürün iki şubeye tam sayı bölmesiyle paylaştırılıyor.",
+        "code": "class Main {\n  public static void main(String[] args) {\n    int units = 5;\n    int shops = 2;\n    System.out.println(units / shops);\n  }\n}",
+        "expected": "2",
+        "choices": [
+          {
+            "text": "2",
+            "feedback": "Doğru: İki int bölündüğünde tamsayı sonucu çıkar; sonuç 2 olur."
+          },
+          {
+            "text": "2.5",
+            "feedback": "İki değişken int; 5 / 2 ifadesi küsuratı sonuç oluşurken atar."
+          },
+          {
+            "text": "3",
+            "feedback": "Java tamsayı bölmesini yukarı yuvarlamaz, tam sayı kısmı üretir."
+          }
+        ],
+        "hint": "İki operand da int olduğunda Java nasıl böler?",
+        "why": "İki int bölündüğünde tamsayı sonucu çıkar; sonuç 2 olur."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Küsuratı korumak",
+        "context": "İçeceklerin ağırlık ortalaması double olarak hesaplanıyor.",
+        "code": "class Main {\n  public static void main(String[] args) {\n    int weight = 5;\n    int count = 2;\n    System.out.println((double) weight / count);\n  }\n}",
+        "expected": "2.5",
+        "choices": [
+          {
+            "text": "2.0",
+            "feedback": "Dönüşüm bölme işleminden önce yapılır; küsurat korunur."
+          },
+          {
+            "text": "2",
+            "feedback": "En az bir operand double olduğu için sonuç 2.5'tir."
+          },
+          {
+            "text": "2.5",
+            "feedback": "Doğru: Önce double'a dönüştürmek küsuratı korur; sonradan dönüştürmek kaybı gidermez."
+          }
+        ],
+        "hint": "(double) dönüşümünün bölme öncesi mi sonrası mı yapıldığına bak.",
+        "why": "Önce double'a dönüştürmek küsuratı korur; sonradan dönüştürmek kaybı gidermez."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Atama dönüşümü geçmişi değiştirmez",
+        "context": "Bir rapor değişkeni double, ama bölüm işlemi iki int arasında.",
+        "code": "class Main {\n  public static void main(String[] args) {\n    int sold = 9;\n    int days = 4;\n    double average = sold / days;\n    System.out.println(average);\n  }\n}",
+        "expected": "2.0",
+        "choices": [
+          {
+            "text": "2",
+            "feedback": "Yazdırılan average, double türündedir; Java 2.0 yazar."
+          },
+          {
+            "text": "2.0",
+            "feedback": "Doğru: İşlemin operandlarının türü sonucu belirler; atama yalnızca çıkan sonucu dönüştürür."
+          },
+          {
+            "text": "2.25",
+            "feedback": "Bölme iki int arasında tamamlanır; çıkan tam sayı 2 sonradan 2.0 olarak saklanır."
+          }
+        ],
+        "hint": "Atama yapılan değişkenin double olması bölmeyi geçmişe dönük değiştirir mi?",
+        "why": "İşlemin operandlarının türü sonucu belirler; atama yalnızca çıkan sonucu dönüştürür."
+      }
+    ],
+    "independent": {
+      "title": "Parça başına ortalama ağırlık",
+      "brief": "Bir depoda toplam 7 kilogram ürün üç koliye dağılıyor. averageKg(int totalKg, int boxes) metodunu yazıp doğru küsuratlı double sonucu üret. Çıktıyı yazdır. Yeni girdi için 5 kg ve 2 koli kullan.",
+      "starterCode": "class Main {\n  static double averageKg(int totalKg, int boxes) {\n    // Bölmeden önce double'a dönüştür.\n    return 0;\n  }\n  public static void main(String[] args) {\n    System.out.println(averageKg(7, 3));\n  }\n}",
+      "modelCode": "class Main {\n  static double averageKg(int totalKg, int boxes) {\n    return (double) totalKg / boxes;\n  }\n  public static void main(String[] args) {\n    System.out.println(averageKg(7, 3));\n  }\n}",
+      "expectedOutput": "2.3333333333333335",
+      "variationCode": "class Main {\n  static double averageKg(int totalKg, int boxes) {\n    return (double) totalKg / boxes;\n  }\n  public static void main(String[] args) {\n    System.out.println(averageKg(5, 2));\n  }\n}",
+      "variationExpected": "2.5",
+      "reflection": "(double)(totalKg / boxes) yazarsan neden (double) totalKg / boxes ile aynı sonucu alamazsın?"
+    }
+  },
+  {
+    "language": "java",
+    "lessonId": "lesson.java.methods",
+    "topic": "Teslimat hesaplamasını yeniden kullanılan metotlara ayırma",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Metodun dönüşü otomatik yazılmaz",
+        "context": "İşlem metodu çağırana sayı döndürüyor, main bu değeri yazdırıyor.",
+        "code": "class Main {\n  static int sum(int a, int b) { return a + b; }\n  static int shipping(int count, int rate) { return count * rate; }\n  static int delivery(int price) {\n    if (price >= 200) return 0;\n    return 15;\n  }\n  public static void main(String[] args) {\n    int total = sum(3, 4);\n    System.out.println(total);\n  }\n}",
+        "expected": "7",
+        "choices": [
+          {
+            "text": "7",
+            "feedback": "Doğru: static int sum dönüş türü int olduğu için hesaplanan sayı kullanılabilir."
+          },
+          {
+            "text": "0",
+            "feedback": "sum metodu 3+4 sonucunu return eder; main bu dönen sayıyı yazdırır."
+          },
+          {
+            "text": "34",
+            "feedback": "Parametreler int türündedir, metin birleştirme yerine toplama gerçekleşir."
+          }
+        ],
+        "hint": "Metot return değeri çağıran değişkende saklıyor.",
+        "why": "static int sum dönüş türü int olduğu için hesaplanan sayı kullanılabilir."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Parametreli yardımcı metot",
+        "context": "Sevkiyat ücreti koli sayısına bağlı; birim fiyatla çarpılıyor.",
+        "code": "class Main {\n  static int sum(int a, int b) { return a + b; }\n  static int shipping(int count, int rate) { return count * rate; }\n  static int delivery(int price) {\n    if (price >= 200) return 0;\n    return 15;\n  }\n  public static void main(String[] args) {\n    System.out.println(shipping(3, 5));\n  }\n}",
+        "expected": "15",
+        "choices": [
+          {
+            "text": "8",
+            "feedback": "İki parametre toplanmıyor, adet ile birim ücret çarpılıyor."
+          },
+          {
+            "text": "3",
+            "feedback": "Metot sonuç olarak koli sayısını değil, maliyeti döndürüyor."
+          },
+          {
+            "text": "15",
+            "feedback": "Doğru: Parametrelerden hesaplanan ürün metot dönüşü olarak gelir."
+          }
+        ],
+        "hint": "shipping metodu hangi işleci kullanıyor?",
+        "why": "Parametrelerden hesaplanan ürün metot dönüşü olarak gelir."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Erken return ile karar ver",
+        "context": "Sipariş tutarı eşik üstündeyse kargo bedava, değilse 15 TL.",
+        "code": "class Main {\n  static int sum(int a, int b) { return a + b; }\n  static int shipping(int count, int rate) { return count * rate; }\n  static int delivery(int price) {\n    if (price >= 200) return 0;\n    return 15;\n  }\n  public static void main(String[] args) {\n    System.out.println(delivery(200));\n    System.out.println(delivery(199));\n  }\n}",
+        "expected": "0\n15",
+        "choices": [
+          {
+            "text": "0\n0",
+            "feedback": "199 eşik altındadır; ikinci çağrı 15 döndürür."
+          },
+          {
+            "text": "0\n15",
+            "feedback": "Doğru: Koşullu return ilk çağrıyı bitirir, ikinci çağrı diğer yoldan ilerler."
+          },
+          {
+            "text": "15\n15",
+            "feedback": "200 >= 200 doğru olduğundan ilk çağrı erken 0 döndürür."
+          }
+        ],
+        "hint": "İlk return çalışırsa ikinci return'e girilir mi?",
+        "why": "Koşullu return ilk çağrıyı bitirir, ikinci çağrı diğer yoldan ilerler."
+      }
+    ],
+    "independent": {
+      "title": "İndirimden sonra ücret döndür",
+      "brief": "static int finalPrice(int price, int discount) metodunu yaz. Verilen fiyattan indirim tutarını çıkarıp sonucu return et; 100 TL ve 25 TL indirim için 75 yazdır. İkinci örnekte 60 ve 10 kullan.",
+      "starterCode": "class Main {\n  static int finalPrice(int price, int discount) {\n    // İndirimi çıkar, sonucu return et.\n    return 0;\n  }\n  public static void main(String[] args) {\n    System.out.println(finalPrice(100, 25));\n  }\n}",
+      "modelCode": "class Main {\n  static int finalPrice(int price, int discount) {\n    return price - discount;\n  }\n  public static void main(String[] args) {\n    System.out.println(finalPrice(100, 25));\n  }\n}",
+      "expectedOutput": "75",
+      "variationCode": "class Main {\n  static int finalPrice(int price, int discount) {\n    return price - discount;\n  }\n  public static void main(String[] args) {\n    System.out.println(finalPrice(60, 10));\n  }\n}",
+      "variationExpected": "50",
+      "reflection": "void metot tanımlarsan neden main içinde onun sonucunu bir int değişkene atayamazsın?"
+    }
+  },
+  {
+    "language": "java",
+    "lessonId": "lesson.java.polymorphism",
+    "topic": "Farklı bildirim türlerinin ortak arayüzle seçilmesi",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Gerçek nesne davranışı",
+        "context": "Bir bildirim referansı e-posta göndericisini gösteriyor.",
+        "code": "class Main {\n  static class Message { String send() { return \"Bildirim\"; } }\n  static class Email extends Message {\n    @Override String send() { return \"E-posta\"; }\n  }\n  static class Base {\n    String label = \"Temel\";\n    String name() { return \"Temel\"; }\n  }\n  static class Child extends Base {\n    String label = \"Çocuk\";\n    @Override String name() { return \"Çocuk\"; }\n  }\n  static class Sms extends Message {\n    String send(int tries) { return \"SMS\"; }\n  }\n  public static void main(String[] args) {\n    Message message = new Email();\n    System.out.println(message.send());\n  }\n}",
+        "expected": "E-posta",
+        "choices": [
+          {
+            "text": "E-posta",
+            "feedback": "Doğru: Override edilmiş örnek metot çağrıları gerçek nesnenin türüne göre çözülür."
+          },
+          {
+            "text": "Bildirim",
+            "feedback": "Email, send metodunu override ettiği için üst sınıftaki genel dönüş kullanılmaz."
+          },
+          {
+            "text": "null",
+            "feedback": "send metodu gerçek Email nesnesinde karşılığını bulur; null değildir."
+          }
+        ],
+        "hint": "Referansın Message olması gerçek nesnenin Email olduğu gerçeğini değiştirir mi?",
+        "why": "Override edilmiş örnek metot çağrıları gerçek nesnenin türüne göre çözülür."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Alan gölgeleme ile metot override farklı",
+        "context": "Alt sınıf aynı adlı alanı tanımlıyor ama referans türü üst sınıf.",
+        "code": "class Main {\n  static class Message { String send() { return \"Bildirim\"; } }\n  static class Email extends Message {\n    @Override String send() { return \"E-posta\"; }\n  }\n  static class Base {\n    String label = \"Temel\";\n    String name() { return \"Temel\"; }\n  }\n  static class Child extends Base {\n    String label = \"Çocuk\";\n    @Override String name() { return \"Çocuk\"; }\n  }\n  static class Sms extends Message {\n    String send(int tries) { return \"SMS\"; }\n  }\n  public static void main(String[] args) {\n    Base obj = new Child();\n    System.out.println(obj.label);\n    System.out.println(obj.name());\n  }\n}",
+        "expected": "Temel\nÇocuk",
+        "choices": [
+          {
+            "text": "Çocuk\nÇocuk",
+            "feedback": "Alan erişimi Base referansına bağlı kalır, ama name metodu Child override'ına yönlenir."
+          },
+          {
+            "text": "Temel\nTemel",
+            "feedback": "name metodu override edildiğinden gerçek Child nesnesinin dönüşünü üretir."
+          },
+          {
+            "text": "Temel\nÇocuk",
+            "feedback": "Doğru: Alan erişimi statik referans türüne, override edilmiş metot nesnenin gerçek türüne bağlıdır."
+          }
+        ],
+        "hint": "Alan ile örnek metot çalışma zamanında aynı mı çözülür?",
+        "why": "Alan erişimi statik referans türüne, override edilmiş metot nesnenin gerçek türüne bağlıdır."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Overload, override değildir",
+        "context": "Alt sınıf bir parametreli send metodu ekliyor; parametresiz çağrı hâlâ üst sınıftan.",
+        "code": "class Main {\n  static class Message { String send() { return \"Bildirim\"; } }\n  static class Email extends Message {\n    @Override String send() { return \"E-posta\"; }\n  }\n  static class Base {\n    String label = \"Temel\";\n    String name() { return \"Temel\"; }\n  }\n  static class Child extends Base {\n    String label = \"Çocuk\";\n    @Override String name() { return \"Çocuk\"; }\n  }\n  static class Sms extends Message {\n    String send(int tries) { return \"SMS\"; }\n  }\n  public static void main(String[] args) {\n    Message message = new Sms();\n    System.out.println(message.send());\n  }\n}",
+        "expected": "Bildirim",
+        "choices": [
+          {
+            "text": "Derleme hatası",
+            "feedback": "Üst sınıftaki parametresiz send() mevcut ve çağrılabilir; derleme hatası olmaz."
+          },
+          {
+            "text": "Bildirim",
+            "feedback": "Doğru: Parametre listesi farklı metot overload olur; mevcut imzayı override etmez."
+          },
+          {
+            "text": "SMS",
+            "feedback": "Sms yalnızca send(int) tanımlar; send() üst sınıftan miras kalır."
+          }
+        ],
+        "hint": "Alt sınıftaki send(int), üst sınıfın send() imzasıyla aynı mı?",
+        "why": "Parametre listesi farklı metot overload olur; mevcut imzayı override etmez."
+      }
+    ],
+    "independent": {
+      "title": "Bildirim kanalını genişlet",
+      "brief": "class Notification içinde String send() 'Genel' döndürsün. Email ve Sms alt sınıflarında aynı imzayı @Override et. Notification tipindeki iki referanstan sırasıyla 'E-posta' ve 'SMS' yazdır. İkinci örnekte bildirim sırasını ters çevir.",
+      "starterCode": "class Main {\n  static class Notification {\n    String send() { return \"Genel\"; }\n  }\n  static class Email extends Notification {\n    // send() metodunu override et.\n  }\n  static class Sms extends Notification {\n    // send() metodunu override et.\n  }\n  public static void main(String[] args) {\n    Notification first = new Email();\n    Notification second = new Sms();\n    System.out.println(first.send());\n    System.out.println(second.send());\n  }\n}",
+      "modelCode": "class Main {\n  static class Notification {\n    String send() { return \"Genel\"; }\n  }\n  static class Email extends Notification {\n    @Override String send() { return \"E-posta\"; }\n  }\n  static class Sms extends Notification {\n    @Override String send() { return \"SMS\"; }\n  }\n  public static void main(String[] args) {\n    Notification first = new Email();\n    Notification second = new Sms();\n    System.out.println(first.send());\n    System.out.println(second.send());\n  }\n}",
+      "expectedOutput": "E-posta\nSMS",
+      "variationCode": "class Main {\n  static class Notification {\n    String send() { return \"Genel\"; }\n  }\n  static class Email extends Notification {\n    @Override String send() { return \"E-posta\"; }\n  }\n  static class Sms extends Notification {\n    @Override String send() { return \"SMS\"; }\n  }\n  public static void main(String[] args) {\n    Notification first = new Sms();\n    Notification second = new Email();\n    System.out.println(first.send());\n    System.out.println(second.send());\n  }\n}",
+      "variationExpected": "SMS\nE-posta",
+      "reflection": "Sms içinde send(int tries) tanımlasaydın first.send() neden SMS yazmazdı?"
+    }
+  }
+]

@@ -73,10 +73,15 @@ Bunlar tasarım araştırmasının tarihî başlangıç hedefleridir.
    farklı girdiler ve bağımsız çözümle sınanabilir olmalı.
 6. Çalıştırma devre dışıysa öğrenci kodunu düzenleyebilir ama güvenilir
    kod üretim başarısı elde ettiği iddia edilmez.
-7. Öğrenme etkisini kıyaslayan gönüllü pilot için ön test, son test ve
+7. JavaScript ve Java'daki diğer 10 ders de 30 gerçek program,
+   üç seviye ve 10 kendin yazma taslağıyla aynı deneyimi kullanır.
+   Böylece üç kursun 15 dersinde toplam 45 gerçek hayat problemi,
+   15 yeni taslak kod yazma görevi yer alır. Tarayıcı geri bildirimi
+   ve örnek çözümler **puanlanmış bağımsız kanıt sayılmaz**.
+8. Öğrenme etkisini kıyaslayan gönüllü pilot için ön test, son test ve
    gecikmeli test soruları yöntemsel olarak hazırlanır. Başarı oranları
    gözlem yapılmadan üretilmez.
-8. Açık/koyu temada erişilebilirlik, mobilde yatay taşma olmaması ve
+9. Açık/koyu temada erişilebilirlik, mobilde yatay taşma olmaması ve
    gerçek konu bağlantıları korunur.
 
 ### P1 · M10 Sektör Radarı
