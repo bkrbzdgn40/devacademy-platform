@@ -635,32 +635,43 @@ p,li{overflow-wrap:break-word}
 }
 
 
-/* M8.6A.1 | Accessible theme switcher used by both light and dark palettes. */
-.theme-control{display:inline-flex;align-items:center;gap:8px;flex:none;
-  padding:4px 6px 4px 10px;border:1px solid var(--ui-border);
+/* M8.6A.1 | Theme switcher rendered by the app, never an OS-native popup. */
+.theme-control{position:relative;display:inline-flex;align-items:center;gap:7px;
+  flex:none;padding:3px 4px 3px 10px;border:1px solid var(--ui-border);
   background:var(--ui-surface);border-radius:var(--radius-pill);
-  color:var(--ui-ink-subtle);box-shadow:var(--shadow-card)}
+  color:var(--ui-ink-subtle);box-shadow:var(--shadow-card);isolation:isolate}
 .theme-control-label{font-size:11px;font-weight:750;color:var(--ui-ink-subtle)}
-.theme-control select{appearance:auto;color:var(--ui-ink);background:var(--ui-surface);
-  border:0;border-radius:var(--radius-pill);font:650 12px var(--font-body);
-  min-height:36px;padding:5px 5px;max-width:102px}
-/* Native dropdown options are painted in a separate popup by Chromium.
-   Set the popup palette explicitly; styling the closed select alone is not enough. */
-.theme-control select{color-scheme:light}
-.theme-control select option{
-  background-color:var(--ui-surface);
-  color:var(--ui-ink);
-  font-family:var(--font-body);
-}
-.theme-control select option:checked{
-  background-color:var(--ui-surface-accent);
-  color:var(--ui-ink);
-}
-html[data-theme="dark"] .theme-control select{color-scheme:dark}
-.theme-control select:focus-visible{outline:3px solid var(--ui-focus);outline-offset:3px}
+.theme-control-trigger{display:inline-flex;gap:9px;align-items:center;
+  justify-content:space-between;min-height:40px;padding:5px 10px;
+  border:0;border-radius:var(--radius-pill);background:transparent;
+  color:var(--ui-ink);font:750 12px var(--font-body)}
+.theme-control-trigger:hover,.theme-control-trigger[aria-expanded="true"]{
+  color:var(--ui-action-hover);background:var(--ui-surface-accent)}
+.theme-control-trigger:focus-visible,.theme-control-option:focus-visible{
+  outline:3px solid var(--ui-focus);outline-offset:2px}
+.theme-control-chevron{font-size:16px;line-height:1;transform:translateY(-2px)}
+.theme-control-trigger[aria-expanded="true"] .theme-control-chevron{
+  transform:rotate(180deg) translateY(1px)}
+.theme-control-menu{position:absolute;right:0;top:calc(100% + 8px);
+  z-index:90;min-width:156px;width:max-content;max-width:calc(100vw - 24px);
+  padding:6px;display:grid;gap:2px;border:1px solid var(--ui-border-strong);
+  border-radius:var(--radius-md);background:var(--ui-surface);color:var(--ui-ink);
+  box-shadow:var(--shadow-hover)}
+.theme-control-option{display:flex;align-items:center;justify-content:space-between;
+  gap:24px;min-height:42px;padding:10px 12px;border:0;
+  border-radius:var(--radius-sm);background:transparent;
+  color:var(--ui-ink);font:700 13px var(--font-body);text-align:left;
+  cursor:pointer;white-space:nowrap}
+.theme-control-option:hover,.theme-control-option:focus-visible{
+  background:var(--ui-surface-muted);color:var(--ui-ink)}
+.theme-control-option[aria-checked="true"]{
+  background:var(--ui-surface-accent);color:var(--ui-action-hover)}
+.theme-control-check{color:var(--ui-action);font-size:14px;line-height:1;opacity:0}
+.theme-control-option[aria-checked="true"] .theme-control-check{opacity:1}
 @media(max-width:900px){.alpha-pill{display:none}.nav-inner{gap:13px}}
-@media(max-width:600px){.theme-control{margin-left:auto;order:1;padding:2px 4px 2px 9px}
-  .theme-control select{min-height:40px}.logo{order:0}.nav-links{order:2}}
+@media(max-width:600px){.theme-control{margin-left:auto;order:1;padding:2px 4px 2px 8px}
+  .theme-control-trigger{min-height:40px;padding:5px 7px}
+  .logo{order:0}.nav-links{order:2}}
 
 /* Dark mode is a design palette, not a photographic inversion. */
 html[data-theme="dark"]{background:var(--ui-canvas);color-scheme:dark}

@@ -264,35 +264,66 @@ try{
     sample:"rgb(37, 31, 26)",panel:"rgb(255, 253, 250)"
   },"Warm studio chrome must retain a readable cocoa code surface");
 
-  // M8.6A.1: real Chrome interaction, persistence, OS-following preference.
-  // Start with system: no persisted theme and a light OS at this point.
+  // M8.6A.2: test the ACTUAL rendered popup, not a browser-native option
+  // with computed CSS that can differ from the OS-drawn popup in screenshots.
   await cdp.send("Page.navigate",{url:base+"/"},sessionId);
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
-      "document.readyState==='complete' && !!document.querySelector('.theme-control select')",
+      "document.readyState==='complete' && !!document.querySelector('.theme-control-trigger')",
       returnByValue:true},sessionId);
     return r.result?.value===true;
-  },"Theme switcher did not hydrate");
-  const selectTheme=(value)=>cdp.send("Runtime.evaluate",{expression:
-    "(() => {const x=document.querySelector('.theme-control select'); x.value="+JSON.stringify(value)+
-    ";x.dispatchEvent(new Event('change',{bubbles:true}));return true;})()",
-    returnByValue:true},sessionId);
-  // M8.6B.1: native <option> popup must inherit the actual chosen scheme
-  // and carry explicit theme colors, not the browser's default white menu.
-  const optionPalette=async()=> {
-    const response=await cdp.send("Runtime.evaluate",{expression:
-      "(() => {const select=document.querySelector('.theme-control select');"+
-      "const option=select.querySelector('option[value=light]');"+
-      "const s=getComputedStyle(select),o=getComputedStyle(option);"+
-      "return {scheme:s.colorScheme,selectBg:s.backgroundColor,"+
-      "optionBg:o.backgroundColor,optionInk:o.color};})()",
+  },"Custom theme menu did not hydrate");
+  async function openThemeMenu(){
+    await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelector('.theme-control-trigger').click()",
       returnByValue:true},sessionId);
-    return response.result.value;
+    await waitFor(async()=>{
+      const r=await cdp.send("Runtime.evaluate",{expression:
+        "document.querySelector('.theme-control-trigger').getAttribute('aria-expanded')==='true' && "+
+        "document.querySelectorAll('.theme-control-menu [role=menuitemradio]').length===3",
+        returnByValue:true},sessionId);
+      return r.result?.value===true;
+    },"Custom theme menu did not open with all three options");
+  }
+  async function selectTheme(value){
+    const active=await cdp.send("Runtime.evaluate",{expression:
+      "!!document.querySelector('.theme-control-menu')",returnByValue:true},sessionId);
+    if(!active.result?.value)await openThemeMenu();
+    await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelector('.theme-control-option[data-theme-choice="+JSON.stringify(value)+"]').click()",
+      returnByValue:true},sessionId);
+    await waitFor(async()=>{
+      const r=await cdp.send("Runtime.evaluate",{expression:
+        "document.documentElement.dataset.themePreference==="+JSON.stringify(value)+
+        " && !document.querySelector('.theme-control-menu') && "+
+        "document.querySelector('.theme-control-trigger').getAttribute('aria-expanded')==='false'",
+        returnByValue:true},sessionId);
+      return r.result?.value===true;
+    },"Custom theme selection did not apply and close: "+value);
+  }
+  const menuPalette=async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "(() => {const menu=document.querySelector('.theme-control-menu');"+
+      "const option=menu.querySelector('[data-theme-choice=light]');"+
+      "const selected=menu.querySelector('[aria-checked=true]');"+
+      "const root=document.documentElement;return {"+
+      "background:getComputedStyle(menu).backgroundColor,"+
+      "text:getComputedStyle(option).color,"+
+      "optionBg:getComputedStyle(option).backgroundColor,"+
+      "selectedBg:getComputedStyle(selected).backgroundColor,"+
+      "selected:selected.dataset.themeChoice,"+
+      "native:!!document.querySelector('.theme-control select'),"+
+      "overflow:root.scrollWidth>root.clientWidth+1};})()",
+      returnByValue:true},sessionId);
+    return r.result.value;
   };
-  assert.deepEqual(await optionPalette(),{
-    scheme:"light",selectBg:"rgb(255, 253, 250)",
-    optionBg:"rgb(255, 253, 250)",optionInk:"rgb(47, 42, 34)"
-  },"Light appearance dropdown options must use warm paper and dark ink");
+  await openThemeMenu();
+  assert.deepEqual(await menuPalette(),{
+    background:"rgb(255, 253, 250)",text:"rgb(47, 42, 34)",
+    optionBg:"rgba(0, 0, 0, 0)",selectedBg:"rgb(229, 233, 214)",
+    selected:"system",native:false,overflow:false
+  },"Light mode must render a custom warm-paper popup and olive selection");
+
   await selectTheme("dark");
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
@@ -301,25 +332,38 @@ try{
     return r.result?.value===true;
   },"Selecting dark mode did not persist and apply");
   const darkColors=await waitFor(async()=>{
-    const result=await cdp.send("Runtime.evaluate",{expression:
+    const r=await cdp.send("Runtime.evaluate",{expression:
       "(() => {const root=document.documentElement; const style=getComputedStyle(root);"+
       "const panel=document.querySelector('.feature-card');"+
       "const button=document.querySelector('.ui-button-primary');"+
       "return {scheme:style.colorScheme,background:getComputedStyle(document.body).color,"+
       "panel:getComputedStyle(panel).backgroundColor,action:getComputedStyle(button).backgroundColor,"+
-      "select:document.querySelector('.theme-control select').value,overflow:root.scrollWidth>root.clientWidth+1};})()",
+      "trigger:document.querySelector('.theme-control-trigger').textContent.trim(),"+
+      "overflow:root.scrollWidth>root.clientWidth+1};})()",
       returnByValue:true},sessionId);
-    // CTA background-color transitions for 140ms. Inspect its *settled* color,
-    // not a transitional frame immediately after changing the HTML attribute.
-    return result.result?.value?.action==="rgb(186, 204, 150)"?result.result.value:null;
+    return r.result?.value?.action==="rgb(186, 204, 150)"?r.result.value:null;
   },"Dark olive primary button did not settle after theme switch");
   assert.deepEqual(darkColors,{scheme:"dark",background:"rgb(245, 239, 229)",
-    panel:"rgb(41, 39, 32)",action:"rgb(186, 204, 150)",select:"dark",overflow:false},
+    panel:"rgb(41, 39, 32)",action:"rgb(186, 204, 150)",trigger:"Koyu⌄",overflow:false},
     "Dark olive/espresso palette did not render correctly");
-  assert.deepEqual(await optionPalette(),{
-    scheme:"dark",selectBg:"rgb(41, 39, 32)",
-    optionBg:"rgb(41, 39, 32)",optionInk:"rgb(245, 239, 229)"
-  },"Dark appearance dropdown options must use espresso and warm light text");
+  await openThemeMenu();
+  assert.deepEqual(await menuPalette(),{
+    background:"rgb(41, 39, 32)",text:"rgb(245, 239, 229)",
+    optionBg:"rgba(0, 0, 0, 0)",selectedBg:"rgb(48, 60, 44)",
+    selected:"dark",native:false,overflow:false
+  },"Dark mode must render its own espresso popup and sage-olive highlight");
+
+  // Escape must close the menu and restore focus to the trigger.
+  await cdp.send("Input.dispatchKeyEvent",{type:"keyDown",key:"Escape",
+    code:"Escape",windowsVirtualKeyCode:27},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "!document.querySelector('.theme-control-menu') && "+
+      "document.activeElement===document.querySelector('.theme-control-trigger')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"Escape did not close custom menu and return keyboard focus");
+
   await cdp.send("Page.navigate",{url:base+"/kurslar/javascript-temelleri/degiskenler"},sessionId);
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
@@ -338,7 +382,6 @@ try{
     studio:"rgb(41, 39, 32)",source:"rgb(21, 18, 15)",overflow:false
   },"Learning Studio dark surfaces are inconsistent");
 
-  // Switching to System follows a simulated OS setting without storing an override.
   await cdp.send("Emulation.setEmulatedMedia",{
     features:[{name:"prefers-color-scheme",value:"dark"}]},sessionId);
   await selectTheme("system");
@@ -356,8 +399,6 @@ try{
     "window.matchMedia('(prefers-color-scheme: dark)').matches",
     returnByValue:true},sessionId);
   assert.equal(emulated.result.value,false,"Chrome did not emulate a light OS scheme");
-  // CDP emulation does not always raise MediaQueryList 'change' like a real
-  // OS setting change. The app also rechecks when the tab regains focus.
   await cdp.send("Runtime.evaluate",{expression:
     "window.dispatchEvent(new Event('focus'))",returnByValue:true},sessionId);
   await waitFor(async()=>{
@@ -366,8 +407,6 @@ try{
       returnByValue:true},sessionId);
     return r.result?.value===true;
   },"System theme did not follow OS media change");
-
-  // Explicit light always wins over a dark system preference.
   await cdp.send("Emulation.setEmulatedMedia",{
     features:[{name:"prefers-color-scheme",value:"dark"}]},sessionId);
   await selectTheme("light");
@@ -441,11 +480,9 @@ try{
   assert.deepEqual(discoveryHome.result.value,{paths:3,radar:3,
     newsPlaceholder:true,resume:true,overflow:false},
     "M8.6B home orientation/radar unconfigured state invalid");
-  // The same new cards must render dark; keep earlier theme tests intact.
-  await cdp.send("Runtime.evaluate",{expression:
-    "(() => {const x=document.querySelector('.theme-control select');"+
-    "x.value='dark';x.dispatchEvent(new Event('change',{bubbles:true}));})()",
-    returnByValue:true},sessionId);
+  // New homepage learning path cards inherit the palette after choosing
+  // theme through the actual popup, not a synthetic native <select>.
+  await selectTheme("dark");
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
       "document.documentElement.dataset.theme==='dark' && "+
@@ -453,10 +490,7 @@ try{
       returnByValue:true},sessionId);
     return r.result?.value===true;
   },"M8.6B new course cards do not inherit the dark palette");
-  await cdp.send("Runtime.evaluate",{expression:
-    "(() => {const x=document.querySelector('.theme-control select');"+
-    "x.value='light';x.dispatchEvent(new Event('change',{bubbles:true}));})()",
-    returnByValue:true},sessionId);
+  await selectTheme("light");
 
   console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery, guided Apply mobile Learning Studio, and M8.5.1 expanded lessons.");
 } catch(error){
