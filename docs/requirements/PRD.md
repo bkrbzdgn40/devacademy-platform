@@ -1,109 +1,141 @@
-# DevAcademy — Product requirements (PRD)
+# DevAcademy · Ürün Gereksinimleri
 
-**Version:** 0.1 · **Date:** 2026-10-17 · **Status:** Initial approved design baseline; implementation pending
+**Sürüm:** 0.2 · **Güncelleme:** 2026-10-18
+**Statü:** Yerel çalışan ürün prototipi; henüz genel internet ürünü değil.
+**Strateji:** Önce öğreticilik ve içerik; ardından güncel sektör bilgisi
+ve gerçek öğrenci doğrulaması. Ayrıntılar [güncel yol haritasında](../roadmap/ROADMAP.md).
 
-## 1. Problem and product promise
+## 1. Ürün sözü
 
-Learning developers jump between tutorials, playgrounds, quiz sites, framework docs, and unreliable trend posts. DevAcademy combines discoverable knowledge, instruction, practice, feedback, progress, and source-backed industry context.
+DevAcademy, Türkçe olarak yazılım öğrenen kişinin:
+- yeni bir kavramı kendi sözleriyle açıklamasına,
+- küçük bir programın davranışını tahmin etmesine,
+- yanlış varsayımının neden yanlış olduğunu görmesine,
+- yeni örnekte bağımsız karar vermesine ve
+- uygun doğrulama ortamında çalışır kod yazmasına
 
-**Promise:** After a lesson, the learner should be able to explain the concept, predict behavior, implement it independently and receive objective feedback.
+yardım etmeyi amaçlar.
 
-## 2. Audiences and jobs to be done
+**Ders bitirme, bir defa doğru yanıt, 24 saat sonraki doğrulama ve
+kod üretme birbirinin yerine kullanılamaz.** Mevcut testler pedagojinin
+öğrencide etkili olduğunu kanıtlamaz. Teklif ettiğimiz öğrenme etkisi
+henüz saha çalışmasında doğrulanmamıştır.
 
-| Audience | Need | Success behavior |
-| --- | --- | --- |
-| Beginner | Understand fundamentals with a coherent path | Completes a small task without copying a solution |
-| University student | Practice OOP, algorithms, data structures and SQL | Diagnoses errors and passes tests |
-| Working developer | Compare how concepts map across languages and stacks | Applies a known idea in a new ecosystem |
-| Curious explorer | Discover languages, including esoteric ones | Understands syntax, history and runtime availability |
+## 2. Hedef kullanıcılar
 
-Initial teaching language: **Turkish**. The model supports English content without silently claiming untranslated lessons are localized. Content must not assume the user already knows English.
+- Yeni başlayan: kavramı küçük bir problemde **ezberlemeden** kullanmak.
+- Üniversite öğrencisi: fonksiyon, nesne yönelimli programlama,
+  algoritma ve hata ayıklamayı nedenleriyle öğrenmek.
+- Çalışan geliştirici: kavramın başka dil/ekosistemdeki karşılığını görmek.
+- Meraklı öğrenci: COW gibi sıra dışı dilleri de doğru kategoride keşfetmek.
 
-## 3. Information architecture
+Birincil öğretim ve arayüz dili Türkçedir. İçeriğin yayımlanmış görünmesi
+otomatik olarak başka dillere çevrilmiş olduğunu göstermez.
 
-Three distinct, cross-linked catalogs:
+## 3. Bugün teslim edilmiş kapsam (2026-10-18)
 
-1. **Languages:** Python, Java, JS, TS and many additional mainstream or esoteric languages. HTML and CSS are classified as markup/style technologies, not falsely described as programming languages; SQL as a query language.
-2. **Concepts:** syntax fundamentals, OOP (inheritance, encapsulation, polymorphism, abstraction), SOLID, composition, algorithms, data structures, error handling, concurrency, APIs, testing, security, architecture.
-3. **Stacks and tools:** frontend, backend, mobile, infrastructure, databases, CI/CD, cloud and developer tooling.
-
-Catalog support, instructional examples, in-browser editing, remote execution and automatic assessment are **separate capability flags**. A catalog page must never present a non-existent runner as available.
-
-## 4. Priority scope
-
-### P0 — MVP release target
-
-- Search and browse languages, concepts and stacks with tags, prerequisites, related content and difficulty.
-- Structured lesson pages: outcome, explanation, minimal example, misconceptions, interactive check, references.
-- Code editor with clearly labeled language, run availability, output/errors and execution limits.
-- Assessments: output prediction, multiple choice, code completion, repair and tests with server-side hidden criteria.
-- Four curated learning paths: programming fundamentals, OOP, web basics, SQL/data basics.
-- Accounts, attempts and progress; ability to resume; privacy-friendly optional anonymous browsing.
-- Source-attributed industry feed: title, canonical source URL, original publication date, date checked, why it matters, relevant lesson.
-- Responsive layouts and accessibility target of WCAG 2.2 AA; keyboard controls, readable contrast, non-color-only feedback.
-- Turkish UI and initial lessons. Locale keys and content identity work across translations.
-
-**MVP content goals:** >= 100 reviewed concept cards, >= 30 interactive exercises, 5 verified executable language experiences: Python, JavaScript, TypeScript, Java, SQL. A release gate checks actual verified runtimes rather than claiming coverage based on a catalog entry.
-
-### P1 — After MVP
-
-- Spaced repetition based on demonstrated weaknesses.
-- Verified project labs, debugging exercises and advanced learning paths.
-- Multiple language comparisons on the same concept.
-- Personalized recommendations, stronger search and editorial moderation.
-- Broader runtime support and experimental languages such as **COW** and **MOO** with appropriate categorization.
-
-### P2 — Future hypothesis, not a commitment
-
-- AI mentor, code review and personalized tutoring.
-- Peer collaboration, competitions, community discussions and portfolios.
-- Advanced engineering simulations.
-
-## 5. Critical end-to-end user stories
-
-**US-01: Discover** — As a learner, I can search for 'polymorphism', see concept and Java lesson results separately, and open a lesson without logging in.
-
-**US-02: Learn and predict** — I can read a concise Java polymorphism explanation, predict an output, submit once, and receive an explanation addressing my answer.
-
-**US-03: Run** — For a supported language, I can edit an example, submit it for execution, receive stdout/stderr and explicit success/error/timeout status. For unsupported languages the run control is disabled with a helpful explanation.
-
-**US-04: Validate** — I can attempt an exercise; public test results tell me what passed; private evaluator details and expected answers are not sent to the browser before submission.
-
-**US-05: Resume** — When signed in, I can revisit a path and see server-persisted completion and recent attempts.
-
-**US-06: Stay current** — I can open a technology item and see the original source, when it was published, when it was verified and what I can learn next.
-
-## 6. Acceptance and measurable outcomes
-
-| Dimension | MVP acceptance / provisional goal |
+| Yetenek | Gerçek kapsam / sınır |
 | --- | --- |
-| Understanding | Pilot users can solve a novel exercise after a lesson; baseline and target measured before launch |
-| Runner safety | No production learner execution until isolation, abuse cases and resource limits pass security review |
-| Assessment integrity | Hidden tests are not available in public client bundles or unauthenticated read APIs |
-| Reliability | Deterministic scoring for deterministic tasks; failures surfaced, not mislabeled success |
-| Content quality | Technical review, tested snippets and maintained references for released lessons |
-| News integrity | Every item links to a real source and shows publication date; no fabricated or unlabeled AI claims |
-| Accessibility | Keyboard-only task flow works; WCAG 2.2 AA audit before public MVP |
-| Observability | Request, worker and runner events traceable without logging private code by default |
+| Kurslar | JavaScript 7, Java 3, Python 5 olmak üzere 15 ders / 3 kurs |
+| Soru | 38 gözden geçirilmiş yayımlanmış bilgi sorusu |
+| Öğrenme Stüdyosu | 15 dersin tamamında 3'er hazır, CI'da gerçek dillerle doğrulanmış kod izleme varyantı (45) |
+| Öğretici açıklama | Kavram modeli, karşı örnek, yaygın hata, örneği adım adım takip ve ipuçları |
+| Değerlendirme | Sunucuda derecelendirilen quiz; kılavuzlu hata seçimi, bireysel kanıtlarla aynı değil |
+| Bağımsız kanıt | 6 kavramda çıktı tahmini, uyarlamalı teşhis ve en az 24 saat sonra bağımsız tekrar |
+| Kod yazma | 6 kavramda kod yazma transfer görevi; worker doğrulaması yalnızca izole, açıkça etkin yerel laboratuvar |
+| Hesaplar | PostgreSQL kurulmuş yerel ortamda kullanıcı, oturum ve kaydedilmiş ilerleme |
+| Kişisel tekrar | Hata ve doğru cevaplara göre sıradaki tekrar zamanı; bağımsız kod becerisi puanı değil |
+| Tasarım | Olive & Earth açık/koyu tema, kurs/ders keşfi, duyarlı çalışma alanı |
+| Sektör Radarı | Kaynak bağlantısı görünümü; otomatik güncel haber akışı henüz yok |
+| Dağıtım | Genel canlı sürüm ve public öğrenci kodu çalıştırıcısı yok |
 
-Latency/SLO budgets will be baselined with actual infrastructure and pilot data; no invented performance guarantees.
+Eski MVP hedefleri (4 yol, 5 public dil deneyimi, 100 kavram kartı,
+canlı haber, 30 değerlendirilen alıştırma) **tamamlanmış sayılmaz**.
+Bunlar tasarım araştırmasının tarihî başlangıç hedefleridir.
 
-## 7. Important non-goals
+## 4. Öncelikli ürün gereksinimleri
 
-- Compiling every language on day one.
-- Shipping a production IDE or arbitrary internet-connected compute environment.
-- Unreviewed AI-generated curricula.
-- Scraping and republishing entire articles from other publishers.
-- Social feed, certificates, leaderboards or paid subscriptions in the first vertical slice.
+### P0 · M9 Öğrenme kalitesi
 
-## 8. Constraints and risks
+1. Kullanıcı, mevcut derslerde **tahmin → gözlem → yanlış varsayımı
+   ayırt etme → yeni problem → tekrar** bağlantısını görebilmeli.
+2. Mevcut soru/ilerleme/bağımsız transfer durumu hangi sonraki adımı
+   gerektiriyorsa, o adım gerçek kayıtlarla önerilmeli.
+3. **Kanıt hiyerarşisi:** rehberli tamamlama, ilk bağımsız tahmin,
+   gecikmeli bağımsız tahmin ve kod yazma ayrı isimlendirilir.
+   Öğrenciden gözlenmeyen bir beceri çıkarılmaz.
+4. İlk bütünleşik müfredat incelemesi Python'un mevcut 5 dersi üzerine
+   yapılır. İçerik; gerçek uygulama, karşı örnek, öğretici geri bildirim,
+   farklı girdiler ve bağımsız çözümle sınanabilir olmalı.
+5. Çalıştırma devre dışıysa öğrenci kodunu düzenleyebilir ama güvenilir
+   kod üretim başarısı elde ettiği iddia edilmez.
+6. Öğrenme etkisini kıyaslayan gönüllü pilot için ön test, son test ve
+   gecikmeli test soruları yöntemsel olarak hazırlanır. Başarı oranları
+   gözlem yapılmadan üretilmez.
+7. Açık/koyu temada erişilebilirlik, mobilde yatay taşma olmaması ve
+   gerçek konu bağlantıları korunur.
 
-- Running untrusted programs requires strong process/VM/container isolation; framework-level validation alone is not sufficient.
-- Java and SQL entail different evaluation mechanics from browser-based JS/Python; each runtime needs an explicit threat review.
-- Translation, license rights, source freshness and content correction are first-class editorial concerns.
-- Avoid designing a general-purpose microservice mesh before validated product behavior.
-- Young or underage learner support and age-related compliance require deliberate policy before public launch.
+### P1 · M10 Sektör Radarı
 
-## 9. Delivery sequence
+Kaynağı belli, tarihi doğrulanmış ve içerikle ilişkili güncel veri:
+gerçek API/erişim izinleri, tekrar ayıklama, kaynak türü ayrımı,
+stale/hata durumları, kaynak bağlantısı, ilgili öğrenme konusu.
+Yalnızca API bağlandı diye eski/sahte veri yayımlanamaz.
 
-The authoritative sequence, verification gates and definition of done are in [ROADMAP](../roadmap/ROADMAP.md). Scope changes must update this PRD and, for architectural changes, create a new ADR.
+### P2 · M11 Doğrulama ve genişleme
+
+Küçük pilot, öğrenme görevi tamamlama gözlemi, içerik anlaşılabilirliği,
+daha iyi açıklama/kapsam gerekçesi ve kontrollü TypeScript/SQL/veri
+yapıları/algoritmalar genişlemesi. COW/MOO, AI mentor, sosyal özellikler
+ve topluluk varsayılan kapsam dışıdır.
+
+## 5. Gerçek kullanıcı hikâyeleri
+
+- **Öğren:** Öğrenci Python fonksiyonları dersini açıp sonucu tahmin
+  eder, satır izini inceler ve print/return ayrımını açıklayabilir.
+- **Bağımsız dene:** Uygun desteklenen derste oturum açmış öğrenci
+  rehberli çözüme bakmadan yeni bir çıktı tahminini çözer.
+- **Kod üret:** Desteklenen özel yerel laboratuvar açıkken öğrenci
+  kendi fonksiyonunu yazar; açık/gizli testlerle yalnızca
+  davranışsal doğruluk kanıtı üretilebilir.
+- **Geri dön:** Oturum açmış kullanıcı kendi ilerleme ve tekrarlarını
+  görür; tamamlanma ile bağımsız kanıtı karıştırmadan ilgili derse gider.
+- **Güncel kal (plan):** Gerçek sektör akışında haberin tarihini,
+  kanonik kaynağını, türünü ve alakalı ders bağlantısını görür.
+
+## 6. Başarı ölçümü: ürün değil, öğrenci odaklı
+
+| Boyut | Yöntem / kabul |
+| --- | --- |
+| Kod okuma | Görülmemiş varyantta bağımsız çıktı tahmini |
+| Yanlış varsayımı giderme | Aynı kavramın odaklanmış farklı karşı örneğinde düzelme |
+| Kod yazma | Güvenilir işçi ve gizli testler varsa davranışsal değerlendirme, yoksa kanıt yok |
+| Kalıcılık | En az 24 saat sonra yeni girdiler; uzun vadeli yetkinlik iddiası yok |
+| Öğretim etkililiği | Gönüllü ön/son/gecikmeli karşılaştırmalar; örneklem ve sınırlamalar raporlanır |
+| Kullanılabilirlik | Klavye, erişilebilir adlar, 320px ve mobil, farklı temalar, okunaklı kod |
+| İçerik | Teknik olarak doğru, ayrı gözden geçirilmiş açıklama, kaynak ve örnekler |
+| Veri doğruluğu | Hesap/DB yok veya API hatalıysa sahte ilerleme gösterilmez |
+| Haber | Her zaman gerçek kanonik URL, doğrulanmış tarihler ve açık kaynak türü |
+
+## 7. Teknik ve editoryal sınırlar
+
+- Kullanıcı kodunu genel web sürecinde veya internetten gelen istek
+  üzerine kontrolsüz yürütme. Var olan sunucu doğrulaması ve özel
+  Docker laboratuvarı sınırları korunur.
+- Öğrencinin serbest açıklamasından doğrulanmamış mastery skoru çıkarma.
+- Eğitim yazılarından tamamını kopyalama, tarihsiz haber yayımlama,
+  kaynak metnindeki talimatları sistem talimatı kabul etme.
+- Salt sayısal içerik büyümesi için aynı dersi yeniden paketleme.
+- Öğrenci pilotları için kişisel veri, rıza ve erişim kararlarını
+  kendiliğinden belirleme; anonim veya minimum veri ile başlama.
+
+## 8. Değişiklik kabulü ve plan yönetimi
+
+Ürün başlığı M9/M10/M11 olarak kalır; alt teknik görevler milestone
+adı almaz. Hedef kabulü için gerçek kullanım akışı, CI regresyonları,
+eğitim içeriği incelemesi ve sınırlamalar raporlanmalıdır. Birkaç anlamlı
+PR olabilir, aynı anda birden fazla açık PR tercih edilmez.
+
+Mimariyi veya güvenlik sınırını değiştiren işler ayrık ADR ve onay
+gerektirir. Güncel teslimat ve reddedilen iddialar için
+[ROADMAP](../roadmap/ROADMAP.md) yetkilidir.
