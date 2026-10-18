@@ -44,8 +44,19 @@ export function ThemeSwitcher(){
       apply(stored);
     };
     media.addEventListener("change",resync);
+    // Browsers can defer media-change delivery while a tab is backgrounded.
+    // Re-evaluate on return so System mode cannot retain a stale palette.
+    window.addEventListener("focus",resync);
+    window.addEventListener("pageshow",resync);
+    document.addEventListener("visibilitychange",resync);
     window.addEventListener("storage",resync);
-    return ()=>{media.removeEventListener("change",resync);window.removeEventListener("storage",resync)};
+    return ()=>{
+      media.removeEventListener("change",resync);
+      window.removeEventListener("focus",resync);
+      window.removeEventListener("pageshow",resync);
+      document.removeEventListener("visibilitychange",resync);
+      window.removeEventListener("storage",resync);
+    };
   },[]);
   function onSelect(value:string){
     if(!valid(value))return;
