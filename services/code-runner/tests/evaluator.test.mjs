@@ -18,9 +18,9 @@ function fakeExecution(values){
 test("bank has public examples and worker-private hidden cases",()=>{
   for(const [key,entry] of Object.entries(caseBank)){
     assert.equal(validExercise(key,entry.revision),true);
-    assert.equal(entry.cases.length,key.startsWith('js.')?5:4);
+    assert.equal(entry.cases.length,(key.startsWith('js.')||key.startsWith('transfer.js.'))?5:4);
     assert.equal(entry.cases.filter(c=>c.public).length,2);
-    assert.equal(entry.cases.filter(c=>!c.public).length,key.startsWith('js.')?3:2);
+    assert.equal(entry.cases.filter(c=>!c.public).length,(key.startsWith('js.')||key.startsWith('transfer.js.'))?3:2);
   }
   assert.equal(validExercise("unknown",1),false);
   assert.equal(validExercise(id,2),false);
