@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - "services/code-runner/**"
+      - "scripts/verify-gvisor-staging.mjs"
       - "apps/web/src/server/execution-store.mjs"
       - "apps/web/src/server/execution-worker-auth.mjs"
       - "apps/web/src/app/api/executions/**"
@@ -17,6 +18,7 @@ on:
     branches: [main]
     paths:
       - "services/code-runner/**"
+      - "scripts/verify-gvisor-staging.mjs"
       - "apps/web/src/server/execution-store.mjs"
       - "apps/web/src/server/execution-worker-auth.mjs"
       - "apps/web/src/app/api/executions/**"
@@ -39,7 +41,7 @@ jobs:
         with:
           node-version: '24'
       - name: Check worker protocol and pinned runtime policy
-        run: node --test services/code-runner/tests/worker-contract.test.mjs services/code-runner/tests/evaluator.test.mjs services/code-runner/tests/multilang-evaluator.test.mjs
+        run: node --test services/code-runner/tests/worker-contract.test.mjs services/code-runner/tests/evaluator.test.mjs services/code-runner/tests/multilang-evaluator.test.mjs services/code-runner/tests/staging-profile.test.mjs
       - name: Pull development-only Node runtime image
         run: docker pull node:24-alpine
       - name: Pull development-only Python and Java runtime images
