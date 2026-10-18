@@ -38,7 +38,7 @@ function apply(preference:Preference){
   window.dispatchEvent(new Event(EVENT));
 }
 export function ThemeSwitcher(){
-  const preference=useSyncExternalStore(subscribe,selection,()=>"system");
+  const preference=useSyncExternalStore<Preference>(subscribe,selection,()=>"system");
   const [open,setOpen]=useState(false);
   const menuId=useId();
   const containerRef=useRef<HTMLDivElement>(null);
