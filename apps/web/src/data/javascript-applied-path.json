@@ -259,9 +259,9 @@
       "title": "Ürün vergili fiyatlarını üret",
       "brief": "[100, 200, 50] ürün fiyatlarını map kullanarak yüzde 10 KDV dahil yeni bir diziye çevir ve virgülle yazdır. Orijinal listeyi değiştirme. İkinci denemede [20, 40] kullan.",
       "starterCode": "const prices = [100, 200, 50];\n// map ile yeni liste oluştur, virgülle yazdır.\n",
-      "modelCode": "const prices = [100, 200, 50];\nconst taxed = prices.map(price => price * 1.1);\nconsole.log(taxed.join(','));",
-      "expectedOutput": "110.00000000000001,220.00000000000003,55.00000000000001",
-      "variationCode": "const prices = [20, 40];\nconst taxed = prices.map(price => price * 1.1);\nconsole.log(taxed.join(','));",
+      "modelCode": "const prices = [100, 200, 50];\nconst taxed = prices.map(price => Math.round(price * 1.1));\nconsole.log(taxed.join(','));",
+      "expectedOutput": "110,220,55",
+      "variationCode": "const prices = [20, 40];\nconst taxed = prices.map(price => Math.round(price * 1.1));\nconsole.log(taxed.join(','));",
       "variationExpected": "22,44",
       "reflection": "Ondalıklı fiyatların kayan nokta hatalarını kullanıcıya göstermemek için hangi biçimlendirme yaklaşımını seçersin?"
     }

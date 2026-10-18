@@ -1,12 +1,17 @@
 "use client";
 
 import {useId,useState,type FormEvent} from "react";
-import applied from "@/data/python-applied-path.json";
+import pythonApplied from "@/data/python-applied-path.json";
+import javaApplied from "@/data/java-applied-path.json";
+import javascriptApplied from "@/data/javascript-applied-path.json";
+const applied=[...pythonApplied,...javaApplied,...javascriptApplied];
 import {CodePlayground} from "@/components/code-playground";
 
 const tierNames=["01 · Başlangıç","02 · Uygulama","03 · Yeni durum"] as const;
 
-export function PythonAppliedStudio({lessonId}:{lessonId:string}){
+type Language="javascript"|"java"|"python";
+export function AppliedLearningStudio({lessonId,language}:{lessonId:string;language:Language}){
+  const displayLanguage=language==="javascript"?"JavaScript":language==="java"?"Java":"Python";
   const path=applied.find(entry=>entry.lessonId===lessonId);
   const [tier,setTier]=useState(0);
   const [selected,setSelected]=useState<Record<number,number>>({});
@@ -27,9 +32,9 @@ export function PythonAppliedStudio({lessonId}:{lessonId:string}){
     setSelected(old=>({...old,[tier]:index}));
     setSubmitted(old=>{const next={...old};delete next[tier];return next;});
   }
-  return <section className="python-applied-studio" aria-label="Python gerçek yaşam problem laboratuvarı">
+  return <section className="python-applied-studio" aria-label={displayLanguage+" gerçek yaşam problem laboratuvarı"}>
     <header className="python-applied-header">
-      <span className="ui-eyebrow">Gerçek yaşam laboratuvarı · Python</span>
+      <span className="ui-eyebrow">Gerçek yaşam laboratuvarı · {displayLanguage}</span>
       <h3>Bir kavram, üç farklı problem.</h3>
       <p>{path.topic}. Önce kodun çıktısını tahmin et, sonra kararının nedenini incele ve en sonda kendi çözümünü yaz.</p>
     </header>
@@ -48,7 +53,7 @@ export function PythonAppliedStudio({lessonId}:{lessonId:string}){
         <h4>{lesson.title}</h4>
         <p>{lesson.context}</p>
       </div>
-      <div className="code-label">Çalıştırılabilir, gözden geçirilmiş Python örneği</div>
+      <div className="code-label">Çalıştırılabilir, gözden geçirilmiş {displayLanguage} örneği</div>
       <pre className="lesson-code"><code>{lesson.code}</code></pre>
       <form className="python-applied-answer" onSubmit={check}>
         <fieldset>
@@ -96,7 +101,7 @@ export function PythonAppliedStudio({lessonId}:{lessonId:string}){
       </button>
       {ownCodeOpen&&<div className="python-applied-code-work">
         <CodePlayground starterCode={path.independent.starterCode}
-          language="python" displayLanguage="Python"
+          language={language} displayLanguage={displayLanguage}
           label={path.independent.title+" bağımsız deneme alanı"}/>
         <p className="python-applied-reflection"><strong>Kendine sor:</strong> {path.independent.reflection}</p>
         <details className="python-applied-solution">

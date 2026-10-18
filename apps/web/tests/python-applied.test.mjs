@@ -38,8 +38,8 @@ test("all five published Python lessons have three graduated real-life examples 
 });
 test("all Python applied tasks belong to existing lessons; graded identity unchanged",()=>{
   const ui=read("components/course-lesson.tsx");
-  assert.equal((ui.match(/<PythonAppliedStudio lessonId=\{lesson.id\}/g)||[]).length,2);
-  assert.match(ui,/course.editorLanguage==="python"/);
+  assert.equal((ui.match(/<AppliedLearningStudio lessonId=\{lesson.id\}/g)||[]).length,2);
+  assert.match(ui,/language=\{editorLanguage\}/);
   assert.match(ui,/<CompleteLesson lessonId=\{lesson.id\}/);
   assert.match(ui,/<TransferLab lessonId=\{lesson.id\}/);
   assert.match(ui,/<CodeTransferLab lessonId=\{lesson.id\}/);
@@ -49,7 +49,7 @@ test("all Python applied tasks belong to existing lessons; graded identity uncha
   assert.match(component,/feedback/);
   assert.match(component,/if\(!path\)return null/);
   assert.match(component,/role="status"/);
-  assert.match(component,/language="python"/);
+  assert.match(component,/language=\{language\}/);
   assert.match(component,/ownCodeOpen&&/);
   assert.match(component,/Bu görevde kendi kodunu yazabilirsin; sonuç otomatik değerlendirilmiyor/);
   assert.doesNotMatch(component,/fetch\(|localStorage|masteryScore|recordAttempt/);

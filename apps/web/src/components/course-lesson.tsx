@@ -5,7 +5,7 @@ import { CompleteLesson } from "@/components/complete-lesson";
 import { TraceWalkthrough } from "@/components/trace-walkthrough";
 import { LearningStudio } from "@/components/learning-studio";
 import { LessonDepth } from "@/components/lesson-depth";
-import { PythonAppliedStudio } from "@/components/python-applied-studio";
+import { AppliedLearningStudio } from "@/components/python-applied-studio";
 import { LessonCourseMap } from "@/components/lesson-course-map";
 import {studioHasLesson} from "@/lib/studio-scenarios.mjs";
 import { LessonStepper, type LessonStep } from "@/components/lesson-stepper";
@@ -78,7 +78,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
     { id: "apply", label: "Uygula", title: "Yeni bir örnekte kendini dene", content: <>
       <p className="lesson-step-intro">Kodu kendin değiştir. Genel kullanıma açık kod çalıştırma kapalıdır; bilgi soruların ayrı değerlendirilir.</p>
       {editor}
-      {course.editorLanguage==="python"&&<PythonAppliedStudio lessonId={lesson.id}/>}
+      {<AppliedLearningStudio lessonId={lesson.id} language={editorLanguage}/>}
       <div className="lesson-section">
         <h3>Öğrendiğini farklı bir durumda kullan</h3>
         <div className="quiz-stack">{predictionQuestions.slice(1).map((question, i) =>
@@ -110,7 +110,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
     { id: "apply", label: "Kodla", title: "Örneği kendin değiştir", content: <>
       <p className="lesson-step-intro">Örneği düzenle. Kod çalıştırma yalnızca yetkilendirilmiş yerel laboratuvar ortamında etkinleşir.</p>
       {editor}
-      {course.editorLanguage==="python"&&<PythonAppliedStudio lessonId={lesson.id}/>}
+      {<AppliedLearningStudio lessonId={lesson.id} language={editorLanguage}/>}
     </> },
     { id: "assess", label: "Test et", title: "Bilgini kontrol et", content: <>
       <p className="lesson-step-intro">Önce sonucu tahmin et, sonra açıklamayı incele.</p>
