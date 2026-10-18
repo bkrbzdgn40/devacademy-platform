@@ -4,7 +4,7 @@ import {studioLessons,studioHasLesson,studioVariantCount,buildStudioScenario,
   gradeStudioPrediction,normalizeStudioAnswer} from "../src/lib/studio-scenarios.mjs";
 
 test("studio has three distinct, bounded reviewed variants per supported concept",()=>{
-  assert.equal(studioLessons.length,6);
+  assert.equal(studioLessons.length,15);
   assert.ok(studioLessons.some(x=>x.includes(".java.")));
   assert.ok(studioLessons.some(x=>x.includes(".python.")));
   assert.ok(studioLessons.some(x=>x.includes(".javascript.")));
