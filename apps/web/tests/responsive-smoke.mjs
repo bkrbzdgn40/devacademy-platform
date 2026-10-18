@@ -284,15 +284,20 @@ try{
       returnByValue:true},sessionId);
     return r.result?.value===true;
   },"Selecting dark mode did not persist and apply");
-  const darkColors=await cdp.send("Runtime.evaluate",{expression:
-    "(() => {const root=document.documentElement; const style=getComputedStyle(root);"+
-    "const panel=document.querySelector('.feature-card');"+
-    "const button=document.querySelector('.ui-button-primary');"+
-    "return {scheme:style.colorScheme,background:getComputedStyle(document.body).color,"+
-    "panel:getComputedStyle(panel).backgroundColor,action:getComputedStyle(button).backgroundColor,"+
-    "select:document.querySelector('.theme-control select').value,overflow:root.scrollWidth>root.clientWidth+1};})()",
-    returnByValue:true},sessionId);
-  assert.deepEqual(darkColors.result.value,{scheme:"dark",background:"rgb(245, 239, 229)",
+  const darkColors=await waitFor(async()=>{
+    const result=await cdp.send("Runtime.evaluate",{expression:
+      "(() => {const root=document.documentElement; const style=getComputedStyle(root);"+
+      "const panel=document.querySelector('.feature-card');"+
+      "const button=document.querySelector('.ui-button-primary');"+
+      "return {scheme:style.colorScheme,background:getComputedStyle(document.body).color,"+
+      "panel:getComputedStyle(panel).backgroundColor,action:getComputedStyle(button).backgroundColor,"+
+      "select:document.querySelector('.theme-control select').value,overflow:root.scrollWidth>root.clientWidth+1};})()",
+      returnByValue:true},sessionId);
+    // CTA background-color transitions for 140ms. Inspect its *settled* color,
+    // not a transitional frame immediately after changing the HTML attribute.
+    return result.result?.value?.action==="rgb(186, 204, 150)"?result.result.value:null;
+  },"Dark olive primary button did not settle after theme switch");
+  assert.deepEqual(darkColors,{scheme:"dark",background:"rgb(245, 239, 229)",
     panel:"rgb(41, 39, 32)",action:"rgb(186, 204, 150)",select:"dark",overflow:false},
     "Dark olive/espresso palette did not render correctly");
   await cdp.send("Page.navigate",{url:base+"/kurslar/javascript-temelleri/degiskenler"},sessionId);
