@@ -65,3 +65,46 @@ test("shared basic components are used in actual pages, not merely authored",()=
   assert.match(progress,/dashboard-stat ui-card/);
   assert.match(styles,/\.studio-code\{background:var\(--ui-code\)/);
 });
+
+
+test("dark espresso, olive and terracotta remain readable and coherent",()=>{
+  const darkSection=tokens.slice(tokens.indexOf('html[data-theme="dark"]{'));
+  assert.ok(darkSection.startsWith('html[data-theme="dark"]{'));
+  function darkValue(token){
+    const match=darkSection.match(new RegExp(token+":(#[0-9A-Fa-f]{6})"));
+    assert.ok(match,token+" absent in dark palette");
+    return match[1];
+  }
+  function ratio(a,b){
+    const high=Math.max(luminance(darkValue(a)),luminance(darkValue(b)));
+    const low=Math.min(luminance(darkValue(a)),luminance(darkValue(b)));
+    return (high+.05)/(low+.05);
+  }
+  for(const [fg,bg] of [
+    ["--color-ink","--color-cream"],
+    ["--color-ink-muted","--color-cream"],
+    ["--color-ink","--color-paper"],
+    ["--color-olive-800","--color-paper"],
+    ["--color-terracotta-700","--color-paper"],
+    ["--color-code-ink","--color-code-bg"]
+  ]) assert.ok(ratio(fg,bg)>=4.5,fg+" on "+bg+" dark contrast insufficient: "+ratio(fg,bg).toFixed(2));
+  assert.match(darkSection,/--ui-action-ink:#[0-9A-Fa-f]{6}/);
+  assert.match(darkSection,/color-scheme:dark/);
+  assert.match(styles,/\.theme-control select:focus-visible/);
+  assert.match(styles,/html\[data-theme="dark"\] \.studio-code/);
+  assert.match(styles,/html\[data-theme="dark"\] \.editor-shell \.cm-editor/);
+  assert.match(layout,/ThemeSwitcher/);
+  assert.match(layout,/strategy="beforeInteractive"/);
+});
+test("theme choice is user-controlled and never touches learner records",()=>{
+  const switcher=read("components/theme-switcher.tsx");
+  assert.match(switcher,/devacademy-theme/);
+  assert.match(switcher,/<option value="system">Sistem<\/option>/);
+  assert.match(switcher,/<option value="light">Açık<\/option>/);
+  assert.match(switcher,/<option value="dark">Koyu<\/option>/);
+  assert.match(switcher,/prefers-color-scheme: dark/);
+  assert.match(switcher,/useSyncExternalStore/);
+  assert.doesNotMatch(switcher,/fetch\(|\/api\/|execution_jobs|document\.cookie/);
+  const editor=read("components/code-playground.tsx");
+  assert.match(editor,/theme=\{resolvedTheme\}/);
+});
