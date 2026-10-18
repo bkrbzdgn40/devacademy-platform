@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { catalog, categoryInfo, type CatalogKind } from "@/lib/catalog";
+import courses from "@/data/courses.json";
+import lessons from "@/data/lessons.json";
+import questions from "@/data/questions.json";
 
 const sections: { kind: CatalogKind; number: string; accent: string }[] = [
   { kind: "language", number: "01", accent: "violet" },
@@ -13,9 +16,9 @@ export default function Home() {
       <div className="hero-text">
         <div className="eyebrow"><span className="status-dot" /> Yazılım öğrenmenin yeni yolu</div>
         <h1>Kodu sadece okuma.<br /><span>Gerçekten anla.</span></h1>
-        <p>JavaScript ve Java kurslarında kısa derslerle öğren ve anında bilgi testleriyle pekiştir. Kod düzenleme, kişisel ilerleme takibi ve kod yazma görevleri geliştirme önizlemesinde mevcut.</p>
+        <p>JavaScript, Java ve Python öğren. Kısa derslerde konuyu anla, kendi tahminini yap ve pratikle pekiştir.</p>
         <div className="hero-actions"><Link href="/kurslar" className="primary-button">İlk derslere başla <span aria-hidden="true">↗</span></Link><Link href="/kutuphane/diller" className="subtle-button">Kütüphaneyi keşfet <span aria-hidden="true">→</span></Link></div>
-        <p className="small-note">JavaScript ve Java için 10 ders ve 20 bilgi sorusu mevcut. Kod çalıştırma halka açık değildir; hesap ilerlemesi yalnızca yerel veritabanı yapılandırıldığında saklanır.</p>
+        <p className="small-note">{courses.length} kurs · {lessons.length} ders · {questions.length} bilgi sorusu. Kod çalıştırma yalnızca özel yerel laboratuvarda mümkündür.</p>
       </div>
       <div className="hero-visual" aria-label="DevAcademy örnek ders kartı">
         <div className="code-heading"><span className="window-dots" aria-hidden="true">● ● ●</span><span>Polymorphism.java</span><span>Java</span></div>

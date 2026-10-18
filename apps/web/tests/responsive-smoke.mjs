@@ -112,7 +112,9 @@ try{
     },sessionId);
     for(const path of paths){
       await cdp.send("Page.navigate",{url:base+path},sessionId);
-      const needsEditor=path==="/laboratuvar" || path==="/dersler/degiskenler" || path==="/pratik/cift-sayilari-topla" || path==="/pratik/python-cift-topla" || path==="/pratik/java-araliga-sinirla" || path==="/kurslar/java-temelleri/degiskenler-ve-turler" || path==="/kurslar/javascript-temelleri/degiskenler" || path==="/kurslar/python-temelleri/degiskenler-ve-turler";
+      // Lesson editors are lazy-mounted in their "Kodla/Uygula" stage.
+      // On initial page load only the standalone lab and practice tasks include an editor.
+      const needsEditor=path==="/laboratuvar" || path.startsWith("/pratik/");
       const data=await waitFor(async()=>{
         const evaluation=await cdp.send("Runtime.evaluate",{expression:diagnostic,returnByValue:true},sessionId);
         const result=evaluation.result?.value;
@@ -127,7 +129,38 @@ try{
       count++;
     }
   }
-  console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases ("+widths.join(", ")+"px).");
+  // An opened mobile discovery menu must not extend beyond the 320px viewport.
+  await cdp.send("Emulation.setDeviceMetricsOverride",{
+    width:320,height:850,deviceScaleFactor:1,mobile:true
+  },sessionId);
+  await cdp.send("Page.navigate",{url:base},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:"document.readyState==='complete' && !!document.querySelector('.nav-discovery')",returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"Home navigation did not load");
+  await cdp.send("Runtime.evaluate",{expression:"document.querySelector('.nav-discovery').open=true",returnByValue:true},sessionId);
+  const menu=await cdp.send("Runtime.evaluate",{expression:diagnostic,returnByValue:true},sessionId);
+  assert.ok(menu.result.value.scrollWidth<=menu.result.value.viewport+1,
+    "Open discovery menu overflows mobile viewport: "+JSON.stringify(menu.result.value));
+
+  // Only the active step should be visible; navigating to Apply mounts CodeMirror.
+  await cdp.send("Page.navigate",{url:base+"/kurslar/python-temelleri/degiskenler-ve-turler"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:"document.readyState==='complete' && !!document.querySelector('[data-lesson-step=\"3\"]')",returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"Guided Python lesson did not load");
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:"(() => {const b=document.querySelector('[data-lesson-step=\"3\"]'); if(!b) return false; if(b.getAttribute('aria-current')==='step')return true; b.click();return false;})()",returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"Stage navigation did not respond",100);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:"!!document.querySelector('.lesson-step-panel:not([hidden]) .cm-editor')",returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"CodeMirror did not lazy-mount in Apply stage");
+  const applied=await cdp.send("Runtime.evaluate",{expression:diagnostic,returnByValue:true},sessionId);
+  assert.ok(applied.result.value.scrollWidth<=applied.result.value.viewport+1,
+    "Apply stage overflows mobile viewport: "+JSON.stringify(applied.result.value));
+  console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery and guided Apply stage.");
 } catch(error){
   console.error("Production server output:",serverLog);
   throw error;

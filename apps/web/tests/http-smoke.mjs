@@ -54,7 +54,7 @@ try {
   assert.match(await lessons.text(), /Değişkenler: let ve const/);
   const lesson = await fetch(`${base}/dersler/degiskenler`);
   assert.equal(lesson.status, 200);
-  assert.match(await lesson.text(), /Cevabımı kontrol et/);
+  assert.match(await lesson.text(), /Ders aşamaları/);
   assert.equal((await fetch(`${base}/dersler/not-a-lesson`)).status, 404);
 
   // Generic course routes and second-language questions remain fully server-rendered.
@@ -67,7 +67,7 @@ try {
   const javaLesson = await fetch(`${base}/kurslar/java-temelleri/degiskenler-ve-turler`);
   assert.equal(javaLesson.status,200);
   const javaHtml = await javaLesson.text();
-  assert.ok(javaHtml.includes("Java kod editörü"));
+  assert.ok(javaHtml.includes("Ders aşamaları"));
   assert.match(javaHtml,/Cevabımı kontrol et/);
   assert.equal((await fetch(`${base}/kurslar/java-temelleri/does-not-exist`)).status,404);
   assert.equal((await fetch(`${base}/kurslar/no-course`)).status,404);
@@ -79,7 +79,7 @@ try {
   assert.equal(pythonLesson.status,200);
   const pythonHtml=await pythonLesson.text();
   assert.match(pythonHtml,/Python/);
-  assert.match(pythonHtml,/Python sözdizimi renklendirme/);
+  assert.match(pythonHtml,/Ders aşamaları/);
   assert.match(pythonHtml,/Cevabımı kontrol et/);
   assert.equal((await fetch(`${base}/kurslar/python-temelleri/olmayan-ders`)).status,404);
   const pythonCorrect=await jsonPost({questionId:"python.variables.division",optionId:"b"});
@@ -89,10 +89,10 @@ try {
   assert.equal(pythonWrong.status,200);
   assert.equal((await pythonWrong.json()).correct,false);
   // M6 guided learning: page phases, grammar-ready editor, and tailored misconception feedback.
-  assert.match(javaHtml,/Hatayı düzelt/);
+  assert.match(javaHtml,/Hata avcısı/);
   assert.match(javaHtml,/Önce kendi tahminini yap/);
   assert.match(pythonHtml,/Hata avcısı/);
-  assert.match(pythonHtml,/Kodun zihinsel izini çıkar/);
+  assert.match(pythonHtml,/Anla ve izle/);
   const misconception=await jsonPost({questionId:"debug.python.variables",optionId:"b"});
   assert.equal(misconception.status,200);
   const detail=await misconception.json();
@@ -110,7 +110,9 @@ try {
 
   const practice = await fetch(`${base}/pratik`);
   assert.equal(practice.status,200);
-  assert.match(await practice.text(),/Çift sayıları topla/);
+  const practiceHtml=await practice.text();
+  assert.match(practiceHtml,/Çift sayıları topla/);
+  assert.match(practiceHtml,/Serbest JavaScript laboratuvarını aç/);
   const task=await fetch(`${base}/pratik/cift-sayilari-topla`);
   assert.equal(task.status,200);
   assert.match(await task.text(),/sumEven/);

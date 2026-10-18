@@ -11,6 +11,7 @@ export default function PracticeIndex(){
       <p>Bir fonksiyon geliştir, açık örneklere göre kontrol et, gizli sınır durumlarına karşı ne kadar sağlam olduğunu öğren.</p>
     </div>
     <div className="availability-note">Kod değerlendirme yalnızca özel yerel laboratuvarda çalışır. Normal önizlemede alıştırmaları okuyup çözüm düzenleyebilirsin; sonuç gönderme kapalıdır.</div>
+    <p className="practice-lab-link"><Link href="/laboratuvar">Serbest JavaScript laboratuvarını aç →</Link></p>
     <ol className="practice-list">{practice.map((exercise,i)=>
       <li key={exercise.id} className="practice-card">
         <span className="overline">Görev {i+1} · {exercise.level}</span>

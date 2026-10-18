@@ -13,7 +13,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <header className="site-header"><div className="shell nav-inner">
       <Link href="/" className="logo" aria-label="DevAcademy ana sayfa"><span className="logo-mark" aria-hidden="true">{"<>"}</span> DevAcademy</Link>
       <nav aria-label="Ana menü" className="nav-links">
-        <Link href="/kurslar">Kurslar</Link><Link href="/tekrar">Tekrar</Link><Link href="/laboratuvar">Laboratuvar</Link><Link href="/pratik">Kod pratiği</Link><Link href="/hesap">Hesabım</Link><Link href="/kutuphane/diller">Diller</Link><Link href="/kutuphane/kavramlar">Kavramlar</Link><Link href="/kutuphane/teknolojiler">Teknolojiler</Link>
+        <Link href="/kurslar">Öğren</Link>
+        <Link href="/pratik">Pratik yap</Link>
+        <details className="nav-discovery"><summary>Keşfet</summary>
+          <div className="nav-discovery-links">
+            <Link href="/kutuphane/diller">Diller</Link>
+            <Link href="/kutuphane/kavramlar">Kavramlar</Link>
+            <Link href="/kutuphane/teknolojiler">Teknolojiler</Link>
+          </div>
+        </details>
+        <Link href="/hesap">İlerlemem</Link>
       </nav>
       <span className="alpha-pill">Geliştirme önizlemesi</span>
     </div></header>
