@@ -160,7 +160,46 @@ try{
   const applied=await cdp.send("Runtime.evaluate",{expression:diagnostic,returnByValue:true},sessionId);
   assert.ok(applied.result.value.scrollWidth<=applied.result.value.viewport+1,
     "Apply stage overflows mobile viewport: "+JSON.stringify(applied.result.value));
-  console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery and guided Apply stage.");
+  // M8.5: inspect a real hydrated prediction-first studio at 320px.
+  await cdp.send("Page.navigate",{url:base+"/kurslar/javascript-temelleri/degiskenler"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && !!document.querySelector('.learning-studio .studio-predict')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"Learning Studio did not hydrate in JavaScript lesson");
+  const studioStart=await cdp.send("Runtime.evaluate",{expression:
+    "({hasLockedSource:!!document.querySelector('.studio-code'),revealed:!!document.querySelector('.studio-review'),inputs:document.querySelectorAll('.studio-inputs input').length})",
+    returnByValue:true},sessionId);
+  assert.deepEqual(studioStart.result.value,{hasLockedSource:true,revealed:false,inputs:2});
+  for(const [index,value] of [[0,"7"],[1,"9"]]){
+    await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelectorAll('.studio-inputs input')["+index+"].focus()",returnByValue:true},sessionId);
+    await cdp.send("Input.insertText",{text:value},sessionId);
+  }
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('.studio-predict button[type=submit]').click()",returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "!!document.querySelector('.studio-execution [data-studio-next]')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"Learning Studio did not lock student prediction");
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "(() => {const next=document.querySelector('[data-studio-next]');if(next&&!next.disabled)next.click();return !!document.querySelector('.studio-review');})()",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"Learning Studio did not reveal output comparison after tracing",100);
+  const studioFinal=await cdp.send("Runtime.evaluate",{expression:
+    "({results:[...document.querySelectorAll('.studio-review-grid>div')].map(el=>el.textContent),overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1})",
+    returnByValue:true},sessionId);
+  assert.equal(studioFinal.result.value.overflow,false,"Studio overflows 320px mobile");
+  assert.equal(studioFinal.result.value.results.length,2);
+  assert.ok(studioFinal.result.value.results.every(x=>x.includes("Doğru tahmin")),
+    "Learning Studio expected 7/9 for the initial JS case");
+
+  console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery, guided Apply and mobile Learning Studio.");
 } catch(error){
   console.error("Production server output:",serverLog);
   throw error;
