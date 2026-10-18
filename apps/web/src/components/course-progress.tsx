@@ -30,6 +30,7 @@ export function CourseProgress({courseSlug,lessons}:{courseSlug:string;lessons:R
    <progress max={Math.max(1,lessons.length)} value={completed} aria-label="Kurs tamamlanma düzeyi"/>
    {next?<p>Sıradaki öneri: <Link href={`/kurslar/${courseSlug}/${next.slug}`}>{next.title} →</Link></p>:
      <p>Bu kurstaki tüm dersleri tamamladın. Bilgini yeni örneklerle tazele.</p>}
+   <p><Link href="/tekrar">Zamanlanmış tekrarlarım →</Link></p>
    <ol className="course-checkpoints">{lessons.map((l,i)=><li key={l.id}>
      <span>{i+1}. {l.title}</span>
      <span className={saved.get(l.id)?.completedAt?"checkpoint-complete":"checkpoint-open"}>{

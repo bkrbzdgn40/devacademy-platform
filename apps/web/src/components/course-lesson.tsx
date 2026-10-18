@@ -3,21 +3,85 @@ import { QuizCard } from "@/components/quiz-card";
 import { CodePlayground } from "@/components/code-playground";
 import { CompleteLesson } from "@/components/complete-lesson";
 import { TraceWalkthrough } from "@/components/trace-walkthrough";
+import { LessonStepper, type LessonStep } from "@/components/lesson-stepper";
 import guides from "@/data/lesson-guides.json";
 import { lessonsForCourse, type Course } from "@/lib/courses";
 import { questionsForLesson, type Lesson } from "@/lib/lessons";
 
-export function CourseLesson({course,lesson,legacy=false}:{course:Course;lesson:Lesson;legacy?:boolean}){
-  const path=legacy?"/dersler":"/kurslar/"+course.slug;
-  const entries=lessonsForCourse(course);
-  const index=entries.findIndex(x=>x.id===lesson.id);
-  if(index<0)throw new Error("Lesson not in course");
-  const next=entries[index+1];
-  const questions=questionsForLesson(lesson);
-  const guide=guides.find(item=>item.lessonId===lesson.id);
-  const diagnostics=guide?questions.find(question=>question.id===guide.questionId):undefined;
-  const predictionQuestions=guide?questions.filter(question=>question.id!==guide.questionId):questions;
-  const name=course.editorLanguage==="java"?"Java":course.editorLanguage==="javascript"?"JavaScript":course.title.replace(/ Temelleri$/,"");
+export function CourseLesson({ course, lesson, legacy = false }: {
+  course: Course;
+  lesson: Lesson;
+  legacy?: boolean;
+}) {
+  const path = legacy ? "/dersler" : "/kurslar/" + course.slug;
+  const entries = lessonsForCourse(course);
+  const index = entries.findIndex((item) => item.id === lesson.id);
+  if (index < 0) throw new Error("Lesson not in course");
+  const next = entries[index + 1];
+  const questions = questionsForLesson(lesson);
+  const guide = guides.find((item) => item.lessonId === lesson.id);
+  const diagnostic = guide ? questions.find((item) => item.id === guide.questionId) : undefined;
+  const predictionQuestions = guide ? questions.filter((item) => item.id !== guide.questionId) : questions;
+  const name = course.editorLanguage === "java" ? "Java" : course.editorLanguage === "javascript" ? "JavaScript" : "Python";
+  const editorLanguage = course.editorLanguage === "java" ? "java" :
+    course.editorLanguage === "python" ? "python" : "javascript";
+  const editor = <CodePlayground starterCode={lesson.code} displayLanguage={name}
+    language={editorLanguage} label={lesson.title + " kod editörü"}/>;
+  const completion = <CompleteLesson lessonId={lesson.id} questionCount={questions.length}/>;
+  const steps: LessonStep[] = guide && diagnostic ? [
+    { id: "predict", label: "Tahmin et", title: "Önce kendi tahminini yap", content: <>
+      <p className="lesson-step-intro">Açıklamayı görmeden önce kodun ne yapacağını düşün. Yanlış cevap öğrenme fırsatıdır.</p>
+      {predictionQuestions[0] && <QuizCard question={predictionQuestions[0]} number={1}/>}
+    </> },
+    { id: "understand", label: "Anla ve izle", title: "Konuyu anlayalım", content: <>
+      <p className="lesson-step-intro">{lesson.explanation}</p>
+      <div className="code-label">{name} · Örnek kod</div>
+      <pre className="lesson-code"><code>{lesson.code}</code></pre>
+      <TraceWalkthrough steps={guide.trace}/>
+    </> },
+    { id: "debug", label: "Hata avcısı", title: "Hatayı düzelt", content: <>
+      <h3>{guide.missionTitle}</h3>
+      <p className="lesson-step-intro">{diagnostic.prompt}</p>
+      <div className="code-label">Hatalı örnek · Düzeltmeyi aşağıdaki soruda seç</div>
+      <pre className="lesson-code"><code>{diagnostic.code}</code></pre>
+      <p className="lesson-step-tip">Bu aşamada seçtiğin düzeltme değerlendirilir; yazdığın kod değil. Bir sonraki aşamada kodu düzenleyebilirsin.</p>
+      <QuizCard question={diagnostic} number={2} mode="debug" hints={guide.hints}/>
+      <p className="reflection-question"><strong>Kendine sor:</strong> {guide.reflection}</p>
+    </> },
+    { id: "apply", label: "Uygula", title: "Yeni bir örnekte kendini dene", content: <>
+      <p className="lesson-step-intro">Kodu kendin değiştir. Genel kullanıma açık kod çalıştırma kapalıdır; bilgi soruların ayrı değerlendirilir.</p>
+      {editor}
+      <div className="lesson-section">
+        <h3>Öğrendiğini farklı bir durumda kullan</h3>
+        <div className="quiz-stack">{predictionQuestions.slice(1).map((question, i) =>
+          <QuizCard key={question.id} question={question} number={i + 3}/>)}</div>
+      </div>
+      <div className="lesson-section takeaway-section"><h3>Aklında kalsın</h3>
+        <ul>{lesson.takeaways.map((takeaway) => <li key={takeaway}>{takeaway}</li>)}</ul>
+      </div>
+      {completion}
+    </> },
+  ] : [
+    { id: "understand", label: "Öğren", title: "Konuyu anlayalım", content: <>
+      <p className="lesson-step-intro">{lesson.explanation}</p>
+      <div className="code-label">{name} · Örnek kod</div>
+      <pre className="lesson-code"><code>{lesson.code}</code></pre>
+    </> },
+    { id: "apply", label: "Kodla", title: "Örneği kendin değiştir", content: <>
+      <p className="lesson-step-intro">Örneği düzenle. Kod çalıştırma yalnızca yetkilendirilmiş yerel laboratuvar ortamında etkinleşir.</p>
+      {editor}
+    </> },
+    { id: "assess", label: "Test et", title: "Bilgini kontrol et", content: <>
+      <p className="lesson-step-intro">Önce sonucu tahmin et, sonra açıklamayı incele.</p>
+      <div className="quiz-stack">{questions.map((question, i) =>
+        <QuizCard key={question.id} question={question} number={i + 1}/>)}</div>
+      <div className="lesson-section takeaway-section"><h3>Aklında kalsın</h3>
+        <ul>{lesson.takeaways.map((takeaway) => <li key={takeaway}>{takeaway}</li>)}</ul>
+      </div>
+      {completion}
+    </> },
+  ];
+
   return <article className="shell lesson-page">
     <nav aria-label="İçerik konumu" className="breadcrumb">
       <Link href="/kurslar">Kurslar</Link><span aria-hidden="true">/</span>
@@ -25,67 +89,22 @@ export function CourseLesson({course,lesson,legacy=false}:{course:Course;lesson:
       <span aria-current="page">{lesson.title}</span>
     </nav>
     <header className="lesson-header">
-      <p className="overline">{course.title} · Ders {index+1}/{entries.length}</p>
+      <p className="overline">{course.title} · Ders {index + 1}/{entries.length}</p>
       <h1>{lesson.title}</h1><p>{lesson.summary}</p>
-      <div className="lesson-meta"><span>{lesson.level}</span><span>{lesson.durationMinutes} dakika</span><span>{questions.length} soru</span></div>
+      <div className="lesson-meta">
+        <span>{lesson.level}</span><span>{lesson.durationMinutes} dakika</span>
+        <span>{questions.length} soru</span>
+      </div>
     </header>
-    {guide&&<ol className="learning-trail" aria-label="Dört adımlı öğrenme yolu">
-      <li><strong>01</strong>Tahmin et</li><li><strong>02</strong>İzini sür</li>
-      <li><strong>03</strong>Hatayı düzelt</li><li><strong>04</strong>Kanıtla</li>
-    </ol>}
-    <section className="lesson-section" aria-labelledby="objective-title"><h2 id="objective-title">Bu derste öğreneceksin</h2><p>{lesson.objective}</p></section>
-    {guide&&<section className="lesson-section guided-phase" aria-labelledby="predict-title">
-      <p className="phase-kicker">01 · Aktif hatırlama</p>
-      <h2 id="predict-title">Önce kendi tahminini yap</h2>
-      <p>Açıklamayı okumadan önce bir cevap seç. Yanlış olursa, nedenini öğrenip tekrar deneyeceksin.</p>
-      {predictionQuestions[0]&&<QuizCard question={predictionQuestions[0]} number={1}/>}
-    </section>}
-    <section className="lesson-section" aria-labelledby="explanation-title">
-      {guide&&<p className="phase-kicker">02 · Kavrama ve izleme</p>}
-      <h2 id="explanation-title">Konuyu anlayalım</h2><p>{lesson.explanation}</p>
-      <div className="code-label">{name} · İncelenebilir örnek (otomatik çalıştırma kapalı)</div>
-      <pre className="lesson-code"><code>{lesson.code}</code></pre>
-      {guide&&<TraceWalkthrough steps={guide.trace}/>}
+    <section className="lesson-objective" aria-labelledby="objective-title">
+      <h2 id="objective-title">Bu derste öğreneceksin</h2><p>{lesson.objective}</p>
     </section>
-    {guide&&diagnostics&&<section className="lesson-section guided-phase" aria-labelledby="debug-title">
-      <p className="phase-kicker">03 · Hata avcısı</p>
-      <h2 id="debug-title">{guide.missionTitle}</h2>
-      <p>{diagnostics.prompt}</p>
-      <div className="practice-mission-note">
-        <strong>Görev:</strong> Hatalı kodu editörde düzeltmeyi dene. Ardından alttaki soruda hangi değişikliğin doğru olduğunu seç.
-        Bu laboratuvarda yazdığın {name} kodu çalıştırılmaz; değerlendirme düzeltme seçimini kontrol eder.
-      </div>
-      <CodePlayground starterCode={diagnostics.code} displayLanguage={name}
-        language={course.editorLanguage==="java"?"java":course.editorLanguage==="javascript"?"javascript":course.editorLanguage==="python"?"python":"plain"}
-        label={lesson.title+" hata ayıklama editörü"}/>
-      <div className="guided-debug-question">
-        <QuizCard question={diagnostics} number={2} mode="debug" hints={guide.hints}/>
-      </div>
-      <p className="reflection-question"><strong>Kendine sor:</strong> {guide.reflection}</p>
-    </section>}
-    <section className="lesson-section" aria-labelledby="editor-title">
-      {guide&&<p className="phase-kicker">04 · Transfer ve pekiştirme</p>}
-      <h2 id="editor-title">{guide?"Öğrendiğini yeni örneğe taşı":"Kod laboratuvarı"}</h2>
-      <p>Örneği değiştir ve sözdizimini incele. Çalıştırma yalnızca ayrı güvenlik değerlendirmesi yapılmış dillerde ve laboratuvar ortamında açılır.</p>
-      <CodePlayground starterCode={lesson.code} displayLanguage={name}
-        language={course.editorLanguage==="java"?"java":course.editorLanguage==="javascript"?"javascript":course.editorLanguage==="python"?"python":"plain"}
-        label={lesson.title+" "+name+" kod editörü"}/>
-    </section>
-    <section className="lesson-section" aria-labelledby="practice-title">
-      <h2 id="practice-title">{guide?"Son bir kontrol: Yeni durumu çöz":"Kendini test et"}</h2>
-      <p>{guide?"Konuyu farklı bir örneğe uygula. Sonra kendine neden doğru olduğunu açıkla.":"Önce sonucu tahmin et, ardından açıklamayı incele."}</p>
-      <div className="quiz-stack">{(guide?predictionQuestions.slice(1):questions).map((question,i)=>
-        <QuizCard key={question.id} question={question} number={guide?i+3:i+1}/>)}</div>
-    </section>
-    <section className="lesson-section takeaway-section" aria-labelledby="takeaway-title"><h2 id="takeaway-title">Aklında kalsın</h2>
-      <ul>{lesson.takeaways.map(takeaway=><li key={takeaway}>{takeaway}</li>)}</ul>
-    </section>
-    <CompleteLesson lessonId={lesson.id} questionCount={questions.length}/>
+    <LessonStepper steps={steps}/>
     <nav aria-label="Ders gezinmesi" className="lesson-nav">
       <Link className="subtle-button" href={path}>← Kurs dersleri</Link>
-      {next?<Link className="primary-button" href={path+"/"+next.slug}>Sonraki ders →</Link>:
+      {next ? <Link className="primary-button" href={path + "/" + next.slug}>Sonraki ders →</Link> :
         <Link className="primary-button" href="/kurslar">Kurslara dön →</Link>}
     </nav>
-    <p className="small-note">Oturum açan öğrencilerin soru yanıtları ve ders ilerlemesi yapılandırılmış veritabanında saklanır. {name} kodunu yalnızca düzenleyebilirsin; yayın ortamında çalıştırma etkin değildir.</p>
+    <p className="small-note">Oturum açtıysan soru sonuçları ve ders ilerlemesi hesabına kaydedilir. Kod düzenleme, genel kullanıma açık bir kod çalıştırma hizmeti değildir.</p>
   </article>;
 }

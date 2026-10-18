@@ -112,7 +112,9 @@ try{
     },sessionId);
     for(const path of paths){
       await cdp.send("Page.navigate",{url:base+path},sessionId);
-      const needsEditor=path==="/laboratuvar" || path==="/dersler/degiskenler" || path==="/pratik/cift-sayilari-topla" || path==="/pratik/python-cift-topla" || path==="/pratik/java-araliga-sinirla" || path==="/kurslar/java-temelleri/degiskenler-ve-turler" || path==="/kurslar/javascript-temelleri/degiskenler" || path==="/kurslar/python-temelleri/degiskenler-ve-turler";
+      // Lesson editors are lazy-mounted in their "Kodla/Uygula" stage.
+      // On initial page load only the standalone lab and practice tasks include an editor.
+      const needsEditor=path==="/laboratuvar" || path.startsWith("/pratik/");
       const data=await waitFor(async()=>{
         const evaluation=await cdp.send("Runtime.evaluate",{expression:diagnostic,returnByValue:true},sessionId);
         const result=evaluation.result?.value;
