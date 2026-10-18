@@ -93,11 +93,10 @@ test("dark espresso, olive and terracotta remain readable and coherent",()=>{
   ]) assert.ok(ratio(fg,bg)>=4.5,fg+" on "+bg+" dark contrast insufficient: "+ratio(fg,bg).toFixed(2));
   assert.match(darkSection,/--ui-action-ink:#[0-9A-Fa-f]{6}/);
   assert.match(darkSection,/color-scheme:dark/);
-  assert.match(styles,/\.theme-control select:focus-visible/);
-  assert.match(styles,/\.theme-control select option\{/);
-  assert.match(styles,/background-color:var\(--ui-surface\)/);
-  assert.match(styles,/\.theme-control select option:checked\{/);
-  assert.match(styles,/html\[data-theme="dark"\] \.theme-control select\{color-scheme:dark\}/);
+  assert.match(styles,/\.theme-control-menu\{/);
+  assert.match(styles,/\.theme-control-option\{/);
+  assert.match(styles,/\.theme-control-option\[aria-checked="true"\]/);
+  assert.match(styles,/background:var\(--ui-surface\)/);
   assert.match(styles,/html\[data-theme="dark"\] \.studio-code/);
   assert.match(styles,/html\[data-theme="dark"\] \.editor-shell \.cm-editor/);
   assert.match(layout,/ThemeSwitcher/);
@@ -106,9 +105,14 @@ test("dark espresso, olive and terracotta remain readable and coherent",()=>{
 test("theme choice is user-controlled and never touches learner records",()=>{
   const switcher=read("components/theme-switcher.tsx");
   assert.match(switcher,/devacademy-theme/);
-  assert.match(switcher,/<option value="system">Sistem<\/option>/);
-  assert.match(switcher,/<option value="light">Açık<\/option>/);
-  assert.match(switcher,/<option value="dark">Koyu<\/option>/);
+  assert.match(switcher,/value:"system",label:"Sistem"/);
+  assert.match(switcher,/value:"light",label:"Açık"/);
+  assert.match(switcher,/value:"dark",label:"Koyu"/);
+  assert.match(switcher,/role="menuitemradio"/);
+  assert.match(switcher,/aria-checked=\{preference===choice.value\}/);
+  assert.match(switcher,/aria-expanded=\{open\}/);
+  assert.match(switcher,/event.key==="Escape"/);
+  assert.doesNotMatch(switcher,/<select|<option/);
   assert.match(switcher,/prefers-color-scheme: dark/);
   assert.match(switcher,/useSyncExternalStore/);
   assert.doesNotMatch(switcher,/fetch\(|\/api\/|execution_jobs|document\.cookie/);
