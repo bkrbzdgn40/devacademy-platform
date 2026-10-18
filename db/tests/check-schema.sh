@@ -36,6 +36,7 @@ if [[ "${RUN_APP_TESTS:-}" == "1" ]]; then
   port="${port##*:}"
   export DATABASE_URL="postgresql://postgres:local_only_test_password@127.0.0.1:${port}/devacademy_test"
   export NEXT_TELEMETRY_DISABLED=1
+  node apps/web/tests/db-pool-benchmark.mjs
   node apps/web/tests/auth-db.integration.mjs
   node apps/web/tests/execution-queue.integration.mjs
   node apps/web/tests/assessment-queue.integration.mjs
