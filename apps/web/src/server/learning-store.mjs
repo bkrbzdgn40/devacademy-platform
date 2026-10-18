@@ -2,6 +2,7 @@ import { database, transaction } from "./db.mjs";
 import lessons from "../data/lessons.json" with { type: "json" };
 import questions from "../data/questions.json" with { type: "json" };
 import {nextReview} from "./review-algorithm.mjs";
+import {codeTransferSummary} from "./code-transfer.mjs";
 
 const byId = new Map(lessons.map((lesson) => [lesson.id, lesson]));
 const exerciseLesson = new Map(questions.map((q) => [q.id, q.lessonId]));
@@ -70,8 +71,10 @@ export async function getLearningProgress(learnerId) {
       COUNT(*) FILTER (WHERE stage=1 AND passed_at IS NOT NULL)::int AS retained
     FROM learning_transfer_trials WHERE learner_id=$1
   `,[learnerId]);
+  const code=await codeTransferSummary(learnerId);
   return { lessons:progress.rows,recentAttempts:attempts.rows,
-    reviewDue:due.rows,reviewSummary:stats.rows[0],transferSummary:transfer.rows[0] };
+    reviewDue:due.rows,reviewSummary:stats.rows[0],transferSummary:transfer.rows[0],
+    codeTransferSummary:code };
 }
 
 export async function updateLessonProgress(learnerId, lessonId, operation) {

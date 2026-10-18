@@ -3,7 +3,7 @@ import { allLessons } from "@/lib/lessons";
 import { courses, lessonsForCourse, lessonHref } from "@/lib/courses";
 import { summarizeProgress, type ProgressLesson, type ProgressAttempt } from "@/lib/progress-summary";
 
-type Props = { progress: { lessons: ProgressLesson[]; recentAttempts: ProgressAttempt[]; reviewSummary?:{total:number;due:number};transferSummary?:{first:number;retained:number} } | null };
+type Props = { progress: { lessons: ProgressLesson[]; recentAttempts: ProgressAttempt[]; reviewSummary?:{total:number;due:number};transferSummary?:{first:number;retained:number};codeTransferSummary?:{verified:number} } | null };
 const dateText=(value:string)=>{const d=new Date(value);return Number.isNaN(d.getTime())?"Bilinmiyor":new Intl.DateTimeFormat("tr-TR",{day:"numeric",month:"short",year:"numeric"}).format(d);};
 export function ProgressDashboard({progress}:Props){
   if(!progress)return <p role="status">İlerleme verileri alınamadı. Daha sonra yeniden dene.</p>;
@@ -28,7 +28,8 @@ export function ProgressDashboard({progress}:Props){
     <aside className="dashboard-reviews" aria-label="Bağımsız transfer kanıtı">
       <strong>Karşı-Olgusal Kanıt Döngüsü</strong>
       <p>{progress.transferSummary?.first??0} kavramda ilk bağımsız kanıt · {progress.transferSummary?.retained??0} kavramda gecikmeli doğrulama</p>
-      <p>Bu kanıtlar rehberli ders tamamlamasından ayrıdır. Gecikmeli doğrulama için 24 saat sonra yeni bir görev çözülür; kod yazma yetkinliği ayrıca değerlendirilir.</p>
+      <p>Bu kanıtlar rehberli ders tamamlamasından ayrıdır. Gecikmeli doğrulama için 24 saat sonra yeni bir görev çözülür.</p>
+      <p><strong>{progress.codeTransferSummary?.verified??0} kavram</strong> için bağımsız kod üretimi davranış kanıtı. Bu kayıt yalnızca yerel Docker laboratuvarında geçen açık ve gizli testlere dayanır.</p>
     </aside>
     <h3>Kursların ve derslerin</h3>
     {courses.map(course=><section key={course.id} aria-label={course.title} className="dashboard-course">
