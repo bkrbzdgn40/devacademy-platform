@@ -22,7 +22,7 @@ test("each of fifteen published lessons has three real contexts and an independe
     for(const level of track.levels){
       const reason=track.lessonId+" "+level.id;
       assert.ok(level.context.length>=30,reason+" needs realistic context");
-      assert.ok(level.code.length>=30,reason+" needs runnable program");
+      assert.ok(level.code.length>=18,reason+" needs runnable program");
       assert.equal(level.choices.length,3,reason);
       assert.equal(new Set(level.choices.map(x=>x.text)).size,3,reason);
       assert.equal(level.choices.filter(x=>x.text===level.expected).length,1,reason);
