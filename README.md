@@ -124,3 +124,7 @@ Six JavaScript, Python and Java concepts now include a responsive prediction-fir
 ## M8.5.1 Complete Studio Coverage
 
 All **15 published JavaScript, Java and Python lessons** now have a reviewed prediction-first Learning Studio with three input variants per lesson (**45 runnable cases**). Every lesson also includes a conceptual mental model, a likely misconception, a contrast with a causal explanation, a reflection prompt with a reveal-on-demand answer, and a practical use case. CI checks the entire authored catalog against real language runtimes and mobile Chrome behavior. No arbitrary browser execution, new code grading, production deployment or DB migration. See [M8.5.1 implementation and editorial scope](docs/learning/M8-5-1-FULL-CURRICULUM.md).
+
+## M8.6A · Olive & Earth design system
+
+A light warm-cream learning surface, accessible olive navigation/actions, terracotta editorial accents and deep-cocoa code panels now establish the shared brand. Semantic tokens, local font stacks and typed ActionLink/SurfaceCard/SectionHeading/StatusPill primitives are documented in [the design system](docs/design/M8-6A-OLIVE-EARTH.md). Existing quiz, lessons, transfer lab, code editor and progress behavior is unchanged; no dependency or migration is required. Primary body/CTA/code contrast is validated in CI, alongside 320px+ browser smoke checks.
