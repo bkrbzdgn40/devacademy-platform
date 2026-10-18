@@ -69,7 +69,7 @@ export function ContinueLearning(){
       </div>
     </>}
     <div className="journey-courses" aria-label="Kurs bazında tamamlanan dersler">
-      {journey.stats.map(item=><Link href={item.href} className="journey-course" key={item.id}>
+      {journey.stats.map((item:{id:string;title:string;href:string;completed:number;lessonCount:number})=><Link href={item.href} className="journey-course" key={item.id}>
         <span>{item.title}</span><strong>{item.completed}/{item.lessonCount}</strong>
         <progress max={Math.max(1,item.lessonCount)} value={item.completed} aria-label={item.title+" ilerleme"}/>
       </Link>)}
