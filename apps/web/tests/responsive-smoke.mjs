@@ -226,6 +226,44 @@ try{
       "M8.5.1 mobile content integration mismatch at "+path);
   }
 
+  // M8.6A: check computed styles, not just raw CSS declarations.
+  await cdp.send("Page.navigate",{url:base+"/"},sessionId);
+  const renderedTheme=await waitFor(async()=>{
+    const result=await cdp.send("Runtime.evaluate",{expression:
+      "(() => {const root=getComputedStyle(document.documentElement);"+
+      "const button=document.querySelector('.ui-button-primary');"+
+      "const card=document.querySelector('.feature-card.ui-card');"+
+      "if(document.readyState!=='complete'||!button||!card)return null;"+
+      "return {scheme:root.colorScheme,olive:root.getPropertyValue('--color-olive-800').trim(),"+
+      "canvas:root.getPropertyValue('--color-cream').trim(),"+
+      "text:getComputedStyle(document.body).color,"+
+      "action:getComputedStyle(button).backgroundColor,"+
+      "card:getComputedStyle(card).backgroundColor};})()",
+      returnByValue:true},sessionId);
+    return result.result?.value||null;
+  },"Olive Earth palette not loaded in production browser");
+  assert.deepEqual(renderedTheme,{
+    scheme:"light",olive:"#485c32",canvas:"#f8f5ef",
+    text:"rgb(47, 42, 34)",action:"rgb(72, 92, 50)",
+    card:"rgb(255, 253, 250)"
+  },"M8.6A warm theme did not reach the rendered UI");
+
+  await cdp.send("Page.navigate",{url:base+"/kurslar/javascript-temelleri/degiskenler"},sessionId);
+  await waitFor(async()=>{
+    const result=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && !!document.querySelector('.lesson-step-panel:not([hidden]) .learning-studio')",
+      returnByValue:true},sessionId);
+    return result.result?.value===true;
+  },"M8.6A studio theme page did not hydrate");
+  const studioPalette=await cdp.send("Runtime.evaluate",{expression:
+    "(() => {const sample=document.querySelector('.studio-code');"+
+    "const panel=document.querySelector('.learning-studio');"+
+    "return {sample:getComputedStyle(sample).backgroundColor,panel:getComputedStyle(panel).backgroundColor};})()",
+    returnByValue:true},sessionId);
+  assert.deepEqual(studioPalette.result.value,{
+    sample:"rgb(37, 31, 26)",panel:"rgb(255, 253, 250)"
+  },"Warm studio chrome must retain a readable cocoa code surface");
+
   console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery, guided Apply mobile Learning Studio, and M8.5.1 expanded lessons.");
 } catch(error){
   console.error("Production server output:",serverLog);

@@ -1,0 +1,91 @@
+/*
+ * DevAcademy / M8.6A - reusable semantic design tokens.
+ * One accessible warm LIGHT theme with intentionally DARK code surfaces.
+ * Typography uses local system stacks; no fonts or third-party requests.
+ */
+:root{
+  color-scheme:light;
+  --color-olive-950:#303C25;
+  --color-olive-800:#485C32;
+  --color-olive-700:#566B3C;
+  --color-olive-600:#6B7A45;
+  --color-olive-300:#A5B08A;
+  --color-olive-100:#E5E9D6;
+  --color-terracotta-700:#AB583B;
+  --color-terracotta-500:#C87653;
+  --color-terracotta-100:#F4E0D4;
+  --color-cinnamon:#93512F;
+  --color-tan:#B18A64;
+  --color-camel:#D9C3A5;
+  --color-cocoa:#29231F;
+  --color-sand:#F1E9DE;
+  --color-cream:#F8F5EF;
+  --color-paper:#FFFDFA;
+  --color-ink:#2F2A22;
+  --color-ink-muted:#665B4C;
+  --color-border:#D9D0C1;
+  --color-border-strong:#BDB29F;
+  --color-critical:#9E4237;
+  --color-critical-bg:#F8E7E1;
+  --color-success:#3D5C30;
+  --color-success-bg:#E5EBD9;
+  --color-code-bg:#251F1A;
+  --color-code-surface:#332B24;
+  --color-code-ink:#F2E8D8;
+  --color-code-muted:#C7B9A6;
+
+  /* Standard semantic aliases: use these in new application CSS. */
+  --ui-canvas:var(--color-cream);
+  --ui-surface:var(--color-paper);
+  --ui-surface-muted:var(--color-sand);
+  --ui-surface-accent:var(--color-olive-100);
+  --ui-ink:var(--color-ink);
+  --ui-ink-subtle:var(--color-ink-muted);
+  --ui-border:var(--color-border);
+  --ui-border-strong:var(--color-border-strong);
+  --ui-action:var(--color-olive-800);
+  --ui-action-hover:var(--color-olive-950);
+  --ui-action-ink:var(--color-paper);
+  --ui-focus:var(--color-cinnamon);
+  --ui-warning:var(--color-terracotta-700);
+  --ui-success:var(--color-success);
+  --ui-code:var(--color-code-bg);
+  --ui-code-ink:var(--color-code-ink);
+
+  --font-body:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-display:Georgia,"Iowan Old Style","Palatino Linotype",serif;
+  --font-code:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  --text-compact:0.8125rem;
+  --text-body:1rem;
+  --text-lead:1.125rem;
+  --text-h2:clamp(1.6rem,3vw,2.5rem);
+  --text-h1:clamp(2.85rem,5.4vw,5.1rem);
+  --space-1:0.25rem;
+  --space-2:0.5rem;
+  --space-3:0.75rem;
+  --space-4:1rem;
+  --space-5:1.25rem;
+  --space-6:1.5rem;
+  --space-8:2rem;
+  --space-10:2.5rem;
+  --space-12:3rem;
+  --radius-sm:8px;
+  --radius-md:12px;
+  --radius-lg:18px;
+  --radius-xl:24px;
+  --radius-pill:999px;
+  --shadow-card:0 10px 32px rgba(57,45,27,.065);
+  --shadow-hover:0 16px 40px rgba(57,45,27,.12);
+  --shadow-focus:0 0 0 3px rgba(147,81,47,.25);
+  --motion-quick:140ms;
+  --motion-normal:220ms;
+
+  /* Compatible aliases referenced by pre-M8.6 components. */
+  --bg:var(--ui-canvas);
+  --surface:var(--ui-surface);
+  --line:var(--ui-border);
+  --text:var(--ui-ink);
+  --muted:var(--ui-ink-subtle);
+  --accent:var(--color-terracotta-700);
+  --green:var(--ui-action);
+}
