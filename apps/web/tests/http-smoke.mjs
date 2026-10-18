@@ -110,7 +110,9 @@ try {
 
   const practice = await fetch(`${base}/pratik`);
   assert.equal(practice.status,200);
-  assert.match(await practice.text(),/Çift sayıları topla/);
+  const practiceHtml=await practice.text();
+  assert.match(practiceHtml,/Çift sayıları topla/);
+  assert.match(practiceHtml,/Serbest JavaScript laboratuvarını aç/);
   const task=await fetch(`${base}/pratik/cift-sayilari-topla`);
   assert.equal(task.status,200);
   assert.match(await task.text(),/sumEven/);
