@@ -94,6 +94,10 @@ test("dark espresso, olive and terracotta remain readable and coherent",()=>{
   assert.match(darkSection,/--ui-action-ink:#[0-9A-Fa-f]{6}/);
   assert.match(darkSection,/color-scheme:dark/);
   assert.match(styles,/\.theme-control select:focus-visible/);
+  assert.match(styles,/\.theme-control select option\{/);
+  assert.match(styles,/background-color:var\(--ui-surface\)/);
+  assert.match(styles,/\.theme-control select option:checked\{/);
+  assert.match(styles,/html\[data-theme="dark"\] \.theme-control select\{color-scheme:dark\}/);
   assert.match(styles,/html\[data-theme="dark"\] \.studio-code/);
   assert.match(styles,/html\[data-theme="dark"\] \.editor-shell \.cm-editor/);
   assert.match(layout,/ThemeSwitcher/);

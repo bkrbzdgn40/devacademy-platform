@@ -644,6 +644,19 @@ p,li{overflow-wrap:break-word}
 .theme-control select{appearance:auto;color:var(--ui-ink);background:var(--ui-surface);
   border:0;border-radius:var(--radius-pill);font:650 12px var(--font-body);
   min-height:36px;padding:5px 5px;max-width:102px}
+/* Native dropdown options are painted in a separate popup by Chromium.
+   Set the popup palette explicitly; styling the closed select alone is not enough. */
+.theme-control select{color-scheme:light}
+.theme-control select option{
+  background-color:var(--ui-surface);
+  color:var(--ui-ink);
+  font-family:var(--font-body);
+}
+.theme-control select option:checked{
+  background-color:var(--ui-surface-accent);
+  color:var(--ui-ink);
+}
+html[data-theme="dark"] .theme-control select{color-scheme:dark}
 .theme-control select:focus-visible{outline:3px solid var(--ui-focus);outline-offset:3px}
 @media(max-width:900px){.alpha-pill{display:none}.nav-inner{gap:13px}}
 @media(max-width:600px){.theme-control{margin-left:auto;order:1;padding:2px 4px 2px 9px}
