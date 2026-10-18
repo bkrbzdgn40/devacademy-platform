@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import {useResolvedTheme} from "@/components/theme-switcher";
 // Only the selected editor language loads its grammar package.
 type EditorLanguage = "javascript" | "java" | "python" | "plain";
 type GrammarExtension = ReturnType<(typeof import("@codemirror/lang-javascript"))["javascript"]>;
@@ -41,6 +42,7 @@ const sleep = (ms:number) => new Promise<void>(resolve=>setTimeout(resolve,ms));
 
 export function CodePlayground({ starterCode, label = "JavaScript kod editörü",  exerciseId, exerciseRevision, language="javascript", displayLanguage,onAssessmentFinished }: { starterCode: string; label?: string; exerciseId?: string; exerciseRevision?: number; language?:"javascript"|"java"|"python"|"plain"; displayLanguage?:string;onAssessmentFinished?:()=>void }) {
   const [code, setCode] = useState(starterCode);
+  const resolvedTheme=useResolvedTheme();
   const [capability, setCapability] = useState<Capability | null>(null);
   const [job,setJob]=useState<ExecutionJob | null>(null);
   const [error,setError]=useState("");
@@ -121,7 +123,7 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
       <button type="button" onClick={()=>{setCode(starterCode);setJob(null);setError("");}} disabled={!changed}>Örneği sıfırla</button>
     </div>
     {extensions ? <CodeMirror
-      value={code} theme="dark" extensions={extensions} height="320px"
+      value={code} theme={resolvedTheme} extensions={extensions} height="320px"
       basicSetup={{lineNumbers:true,highlightActiveLine:true,foldGutter:true,autocompletion:true}}
       onChange={value=>{setCode(value);if(!busy){setJob(null);setError("");}}}
       aria-label={label}

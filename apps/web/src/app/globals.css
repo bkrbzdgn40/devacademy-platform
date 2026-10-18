@@ -633,3 +633,96 @@ p,li{overflow-wrap:break-word}
   *,*::before,*::after{transition-duration:.01ms!important;
     animation-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+
+/* M8.6A.1 | Accessible theme switcher used by both light and dark palettes. */
+.theme-control{display:inline-flex;align-items:center;gap:8px;flex:none;
+  padding:4px 6px 4px 10px;border:1px solid var(--ui-border);
+  background:var(--ui-surface);border-radius:var(--radius-pill);
+  color:var(--ui-ink-subtle);box-shadow:var(--shadow-card)}
+.theme-control-label{font-size:11px;font-weight:750;color:var(--ui-ink-subtle)}
+.theme-control select{appearance:auto;color:var(--ui-ink);background:var(--ui-surface);
+  border:0;border-radius:var(--radius-pill);font:650 12px var(--font-body);
+  min-height:36px;padding:5px 5px;max-width:102px}
+.theme-control select:focus-visible{outline:3px solid var(--ui-focus);outline-offset:3px}
+@media(max-width:900px){.alpha-pill{display:none}.nav-inner{gap:13px}}
+@media(max-width:600px){.theme-control{margin-left:auto;order:1;padding:2px 4px 2px 9px}
+  .theme-control select{min-height:40px}.logo{order:0}.nav-links{order:2}}
+
+/* Dark mode is a design palette, not a photographic inversion. */
+html[data-theme="dark"]{background:var(--ui-canvas);color-scheme:dark}
+html[data-theme="dark"] body{
+  background:radial-gradient(circle at 85% 0%,rgba(172,106,75,.11),transparent 32%),
+    radial-gradient(circle at 3% 23%,rgba(125,150,92,.09),transparent 40%),var(--ui-canvas);
+  color:var(--ui-ink)}
+html[data-theme="dark"] ::selection{background:#556B42;color:#FFF7E8}
+html[data-theme="dark"] .site-header{background:#24221E;
+  border-bottom-color:var(--ui-border);box-shadow:0 6px 22px rgba(0,0,0,.13)}
+html[data-theme="dark"] .logo-mark{background:var(--ui-action);color:var(--ui-action-ink);
+  box-shadow:0 4px 0 #4E3828}
+html[data-theme="dark"] .footer{background:var(--ui-surface-muted)}
+html[data-theme="dark"] .alpha-pill{background:transparent;border-color:var(--ui-border)}
+html[data-theme="dark"] .ui-pill-olive{border-color:#5D6D50}
+html[data-theme="dark"] .ui-pill-terracotta{border-color:#76503D}
+html[data-theme="dark"] .ui-button-secondary{border-color:var(--ui-border-strong)}
+html[data-theme="dark"] .primary-button,
+html[data-theme="dark"] .ui-button-primary{box-shadow:0 4px 15px rgba(165,195,133,.11)}
+html[data-theme="dark"] .eyebrow{border-color:#556D44}
+html[data-theme="dark"] .code-heading{background:#231C17;border-color:#4A382D}
+html[data-theme="dark"] .code-footnote{border-color:#4A382D}
+html[data-theme="dark"] .hero-visual{border-color:#655344}
+html[data-theme="dark"] .feature-card:hover,html[data-theme="dark"] .catalog-card:hover,
+html[data-theme="dark"] .lesson-item:hover{border-color:var(--ui-action)}
+html[data-theme="dark"] .tags span{border-color:#536248}
+html[data-theme="dark"] .availability-note{background:var(--color-terracotta-100);
+  border-color:#8F654F;color:#F2CEB9}
+html[data-theme="dark"] .lesson-objective{border-color:var(--ui-action)}
+html[data-theme="dark"] .lesson-stepper-nav button[aria-current="step"]{
+  background:var(--color-olive-100);color:var(--ui-ink);
+  border-color:var(--ui-action)}
+html[data-theme="dark"] .lesson-stepper-nav button[aria-current="step"] .lesson-step-number{
+  background:var(--ui-action);color:var(--ui-action-ink)}
+html[data-theme="dark"] .takeaway-section{border-color:#586B49}
+html[data-theme="dark"] .quiz-feedback.is-correct{border-color:#638358}
+html[data-theme="dark"] .quiz-error,
+html[data-theme="dark"] .quiz-feedback span{color:var(--color-critical)}
+html[data-theme="dark"] .auth-tabs button[aria-pressed="true"],
+html[data-theme="dark"] .editor-toolbar button,
+html[data-theme="dark"] .editor-footer button{color:var(--ui-action-ink)}
+html[data-theme="dark"] .account-form input,
+html[data-theme="dark"] .transfer-answers input,
+html[data-theme="dark"] .transfer-reflection textarea,
+html[data-theme="dark"] .studio-inputs input,
+html[data-theme="dark"] .studio-toolbar select{color:var(--ui-ink);
+  background:var(--ui-surface);border-color:var(--ui-border-strong)}
+html[data-theme="dark"] .account-message{color:var(--color-success)}
+html[data-theme="dark"] .danger-section{border-color:#9C625B}
+html[data-theme="dark"] .danger-button{background:#983E33;border-color:#B96A5D;
+  color:#FFF1E8}
+html[data-theme="dark"] .review-card,
+html[data-theme="dark"] .dashboard-reviews{border-color:var(--ui-border)}
+html[data-theme="dark"] .review-card p,
+html[data-theme="dark"] .dashboard-reviews p{color:var(--ui-ink-subtle)}
+html[data-theme="dark"] .transfer-feedback{border-color:#607A53}
+html[data-theme="dark"] .transfer-hypothesis{border-color:#9C694F}
+html[data-theme="dark"] .code-transfer-verified{border-color:#628755}
+html[data-theme="dark"] .studio-code{background:var(--ui-code);border-color:#655444}
+html[data-theme="dark"] .studio-code-row{color:var(--ui-code-ink)}
+html[data-theme="dark"] .studio-code-active{background:#3C4A2B;color:#FFF7EA}
+html[data-theme="dark"] .studio-console{background:#14110E;border-color:#675548}
+html[data-theme="dark"] .studio-progress{border-color:var(--ui-border)}
+html[data-theme="dark"] .studio-variable-grid>div{border-color:var(--ui-border)}
+html[data-theme="dark"] .studio-hint{border-color:var(--ui-action)}
+html[data-theme="dark"] .lesson-depth-model{border-top-color:var(--ui-action)!important}
+html[data-theme="dark"] .lesson-depth-mistake{border-top-color:var(--color-terracotta-700)!important}
+html[data-theme="dark"] .lesson-depth-contrast,
+html[data-theme="dark"] .lesson-depth-checkpoint{border-color:#657151}
+html[data-theme="dark"] .lesson-depth-checkpoint details,
+html[data-theme="dark"] .lesson-depth-real-world{border-color:#5E694D}
+html[data-theme="dark"] .studio-confidence-note{color:var(--color-terracotta-700)}
+html[data-theme="dark"] .editor-shell .cm-editor{background:var(--ui-surface);
+  color:var(--ui-ink)}
+html[data-theme="dark"] .editor-shell .cm-gutters{background:var(--ui-surface-muted);
+  color:var(--ui-ink-subtle);border-color:var(--ui-border)}
+/* A themed CodeMirror must use the matching syntax-highlight grammar. */
+html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
