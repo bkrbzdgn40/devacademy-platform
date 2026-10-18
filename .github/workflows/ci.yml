@@ -37,6 +37,8 @@ jobs:
         run: node apps/web/tests/python-snippets.mjs
       - name: Verify reviewed bugfix explanations against real Java and Python
         run: node apps/web/tests/bugfix-fixtures.mjs
+      - name: Execute counterfactual transfer cases in real Java, Python and Node runtimes
+        run: node apps/web/tests/transfer-runtime-fixtures.mjs
       - name: Exercise production HTTP routes and grading
         run: node apps/web/tests/http-smoke.mjs
       - name: Check responsive viewport widths in headless Chrome

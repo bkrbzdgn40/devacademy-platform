@@ -100,3 +100,7 @@ Registration has shared database-backed quotas before password hashing, and defe
 ## M8.0C performance measurements
 
 GitHub CI records real headless-Chrome lesson/editor loading and Docker execution timings, with downloadable JSON evidence. Disposable PostgreSQL tests record concurrent connection pool size and query wait distributions. Language-specific CodeMirror grammars now load on demand. Database connection max (10) and sandbox resource ceilings remain unchanged until comparable measurements justify revision. See [methodology](docs/qa/M8-0C-PERFORMANCE.md).
+
+## M8.1: Counterfactual Transfer Evidence
+
+Six selected JavaScript/Java/Python lessons now add a separate, login-gated **two-output prediction** lab after guided completion. Students explain *why* and indicate confidence; the explanation is local-only and not graded. A first correct independent case is distinct from guided completion; an additional new case after at least 24 hours yields delayed transfer evidence. Only metadata is persisted. Requires additive `db/migrations/0007_transfer_evidence.sql` after 0006. No public learner code execution. See [evidence model](docs/learning/M8-1-COUNTERFACTUAL-EVIDENCE.md).

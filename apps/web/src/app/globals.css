@@ -182,3 +182,25 @@
  .lesson-step-panel>h2 {font-size:21px}
  .lesson-step-actions button {font-size:12px}
 }
+
+
+/* M8.1 · Counterfactual transfer lab keeps one focused, touch-friendly form. */
+.transfer-lab {margin-top:32px;padding:26px;border:1px solid #7470b0;border-radius:15px;background:linear-gradient(145deg,#1c2038,#111b27);min-width:0}
+.transfer-heading h2 {font-size:23px;letter-spacing:-.4px;line-height:1.3;margin:5px 0 12px}
+.transfer-heading p,.transfer-lab>p {color:#cbd5e8;line-height:1.7}
+.transfer-form {margin-top:18px;border-top:1px solid #49516e;padding-top:16px}
+.transfer-form h3 {margin:10px 0 16px}
+.transfer-form .lesson-code {overflow-x:auto}
+.transfer-phase {color:#a9dfd2;font-size:13px;font-weight:700}
+.transfer-answers {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}
+.transfer-answers label,.transfer-reflection {display:grid;gap:8px;font-weight:650;font-size:14px}
+.transfer-answers input,.transfer-reflection textarea {width:100%;min-width:0;padding:11px 13px;background:#0b1020;color:#fff;border:1px solid #596580;border-radius:8px;font:inherit;font-weight:400}
+.transfer-answers input:focus-visible,.transfer-reflection textarea:focus-visible {outline:3px solid var(--green);outline-offset:2px}
+.transfer-reflection small {font-size:12px;color:#adbad2;font-weight:400;line-height:1.5}
+.transfer-confidence {border:1px solid #434e69;padding:12px 16px;border-radius:10px;margin:20px 0;display:flex;flex-wrap:wrap;gap:12px}
+.transfer-confidence legend {font-size:14px;font-weight:650;padding:0 6px}
+.transfer-confidence label {display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#d9e3f2;cursor:pointer}
+.transfer-confidence input {accent-color:#a7dfd5}
+.transfer-feedback {margin-top:20px;padding:15px 18px;border:1px solid #5b7294;background:#15233b;border-radius:10px}
+.transfer-feedback p {color:#d9e4f6;line-height:1.6}
+@media(max-width:600px){.transfer-lab{padding:16px}.transfer-answers{grid-template-columns:1fr}.transfer-heading h2{font-size:20px}}

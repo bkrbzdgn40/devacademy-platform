@@ -93,6 +93,26 @@ try {
   }
   const completed=await post("/api/progress",{lessonId:"lesson.javascript.let-const",operation:"complete"},{cookie:cookieA});
   assert.equal(completed.status,200);
+  // M8.1: only signed-in owners of completed lessons can start transfer.
+  assert.equal((await read("/api/transfer?lessonId=lesson.javascript.let-const")).status,401);
+  assert.equal((await read("/api/transfer?lessonId=lesson.javascript.let-const",cookieB)).status,200);
+  const blockedOwner=await (await read("/api/transfer?lessonId=lesson.javascript.let-const",cookieB)).json();
+  assert.equal(blockedOwner.status,"locked");
+  assert.equal((await post("/api/transfer",{lessonId:"lesson.javascript.let-const",operation:"start"},
+    {cookie:cookieA,origin:"https://evil.example"})).status,403);
+  const evidence=await post("/api/transfer",{lessonId:"lesson.javascript.let-const",operation:"start"},{cookie:cookieA});
+  assert.equal(evidence.status,200);
+  const activeEvidence=await evidence.json();
+  assert.equal(activeEvidence.status,"active");
+  assert.ok(activeEvidence.problem.code.length>50);
+  assert.equal("expected" in activeEvidence.problem,false);
+  const wrongEvidence=await post("/api/transfer",{
+    lessonId:"lesson.javascript.let-const",operation:"submit",stage:0,
+    answerA:"-123456",answerB:"-123456",confidence:"low",learnerId:"spoofed"
+  },{cookie:cookieA});
+  assert.equal(wrongEvidence.status,200);
+  assert.equal((await wrongEvidence.json()).correct,false);
+  assert.equal((await (await read("/api/transfer?lessonId=lesson.javascript.let-const",cookieB)).json()).status,"locked");
   const progressA=await (await read("/api/progress",cookieA)).json();
   const progressB=await (await read("/api/progress",cookieB)).json();
   assert.equal(progressA.lessons.length,1);

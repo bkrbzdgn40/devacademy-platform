@@ -3,7 +3,7 @@ import { allLessons } from "@/lib/lessons";
 import { courses, lessonsForCourse, lessonHref } from "@/lib/courses";
 import { summarizeProgress, type ProgressLesson, type ProgressAttempt } from "@/lib/progress-summary";
 
-type Props = { progress: { lessons: ProgressLesson[]; recentAttempts: ProgressAttempt[]; reviewSummary?:{total:number;due:number} } | null };
+type Props = { progress: { lessons: ProgressLesson[]; recentAttempts: ProgressAttempt[]; reviewSummary?:{total:number;due:number};transferSummary?:{first:number;retained:number} } | null };
 const dateText=(value:string)=>{const d=new Date(value);return Number.isNaN(d.getTime())?"Bilinmiyor":new Intl.DateTimeFormat("tr-TR",{day:"numeric",month:"short",year:"numeric"}).format(d);};
 export function ProgressDashboard({progress}:Props){
   if(!progress)return <p role="status">İlerleme verileri alınamadı. Daha sonra yeniden dene.</p>;
@@ -24,6 +24,11 @@ export function ProgressDashboard({progress}:Props){
        <strong>Zamanlanmış tekrar</strong>
        <p>{progress.reviewSummary?.due??0} soru bugün tekrar bekliyor · {progress.reviewSummary?.total??0} soru takip ediliyor</p>
        <Link href="/tekrar">Tekrar oturumuna başla →</Link>
+    </aside>
+    <aside className="dashboard-reviews" aria-label="Bağımsız transfer kanıtı">
+      <strong>Karşı-Olgusal Kanıt Döngüsü</strong>
+      <p>{progress.transferSummary?.first??0} kavramda ilk bağımsız kanıt · {progress.transferSummary?.retained??0} kavramda gecikmeli doğrulama</p>
+      <p>Bu kanıtlar rehberli ders tamamlamasından ayrıdır. Gecikmeli doğrulama için 24 saat sonra yeni bir görev çözülür; kod yazma yetkinliği ayrıca değerlendirilir.</p>
     </aside>
     <h3>Kursların ve derslerin</h3>
     {courses.map(course=><section key={course.id} aria-label={course.title} className="dashboard-course">
