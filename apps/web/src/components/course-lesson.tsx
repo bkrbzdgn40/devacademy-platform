@@ -3,6 +3,8 @@ import { QuizCard } from "@/components/quiz-card";
 import { CodePlayground } from "@/components/code-playground";
 import { CompleteLesson } from "@/components/complete-lesson";
 import { TraceWalkthrough } from "@/components/trace-walkthrough";
+import { LearningStudio } from "@/components/learning-studio";
+import {studioHasLesson} from "@/lib/studio-scenarios.mjs";
 import { LessonStepper, type LessonStep } from "@/components/lesson-stepper";
 import { TransferLab } from "@/components/transfer-lab";
 import { CodeTransferLab } from "@/components/code-transfer-lab";
@@ -24,6 +26,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
   const next = entries[index + 1];
   const questions = questionsForLesson(lesson);
   const guide = guides.find((item) => item.lessonId === lesson.id);
+  const studio = studioHasLesson(lesson.id) ? <LearningStudio lessonId={lesson.id}/> : null;
   const diagnostic = guide ? questions.find((item) => item.id === guide.questionId) : undefined;
   const predictionQuestions = guide ? questions.filter((item) => item.id !== guide.questionId) : questions;
   const name = course.editorLanguage === "java" ? "Java" : course.editorLanguage === "javascript" ? "JavaScript" : "Python";
@@ -47,7 +50,8 @@ export function CourseLesson({ course, lesson, legacy = false }: {
       <p className="lesson-step-intro">{lesson.explanation}</p>
       <div className="code-label">{name} · Örnek kod</div>
       <pre className="lesson-code"><code>{lesson.code}</code></pre>
-      <TraceWalkthrough steps={guide.trace}/>
+      {studio ?? <TraceWalkthrough steps={guide.trace}/>}
+      {studio && <p className="lesson-step-tip">Bu inceleme, gözden geçirilmiş bir deney üzerinde kodun davranışını izlemeni sağlar; ders içindeki diğer soruların yanıtlarını otomatik olarak değiştirmez.</p>}
     </> },
     { id: "debug", label: "Hata avcısı", title: "Hatayı düzelt", content: <>
       <h3>{guide.missionTitle}</h3>
@@ -78,6 +82,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
       <p className="lesson-step-intro">{lesson.explanation}</p>
       <div className="code-label">{name} · Örnek kod</div>
       <pre className="lesson-code"><code>{lesson.code}</code></pre>
+      {studio}
     </> },
     { id: "apply", label: "Kodla", title: "Örneği kendin değiştir", content: <>
       <p className="lesson-step-intro">Örneği düzenle. Kod çalıştırma yalnızca yetkilendirilmiş yerel laboratuvar ortamında etkinleşir.</p>
