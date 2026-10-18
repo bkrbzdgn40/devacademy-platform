@@ -35,6 +35,8 @@ jobs:
           python-version: '3.12'
       - name: Run all reviewed Python lesson examples and verify private answer keys
         run: node apps/web/tests/python-snippets.mjs
+      - name: Verify 15 M9 Python applied problems and five independent programs in Python 3.12
+        run: node apps/web/tests/python-applied-runtime.mjs
       - name: Verify reviewed bugfix explanations against real Java and Python
         run: node apps/web/tests/bugfix-fixtures.mjs
       - name: Execute counterfactual transfer cases in real Java, Python and Node runtimes

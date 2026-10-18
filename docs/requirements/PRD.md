@@ -64,15 +64,19 @@ Bunlar tasarım araştırmasının tarihî başlangıç hedefleridir.
 3. **Kanıt hiyerarşisi:** rehberli tamamlama, ilk bağımsız tahmin,
    gecikmeli bağımsız tahmin ve kod yazma ayrı isimlendirilir.
    Öğrenciden gözlenmeyen bir beceri çıkarılmaz.
-4. İlk bütünleşik müfredat incelemesi Python'un mevcut 5 dersi üzerine
+4. Beş Python dersinin tamamına 15 gerçek hayat kod senaryosu, üç
+   zorluk düzeyi ve beş kendi kodunu yazma görevi eklendi.
+   Bu görevlerin çıktı geri bildirimi yerel ve rehberlidir; kod
+   editörü genel Python runner veya bağımsız başarı belgesi değildir.
+5. İlk bütünleşik müfredat incelemesi Python'un mevcut 5 dersi üzerine
    yapılır. İçerik; gerçek uygulama, karşı örnek, öğretici geri bildirim,
    farklı girdiler ve bağımsız çözümle sınanabilir olmalı.
-5. Çalıştırma devre dışıysa öğrenci kodunu düzenleyebilir ama güvenilir
+6. Çalıştırma devre dışıysa öğrenci kodunu düzenleyebilir ama güvenilir
    kod üretim başarısı elde ettiği iddia edilmez.
-6. Öğrenme etkisini kıyaslayan gönüllü pilot için ön test, son test ve
+7. Öğrenme etkisini kıyaslayan gönüllü pilot için ön test, son test ve
    gecikmeli test soruları yöntemsel olarak hazırlanır. Başarı oranları
    gözlem yapılmadan üretilmez.
-7. Açık/koyu temada erişilebilirlik, mobilde yatay taşma olmaması ve
+8. Açık/koyu temada erişilebilirlik, mobilde yatay taşma olmaması ve
    gerçek konu bağlantıları korunur.
 
 ### P1 · M10 Sektör Radarı

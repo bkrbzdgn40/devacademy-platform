@@ -612,6 +612,100 @@ try{
   assert.ok(finishedLayout.result.value.scrollWidth<=finishedLayout.result.value.viewport+1,
     "M8.6C guided Apply overflow at 320px: "+JSON.stringify(finishedLayout.result.value));
 
+  // M9: all five Python lessons must expose authored applied challenges
+  // without changing the original 4-stage guided lesson contract.
+  await cdp.send("Emulation.setDeviceMetricsOverride",{
+    width:320,height:850,deviceScaleFactor:1,mobile:true
+  },sessionId);
+  const pythonSlugs=[
+    "degiskenler-ve-turler","kosullar","donguler","fonksiyonlar",
+    "listeler-ve-sozlukler"
+  ];
+  for(const slug of pythonSlugs){
+    await cdp.send("Page.navigate",{
+      url:base+"/kurslar/python-temelleri/"+slug},sessionId);
+    await waitFor(async()=>{
+      const r=await cdp.send("Runtime.evaluate",{expression:
+        "document.readyState==='complete' && !!document.querySelector('[data-lesson-step=\"3\"]')",
+        returnByValue:true},sessionId);
+      return r.result?.value===true;
+    },"Python guided lesson did not hydrate: "+slug);
+    await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelector('[data-lesson-step=\"3\"]').click()",
+      returnByValue:true},sessionId);
+    await waitFor(async()=>{
+      const r=await cdp.send("Runtime.evaluate",{expression:
+        "!!document.querySelector('.lesson-step-panel:not([hidden]) .python-applied-studio .python-applied-tier-nav')",
+        returnByValue:true},sessionId);
+      return r.result?.value===true;
+    },"Python applied experience absent for "+slug);
+    const check=await cdp.send("Runtime.evaluate",{expression:
+      "(() => {const root=document.documentElement;const lab=document.querySelector('.python-applied-studio');"+
+      "return {levels:lab.querySelectorAll('.python-applied-tier-nav button').length,"+
+      "choices:lab.querySelectorAll('.python-applied-choices input').length,"+
+      "outputChecks:lab.querySelectorAll('.python-applied-public-checks pre').length,"+
+      "unverified:lab.textContent.includes('sonuç otomatik değerlendirilmiyor'),"+
+      "overflow:root.scrollWidth>root.clientWidth+1};})()",
+      returnByValue:true},sessionId);
+    assert.deepEqual(check.result.value,{
+      levels:3,choices:3,outputChecks:2,unverified:true,overflow:false
+    },"M9 real-world application mobile layout incorrect for "+slug);
+  }
+  // Wrong prediction must explain the misconception and allow correction
+  // without affecting server-backed quiz completion or learner data.
+  await cdp.send("Page.navigate",{
+    url:base+"/kurslar/python-temelleri/degiskenler-ve-turler"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && !!document.querySelector('[data-lesson-step=\"3\"]')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M9 variables scenario did not hydrate");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('[data-lesson-step=\"3\"]').click()",
+    returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "!!document.querySelector('.python-applied-choices input')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M9 variables choices did not hydrate");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelectorAll('.python-applied-choices input')[1].click();"+
+    "document.querySelector('.python-applied-answer button[type=submit]').click()",
+    returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "!!document.querySelector('.python-applied-feedback.is-try-again')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M9 wrong-output feedback was not visible");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelectorAll('.python-applied-choices input')[0].click();"+
+    "document.querySelector('.python-applied-answer button[type=submit]').click()",
+    returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "!!document.querySelector('.python-applied-feedback.is-correct')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M9 corrected-output feedback was not visible");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('.python-applied-next').click();"+
+    "document.querySelector('.python-applied-independent > button').click()",
+    returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.querySelector('.python-applied-tier-nav button[aria-pressed=true]')?.textContent.includes('Uygulama')"+
+      " && !!document.querySelector('.python-applied-code-work .cm-editor')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M9 higher level and original code editor did not open");
+  const finalMobile=await cdp.send("Runtime.evaluate",{expression:diagnostic,
+    returnByValue:true},sessionId);
+  assert.ok(finalMobile.result.value.scrollWidth<=finalMobile.result.value.viewport+1,
+    "M9 independent code editor caused 320px overflow: "+JSON.stringify(finalMobile.result.value));
+
   console.log("Responsive Chrome smoke PASS: "+count+" page/viewport cases plus open discovery, guided Apply mobile Learning Studio, and M8.5.1 expanded lessons.");
 } catch(error){
   console.error("Production server output:",serverLog);

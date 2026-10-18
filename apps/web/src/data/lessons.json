@@ -223,14 +223,15 @@
     "slug": "degiskenler-ve-turler",
     "title": "Değişkenler ve veri türleri",
     "level": "Başlangıç",
-    "durationMinutes": 9,
-    "objective": "Python'da değişken atamasını ve int, float, str türlerini ayırt edebilmek.",
-    "summary": "Dinamik tipleri ve değişkenlere değer atamayı öğren.",
+    "durationMinutes": 21,
+    "objective": "Birim fiyat, adet ve teslimat ücretinden sayısal toplam hesaplayıp sonucu iki ondalıkla yazdırabilmek.",
+    "summary": "Gerçek alışveriş fiyatlarını, tür dönüşümünü ve okunabilir çıktı biçimlendirmesini öğren.",
     "explanation": "Python'da bir değişkene değer atamak için = kullanılır ve türü ayrı belirtmen gerekmez. Bir değerin türünü type() ile inceleyebilirsin. int tam sayı, float ondalıklı sayı, str metindir. / işleci sayılar tam olsa bile Python 3'te float döndürür. f-string, ifadeleri okunaklı biçimde metnin içine yerleştirir.",
     "code": "name = \"Ada\"\nage = 20\nprint(f\"{name}: {age + 1}\")  # Ada: 21",
     "takeaways": [
       "= değişkene değer atar; == ise değerleri karşılaştırır.",
-      "/ işleci Python 3'te ondalıklı sonuç üretir; türü type() ile görebilirsin."
+      "/ işleci Python 3'te ondalıklı sonuç üretir; türü type() ile görebilirsin.",
+      "Sistemden metin gelen tutarı sayısal işlemden önce uygun türe dönüştür."
     ],
     "questionIds": [
       "python.variables.reassignment",
@@ -244,14 +245,15 @@
     "slug": "kosullar",
     "title": "Koşullar ve karşılaştırmalar",
     "level": "Başlangıç",
-    "durationMinutes": 9,
-    "objective": "if/else ile farklı koşullara göre hangi kodun çalışacağını tahmin edebilmek.",
-    "summary": "Karşılaştırmalar ve girintilemeyle karar veren kod yaz.",
+    "durationMinutes": 22,
+    "objective": "Birden fazla koşulu doğru sıraya koyup sınır değerlerinde hangi kararın verileceğini açıklayabilmek.",
+    "summary": "Sipariş, stok ve başarı kararlarını sınır değerleriyle koşullandır.",
     "explanation": "Python'da if, elif ve else koşullu dallanma sağlar. Kod bloğu süslü parantezle değil girintiyle belirlenir. == iki değeri karşılaştırırken = değer atar. Boş listeler gibi bazı değerler False kabul edilir; bu davranışa truthiness denir. Kod okunaklılığı için tutarlı dört boşluk kullan.",
     "code": "score = 75\nif score >= 70:\n    print(\"Geçti\")\nelse:\n    print(\"Tekrar\")",
     "takeaways": [
       "Koşul doğruysa if bloğu, değilse uygun elif/else bloğu çalışır.",
-      "Python'da girinti sözdiziminin parçasıdır ve kod bloğunun sınırını belirler."
+      "Python'da girinti sözdiziminin parçasıdır ve kod bloğunun sınırını belirler.",
+      "Sınır değerlerde >= ile > farklı kararlar üretir; elif sırası önemlidir."
     ],
     "questionIds": [
       "python.conditions.age",
@@ -267,14 +269,15 @@
     "slug": "donguler",
     "title": "Döngüler ve range",
     "level": "Başlangıç",
-    "durationMinutes": 10,
-    "objective": "for, range ve continue davranışını takip ederek döngü çıktısı üretebilmek.",
-    "summary": "Tekrarlanan işleri döngülerle ve aralıklarla ifade et.",
+    "durationMinutes": 24,
+    "objective": "Geçersiz sensör kayıtlarını atlayarak döngü ve range ile doğru toplamı hesaplayabilmek.",
+    "summary": "Gerçek kayıt listelerinde tekrar, sıçrama ve geçersiz veri ayıklama uygula.",
     "explanation": "for döngüsü bir koleksiyondaki öğeleri sırayla işler. range(start, stop, step) aralığında stop değeri dahil değildir. range(1, 5) bu nedenle 1, 2, 3, 4 değerlerini üretir. continue mevcut adımın kalanını atlar; break döngüden tamamen çıkar. Sonsuz döngülerden kaçınmak için bitiş koşullarını açık tut.",
     "code": "total = 0\nfor number in range(1, 5):\n    total += number\nprint(total)  # 10",
     "takeaways": [
       "range için üst sınır dahil değildir.",
-      "continue yalnızca o yinelemenin kalanını atlar; break döngüyü bitirir."
+      "continue yalnızca o yinelemenin kalanını atlar; break döngüyü bitirir.",
+      "continue geçersiz gözlemleri atlayabilir; geçerli sıfırı yanlışlıkla çıkarma."
     ],
     "questionIds": [
       "python.loops.range-step",
@@ -290,14 +293,15 @@
     "slug": "fonksiyonlar",
     "title": "Fonksiyonlar ve return",
     "level": "Başlangıç",
-    "durationMinutes": 10,
-    "objective": "Parametre, varsayılan argüman ve return değerini kullanabilmek.",
-    "summary": "Tekrar kullanılabilir fonksiyonlar tanımla ve sonuç döndür.",
+    "durationMinutes": 25,
+    "objective": "Girdi alan ve test edilebilir değer döndüren, varsayılan parametreli küçük bir fonksiyon yazabilmek.",
+    "summary": "Sepet ve teslimat hesaplarında return, parametreler ve test edilebilir fonksiyonlar kullan.",
     "explanation": "def ile fonksiyon tanımlanır, parametreler parantez içinde belirtilir. return sonucu çağıran yere verir ve fonksiyonun o çağrısı için yürütmeyi sonlandırır. print yalnızca çıktı yazar; geri döndürülen değerin yerine geçmez. Varsayılan parametreler, argüman gönderilmediğinde kullanılır. Fonksiyonların küçük, tek amaçlı olması test etmeyi kolaylaştırır.",
     "code": "def square(value):\n    return value * value\n\nprint(square(4))  # 16",
     "takeaways": [
       "return bir değeri çağırana iletir; print çıktıyı ekrana yazar.",
-      "Varsayılan parametre, ilgili argüman verilmediğinde kullanılır."
+      "Varsayılan parametre, ilgili argüman verilmediğinde kullanılır.",
+      "Fonksiyonun test edilebilmesi için sonucu yalnızca yazdırmak yerine return ile ilet."
     ],
     "questionIds": [
       "python.functions.return",
@@ -313,14 +317,15 @@
     "slug": "listeler-ve-sozlukler",
     "title": "Listeler ve sözlükler",
     "level": "Başlangıç",
-    "durationMinutes": 12,
-    "objective": "Liste dilimlemeyi ve sözlükten varsayılan değer okumayı açıklayabilmek.",
-    "summary": "Koleksiyonları güvenli biçimde oku ve dönüştür.",
+    "durationMinutes": 25,
+    "objective": "Bir ürün stok sözlüğünü güvenli okuyup kurallara uygun ürün listesi üretebilmek.",
+    "summary": "Kütüphane ve stok verilerinde dilimleme, get ve koşullu liste üretimi uygula.",
     "explanation": "Listeler sıralı, değiştirilebilir öğe koleksiyonlarıdır. Dilimleme list[start:stop] ile yapılır; stop indeksi dahil değildir. Sözlükler anahtar-değer eşlemesi tutar. dict.get(key, default), anahtar bulunamazsa hata vermek yerine belirtilen varsayılan değeri döndürür. Liste üreteçleri basit dönüşüm ve filtrelerde kısa bir yazım sağlar; okunaklılığı koru.",
     "code": "scores = {\"Ada\": 80, \"Ece\": 95}\npassed = [name for name, score in scores.items() if score >= 90]\nprint(passed)  # ['Ece']",
     "takeaways": [
       "Liste dilimleme bitiş indeksini içermez.",
-      "get ile olmayan sözlük anahtarları için varsayılan değer belirlenebilir."
+      "get ile olmayan sözlük anahtarları için varsayılan değer belirlenebilir.",
+      "Sözlük anahtarları için get varsayılanı kullan; listeyi sınır koşuluna göre filtrele."
     ],
     "questionIds": [
       "python.collections.slice",

@@ -144,3 +144,7 @@ The homepage offers a genuine authenticated resume-to-lesson panel (never invent
 ## M8.6C · Lesson Workstation 2.0
 
 All 15 published lessons have a responsive course map, stage orientation and focused workstation. Source samples and causal counterexamples expand only on demand, while Studio remains central. Visited quizzes and editors retain in-page state; assessments and user progress remain untouched. See [M8.6C learning workstation](docs/design/M8-6C-LESSON-WORKSTATION.md).
+
+## M9 · Python applied learning path
+
+All five Python fundamentals lessons now offer 15 real-life, graduated output-prediction exercises with mistake-specific feedback, plus five starter-code challenges for independent writing. The latter are **self-review** tasks, not automatically scored submissions. Python CI executes the authored 15 scenario programs and 10 reference/modified-input programs. Existing server-graded quiz, transfer evidence and separate localhost-only code assessment remain unchanged. [Curriculum acceptance and evidence limits](docs/learning/M9-PYTHON-APPLIED-PATH.md).
