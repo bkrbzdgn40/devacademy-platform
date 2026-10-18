@@ -116,3 +116,7 @@ Six concept-aligned JavaScript/Python/Java tasks now ask students to author actu
 ## M8.4 gVisor staging profile (not public)
 
 An optional `gvisor-staging` execution profile inserts Docker `--runtime=runsc` for JS/Python/Java worker sandboxes. The worker checks Docker runtime registration before claiming any jobs and fails closed when missing. The existing `docker-lab` default is unchanged; **public/production execution remains disabled**, and untrusted users cannot choose the runtime. An explicit three-language canary can be run on a separate disposable Linux staging host with pinned images. See [M8.4 isolated staging runbook](docs/security/M8-4-GVISOR-STAGING.md).
+
+## M8.5 Learning Studio 2.0
+
+Six JavaScript, Python and Java concepts now include a responsive prediction-first line-by-line trace studio. Learners enter two outputs before seeing program state, inspect variables and console changes, compare causal errors and try three reviewed input variants. All 18 examples are verified with actual language runtimes in CI and the mobile interaction is exercised by headless Chrome. These authored traces are for teaching only and never grant independent grade or execute arbitrary student code. See [Learning Studio pedagogy and limits](docs/learning/M8-5-LEARNING-STUDIO.md).
