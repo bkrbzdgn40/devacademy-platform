@@ -104,3 +104,7 @@ GitHub CI records real headless-Chrome lesson/editor loading and Docker executio
 ## M8.1: Counterfactual Transfer Evidence
 
 Six selected JavaScript/Java/Python lessons now add a separate, login-gated **two-output prediction** lab after guided completion. Students explain *why* and indicate confidence; the explanation is local-only and not graded. A first correct independent case is distinct from guided completion; an additional new case after at least 24 hours yields delayed transfer evidence. Only metadata is persisted. Requires additive `db/migrations/0007_transfer_evidence.sql` after 0006. No public learner code execution. See [evidence model](docs/learning/M8-1-COUNTERFACTUAL-EVIDENCE.md).
+
+## M8.2 Adaptive Misconception Lab
+
+Wrong output predictions now lead to an author-reviewed, A- or B-focused concept experiment. Twelve focused variants cover six JS/Java/Python lessons. Coached success never grants independent evidence; it instead unlocks a fresh unguided problem. Authenticated challenges use one-time IDs to reject stale answers without saving raw responses. Additive migration 0008 follows 0007. See [design and operational limits](docs/learning/M8-2-ADAPTIVE-PROBES.md). No public source execution is enabled.
