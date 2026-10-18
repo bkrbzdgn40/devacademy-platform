@@ -94,4 +94,5 @@ export const caseBank = Object.freeze({
       {public:false,args:[-7,5],expected:-35},
       {public:false,args:[-3,-4],expected:12}
     ]
-  },});
+  }
+});
