@@ -55,6 +55,11 @@ başka bir duruma aktarabilir ve mümkün olduğunda kendi kodunu oluşturabilir
 - Gerçek öğrencilerle düşük riskli pilot için karşılaştırılabilir yeni
   görevler, ön test/son test/gecikmeli test ve gözlem rehberi hazırla.
   Toplanmayan veriyi ölçülmüş başarı gibi raporlama.
+- **JavaScript'in yedi ve Java'nın üç dersi** de Python'daki ortak
+  uygulama stüdyosuna taşındı: 30 yeni gerçek yaşam senaryosu,
+  10 farklı kod yazma taslağı ve gerçek Java/Node fixture kontrolü.
+  Böylece 15 dersin tamamında 45 kademeli senaryo bulunuyor.
+  Bu içerik, kullanıcı pilotunda öğrenme faydası kanıtlandı demek değildir.
 - Python akışında kabul edilen öğrenme modelini Java ve JavaScript'e
   içerik değerlendirmesiyle uygula. Yeni ders sayısı ikincil ölçüttür.
 

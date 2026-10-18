@@ -148,3 +148,7 @@ All 15 published lessons have a responsive course map, stage orientation and foc
 ## M9 · Python applied learning path
 
 All five Python fundamentals lessons now offer 15 real-life, graduated output-prediction exercises with mistake-specific feedback, plus five starter-code challenges for independent writing. The latter are **self-review** tasks, not automatically scored submissions. Python CI executes the authored 15 scenario programs and 10 reference/modified-input programs. Existing server-graded quiz, transfer evidence and separate localhost-only code assessment remain unchanged. [Curriculum acceptance and evidence limits](docs/learning/M9-PYTHON-APPLIED-PATH.md).
+
+## M9 · Common applied learning across all published courses
+
+After Python, all seven JavaScript and three Java fundamentals lessons also use the same real-life progression: three output-prediction levels with misconception-specific feedback, hints and fifteen total write-from-scratch self-review challenges across the platform. Authored outputs are checked in Node 24, Java 21 and Python 3.12. **These new practice tasks do not record independent mastery or run arbitrary learner code**. Existing authenticated code-transfer evidence remains separate and localhost-only. [Full 15-lesson M9 curriculum and validation](docs/learning/M9-ALL-COURSES-APPLIED.md).
