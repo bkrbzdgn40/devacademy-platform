@@ -21,7 +21,7 @@ const rows={
  "sql.where.null":[[11]],
  "sql.join.left":[["Can"]],
  "sql.join.inner":[["Ayşe",10],["Ayşe",11],["Bora",12],["Bora",13],["Ayşe",14]],
- "sql.group.totals":[[250]],
+ "sql.group.totals":[["250"]], // SUM(integer) is bigint; node-postgres preserves 64-bit values as strings.
  "sql.group.having":[[2]]
 };
 const expectedOptions={
