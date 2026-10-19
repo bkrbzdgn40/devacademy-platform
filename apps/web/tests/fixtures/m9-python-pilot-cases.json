@@ -1,0 +1,197 @@
+{
+  "status": "not-piloted",
+  "purpose": "offline human-administered pilot only; never auto-grade student submissions",
+  "cases": [
+    {
+      "lessonId": "lesson.python.variables",
+      "concept": "Değişkenler ve tür dönüşümü",
+      "forms": [
+        {
+          "id": "A",
+          "title": "Kantin fişi",
+          "context": "Fiyat bir metin olarak alınmıştır. İndirim düşüldükten sonra ekrana ne yazılır?",
+          "code": "price_text = \"18\"\nquantity = 3\ndiscount = 4\nprint(int(price_text) * quantity - discount)",
+          "expected": "50",
+          "reasoningKey": "int dönüşümü metni sayıya çevirir; 18×3−4=50.",
+          "likelyError": "Metin birleştirmesi yapıldığını sanmak veya indirimi unutturmak."
+        },
+        {
+          "id": "B",
+          "title": "Bisiklet kiralama",
+          "context": "Saatlik ücret metin olarak geliyor. Kupon düşüldükten sonraki çıktıyı hesapla.",
+          "code": "hourly_text = \"16\"\nhours = 4\ncoupon = 3\nprint(int(hourly_text) * hours - coupon)",
+          "expected": "61",
+          "reasoningKey": "int dönüşümü sonrası 16×4−3=61.",
+          "likelyError": "str ile int işlem hatası veya çarpma yerine toplama varsaymak."
+        },
+        {
+          "id": "C",
+          "title": "Bilet satışı",
+          "context": "Bilet fiyatı metin olarak geliyor. Kampanya indirimi sonrası çıktıyı bul.",
+          "code": "ticket_text = \"21\"\ncount = 2\npromotion = 5\nprint(int(ticket_text) * count - promotion)",
+          "expected": "37",
+          "reasoningKey": "int dönüşümü sonrası 21×2−5=37.",
+          "likelyError": "Metni sayıya çevirmeden aritmetik yapıldığını varsaymak."
+        }
+      ]
+    },
+    {
+      "lessonId": "lesson.python.conditions",
+      "concept": "Sıralı koşul ve and",
+      "forms": [
+        {
+          "id": "A",
+          "title": "Kargo önceliği",
+          "context": "Sıcaklık 25 değil. İkinci koşul değerlendirilince ne yazılır?",
+          "code": "temperature = 20\nexpress = True\nif temperature >= 25:\n    print(\"Sıcak\")\nelif express and temperature >= 18:\n    print(\"Öncelikli\")\nelse:\n    print(\"Normal\")",
+          "expected": "Öncelikli",
+          "reasoningKey": "İlk koşul yanlış; iki alt koşul doğru olduğundan elif çalışır.",
+          "likelyError": "elif'in atlandığını veya >=25 sağlandığını sanmak."
+        },
+        {
+          "id": "B",
+          "title": "Üyelik indirimi",
+          "context": "Alışveriş 150 altında. Üyelik kuralını izleyip çıktıyı bul.",
+          "code": "subtotal = 110\nmember = True\nif subtotal >= 150:\n    print(\"Ücretsiz\")\nelif member and subtotal >= 100:\n    print(\"İndirimli\")\nelse:\n    print(\"Standart\")",
+          "expected": "İndirimli",
+          "reasoningKey": "İlk dal yanlış; üye ve 100 sınırı birlikte doğru.",
+          "likelyError": "Bir if dalı yanlışsa doğrudan else çalışır sanmak."
+        },
+        {
+          "id": "C",
+          "title": "Pil yönetimi",
+          "context": "Pil yüzde 60 altında. Tasarruf koşuluna göre çıktı nedir?",
+          "code": "battery = 35\nsaver = True\nif battery >= 60:\n    print(\"Normal\")\nelif saver and battery >= 30:\n    print(\"Tasarruf\")\nelse:\n    print(\"Uyarı\")",
+          "expected": "Tasarruf",
+          "reasoningKey": "İlk dal yanlış; saver True ve pil >=30, elif çalışır.",
+          "likelyError": "and iki koşulunu ayrı ayrı kontrol etmemek."
+        }
+      ]
+    },
+    {
+      "lessonId": "lesson.python.loops",
+      "concept": "Döngüde continue ve negatifleri atlama",
+      "forms": [
+        {
+          "id": "A",
+          "title": "Kafe satışları",
+          "context": "Negatif kayıtlar iadedir, sıfır geçerlidir. Sonuç kaçtır?",
+          "code": "sales = [5, -1, 0, 9]\ntotal = 0\nfor value in sales:\n    if value < 0:\n        continue\n    total += value\nprint(total)",
+          "expected": "14",
+          "reasoningKey": "-1 atlanır; 5+0+9=14.",
+          "likelyError": "continue sonrası toplanmayan negatif kaydı toplamaya katmak."
+        },
+        {
+          "id": "B",
+          "title": "Depo tarayıcısı",
+          "context": "Negatif kayıt hatadır, sıfır geçerlidir. Toplamı tahmin et.",
+          "code": "units = [3, -4, 6, 0]\ntotal = 0\nfor unit in units:\n    if unit < 0:\n        continue\n    total += unit\nprint(total)",
+          "expected": "9",
+          "reasoningKey": "-4 atlanır; 3+6+0=9.",
+          "likelyError": "Negatif değeri dahil etmek veya sıfırı geçersiz sanmak."
+        },
+        {
+          "id": "C",
+          "title": "Sıcaklık günlüğü",
+          "context": "Negatif kayıtlar geçersiz. Yazdırılan toplamı bul.",
+          "code": "readings = [0, 8, -2, 7]\nsum_valid = 0\nfor reading in readings:\n    if reading < 0:\n        continue\n    sum_valid += reading\nprint(sum_valid)",
+          "expected": "15",
+          "reasoningKey": "-2 atlanır; 0+8+7=15.",
+          "likelyError": "continue ifadesinin kalan gövdeyi atladığını kaçırmak."
+        }
+      ]
+    },
+    {
+      "lessonId": "lesson.python.functions",
+      "concept": "print ve return ile çağıran değer ayrımı",
+      "forms": [
+        {
+          "id": "A",
+          "title": "Teslimat fiyatı",
+          "context": "Ekrana yazdırma ile fonksiyonun döndürdüğü değeri ayır. Sırayla hangi satırlar yazılır?",
+          "code": "def price(amount):\n    print(amount + 2)\n    return amount + 5\n\nresult = price(4)\nprint(result)",
+          "expected": "6\n9",
+          "reasoningKey": "İç print 6 yazar, return 9 üretir; dış print 9 yazar.",
+          "likelyError": "İç print değerini return sonucu sanmak."
+        },
+        {
+          "id": "B",
+          "title": "Sadakat puanı",
+          "context": "Fonksiyon içeride yazdırıyor ve farklı bir değer döndürüyor. İki çıktıyı sırayla açıkla.",
+          "code": "def points(base):\n    print(base * 2)\n    return base + 3\n\nvalue = points(5)\nprint(value)",
+          "expected": "10\n8",
+          "reasoningKey": "İç print 10 yazar, return 8 üretir; dış print 8 yazar.",
+          "likelyError": "İç print ile döndürülen değeri eşitlemek."
+        },
+        {
+          "id": "C",
+          "title": "Adım sayacı",
+          "context": "İçeride yazılan ve çağırana verilen değer farklı. Sırayla çıkan iki satır nedir?",
+          "code": "def steps(count):\n    print(count - 1)\n    return count * 3\n\nanswer = steps(6)\nprint(answer)",
+          "expected": "5\n18",
+          "reasoningKey": "İç print 5 yazar, return 18 üretir; dış print 18 yazar.",
+          "likelyError": "print sonucunu döndürülen değer olarak yorumlamak."
+        }
+      ]
+    },
+    {
+      "lessonId": "lesson.python.collections",
+      "concept": "Sözlük get varsayılanı ve anahtar okuma",
+      "forms": [
+        {
+          "id": "A",
+          "title": "Kırtasiye sayımı",
+          "context": "Listede olmayan ürüne get ile sıfır varsayılıyor. Ekrana ne yazılır?",
+          "code": "stock = {\"kalem\": 2, \"defter\": 5}\nprint(stock.get(\"silgi\", 0) + stock[\"kalem\"])",
+          "expected": "2",
+          "reasoningKey": "Eksik silgi varsayılan 0; kalem değeri 2; toplam 2.",
+          "likelyError": "get olmayan anahtarda KeyError verir sanmak."
+        },
+        {
+          "id": "B",
+          "title": "Mutfak stoğu",
+          "context": "Eksik ürün ve mevcut ürünün değerleri toplanıyor. Sonuç nedir?",
+          "code": "inventory = {\"çay\": 4, \"süt\": 1}\nprint(inventory.get(\"pirinç\", 0) + inventory[\"süt\"])",
+          "expected": "1",
+          "reasoningKey": "Pirinç eksik → 0, süt 1 → toplam 1.",
+          "likelyError": "get varsayılanını var olan ürünün değerine uygulamak."
+        },
+        {
+          "id": "C",
+          "title": "Etkinlik biletleri",
+          "context": "Olmayan türün varsayılanını, mevcut biletle topla.",
+          "code": "tickets = {\"yetişkin\": 3, \"çocuk\": 7}\nprint(tickets.get(\"öğrenci\", 0) + tickets[\"çocuk\"])",
+          "expected": "7",
+          "reasoningKey": "Öğrenci anahtarı yok → 0, çocuk 7 → toplam 7.",
+          "likelyError": "Sözlüğün ilk değerinin otomatik seçildiğini düşünmek."
+        }
+      ]
+    }
+  ],
+  "transfers": [
+    {
+      "id": "A",
+      "title": "Teslimat ücretini döndür",
+      "task": "add_delivery(subtotal, delivery) fonksiyonunu yaz; iki sayıyı toplayıp print yerine return ile döndür. Fonksiyon, başka bir hesapta kullanılabilmeli. Örnek: add_delivery(18,4) + 1 ifadesi 23 vermeli.",
+      "starterCode": "def add_delivery(subtotal, delivery):\n    pass",
+      "referenceCode": "def add_delivery(subtotal, delivery):\n    return subtotal + delivery\n\nprint(add_delivery(18, 4) + 1)",
+      "expected": "23"
+    },
+    {
+      "id": "B",
+      "title": "Ek ücreti döndür",
+      "task": "add_fee(cost, fee) fonksiyonunu yaz; iki sayıyı toplayıp return ile döndür. Örnek: add_fee(25,5) + 2 ifadesi 32 vermeli.",
+      "starterCode": "def add_fee(cost, fee):\n    pass",
+      "referenceCode": "def add_fee(cost, fee):\n    return cost + fee\n\nprint(add_fee(25, 5) + 2)",
+      "expected": "32"
+    },
+    {
+      "id": "C",
+      "title": "Ek süreyi döndür",
+      "task": "add_minutes(used, extra) fonksiyonunu yaz; iki sayıyı toplayıp return ile döndür. Örnek: add_minutes(10,7) + 3 ifadesi 20 vermeli.",
+      "starterCode": "def add_minutes(used, extra):\n    pass",
+      "referenceCode": "def add_minutes(used, extra):\n    return used + extra\n\nprint(add_minutes(10, 7) + 3)",
+      "expected": "20"
+    }
+  ]
+}
