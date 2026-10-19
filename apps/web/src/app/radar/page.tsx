@@ -21,8 +21,8 @@ type Props={searchParams:Promise<{kaynak?:string;konu?:string}>};
 export default async function RadarPage({searchParams}:Props){
   const params=await searchParams;
   const feed=await getRadarFeed();
-  const source=radarSources.some(s=>s.key===params.kaynak)?params.kaynak:null;
-  const topic=radarTopics.some(t=>t.key===params.konu)?params.konu:null;
+  const source=typeof params.kaynak==="string"&&radarSources.some(s=>s.key===params.kaynak)?params.kaynak:null;
+  const topic=typeof params.konu==="string"&&radarTopics.some(t=>t.key===params.konu)?params.konu:null;
   const items=feed.items.filter(item=>(!source||item.source===source)&&(!topic||item.topic.key===topic));
   const unavailable=feed.sources.every(s=>s.status==="unavailable");
   const stale=feed.sources.some(s=>s.status==="stale");
