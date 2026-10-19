@@ -108,7 +108,7 @@ test("CLI creates ignored drafts and publishes only after review with no answer 
     assert.equal(publish.status,0,publish.stderr);
     const courses=await json(join(data,"courses.json"));
     const questions=await json(join(data,"questions.json"));
-    assert.equal(courses.length,4);
+    assert.equal(courses.length,5);
     assert.ok(questions.some(q=>q.id===pub.questions[0].id));
     const publicData=await readFile(join(data,"questions.json"),"utf8");
     assert.ok(!publicData.includes("correctOptionId"));
