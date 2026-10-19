@@ -26,6 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Link href="/kutuphane/diller">Diller</Link>
             <Link href="/kutuphane/kavramlar">Kavramlar</Link>
             <Link href="/kutuphane/teknolojiler">Teknolojiler</Link>
+            <Link href="/radar">Sektör Radarı</Link>
           </div>
         </details>
         <Link href="/hesap">İlerlemem</Link>

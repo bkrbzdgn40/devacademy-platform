@@ -26,7 +26,7 @@ Open http://localhost:3000. `corepack pnpm check` runs lint, type checks, catalo
 - PostgreSQL migrations for learner/attempt/progress, username credentials and server-side sessions, plus local registration/login, saved quiz attempts and account deletion. These features are active only with a configured database. Answers are not shipped in public question JSON.
 - Responsive styling, keyboard skip link and basic semantic markup.
 - All sample catalog items explicitly report **no runnable runtime**. Anonymous quiz responses are not persisted; authenticated quiz responses are stored if the local database is configured. Registration has initial DB-backed abuse limits; edge-level protections are still required before public signup.
-- Sector Radar displays labelled sources only; there is no live technology news ingestion yet.
+- M10 Sector Radar at `/radar` reads Hacker News, DEV Community and curated GitHub Releases APIs server-side. It shows canonical outbound links, publication and check dates, source types, curated topic/lesson connections and transparent stale/empty/unavailable states. No article bodies or AI summaries are copied.
 
 ## Architecture (current and future)
 
@@ -45,7 +45,7 @@ Stack foundation: Next.js, React, TypeScript, pnpm and Turborepo. The execution 
 
 ## Current product direction · M9–M11
 
-The initial M0–M7 roadmap is now historical. **M9 (active)** focuses on a coherent, evidence-aware learning journey, starting with the five-lesson Python course and an explicit pilot method. **M10** connects verified software news sources to learning concepts. **M11** validates the learning experience with volunteers and expands content deliberately. A new account progress card recommends an actual next step and labels guided completion, independent prediction, delayed retention and lab-verified code writing distinctly. Neither course completion nor local CI is treated as proof of independent mastery. See [current roadmap](docs/roadmap/ROADMAP.md), [updated PRD](docs/requirements/PRD.md), and [pilot method](docs/learning/M9-PILOT-PROTOCOL.md).
+The initial M0–M7 roadmap is now historical. **M9 (pilot evidence pending)** focuses on a coherent, evidence-aware learning journey, starting with the five-lesson Python course and an explicit pilot method. **M10** connects external source metadata with existing learning concepts via a dedicated, failure-aware radar page. **M11** validates the learning experience with volunteers and expands content deliberately. A new account progress card recommends an actual next step and labels guided completion, independent prediction, delayed retention and lab-verified code writing distinctly. Neither course completion nor local CI is treated as proof of independent mastery. See [current roadmap](docs/roadmap/ROADMAP.md), [updated PRD](docs/requirements/PRD.md), and [pilot method](docs/learning/M9-PILOT-PROTOCOL.md).
 
 ## Planning and governance
 
@@ -152,3 +152,4 @@ All five Python fundamentals lessons now offer 15 real-life, graduated output-pr
 ## M9 · Common applied learning across all published courses
 
 After Python, all seven JavaScript and three Java fundamentals lessons also use the same real-life progression: three output-prediction levels with misconception-specific feedback, hints and fifteen total write-from-scratch self-review challenges across the platform. Authored outputs are checked in Node 24, Java 21 and Python 3.12. **These new practice tasks do not record independent mastery or run arbitrary learner code**. Existing authenticated code-transfer evidence remains separate and localhost-only. [Full 15-lesson M9 curriculum and validation](docs/learning/M9-ALL-COURSES-APPLIED.md).
+\n## M10 · Sector Radar\n\nOpen `/radar` to browse read-only Hacker News, DEV and repository release metadata. An internet connection is needed for fresh data; sources are fetched only by the server from fixed endpoints. Date filtering and in-memory caching prevent undated and long-expired entries from being presented as new. If the source cannot be reached, the interface either explicitly marks bounded stale records or displays an empty/unavailable state. The source of a title is not an endorsement and not the same as editorial verification of the linked article. See [M10 architecture and source policy](docs/architecture/M10-SECTOR-RADAR.md).\n

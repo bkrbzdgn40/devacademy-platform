@@ -83,7 +83,8 @@ test("no private progress fields, claims of live headlines or executable courses
   const home=readFileSync(new URL("../src/app/page.tsx",import.meta.url),"utf8");
   const cont=readFileSync(new URL("../src/components/continue-learning.tsx",import.meta.url),"utf8");
   const coursesPage=readFileSync(new URL("../src/app/kurslar/page.tsx",import.meta.url),"utf8");
-  assert.match(home,/Canlı haber akışı henüz bağlı değil/);
+  assert.match(home,/Haber akışını aç/);
+  assert.match(home,/href="\/radar"/);
   assert.match(home,/target="_blank" rel="noopener noreferrer"/);
   assert.match(cont,/fetch\("\/api\/me"/);
   assert.match(cont,/fetch\("\/api\/progress"/);
