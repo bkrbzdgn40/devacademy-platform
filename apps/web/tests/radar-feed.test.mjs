@@ -40,6 +40,14 @@ const fixture={
   "https://api.github.com/repos/facebook/react/releases?per_page=4":[
     {id:9,tag_name:"v19.0.0",html_url:"https://github.com/facebook/react/releases/tag/v19.0.0",
       published_at:published,draft:false,prerelease:false}
+  ],
+  "https://api.github.com/repos/astral-sh/ruff/releases?per_page=4":[
+    {id:10,tag_name:"0.16.11",html_url:"https://github.com/astral-sh/ruff/releases/tag/0.16.11",
+      published_at:published,draft:false,prerelease:false}
+  ],
+  "https://api.github.com/repos/spring-projects/spring-boot/releases?per_page=4":[
+    {id:11,tag_name:"v4.1.1",html_url:"https://github.com/spring-projects/spring-boot/releases/tag/v4.1.1",
+      published_at:published,draft:false,prerelease:false}
   ]
 };
 const successful=async url=>{
@@ -80,7 +88,7 @@ test("real API-shaped fixtures yield dated, attributed items without duplicates"
   assert.equal(feed.items.filter(x=>x.url.includes("python-release")).length,1);
   assert.equal(feed.items.find(x=>x.url.includes("python-release")).source,"dev");
   assert.equal(feed.items.find(x=>x.id==="hn-42")?.url,"https://news.ycombinator.com/item?id=42");
-  assert.equal(feed.items.filter(x=>x.source==="github").length,3);
+  assert.equal(feed.items.filter(x=>x.source==="github").length,5);
   assert.ok(feed.items.every(x=>x.publishedAt&&x.topic.href&&x.url.startsWith("https://")));
   assert.ok(feed.items.every(x=>!x.url.includes("utm_source")));
   assert.ok(!feed.items.some(x=>x.title.includes("neighbors")||x.title.includes("sample")));

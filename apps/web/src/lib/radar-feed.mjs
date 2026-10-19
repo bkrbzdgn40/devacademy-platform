@@ -39,7 +39,9 @@ export const radarTopics = Object.freeze([
 const releaseRepos=[
   {repo:"nodejs/node",topic:"javascript",label:"Node.js"},
   {repo:"microsoft/TypeScript",topic:"typescript",label:"TypeScript"},
-  {repo:"facebook/react",topic:"react",label:"React"}
+  {repo:"facebook/react",topic:"react",label:"React"},
+  {repo:"astral-sh/ruff",topic:"python",label:"Ruff (Python)"},
+  {repo:"spring-projects/spring-boot",topic:"java",label:"Spring Boot (Java)"}
 ];
 const REFRESH_MS=15*60_000;
 const RETRY_MS=2*60_000;

@@ -8,7 +8,7 @@
 | --- | --- | --- | --- |
 | Hacker News | `https://hacker-news.firebaseio.com/v0/topstories.json` ve ilk 24 ID için `item/{id}.json` | Topluluk tartışması | `item.time` (Unix saniye) |
 | DEV Community | `https://dev.to/api/articles/latest?per_page=100` | Topluluk yazısı | `published_at` |
-| GitHub Releases | `https://api.github.com/repos/{nodejs/node,microsoft/TypeScript,facebook/react}/releases?per_page=4` | Resmî depo sürümü | `published_at` |
+| GitHub Releases | `https://api.github.com/repos/{nodejs/node,microsoft/TypeScript,facebook/react,astral-sh/ruff,spring-projects/spring-boot}/releases?per_page=4` | Resmî depo sürümü | `published_at` |
 
 Bu API'ler kamuya açık salt-okunur endpointlerdir, kullanıcı hesabı veya DB istemez. Sabit kaynaklar dışına geçilemez. Örneğin GitHub sürümleri sadece bu depoların **kendi** yayın kayıtlarıdır; haberin doğruluğu veya sürümün güvenli olduğu iddiası değildir.
 
@@ -18,7 +18,7 @@ Temel kaynaklar:
 - [GitHub Releases REST API](https://docs.github.com/en/rest/releases/releases)
 - [GitHub REST rate limitleri](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api)
 
-**Limit ve nezaket:** GitHub'ın kimlik doğrulamasız genel REST limiti normalde kaynak IP başına saatte 60 istektir; Radar, 15 dakika yenileme aralığıyla 3 sabit depoyu sorgular. Bu sunucu önbelleği süreç içidir; çoklu dağıtımda ortak IP bütçesi yeniden planlanmalıdır. DEV için belgelenmiş `User-Agent` header'ı gönderilir. Bir kaynaktan tek seferde sınırlı sayıda kayıt okunur, kaynak sitelerin tam makaleleri indirilmez.
+**Limit ve nezaket:** GitHub'ın kimlik doğrulamasız genel REST limiti normalde kaynak IP başına saatte 60 istektir; Radar, 15 dakika yenileme aralığıyla 5 sabit depoyu sorgular. Bu sunucu önbelleği süreç içidir; çoklu dağıtımda ortak IP bütçesi yeniden planlanmalıdır. DEV için belgelenmiş `User-Agent` header'ı gönderilir. Bir kaynaktan tek seferde sınırlı sayıda kayıt okunur, kaynak sitelerin tam makaleleri indirilmez.
 
 ## Veri bütünlüğü ve kişiselleştirme
 
