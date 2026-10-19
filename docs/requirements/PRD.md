@@ -36,8 +36,8 @@ otomatik olarak başka dillere çevrilmiş olduğunu göstermez.
 
 | Yetenek | Gerçek kapsam / sınır |
 | --- | --- |
-| Kurslar | JavaScript 7, Java 3, Python 5 ve SQL 4 olmak üzere 19 ders / 4 kurs |
-| Soru | 46 gözden geçirilmiş yayımlanmış bilgi sorusu |
+| Kurslar | JavaScript 7, Java 3, Python 5, SQL 4 ve Veri Yapıları/Algoritmalar 4 olmak üzere 23 ders / 5 kurs |
+| Soru | 54 gözden geçirilmiş yayımlanmış bilgi sorusu |
 | Öğrenme Stüdyosu | JavaScript/Java/Python 15 dersin tamamında 3'er hazır, CI'da gerçek dillerle doğrulanmış kod izleme varyantı (45) |
 | Öğretici açıklama | Kavram modeli, karşı örnek, yaygın hata, örneği adım adım takip ve ipuçları |
 | Değerlendirme | Sunucuda derecelendirilen quiz; kılavuzlu hata seçimi, bireysel kanıtlarla aynı değil |

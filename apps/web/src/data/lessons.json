@@ -435,5 +435,95 @@
     "prerequisites": [
       "lesson.sql.join"
     ]
+  },
+  {
+    "id": "lesson.algorithms.complexity",
+    "slug": "arama-maliyeti",
+    "title": "Arama maliyeti: O(n) ve O(log n)",
+    "level": "Başlangıç–Orta",
+    "durationMinutes": 26,
+    "objective": "Öğe sayısının artışıyla karşılaştırma maliyetini ilişkilendirip doğrusal arama ile aralığı yarıya indirme arasındaki farkı açıklayabilmek.",
+    "summary": "Depo stoklarını sırayla kontrol etmekle her adımda arama alanını yarıya indirmeyi karşılaştır.",
+    "explanation": "Doğrusal arama en kötü durumda n öğeyi kontrol eder: O(n). Sıralı verilerde ikili arama her adımda aday aralığını yaklaşık yarıya indirir: O(log n). Big O kesin süre değil, girdi büyürken maliyetin nasıl arttığına ilişkin bir üst sınır sınıflandırmasıdır. Küçük girdilerde sabit maliyetler önemlidir; veri sıralı değilse ikili aramanın önkoşulu sağlanmaz.",
+    "code": "function linearChecks(items, target) {\n  let checks = 0;\n  for (const item of items) {\n    checks++;\n    if (item === target) break;\n  }\n  return checks;\n}\nconsole.log(linearChecks([4, 7, 9, 12], 12)); // 4",
+    "takeaways": [
+      "Doğrusal arama en kötü durumda n karşılaştırma yapar ve O(n) maliyetlidir.",
+      "Her adımda kalan aralığı yarıya indirmek O(log n) davranışına örnektir.",
+      "İkili arama sıralı veri ister; Big O ölçülen milisaniye sayısı değildir."
+    ],
+    "questionIds": [
+      "alg.complexity.linear",
+      "alg.complexity.halving"
+    ],
+    "prerequisites": []
+  },
+  {
+    "id": "lesson.algorithms.stack-queue",
+    "slug": "yigin-ve-kuyruk",
+    "title": "Yığın ve kuyruk: LIFO ile FIFO",
+    "level": "Başlangıç–Orta",
+    "durationMinutes": 26,
+    "objective": "Bir geri alma mekanizması ve destek talebi sırası için uygun veri yapısını seçip çıkarılacak öğeyi tahmin edebilmek.",
+    "summary": "Editörde geri almayı yığınla, müşteri taleplerinin sırasını kuyrukla modelle.",
+    "explanation": "Yığın (stack) son girenin ilk çıktığı LIFO düzenini, kuyruk (queue) ilk girenin ilk çıktığı FIFO düzenini korur. JavaScript dizilerinde push/pop bir yığını, push/shift ise küçük bir kuyruğu anlatmak için kullanılabilir. Ancak Array.shift birçok öğeyi yeniden konumlandırabildiğinden büyük kuyruklar için sürekli zaman maliyeti garanti etmez; baş indeksi veya uygun bir kuyruk yapısı daha iyi olabilir.",
+    "code": "const undo = [];\nundo.push('yaz');\nundo.push('sil');\nconsole.log(undo.pop()); // sil\nconst tickets = ['A', 'B'];\ntickets.push('C');\nconsole.log(tickets.shift()); // A",
+    "takeaways": [
+      "Stack: son giren ilk çıkar (LIFO), push/pop örnek işler.",
+      "Queue: ilk giren ilk çıkar (FIFO), destek talebi sıraya göre işlenir.",
+      "JavaScript Array.shift büyük kuyruklarda O(n) olabilir; uygun veri yapısı seçimi önemlidir."
+    ],
+    "questionIds": [
+      "alg.structure.stack",
+      "alg.structure.queue"
+    ],
+    "prerequisites": [
+      "lesson.algorithms.complexity"
+    ]
+  },
+  {
+    "id": "lesson.algorithms.map-set",
+    "slug": "map-ve-set",
+    "title": "Set ile benzersizlik, Map ile sayma",
+    "level": "Başlangıç–Orta",
+    "durationMinutes": 27,
+    "objective": "Tekrarlanan kimlikleri Set ile tekilleştirip Map üzerinde güvenilir frekans sayacı oluşturabilmek.",
+    "summary": "Aynı kullanıcıyı birden çok kez saymadan ziyaretleri ve ürün sıklığını hesapla.",
+    "explanation": "Set benzersiz değerleri saklar. Map ise anahtar-değer eşlemesidir; get ile sayacı okur, set ile güncellersin. `map.get(key) ?? 0` sayacın bulunmadığı durumda başlangıç sıfırını sağlar; `??` yalnızca null/undefined için devreye girer. Set ve Map ekleme/arama işlemleri pratikte ortalama olarak hızlıdır ama performans garantilerini ortamdan bağımsız O(1) olarak mutlaklaştırma.",
+    "code": "const visits = [2, 2, 5, 2, 8];\nconsole.log(new Set(visits).size); // 3\nconst counts = new Map();\nfor (const id of visits) counts.set(id, (counts.get(id) ?? 0) + 1);\nconsole.log(counts.get(2)); // 3",
+    "takeaways": [
+      "Set aynı değeri tekrarlı saklamaz; size benzersiz öğe sayısını verir.",
+      "Map anahtara bağlı değer saklar; frekans sayımı için uygundur.",
+      "Map'te bulunmayan anahtarın get değeri undefined olur; ?? 0 güvenli başlangıç sağlar."
+    ],
+    "questionIds": [
+      "alg.structure.set",
+      "alg.structure.frequency"
+    ],
+    "prerequisites": [
+      "lesson.algorithms.stack-queue"
+    ]
+  },
+  {
+    "id": "lesson.algorithms.binary-search",
+    "slug": "ikili-arama",
+    "title": "İkili arama: sıralama ve sınırlar",
+    "level": "Orta",
+    "durationMinutes": 29,
+    "objective": "Sıralı sayı listesinde iki sınırı güncelleyerek ikili aramanın bulduğu indeksi hesaplayıp sırasız girdide neden güvenilmez olduğunu açıklayabilmek.",
+    "summary": "Sıralı ürün kodlarında ikili aramayı uygula, orta indeks ve eksik sonuç kararını izle.",
+    "explanation": "İkili arama yalnızca artan sırayla düzenlenmiş listede karşılaştırmaların kalan yarıyı elemesine güvenebilir. Alt (lo) ve üst (hi) sınırlar dahil tutuluyorsa döngü `lo <= hi` iken çalışır. `items[mid] < target` olduğunda alt sınır `mid+1`, aksi yönde `mid-1` olur. Bulunamazsa -1 döndürülür. Dizi sıralı değilse algoritma yanlışlıkla mevcut değeri kaçırabilir.",
+    "code": "function search(sorted, target) {\n  let lo = 0, hi = sorted.length - 1;\n  while (lo <= hi) {\n    const mid = Math.floor((lo + hi) / 2);\n    if (sorted[mid] === target) return mid;\n    if (sorted[mid] < target) lo = mid + 1;\n    else hi = mid - 1;\n  }\n  return -1;\n}\nconsole.log(search([2, 4, 6, 8, 10], 8)); // 3",
+    "takeaways": [
+      "İkili arama artan sıralı dizi üzerinde doğru çalışır.",
+      "lo ve hi sınırlarını mid ± 1 ile daraltmak sonsuz döngüyü engeller.",
+      "-1 yalnızca sıralı girdi önkoşulu sağlandığında güvenilir 'bulunamadı' sonucudur."
+    ],
+    "questionIds": [
+      "alg.search.found",
+      "alg.search.unsorted"
+    ],
+    "prerequisites": [
+      "lesson.algorithms.map-set"
+    ]
   }
 ]

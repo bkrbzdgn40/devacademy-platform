@@ -425,10 +425,10 @@ try{
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
       "document.readyState==='complete' && !!document.querySelector('#course-search') && "+
-      "document.querySelectorAll('.path-card').length===4",
+      "document.querySelectorAll('.path-card').length===5",
       returnByValue:true},sessionId);
     return r.result?.value===true;
-  },"M11 explorer did not render four verified courses");
+  },"M11 explorer did not render five verified courses");
   await cdp.send("Runtime.evaluate",{expression:
     "document.querySelector('#course-search').focus()",returnByValue:true},sessionId);
   await cdp.send("Input.insertText",{text:"Promise"},sessionId);
@@ -447,7 +447,7 @@ try{
     returnByValue:true},sessionId);
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
-      "document.querySelectorAll('.path-card').length===4 && !document.querySelector('#course-search').value",
+      "document.querySelectorAll('.path-card').length===5 && !document.querySelector('#course-search').value",
       returnByValue:true},sessionId);
     return r.result?.value===true;
   },"M8.6B course-search clear control did not work");
@@ -477,7 +477,7 @@ try{
     "resume:!!document.querySelector('.journey-card a[href=\"/kurslar\"]'),"+
     "overflow:d.scrollWidth>d.clientWidth+1};})()",
     returnByValue:true},sessionId);
-  assert.deepEqual(discoveryHome.result.value,{paths:4,radar:3,
+  assert.deepEqual(discoveryHome.result.value,{paths:5,radar:3,
     radarActive:true,resume:true,overflow:false},
     "M10 home must link to the active attributed sector radar");
   // New homepage learning path cards inherit the palette after choosing

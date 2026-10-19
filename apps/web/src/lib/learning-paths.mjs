@@ -22,6 +22,12 @@ const details={
     foundation:["SELECT ve sıralama","WHERE ve JOIN","GROUP BY ve HAVING"],
     next:"Veritabanı tasarımı ve indekslere hazırlık"
   },
+  "course.algorithms.fundamentals":{
+    area:"Problem çözme ve veri yapıları",mark:"Alg",tone:"olive",
+    payoff:"Veriyi doğru sırada, doğru maliyetle arayıp işleyen algoritmaları kavra.",
+    foundation:["Doğrusal ve logaritmik maliyet","Stack, queue, Map ve Set","İkili arama ve sıralı veri önkoşulu"],
+    next:"Küçük yazılım problemlerini bağımsız tasarlamaya hazırlık"
+  },
   "course.python.fundamentals":{
     area:"Problem çözme ve otomasyon",mark:"Py",tone:"sand",
     payoff:"Okunaklı kodla koşul, döngü, fonksiyon ve veri yapılarını öğren.",

@@ -246,5 +246,69 @@
       "b": "Ayşe toplamı 220 ile eşik altında kalır.",
       "c": "Ayşe ve Bora toplamlarını ayrı ayrı hesaplamalısın."
     }
+  },
+  "alg.complexity.linear": {
+    "optionId": "b",
+    "explanation": "Döngü sırasıyla 2, 5 ve 9'u kontrol eder; üçüncü karşılaştırmada durur.",
+    "wrongFeedback": {
+      "a": "9 üçüncü öğedir, önce iki değer daha incelenir.",
+      "c": "12 elemanına sıra gelmez; break döngüyü durdurur."
+    }
+  },
+  "alg.complexity.halving": {
+    "optionId": "b",
+    "explanation": "32→16→8→4→2→1: beş bölme. Bu logaritmik daralmanın örneğidir.",
+    "wrongFeedback": {
+      "a": "2→1 adımı da sayılmalıdır.",
+      "c": "32 başlangıç değeridir, ayrıca bir bölme değildir."
+    }
+  },
+  "alg.structure.stack": {
+    "optionId": "c",
+    "explanation": "pop son eklenen 'yapistir' öğesini çıkarır: LIFO.",
+    "wrongFeedback": {
+      "a": "'yaz' en erken eklenen öğedir; LIFO onu önce çıkarmaz.",
+      "b": "'sil' sonra 'yapistir' eklendi, en son eklenen çıkar."
+    }
+  },
+  "alg.structure.queue": {
+    "optionId": "a",
+    "explanation": "shift ilk sıradaki A öğesini çıkarır. Basit FIFO örneği.",
+    "wrongFeedback": {
+      "b": "B ikinci sırada bulunur; A hâlâ öndedir.",
+      "c": "C son eklendi, FIFO'da önce A çıkar."
+    }
+  },
+  "alg.structure.set": {
+    "optionId": "b",
+    "explanation": "Yalnızca 7, 2 ve 9 benzersizdir; Set.size 3 verir.",
+    "wrongFeedback": {
+      "a": "9 da üçüncü farklı değerdir.",
+      "c": "Dizi 5 elemanlı ama tekrarlar Set'te birden çok saklanmaz."
+    }
+  },
+  "alg.structure.frequency": {
+    "optionId": "b",
+    "explanation": "3 değeri dizide üç kez bulunur, Map sayacı her seferinde bir artar.",
+    "wrongFeedback": {
+      "a": "5 değeri iki kez vardır; soru 3 değeri hakkındadır.",
+      "c": "Dizide toplam beş öğe var; 3 bunların yalnızca üçünde yer alır."
+    }
+  },
+  "alg.search.found": {
+    "optionId": "b",
+    "explanation": "[2,4,6,8,10] listesinde 8 değeri sıfır tabanlı 3. indiste bulunur.",
+    "wrongFeedback": {
+      "a": "İndeks 2'deki değer 6'dır.",
+      "c": "İndeks 4'teki değer 10'dur."
+    }
+  },
+  "alg.search.unsorted": {
+    "optionId": "b",
+    "explanation": "Orta 8 değeri hedef 4'ten büyük olduğu için sağ yarı atılır; sonra 10 kontrol edilir ve sonuç -1 olur. Sırasız liste önkoşulu bozar.",
+    "wrongFeedback": {
+      "a": "4 indeks 3'te vardır ama sırasız dizide arama onu görmeden yanlış yarıyı eleyebilir.",
+      "c": "İndeks 0'daki değer 10'dur, hedef 4 değildir."
+    }
   }
 }

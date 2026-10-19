@@ -122,6 +122,16 @@ try {
   assert.equal(javaWrong.status,200);
   assert.equal((await javaWrong.json()).correct,false);
 
+  const algorithmsCourse=await fetch(`${base}/kurslar/veri-yapilari-algoritmalar`);
+  assert.equal(algorithmsCourse.status,200);
+  assert.match(await algorithmsCourse.text(),/Veri Yapıları ve Algoritmalar/);
+  const algorithmLesson=await fetch(`${base}/kurslar/veri-yapilari-algoritmalar/ikili-arama`);
+  assert.equal(algorithmLesson.status,200);
+  assert.match(await algorithmLesson.text(),/İkili arama: sıralama ve sınırlar/);
+  const algorithmGrading=await jsonPost({questionId:"alg.search.unsorted",optionId:"b"});
+  assert.equal(algorithmGrading.status,200);
+  assert.equal((await algorithmGrading.json()).correct,true);
+  assert.equal((await fetch(`${base}/kurslar/veri-yapilari-algoritmalar/nonexistent`)).status,404);
   const sqlCourse=await fetch(`${base}/kurslar/sql-temelleri`);
   assert.equal(sqlCourse.status,200);
   assert.match(await sqlCourse.text(),/SQL Temelleri/);

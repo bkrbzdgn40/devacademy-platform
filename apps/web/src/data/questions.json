@@ -918,5 +918,165 @@
         "text": "1 ve 2"
       }
     ]
+  },
+  {
+    "id": "alg.complexity.linear",
+    "lessonId": "lesson.algorithms.complexity",
+    "prompt": "Doğrusal tarama 9'u bulana kadar kaç öğe kontrol eder?",
+    "code": "const data=[2,5,9,12];\nlet checks=0;\nfor(const x of data){checks++;if(x===9)break;}\nconsole.log(checks);",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "3"
+      },
+      {
+        "id": "c",
+        "text": "4"
+      }
+    ]
+  },
+  {
+    "id": "alg.complexity.halving",
+    "lessonId": "lesson.algorithms.complexity",
+    "prompt": "32 değerli bir aralığı 1'e indirene kadar kaç kez ikiye böleriz?",
+    "code": "let n=32, steps=0;\nwhile(n>1){n=Math.floor(n/2);steps++;}\nconsole.log(steps);",
+    "options": [
+      {
+        "id": "a",
+        "text": "4"
+      },
+      {
+        "id": "b",
+        "text": "5"
+      },
+      {
+        "id": "c",
+        "text": "6"
+      }
+    ]
+  },
+  {
+    "id": "alg.structure.stack",
+    "lessonId": "lesson.algorithms.stack-queue",
+    "prompt": "Yığından pop ile hangisi çıkar?",
+    "code": "const undo=['yaz'];\nundo.push('sil');\nundo.push('yapistir');\nconsole.log(undo.pop());",
+    "options": [
+      {
+        "id": "a",
+        "text": "yaz"
+      },
+      {
+        "id": "b",
+        "text": "sil"
+      },
+      {
+        "id": "c",
+        "text": "yapistir"
+      }
+    ]
+  },
+  {
+    "id": "alg.structure.queue",
+    "lessonId": "lesson.algorithms.stack-queue",
+    "prompt": "FIFO kuyruğunda sıradaki kayıt hangisi?",
+    "code": "const queue=['A','B'];\nqueue.push('C');\nconsole.log(queue.shift());",
+    "options": [
+      {
+        "id": "a",
+        "text": "A"
+      },
+      {
+        "id": "b",
+        "text": "B"
+      },
+      {
+        "id": "c",
+        "text": "C"
+      }
+    ]
+  },
+  {
+    "id": "alg.structure.set",
+    "lessonId": "lesson.algorithms.map-set",
+    "prompt": "Bu kümede kaç farklı ziyaretçi vardır?",
+    "code": "const visitors=[7,7,2,9,2];\nconsole.log(new Set(visitors).size);",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "3"
+      },
+      {
+        "id": "c",
+        "text": "5"
+      }
+    ]
+  },
+  {
+    "id": "alg.structure.frequency",
+    "lessonId": "lesson.algorithms.map-set",
+    "prompt": "Map 3 numaralı ürünün kaç kez geçtiğini sayıyor?",
+    "code": "const values=[3,5,3,3,5];\nconst counts=new Map();\nfor(const id of values)counts.set(id,(counts.get(id)??0)+1);\nconsole.log(counts.get(3));",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "3"
+      },
+      {
+        "id": "c",
+        "text": "5"
+      }
+    ]
+  },
+  {
+    "id": "alg.search.found",
+    "lessonId": "lesson.algorithms.binary-search",
+    "prompt": "İkili arama 8 değerini hangi sıfır tabanlı indekste bulur?",
+    "code": "function search(sorted, target) {\n  let lo = 0, hi = sorted.length - 1;\n  while (lo <= hi) {\n    const mid = Math.floor((lo + hi) / 2);\n    if (sorted[mid] === target) return mid;\n    if (sorted[mid] < target) lo = mid + 1;\n    else hi = mid - 1;\n  }\n  return -1;\n}\nconsole.log(search([2, 4, 6, 8, 10], 8));",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "3"
+      },
+      {
+        "id": "c",
+        "text": "4"
+      }
+    ]
+  },
+  {
+    "id": "alg.search.unsorted",
+    "lessonId": "lesson.algorithms.binary-search",
+    "prompt": "Bu sırasız listede ikili arama 4 için ne döndürür? Bu, 4'ün listede olmadığı anlamına gelmez.",
+    "code": "function search(a,x){let lo=0,hi=a.length-1;\nwhile(lo<=hi){const mid=Math.floor((lo+hi)/2);\nif(a[mid]===x)return mid;\nif(a[mid]<x)lo=mid+1;else hi=mid-1;}\nreturn -1;}\nconsole.log(search([10,2,8,4,6],4));",
+    "options": [
+      {
+        "id": "a",
+        "text": "3"
+      },
+      {
+        "id": "b",
+        "text": "-1"
+      },
+      {
+        "id": "c",
+        "text": "0"
+      }
+    ]
   }
 ]

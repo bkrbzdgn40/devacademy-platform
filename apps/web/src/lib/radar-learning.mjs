@@ -12,6 +12,8 @@ const links={
   pyFunctions:shortcut("Python: Fonksiyonlar","/kurslar/python-temelleri/fonksiyonlar","Temel hazırlık"),
   pyCollections:shortcut("Python: Listeler ve sözlükler","/kurslar/python-temelleri/listeler-ve-sozlukler","Temel hazırlık"),
   jsCourse:shortcut("JavaScript Temelleri kursu","/kurslar/javascript-temelleri","Temel hazırlık"),
+  algorithmCourse:shortcut("Veri Yapıları ve Algoritmalar","/kurslar/veri-yapilari-algoritmalar","İlgili öğrenme yolu"),
+  binarySearch:shortcut("İkili arama dersi","/kurslar/veri-yapilari-algoritmalar/ikili-arama","İlgili ders"),
   jsVars:shortcut("JavaScript: let ve const","/kurslar/javascript-temelleri/degiskenler","Temel hazırlık"),
   jsAsync:shortcut("JavaScript: Asenkron işlemler ve Promise","/kurslar/javascript-temelleri/asenkron-temeller","İlgili ders"),
   jsMap:shortcut("JavaScript: map ile dönüşüm","/kurslar/javascript-temelleri/dizilerde-map","İlgili ders"),
@@ -66,6 +68,11 @@ const topicDefault={
     why:"Uygulama kodu ile onu paketleyen/çalıştıran ortam farklı katmanlardır. Henüz konteyner dersi sunmuyoruz.",
     question:"Kaynak imaj oluşturma, çalıştırma, dağıtım veya orkestrasyon konularından hangisini ele alıyor?",
     primary:links.techCatalog,coverage:"katalog önizlemesi"}),
+  algorithms:()=>bridge({label:"Algoritmalar ve maliyet analizi",
+    context:"Başlık veya etiketlerde algoritma, veri yapısı veya arama yöntemiyle ilgili terimler bulunuyor.",
+    why:"Doğru veri yapısı ve algoritma önkoşulları uygulamanın hem sonucunu hem ölçeklenmesini etkileyebilir.",
+    question:"Kaynak hangi veri yapısı, sıralama varsayımı veya işlem maliyetini inceliyor?",
+    primary:links.algorithmCourse,coverage:"temel hazırlık"}),
   async:()=>bridge({label:"Asenkron JavaScript akışı",
     context:"Başlık veya etiketler Promise, async/await ya da event loop terimleri içeriyor.",
     why:"Promise ve microtask sıralamasını anlamak bu ifadeleri okurken somut bir temel sağlar.",
@@ -108,7 +115,15 @@ export function selectRadarLearning({title="",tags=[],topicKey,releaseRepo=null}
     return {...releaseBridges[releaseRepo](),basis:"Doğrulanmış depo sürüm kaydı"};
   }
   let result=null;
-  if(topicKey==="python"){
+  if(topicKey==="algorithms"){
+    if(matches(text,/\b(?:binary search|ikili arama)\b/i))
+      result=bridge({label:"İkili arama ve veri önkoşulu",
+        context:"Başlık/etiketlerde ikili arama algoritmasına dair ifadeler var; makale içeriğinin doğruluğunu ayrıca kontrol etmelisin.",
+        why:"İkili arama sıralı veri gerektirir; bu şart karşılanmazsa aranan öğe bulunamayabilir.",
+        question:"Kaynakta giriş listesinin sıralı olduğu belirtilmiş mi? Sınırlar nasıl güncelleniyor?",
+        primary:links.binarySearch,coverage:"doğrudan ders"});
+  }
+  else if(topicKey==="python"){
     if(matches(text,/\b(?:asyncio|async\s+def|python\s+async|async\s+python)\b/i))
       result=bridge({label:"Python'da asyncio ve eşzamanlılık",
         context:"Başlık/etiketler Python asenkron programlama alanına işaret ediyor. JavaScript Promise dersi bu konunun doğrudan karşılığı değildir.",
