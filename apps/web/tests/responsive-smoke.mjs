@@ -473,13 +473,13 @@ try{
     "(() => {const d=document.documentElement;return {"+
     "paths:document.querySelectorAll('.home-path-grid .path-card').length,"+
     "radar:document.querySelectorAll('.radar-source').length,"+
-    "newsPlaceholder:document.body.textContent.includes('Canlı haber akışı henüz bağlı değil'),"+
+    "radarActive:document.querySelector(\'.radar-section a[href]\')?.getAttribute(\'href\')===\'/radar\',"+
     "resume:!!document.querySelector('.journey-card a[href=\"/kurslar\"]'),"+
     "overflow:d.scrollWidth>d.clientWidth+1};})()",
     returnByValue:true},sessionId);
   assert.deepEqual(discoveryHome.result.value,{paths:3,radar:3,
-    newsPlaceholder:true,resume:true,overflow:false},
-    "M8.6B home orientation/radar unconfigured state invalid");
+    radarActive:true,resume:true,overflow:false},
+    "M10 home must link to the active attributed sector radar");
   // New homepage learning path cards inherit the palette after choosing
   // theme through the actual popup, not a synthetic native <select>.
   await selectTheme("dark");
