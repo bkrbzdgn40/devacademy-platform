@@ -21,8 +21,8 @@ type Props={searchParams:Promise<{kaynak?:string;konu?:string}>};
 export default async function RadarPage({searchParams}:Props){
   const params=await searchParams;
   const feed=await getRadarFeed();
-  const source=radarSources.some(s=>s.key===params.kaynak)?params.kaynak:null;
-  const topic=radarTopics.some(t=>t.key===params.konu)?params.konu:null;
+  const source=typeof params.kaynak==="string"&&radarSources.some(s=>s.key===params.kaynak)?params.kaynak:null;
+  const topic=typeof params.konu==="string"&&radarTopics.some(t=>t.key===params.konu)?params.konu:null;
   const items=feed.items.filter(item=>(!source||item.source===source)&&(!topic||item.topic.key===topic));
   const unavailable=feed.sources.every(s=>s.status==="unavailable");
   const stale=feed.sources.some(s=>s.status==="stale");
@@ -37,7 +37,7 @@ export default async function RadarPage({searchParams}:Props){
       <Link className="back-link" href="/">← Ana sayfa</Link>
       <p className="overline">Sektör Radarı · M10</p>
       <h1>Güncel gelişmeleri <span>öğrendiğin kavramlara bağla.</span></h1>
-      <p>Kaynakların resmî okuma API'lerinden alınan başlıklar, yayımlanma tarihleri ve mevcut derslere dönüş yolları. Haberlerin doğruluğunu bağımsız olarak teyit etmiyoruz; açıklamalarımız haber özeti değil, konu bağlantısıdır.</p>
+      <p>Kaynakların resmî okuma API&apos;lerinden alınan başlıklar, yayımlanma tarihleri ve mevcut derslere dönüş yolları. Haberlerin doğruluğunu bağımsız olarak teyit etmiyoruz. Konu rehberleri yalnızca başlık, varsa etiketler ve resmî sürüm kayıtlarına dayanan editoryal öğrenme köprüleridir; makale özeti değildir.</p>
     </header>
     <section className="radar-health" aria-labelledby="radar-health-title">
       <h2 id="radar-health-title">Kaynakların durumu</h2>
@@ -83,9 +83,27 @@ export default async function RadarPage({searchParams}:Props){
           <h3><a href={item.url} target="_blank" rel="noopener noreferrer">{item.title} ↗</a></h3>
           <p className="radar-article-date">Yayın: <time dateTime={item.publishedAt}>{formatDate(item.publishedAt)}</time></p>
           <p className="radar-article-date">Kaynak kontrolü: {check?.checkedAt?<time dateTime={check.checkedAt}>{formatDate(check.checkedAt)}</time>:"Başarılı kontrol yok"} {check?.status==="stale"&&<strong>(Son başarılı kayıt)</strong>}</p>
-          <div className="radar-learning-link"><strong>Neden ilgili?</strong>
-            <p>{item.topic.reason}</p>
-            <Link href={item.topic.href}>{item.topic.label} konusuna git →</Link>
+          <div className="radar-learning-link">
+            <div className="radar-bridge-head">
+              <span className="radar-bridge-scope">{item.learning.coverage}</span>
+              <span className="radar-bridge-basis">{item.learning.basis}</span>
+            </div>
+            <h4>{item.learning.label}</h4>
+            <p className="radar-learning-context">{item.learning.context}</p>
+            <strong>Neden öğrenmeye değer?</strong>
+            <p>{item.learning.why}</p>
+            <details className="radar-reading-prompt">
+              <summary>Kaynağı okurken neyi kontrol etmeliyim?</summary>
+              <p>{item.learning.question}</p>
+            </details>
+            <div className="radar-learning-actions">
+              <Link href={item.learning.primary.href}>{item.learning.primary.label} →</Link>
+              <span>{item.learning.primary.kind}</span>
+              {item.learning.secondary&&<>
+                <Link href={item.learning.secondary.href}>{item.learning.secondary.label} →</Link>
+                <span>{item.learning.secondary.kind}</span>
+              </>}
+            </div>
           </div>
           {item.discussionUrl&&item.discussionUrl!==item.url&&
             <a className="radar-discussion" href={item.discussionUrl} target="_blank" rel="noopener noreferrer">Hacker News tartışması ↗</a>}
@@ -94,7 +112,7 @@ export default async function RadarPage({searchParams}:Props){
     <aside className="radar-method" aria-label="Veri ve editoryal yöntem">
       <h2>Bu akış nasıl hazırlanıyor?</h2>
       <p>Hacker News tartışmaları ve DEV Community yazıları topluluk içeriğidir; GitHub Releases bağlantıları adı geçen depoların kendi sürüm kayıtlarıdır. Başlıklar resmî API yanıtından alınır. Yayımlanma tarihi ve son başarılı kontrol ayrı gösterilir. Aynı kanonik bağlantı tekrar gösterilmez.</p>
-      <p>İlk iki kaynakta 35 günden, sürüm kayıtlarında 120 günden eski içerik görünmez. Veriler en fazla 15 dakikada bir yeniden istenir; kısa erişim kesintilerinde en fazla 6 saat önce kontrol edilmiş kayıtlar <strong>son başarılı kayıt</strong> olarak işaretlenebilir. Sunucu yeniden başlarsa bu geçici önbellek kaybolur. Dış sayfalardaki içerikler DevAcademy'ye aktarılmaz ve kaynakların iddiaları eğitim önerisi olarak doğrulanmış sayılmaz.</p>
+      <p>İlk iki kaynakta 35 günden, sürüm kayıtlarında 120 günden eski içerik görünmez. Veriler en fazla 15 dakikada bir yeniden istenir; kısa erişim kesintilerinde en fazla 6 saat önce kontrol edilmiş kayıtlar <strong>son başarılı kayıt</strong> olarak işaretlenebilir. Sunucu yeniden başlarsa bu geçici önbellek kaybolur. Dış sayfalardaki içerikler DevAcademy&apos;ye aktarılmaz ve kaynakların iddiaları eğitim önerisi olarak doğrulanmış sayılmaz.</p>
     </aside>
   </div>;
 }
