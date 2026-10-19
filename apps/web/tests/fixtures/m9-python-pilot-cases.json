@@ -78,7 +78,7 @@
           "context": "Negatif kayıtlar iadedir, sıfır geçerlidir. Sonuç kaçtır?",
           "code": "sales = [5, -1, 0, 9]\ntotal = 0\nfor value in sales:\n    if value < 0:\n        continue\n    total += value\nprint(total)",
           "expected": "14",
-          "reasoningKey": "-1 atlanır; 5+0+9=14.",
+          "reasoningKey": "-1 atlanır; 5+0+9=14. Negatif kayıt continue ile döngünün toplam adımından çıkarılır.",
           "likelyError": "continue sonrası toplanmayan negatif kaydı toplamaya katmak."
         },
         {
@@ -87,7 +87,7 @@
           "context": "Negatif kayıt hatadır, sıfır geçerlidir. Toplamı tahmin et.",
           "code": "units = [3, -4, 6, 0]\ntotal = 0\nfor unit in units:\n    if unit < 0:\n        continue\n    total += unit\nprint(total)",
           "expected": "9",
-          "reasoningKey": "-4 atlanır; 3+6+0=9.",
+          "reasoningKey": "-4 atlanır; 3+6+0=9. Negatif kayıt continue ile döngünün toplam adımından çıkarılır.",
           "likelyError": "Negatif değeri dahil etmek veya sıfırı geçersiz sanmak."
         },
         {
@@ -96,7 +96,7 @@
           "context": "Negatif kayıtlar geçersiz. Yazdırılan toplamı bul.",
           "code": "readings = [0, 8, -2, 7]\nsum_valid = 0\nfor reading in readings:\n    if reading < 0:\n        continue\n    sum_valid += reading\nprint(sum_valid)",
           "expected": "15",
-          "reasoningKey": "-2 atlanır; 0+8+7=15.",
+          "reasoningKey": "-2 atlanır; 0+8+7=15. Negatif kayıt continue ile döngünün toplam adımından çıkarılır.",
           "likelyError": "continue ifadesinin kalan gövdeyi atladığını kaçırmak."
         }
       ]

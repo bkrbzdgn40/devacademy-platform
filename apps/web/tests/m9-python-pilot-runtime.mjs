@@ -15,7 +15,7 @@ function actual(source,label){
   assert.equal(run.status,0,label+" execution failed: "+run.stderr);
   assert.equal(run.stderr,"",label+" unexpected stderr");
   count++;
-  return run.stdout.replace(/\\r\\n/g,"\\n").trimEnd();
+  return run.stdout.replace(/\r\n/g,"\n").trimEnd();
 }
 for(const [index,lesson] of fixture.cases.entries()){
   assert.equal(lesson.lessonId,expectedLessons[index]);

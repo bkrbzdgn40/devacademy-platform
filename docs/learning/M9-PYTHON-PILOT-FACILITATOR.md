@@ -36,9 +36,9 @@ Aşağıdaki yanıtları öğrenci formuna dahil etme. Kaynak: `apps/web/tests/f
 | Sıralı koşul ve and | A | `Öncelikli` | İlk koşul yanlış; iki alt koşul doğru olduğundan elif çalışır. |
 | Sıralı koşul ve and | B | `İndirimli` | İlk dal yanlış; üye ve 100 sınırı birlikte doğru. |
 | Sıralı koşul ve and | C | `Tasarruf` | İlk dal yanlış; saver True ve pil >=30, elif çalışır. |
-| Döngüde continue ve negatifleri atlama | A | `14` | -1 atlanır; 5+0+9=14. |
-| Döngüde continue ve negatifleri atlama | B | `9` | -4 atlanır; 3+6+0=9. |
-| Döngüde continue ve negatifleri atlama | C | `15` | -2 atlanır; 0+8+7=15. |
+| Döngüde continue ve negatifleri atlama | A | `14` | -1 atlanır; 5+0+9=14. Negatif kayıt continue ile döngünün toplam adımından çıkarılır. |
+| Döngüde continue ve negatifleri atlama | B | `9` | -4 atlanır; 3+6+0=9. Negatif kayıt continue ile döngünün toplam adımından çıkarılır. |
+| Döngüde continue ve negatifleri atlama | C | `15` | -2 atlanır; 0+8+7=15. Negatif kayıt continue ile döngünün toplam adımından çıkarılır. |
 | print ve return ile çağıran değer ayrımı | A | `6 ⏎ 9` | İç print 6 yazar, return 9 üretir; dış print 9 yazar. |
 | print ve return ile çağıran değer ayrımı | B | `10 ⏎ 8` | İç print 10 yazar, return 8 üretir; dış print 8 yazar. |
 | print ve return ile çağıran değer ayrımı | C | `5 ⏎ 18` | İç print 5 yazar, return 18 üretir; dış print 18 yazar. |
