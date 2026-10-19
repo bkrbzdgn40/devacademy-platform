@@ -25,7 +25,7 @@ Temel kaynaklar:
 1. Başlık, yayın tarihi ve HTTPS kaynak URL'si gereklidir; uygun olmayan kayıt dışlanır. HN URL'si yoksa yalnızca kaynak üzerindeki gerçek tartışma bağlantısı kullanılır.
 2. Topluluk başlıkları en çok 35 gün; sürümler en çok 120 gün önceden yayımlanmış olabilir. Geleceğe 5 dakikadan fazla kaymış tarihler reddedilir. Bu eşikler editoryal güncellik penceresidir, kaynağın tazeliğiyle karıştırılmaz.
 3. `utm_*`, `fbclid`, `gclid` gibi takip parametreleri kaldırılır; kanonik bağlantı normalize edilerek aynı içerik iki kez listelenmez. Çakışmada DEV özgün yazısı HN paylaşımına tercih edilir.
-4. Konu eşleştirmesi başlık/etiketlerde bulunan sınırlı, testli kelime desenleriyle yapılır. TypeScript, React ve SQL gibi henüz tam dersi olmayan konularda katalog; JavaScript, Java ve Python'da var olan ders bağlantıları verilir. "Neden ilgili?" metni önceden editoryal olarak yazılmış **ders köprüsüdür**; yazının otomatik özeti veya doğruluk onayı değildir.
+4. M10 öğrenme köprüleri artık **üst konu → alt konu → gerçek ders/önkoşul/katalog bağlantısı** mantığıyla seçilir. Python için asyncio, veri/koleksiyon, test-kalite, sürüm ve güvenlik; JavaScript için Promise, map, filter/reduce, Node.js; Java için Spring Boot ve polymorphism ayrımları yapılır. Beş sabit GitHub deposu sürüm konusu olarak ayrı eşleştirilir. Mevcut ders konuyla birebir örtüşmüyorsa **Temel hazırlık** yazılır; TypeScript/React/SQL/Docker gibi henüz öğretilmeyen konular **Katalog önizlemesi** olarak gösterilir. Her kartta bağlam, neden önemli olduğu, kaynağa sorulacak okuma sorusu ve eşleşme dayanağı yer alır. Bunlar yalnızca başlık/etiket/depo metadata'sına dayanan **editoryal olarak yazılmış öğrenme köprüleridir**, makale gövdesinin otomatik özeti ya da doğruluk onayı değildir.
 5. Haber gövdeleri, HTML, model istemleri, kullanıcı kodu ve özel erişim belirteçleri işlenmez/çalıştırılmaz. Başlıklar React ile düz metin olarak gösterilir. Kaynak girdi hiçbir zaman uygulama talimatı kabul edilmez.
 6. API yanıtı doğrudan tarayıcıda çekilmez. Server Component okur, istemci yalnızca içerik ve güvenli `https:` dış bağlantılar görür. Kullanıcıya ait kişisel ilerleme veya kimlik verisi Radar API'lerine gönderilmez.
 
@@ -40,7 +40,7 @@ Temel kaynaklar:
 
 ## M10 kabul ve gözlem
 
-- `node --test apps/web/tests/radar-feed.test.mjs`: API şekilleri, sahte haber üretmeme, yayın zamanı, güvenli URL, ders eşleşmesi, cache/stale davranışı.
+- `node --test apps/web/tests/radar-feed.test.mjs apps/web/tests/radar-learning.test.mjs`: kaynak şekilleri, gerçek bağlantılar, önbellek/kesinti davranışı, Python asyncio/JavaScript ayrımı, olmayan ders iddiaları ve her öneri bağlantısının gerçek hedefi.
 - `corepack pnpm check`, Java/Python runtime fixture regresyonları, production HTTP smoke ve headless Chrome responsive/tema testleri GitHub CI'da koşar.
 - Yerel kontrol: `corepack pnpm dev`, `http://localhost:3000/radar` sayfasını aç. Birkaç farklı kaynağın gerçek linkine gir, başlık ile yayın zamanının sağlayıcıyla tutarlı olduğunu kontrol et. Filtreleri ve 320px görünümü değerlendir.
 - API erişiminin kesilebileceği ağlarda uydurma başlık yerine açık durum mesajı görünmesi **başarı davranışı**dır.

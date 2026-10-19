@@ -3,6 +3,8 @@
  * untrusted metadata; it is never treated as instructions or rendered as HTML.
  * The server does not proxy arbitrary user-provided URLs or article bodies.
  */
+import {selectRadarLearning} from "./radar-learning.mjs";
+
 export const radarSources = Object.freeze([
   {key:"hn",name:"Hacker News",kind:"Topluluk tartışması",href:"https://news.ycombinator.com/"},
   {key:"dev",name:"DEV Community",kind:"Topluluk yazısı",href:"https://dev.to/"},
@@ -18,7 +20,7 @@ export const radarTopics = Object.freeze([
     pattern:/\breact(?:\.js)?\b/i},
   {key:"python",label:"Python",href:"/kurslar/python-temelleri/fonksiyonlar",
     reason:"Python fonksiyonları ve veri işleme temellerini yeni araçlarla ilişkilendir.",
-    pattern:/\bpython\b|\bpytest\b/i},
+    pattern:/\b(?:python|pytest|asyncio|pandas|numpy|polars|ruff|cpython)\b/i},
   {key:"postgres",label:"SQL ve veritabanları",href:"/kutuphane/diller",
     reason:"Veri sorgulama ve kayıt tutma kavramlarını SQL bağlamında keşfet.",
     pattern:/\b(?:postgres(?:ql)?|sql|database|sqlite)\b/i},
@@ -33,7 +35,7 @@ export const radarTopics = Object.freeze([
     pattern:/\b(?:javascript|ecmascript|node\.js|nodejs|npm)\b/i},
   {key:"java",label:"Java",href:"/kurslar/java-temelleri/metotlar-ve-return",
     reason:"Java metotları ve JVM temellerini ekosistem gelişmeleriyle ilişkilendir.",
-    pattern:/\b(?:java|jvm|spring boot)\b/i}
+    pattern:/\b(?:java|jvm|spring boot|springboot)\b/i}
 ]);
 
 const releaseRepos=[
@@ -79,7 +81,7 @@ function validDate(value,nowMs,maxDays){
   return new Date(time).toISOString();
 }
 function article(input){
-  if(!input||!input.title||!input.url||!input.publishedAt||!input.topic)return null;
+  if(!input||!input.title||!input.url||!input.publishedAt||!input.topic||!input.learning)return null;
   const url=safeWebUrl(input.url);
   const title=plain(input.title);
   if(!url||title.length<6)return null;
@@ -106,11 +108,12 @@ export async function fetchHackerNews(fetchImpl,nowMs){
     const item=row.value;
     if(!item||item.type!=="story"||item.dead||item.deleted||item.id!==top[i])continue;
     const topic=matchRadarTopic(plain(item.title));
+    const learning=topic&&selectRadarLearning({title:item.title,topicKey:topic.key});
     const publishedAt=validDate(item.time,nowMs,35);
     const discussionUrl=`https://news.ycombinator.com/item?id=${item.id}`;
     const entry=article({id:"hn-"+item.id,source:"hn",title:item.title,
       url:safeWebUrl(item.url)??discussionUrl,discussionUrl,
-      publishedAt,topic});
+      publishedAt,topic,learning});
     if(entry)items.push(entry);
   }
   return {items:items.slice(0,9),partial:settled.some(x=>x.status==="rejected")};
@@ -121,10 +124,12 @@ export async function fetchDevCommunity(fetchImpl,nowMs){
   const items=[];
   for(const raw of data.slice(0,100)){
     if(!raw||!Number.isSafeInteger(raw.id))continue;
-    const topic=matchRadarTopic(plain(raw.title),raw.tag_list);
+    const tags=Array.isArray(raw.tag_list)?raw.tag_list:[];
+    const topic=matchRadarTopic(plain(raw.title),tags);
+    const learning=topic&&selectRadarLearning({title:raw.title,tags,topicKey:topic.key});
     const publishedAt=validDate(raw.published_at,nowMs,35);
     const entry=article({id:"dev-"+raw.id,source:"dev",title:raw.title,
-      url:raw.canonical_url||raw.url,publishedAt,topic});
+      url:raw.canonical_url||raw.url,publishedAt,topic,learning});
     if(entry)items.push(entry);
   }
   return {items:items.slice(0,9),partial:false};
@@ -144,9 +149,11 @@ export async function fetchGithubReleases(fetchImpl,nowMs){
     const publishedAt=validDate(latest.published_at,nowMs,120);
     const url=safeWebUrl(latest.html_url);
     if(!url||new URL(url).hostname!=="github.com")continue;
+    const learning=selectRadarLearning({title:latest.name||latest.tag_name,
+      topicKey:topic.key,releaseRepo:config.repo});
     const entry=article({id:"release-"+config.repo+"-"+latest.id,
       source:"github",title:`${config.label} • ${plain(latest.tag_name,75)}`,
-      url,publishedAt,topic});
+      url,publishedAt,topic,learning});
     if(entry)items.push(entry);
   }
   if(settled.every(x=>x.status==="rejected"))throw new Error("RELEASE_SOURCES_UNAVAILABLE");

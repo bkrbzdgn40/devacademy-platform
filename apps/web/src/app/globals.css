@@ -1249,3 +1249,18 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .radar-method{margin-top:48px;padding:24px 28px;border:1px solid var(--ui-border);background:var(--ui-surface-muted);border-radius:var(--radius-lg)}
 .radar-method p{color:var(--ui-ink-subtle);max-width:920px;margin:10px 0 0}
 @media(max-width:760px){.radar-health-grid{grid-template-columns:1fr}.radar-article-grid{grid-template-columns:1fr}.radar-page{padding-block:24px 60px}.radar-feed-head{align-items:start;flex-direction:column;gap:6px}.radar-article{padding:20px}.radar-page-hero h1{letter-spacing:-.02em}}
+
+/* M10 learning context: clear distinction between observed metadata and curated prerequisites. */
+.radar-bridge-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
+.radar-bridge-scope{font-size:.75rem;font-weight:750;padding:4px 9px;border-radius:var(--radius-pill);background:var(--ui-surface-accent);color:var(--ui-action)}
+.radar-bridge-basis{font-size:.74rem;color:var(--ui-ink-subtle)}
+.radar-learning-link h4{font-size:1.06rem;line-height:1.35;margin:0 0 8px;color:var(--ui-ink)}
+.radar-learning-link .radar-learning-context{color:var(--ui-ink-subtle);margin:0 0 14px}
+.radar-reading-prompt{margin:14px 0;border:1px solid var(--ui-border);border-radius:var(--radius-md);padding:10px 12px;background:var(--ui-surface)}
+.radar-reading-prompt summary{cursor:pointer;color:var(--ui-action);font-weight:700}
+.radar-reading-prompt summary:focus-visible{outline:3px solid var(--ui-focus);outline-offset:4px}
+.radar-reading-prompt p{margin:8px 0 0}
+.radar-learning-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 12px;margin-top:14px}
+.radar-learning-actions a{overflow-wrap:anywhere}
+.radar-learning-actions span{font-size:.74rem;color:var(--ui-ink-subtle);text-align:right}
+@media(max-width:430px){.radar-learning-actions{grid-template-columns:1fr;gap:3px}.radar-learning-actions span{margin-bottom:10px;text-align:left}}

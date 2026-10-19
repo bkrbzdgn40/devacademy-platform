@@ -90,6 +90,9 @@ test("real API-shaped fixtures yield dated, attributed items without duplicates"
   assert.equal(feed.items.find(x=>x.id==="hn-42")?.url,"https://news.ycombinator.com/item?id=42");
   assert.equal(feed.items.filter(x=>x.source==="github").length,5);
   assert.ok(feed.items.every(x=>x.publishedAt&&x.topic.href&&x.url.startsWith("https://")));
+  assert.ok(feed.items.every(x=>x.learning&&x.learning.primary&&x.learning.context));
+  assert.equal(feed.items.find(x=>x.id==="release-astral-sh/ruff-10").learning.label,"Ruff sürüm duyurusu");
+  assert.equal(feed.items.find(x=>x.id==="hn-42").learning.primary.href,"/kurslar/javascript-temelleri/asenkron-temeller");
   assert.ok(feed.items.every(x=>!x.url.includes("utm_source")));
   assert.ok(!feed.items.some(x=>x.title.includes("neighbors")||x.title.includes("sample")));
 });
