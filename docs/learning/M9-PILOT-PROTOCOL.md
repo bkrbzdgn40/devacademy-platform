@@ -19,6 +19,13 @@ yazmasını gerçekten kolaylaştırıyor mu?
 - Kod yazma kanıtı yalnızca güvenilir worker ortamı açıksa ölçülür;
   kod çalıştırılmadıysa otomatik doğrulama başarısı iddia edilmez.
 
+## Kullanıma hazır görev formları
+
+- [Öğrenci kartları](M9-PYTHON-PILOT-CARDS.md): beş konu × üç A/B/C formu; öğrenciye yalnızca atanmış form verilir.
+- [Uygulayıcı rehberi ve yanıt anahtarı](M9-PYTHON-PILOT-FACILITATOR.md): karşılaştırma, form sırası, ayrı çıktı/gerekçe puanı, gözlem kaydı ve veri sınırları.
+- [Makineyle doğrulanan referanslar](../../apps/web/tests/fixtures/m9-python-pilot-cases.json): 15 özgün çıktı görevi ve üç referans kod yazma örneği. Gerçek Python çalışma ortamında doğrulanırlar; öğrenci kodu çalıştırılmaz.
+- A/B/C formları henüz öğrenciler üzerinde güçlük açısından eşitlenmedi; pilot yapılmadan etki iddiası yoktur.
+
 ## Pilot sırası
 
 1. Ön test: Öğrenci görmediği fonksiyon sonucunu tahmin eder ve

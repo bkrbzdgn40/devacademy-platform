@@ -166,7 +166,7 @@
       }
     ],
     "independent": {
-      "title": "Sipariş durumunu seç",
+      "title": "Öğrenci puanını sınıflandır",
       "brief": "score değeri 85 ise 'Başarılı', 60 ise 'Geliştirilmeli', 40 ise 'Yeniden çalış' yazdıran if/elif/else akışını kur. Sınırlar: 80 ve 50 dahil.",
       "starterCode": "score = 85\n# if / elif / else yazarak uygun durumu yazdır.\n",
       "modelCode": "score = 85\nif score >= 80:\n    print(\"Başarılı\")\nelif score >= 50:\n    print(\"Geliştirilmeli\")\nelse:\n    print(\"Yeniden çalış\")",
@@ -256,7 +256,7 @@
     ],
     "independent": {
       "title": "Hatalı ölçümleri ayıkla",
-      "brief": "Sıcaklık sensöründen [12, -1, 7, 0, 3] geldi. -1 geçersiz değer, sıfır geçerli. Geçerli ölçümleri for ile toplayıp tek sayı yazdır. Yeni kayıtta [2, -2, 8] için sonucu sınamayı dene.",
+      "brief": "Sıcaklık sensöründen [12, -1, 7, 0, 3] geldi. Negatif değerler geçersiz, sıfır geçerli. Geçerli ölçümleri for ile toplayıp tek sayı yazdır. Yeni kayıtta [2, -2, 8] için sonucu sınamayı dene.",
       "starterCode": "readings = [12, -1, 7, 0, 3]\ntotal = 0\n# Sadece negatif olmayan ölçümleri topla.\nprint(total)",
       "modelCode": "readings = [12, -1, 7, 0, 3]\ntotal = 0\nfor reading in readings:\n    if reading < 0:\n        continue\n    total += reading\nprint(total)",
       "expectedOutput": "22",

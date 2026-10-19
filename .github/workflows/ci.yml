@@ -37,6 +37,8 @@ jobs:
         run: node apps/web/tests/python-snippets.mjs
       - name: Verify 15 M9 Python applied problems and five independent programs in Python 3.12
         run: node apps/web/tests/python-applied-runtime.mjs
+      - name: Verify M9 pilot form answer keys with real Python 3.12 (trusted fixtures only)
+        run: node apps/web/tests/m9-python-pilot-runtime.mjs
       - name: Verify 30 M9 JavaScript and Java applied programs plus 20 independent reference cases
         run: node apps/web/tests/cross-language-applied-runtime.mjs
       - name: Verify reviewed bugfix explanations against real Java and Python
