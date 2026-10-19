@@ -40,7 +40,7 @@ test("course and lesson search includes title, subject and real lesson matches",
   assert.deepEqual(searchLearningPaths(learningPaths,"ikili arama").map(x=>x.id),["course.algorithms.fundamentals"]);
   assert.equal(searchLearningPaths(learningPaths,"").length,5);
   assert.deepEqual(searchLearningPaths(learningPaths,"jaVA").map(x=>x.id),[
-    "course.javascript.fundamentals","course.java.fundamentals"]);
+    "course.javascript.fundamentals","course.java.fundamentals","course.algorithms.fundamentals"]);
 });
 test("genuine progress chooses the most recently active unfinished lesson",()=>{
   const rows=[
