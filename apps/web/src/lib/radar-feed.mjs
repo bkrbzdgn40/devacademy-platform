@@ -194,5 +194,6 @@ export async function getRadarFeed({fetchImpl=fetch,nowMs=Date.now(),cache=globa
     if(key&&!unique.has(key))unique.set(key,entry);
   }
   const items=[...unique.values()].sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt)).slice(0,18);
-  return {items,sources:sources.map(({items:ignored,...status})=>status)};
+  return {items,sources:sources.map(s=>({key:s.key,name:s.name,kind:s.kind,href:s.href,
+    status:s.status,checkedAt:s.checkedAt,attemptedAt:s.attemptedAt}))};
 }

@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {selectRadarLearning} from "../src/lib/radar-learning.mjs";
-import {matchRadarTopic,radarTopics,getRadarFeed} from "../src/lib/radar-feed.mjs";
+import {matchRadarTopic,radarTopics} from "../src/lib/radar-feed.mjs";
 
 const lessons=JSON.parse(readFileSync(new URL("../src/data/lessons.json",import.meta.url),"utf8"));
 const courses=JSON.parse(readFileSync(new URL("../src/data/courses.json",import.meta.url),"utf8"));
