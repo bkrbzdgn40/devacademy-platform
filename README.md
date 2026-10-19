@@ -159,3 +159,7 @@ Open `/radar` to browse read-only Hacker News, DEV and repository release metada
 ## M11 · SQL Temelleri (controlled content expansion)
 
 The fourth course `/kurslar/sql-temelleri` has 4 lessons and 8 server-graded quiz items with one fictional customer/orders dataset at `/sql-ornek-veri`. SQL edits use a **plain-text editor**, not a browser/server SQL runner or the learner's PostgreSQL database. A dedicated ephemeral PostgreSQL 16 service in CI verifies authored query output and private answer keys. Original JavaScript/Java/Python lessons keep their 45 real-runtime Studio traces; new SQL lessons are taught via read/contrast/quiz without pretending to have a working SQL sandbox. The M11 student pilot remains pending. See `docs/learning/M11-SQL-FOUNDATIONS.md`.
+
+## M11 · Veri Yapıları ve Algoritmalar
+
+A new fifth learning path at `/kurslar/veri-yapilari-algoritmalar` teaches JavaScript-based complexity analysis, LIFO/FIFO, Map/Set counting and binary search preconditions in four lessons with eight private server-graded questions. Code samples and answer keys are executed against Node in CI, including empty and missing-value cases. This does not authorize public code execution or imply an independently graded learner solution. The original JavaScript track and 15-lesson Applied Studio remain untouched. The M11 learner pilot is still outstanding; see `docs/learning/M11-ALGORITHMS.md`.

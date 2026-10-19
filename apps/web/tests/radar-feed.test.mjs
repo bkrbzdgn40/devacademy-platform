@@ -66,7 +66,7 @@ test("fixed source definitions and topic links refer to published or previewed p
       assert.equal(root,"kurslar");
       const course=courses.find(x=>x.slug===slug);
       assert.ok(course,"Invalid radar course link: "+topic.href);
-      assert.ok(lessons.some(x=>course.lessonIds.includes(x.id)&&x.slug===lessonSlug),
+      if(lessonSlug)assert.ok(lessons.some(x=>course.lessonIds.includes(x.id)&&x.slug===lessonSlug),
         "Radar topic points to a nonexistent lesson: "+topic.href);
     }
   }

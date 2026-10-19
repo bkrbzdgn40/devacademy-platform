@@ -89,5 +89,27 @@
       "lesson.sql.join",
       "lesson.sql.group"
     ]
+  },
+  {
+    "id": "course.algorithms.fundamentals",
+    "slug": "veri-yapilari-algoritmalar",
+    "languageId": "language.javascript",
+    "title": "Veri Yapıları ve Algoritmalar",
+    "summary": "Gerçek JavaScript örnekleriyle işlem maliyeti, yığın ve kuyruk, Map/Set ve ikili aramanın sınırlarını öğren.",
+    "level": "Başlangıç–Orta",
+    "locale": "tr",
+    "editorLanguage": "javascript",
+    "runtimeId": "nodejs-24",
+    "capabilities": {
+      "editor": true,
+      "run": false,
+      "codeAssessment": false
+    },
+    "lessonIds": [
+      "lesson.algorithms.complexity",
+      "lesson.algorithms.stack-queue",
+      "lesson.algorithms.map-set",
+      "lesson.algorithms.binary-search"
+    ]
   }
 ]

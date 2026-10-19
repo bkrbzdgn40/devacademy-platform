@@ -7,7 +7,7 @@ const component=readFileSync(new URL("../src/components/course-lesson.tsx",impor
 const lens=readFileSync(new URL("../src/components/lesson-depth.tsx",import.meta.url),"utf8");
 
 test("all published lessons have distinct reviewed conceptual explanations",()=>{
-  assert.equal(depth.length,19);
+  assert.equal(depth.length,23);
   assert.deepEqual(depth.map(x=>x.id).sort(),lessons.map(x=>x.id).sort());
   assert.equal(new Set(depth.map(x=>x.model)).size,depth.length);
   for(const item of depth) {

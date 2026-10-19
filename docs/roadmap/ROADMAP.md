@@ -103,7 +103,9 @@ Kaynak erişilemiyorsa şeffaf boş/hata durumu gösterilir.
 
 **İlk kontrollü içerik paketi:** SQL Temelleri için 4 ders, 8 ayrı değerlendirilen soru, kavramsal karşı örnekler ve kurgusal müşteri/sipariş veri kümesi. SQL sorguları tarayıcıda veya Next.js sürecinde çalıştırılmaz; bunların sonuçları CI'da ayrı PostgreSQL 16 geçici tablolarıyla doğrulanır. 15 eski Java/JavaScript/Python dersinin uygulamalı öğrenme araçları korunur. Gönüllü pilot henüz yapılmadığından M11'in saha kabulü **açıktır**.
 
-**Sonraki içerik adayları:** TypeScript, veri yapıları, algoritmalar ve proje laboratuvarları. Öncelik sırf sayı artırmak yerine teknik doğruluk ve müfredat gereksinimlerine göre belirlenecektir.
+**İkinci kontrollü içerik paketi:** Veri Yapıları ve Algoritmalar (JavaScript) için 4 yeni ders ve 8 sunucu tarafından değerlendirilen soru. Doğrusal/logaritmik maliyet, yığın/kuyruk, Map/Set ve sıralı veri önkoşullu ikili arama ayrı kimliklerle yayımlanır; Node.js ile gerçek çıktı ve cevap anahtarı kontrolleri yapılır. Mevcut 19 ders ve kayıtları değiştirilmez; yeni kursta öğrencinin düzenlediği kod otomatik yürütülmez veya bağımsız kanıt sayılmaz. Ayrıntılar: `docs/learning/M11-ALGORITHMS.md`.
+
+**Sonraki içerik adayları:** TypeScript ve bağımsız proje laboratuvarları. Öğrenci pilotu hâlâ tamamlanmamıştır. Öncelik sırf sayı artırmak yerine teknik doğruluk ve müfredat gereksinimlerine göre belirlenecektir.
 
 **Problem:** Otomatik testler, öğreticiliğin gerçek hayattaki etkisini
 tek başına göstermez.

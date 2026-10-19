@@ -75,6 +75,8 @@ test("JavaScript array operations and asynchronous events have separate lesson b
   for(const [headline,expected] of pairs)assert.equal(classify(headline).learning.primary.href,expected);
   assert.equal(classify("Java polymorphism override").learning.primary.href,
     "/kurslar/java-temelleri/polymorphism");
+  assert.equal(classify("Binary search algorithm").learning.primary.href,"/kurslar/veri-yapilari-algoritmalar/ikili-arama");
+  assert.equal(classify("Data structures overview").learning.primary.href,"/kurslar/veri-yapilari-algoritmalar");
   assert.equal(classify("Spring Boot Java features").learning.primary.href,
     "/kurslar/java-temelleri/metotlar-ve-return");
 });

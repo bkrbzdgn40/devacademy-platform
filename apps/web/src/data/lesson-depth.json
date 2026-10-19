@@ -188,5 +188,45 @@
     "challenge": "Müşteri başına teslim siparişlerini sayarken toplamı 230 ve üzeri olanları görmek istiyorsun. Filtreleme hangi sırada gerçekleşmeli?",
     "answer": "Önce WHERE durum='teslim', ardından GROUP BY musteri_id ve en son HAVING SUM(tutar)>=230 yazılır.",
     "application": "Satış, bütçe ve operasyon raporlarında şube/müşteri bazlı miktar veya toplamları hesaplarken filtreleme düzeylerini ayır."
+  },
+  {
+    "id": "lesson.algorithms.complexity",
+    "model": "Big O, girdi büyüdükçe gereken işlem sayısının nasıl arttığını ifade eder. Doğrusal tarama O(n), düzenli yarıya indirgeme O(log n) üst sınır sınıflandırmasıdır.",
+    "pitfall": "Logaritmik aramayı sıralanmamış listede kullanmak, zaman karmaşıklığını doğru bilsen de işlevsel olarak yanlış sonuç verebilir.",
+    "contrast": "32 öğeyi tek tek en kötü durumda 32 adımda kontrol edebilirsin; aralığı her seferinde yarıya böldüğünde teorik en fazla 5 daraltma gerekir.",
+    "why": "Karmaşıklık analizi büyük veri üzerinde ölçeklenebilir seçimi mümkün kılar; küçük veri veya sabit maliyetleri tek başına ölçmez.",
+    "challenge": "Depoda 128 barkodu sırayla aramakla sıralı listede aramak arasında en kötü karşılaştırma sayısı nasıl değişebilir?",
+    "answer": "Doğrusal tarama en kötü durumda 128 kontrol gerektirir; her seferinde yarıya bölünen sıralı arama çok daha az, yaklaşık 7-8 kontrol gerektirir.",
+    "application": "Ürün araması, kişi listesi veya sipariş kimliği gibi gittikçe büyüyen kümelerde önce verinin sıralı olup olmadığını doğrula."
+  },
+  {
+    "id": "lesson.algorithms.stack-queue",
+    "model": "Yığın LIFO düzeniyle en son eklenen öğeyi çıkarır. Kuyruk FIFO düzeniyle en eski bekleyeni önce işler. push/pop ve push/shift basit JavaScript örnekleridir.",
+    "pitfall": "Bir destek kuyruğunda pop kullanmak son gelen talebe öncelik verir; Array.shift de çok uzun listelerde her seferinde maliyetli olabilir.",
+    "contrast": "A, B, C sırasıyla eklenirse yığından C çıkar ama kuyruktan A çıkar. Aynı girdiye farklı veri yapısı farklı davranış kazandırır.",
+    "why": "İş kuralları sırayı belirler: geri alma ters sırayla, adil destek kuyruğu geliş sırasıyla işlenmelidir. Yanlış yapı mantık hatasıdır.",
+    "challenge": "Tarayıcının geri alma geçmişiyle sıra numarası verilen destek talepleri için hangi veri yapısını seçersin ve neden?",
+    "answer": "Geri alma için stack/LIFO; başvuruların ilk gelen önce işlendiği destek sırası için queue/FIFO. Büyük queue için Array.shift yerine baş indeksli düzen düşünülebilir.",
+    "application": "Kullanıcı eylem geçmişi, yazdırma işleri, servis talepleri ve işleme sıralarını uygun politikaya göre tasarla."
+  },
+  {
+    "id": "lesson.algorithms.map-set",
+    "model": "Set benzersiz öğeleri, Map anahtara karşılık tek güncel değeri tutar. Bir Map sayacında set(key, (get(key) ?? 0) + 1) frekansı artırır.",
+    "pitfall": "Dizideki her tekrarın aynı ziyaretçiyi yeniden saydığını fark etmemek veya Map.get eksik anahtar için undefined döndürdüğünde NaN üretmek.",
+    "contrast": "[2,2,5] listesinde Set.size 2, toplam olay sayısı 3'tür. Map frekansları ise 2 için 2, 5 için 1 olur; iki ölçüm farklıdır.",
+    "why": "Toplam olay sayısıyla benzersiz aktör sayısı işte farklı metriklerdir. Doğru veri yapısı, görünüşte çalışan ama yanıltıcı raporu engeller.",
+    "challenge": "Bir kullanıcının günde beş kez tıklaması, günlük tekil kullanıcı ve toplam tıklama ölçütlerinde nasıl sayılmalıdır?",
+    "answer": "Toplam tıklamada beş olay; Set ile günlük tekil kullanıcıda bir değer; Map ile kullanıcı başına olay sıklığında beş sayaç değeri görünür.",
+    "application": "Giriş yapan kullanıcı tekilliği, stok tekrar sayımı ve log olaylarının gruplanması için öncelikle hangi metriği hesapladığını belirle."
+  },
+  {
+    "id": "lesson.algorithms.binary-search",
+    "model": "İkili arama artan sıralı diziye dayanır. lo ve hi dahil sınırlar, mid hesabı ve sırasıyla mid+1 / mid-1 adımları kalan adayları daraltır.",
+    "pitfall": "Sırasız dizide tek bir yanlış yarıyı atıp gerçekten var olan öğeyi -1 diye bildirmek veya sınırları güncellemeyip sonsuz döngüye girmek.",
+    "contrast": "[2,4,6,8,10] içinde 8 indeksi 3 olarak bulunur; [10,2,8,4,6] içinde aynı arama mantığı 4 mevcut olmasına rağmen -1 üretebilir.",
+    "why": "Algoritmanın başarısı yalnızca kodun derlenmesine değil, önkoşulların sağlanmasına bağlıdır. Hatalı sıralama aramayı sessizce yanlış yapabilir.",
+    "challenge": "Gelen ürün fiyatları sırasızsa önce ne yaparsın? Liste sıralanmadan ikili arama kullanılabilir mi?",
+    "answer": "İkili arama için veriyi artan düzende sırala veya mevcut doğrusal aramayı kullan. Önkoşul olmadan binary search sonucu güvenilir değildir.",
+    "application": "Sıralı müşteri numarası, telefon rehberi veya sürüm numarası ararken doğruluk için sıralamayı ve aranan anahtarın karşılaştırma kuralını açıkça belirt."
   }
 ]
