@@ -75,20 +75,21 @@ export default async function RadarPage({searchParams}:Props){
         <p>Kaynakların erişimi, son yayın tarihleri veya konu eşleştirmeleri nedeniyle liste boş olabilir. Eski başlıkları güncelmiş gibi göstermiyoruz.</p>
         <Link href="/radar">Tüm konulara dön →</Link>
       </div>:
-        <div className="radar-article-grid">{items.map(item=><article key={item.id} className="radar-article ui-card">
+        <div className="radar-article-grid">{items.map(item=>{const check=feed.sources.find(s=>s.key===item.source);return <article key={item.id} className="radar-article ui-card">
           <div className="radar-article-meta">
             <span>{radarSources.find(s=>s.key===item.source)?.name}</span>
             <span>{radarSources.find(s=>s.key===item.source)?.kind}</span>
           </div>
           <h3><a href={item.url} target="_blank" rel="noopener noreferrer">{item.title} ↗</a></h3>
           <p className="radar-article-date">Yayın: <time dateTime={item.publishedAt}>{formatDate(item.publishedAt)}</time></p>
+          <p className="radar-article-date">Kaynak kontrolü: {check?.checkedAt?<time dateTime={check.checkedAt}>{formatDate(check.checkedAt)}</time>:"Başarılı kontrol yok"} {check?.status==="stale"&&<strong>(Son başarılı kayıt)</strong>}</p>
           <div className="radar-learning-link"><strong>Neden ilgili?</strong>
             <p>{item.topic.reason}</p>
             <Link href={item.topic.href}>{item.topic.label} konusuna git →</Link>
           </div>
           {item.discussionUrl&&item.discussionUrl!==item.url&&
             <a className="radar-discussion" href={item.discussionUrl} target="_blank" rel="noopener noreferrer">Hacker News tartışması ↗</a>}
-        </article>)}</div>}
+        </article>;})}</div>}
     </section>
     <aside className="radar-method" aria-label="Veri ve editoryal yöntem">
       <h2>Bu akış nasıl hazırlanıyor?</h2>

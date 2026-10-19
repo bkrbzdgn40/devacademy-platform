@@ -97,6 +97,7 @@ export async function fetchHackerNews(fetchImpl,nowMs){
   const top=ids.filter(Number.isSafeInteger).slice(0,24);
   const settled=await Promise.allSettled(top.map(id=>
     requestJson(`https://hacker-news.firebaseio.com/v0/item/${id}.json`,fetchImpl)));
+  if(top.length&&settled.every(x=>x.status==="rejected"))throw new Error("HN_ITEMS_UNAVAILABLE");
   const items=[];
   for(let i=0;i<settled.length;i++){
     const row=settled[i];if(row.status!=="fulfilled")continue;
