@@ -78,9 +78,9 @@ test("JavaScript array operations and asynchronous events have separate lesson b
   assert.equal(classify("Spring Boot Java features").learning.primary.href,
     "/kurslar/java-temelleri/metotlar-ve-return");
 });
-test("unsupported TypeScript/React/SQL/Docker courses are not advertised as completed lessons",()=>{
+test("unsupported TypeScript/React/Docker courses are not advertised as completed lessons",()=>{
   for(const headline of ["TypeScript 6 releases","React compiler",
-    "PostgreSQL schema changes","Docker containers"]){
+    "Docker containers"]){
     const {learning}=classify(headline);
     assert.equal(learning.primary.kind,"Katalog önizlemesi",headline);
     assert.match(learning.coverage,/katalog/);
@@ -103,6 +103,7 @@ test("official release mappings are distinct, repo-scoped and still link to exis
     linkOk(link.primary.href);
     if(link.secondary)linkOk(link.secondary.href);
   }
+  assert.equal(selectRadarLearning({title:"PostgreSQL schema changes",topicKey:"postgres"}).primary.href,"/kurslar/sql-temelleri");
   assert.equal(selectRadarLearning({title:"unknown",topicKey:"unsupported"}),null);
   assert.equal(selectRadarLearning({title:"Python",topicKey:"python",releaseRepo:"fake-owner/fake-repo"}).basis,
     "Başlık ve varsa etiket eşleşmesi");

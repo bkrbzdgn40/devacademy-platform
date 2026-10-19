@@ -11,8 +11,8 @@ const reference={
   catalog:load("catalog.json"),answerKeyIds:answerKeyIds()
 };
 const clone=()=>structuredClone(reference);
-test("three courses share lesson/assessment contract with no JS identity migration",()=>{
-  assert.deepEqual(validateCourseCatalog(reference),{courseCount:3,lessonCount:15,questionCount:38});
+test("four courses share lesson/assessment contract with no JS identity migration",()=>{
+  assert.deepEqual(validateCourseCatalog(reference),{courseCount:4,lessonCount:19,questionCount:46});
   const oldJs=load("lessons.json").filter(x=>x.id.startsWith("lesson.javascript."));
   assert.equal(reference.courses[0].lessonIds.length,7);
   assert.deepEqual(reference.courses[0].lessonIds,oldJs.map(x=>x.id));
@@ -22,6 +22,11 @@ test("three courses share lesson/assessment contract with no JS identity migrati
   assert.equal(reference.courses[2].lessonIds.length,5);
   assert.equal(reference.courses[2].editorLanguage,'python');
   assert.equal(reference.courses[2].capabilities.run,false);
+  assert.equal(reference.courses[3].languageId,"language.sql");
+  assert.equal(reference.courses[3].lessonIds.length,4);
+  assert.equal(reference.courses[3].editorLanguage,"plain");
+  assert.equal(reference.courses[3].capabilities.run,false);
+  assert.equal(reference.courses[3].runtimeId,null);
 });
 test("curriculum validator blocks orphaned lessons and stale IDs",()=>{
   const c=clone();c.courses[1].lessonIds.push("lesson.java.unknown");

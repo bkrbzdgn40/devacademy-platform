@@ -182,5 +182,69 @@
       "b": "Anahtar erişimi önce hata ürettiği için or çalışmaz.",
       "c": "get() varsayılan verilmezse None döndürür; None ile str toplanamaz."
     }
+  },
+  "sql.select.desc": {
+    "optionId": "b",
+    "explanation": "ORDER BY id DESC 3, 2, 1 sırası üretir. İlk satır Can'dır.",
+    "wrongFeedback": {
+      "a": "Ayşe id=1 ile ilk sırada değil, en sonda olur.",
+      "c": "Bora id=2 ile ikinci sıradadır."
+    }
+  },
+  "sql.select.columns": {
+    "optionId": "a",
+    "explanation": "SELECT id, ad iki sütun seçer. Satır sayısı sütun sayısından farklıdır.",
+    "wrongFeedback": {
+      "b": "Üç müşteri satırı vardır, ancak iki sütun seçiliyor.",
+      "c": "id ve ad iki ayrı alan."
+    }
+  },
+  "sql.where.delivered": {
+    "optionId": "b",
+    "explanation": "10, 12, 14 numaralı siparişler teslim ve en az 100 tutarlıdır.",
+    "wrongFeedback": {
+      "a": "14 numaralı teslim siparişini de saymalısın.",
+      "c": "80 ve 50 tutarlı siparişler koşulu sağlamıyor."
+    }
+  },
+  "sql.where.null": {
+    "optionId": "a",
+    "explanation": "11 numaralı bekleyen siparişin teslim_tarihi NULL. IS NULL bilinmeyen/eksik değeri seçer.",
+    "wrongFeedback": {
+      "b": "12 numaralı sipariş teslim edildi, teslim tarihi doludur.",
+      "c": "Teslim tarihi boş olan en az bir kayıt var."
+    }
+  },
+  "sql.join.left": {
+    "optionId": "c",
+    "explanation": "Can müşterisinin siparişi olmadığından LEFT JOIN sağ tarafta NULL üretir.",
+    "wrongFeedback": {
+      "a": "Bora'nın iki siparişi vardır.",
+      "b": "Ayşe'nin üç siparişi vardır."
+    }
+  },
+  "sql.join.inner": {
+    "optionId": "b",
+    "explanation": "Beş siparişin hepsinin eşleşen müşterisi vardır; sonuç beş satırdır. Can'ın kaydı INNER JOIN'e katılmaz.",
+    "wrongFeedback": {
+      "a": "Üç müşteri var ama sorgu müşterilerden biri için birden çok sipariş döndürür.",
+      "c": "Eşleşmeyen Can için INNER JOIN ek satır üretmez."
+    }
+  },
+  "sql.group.totals": {
+    "optionId": "b",
+    "explanation": "Bora'nın teslim siparişleri 200 ve 50; toplam 250'dir.",
+    "wrongFeedback": {
+      "a": "50 tutarlı ikinci teslim kaydını da ekle.",
+      "c": "Bora'nın siparişlerinde 300 eden bir kayıt yok."
+    }
+  },
+  "sql.group.having": {
+    "optionId": "a",
+    "explanation": "Ayşe'nin teslim toplamı 120+100=220, Bora'nın 200+50=250. HAVING >=230 yalnızca musteri_id=2'yi korur.",
+    "wrongFeedback": {
+      "b": "Ayşe toplamı 220 ile eşik altında kalır.",
+      "c": "Ayşe ve Bora toplamlarını ayrı ayrı hesaplamalısın."
+    }
   }
 }

@@ -425,10 +425,10 @@ try{
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
       "document.readyState==='complete' && !!document.querySelector('#course-search') && "+
-      "document.querySelectorAll('.path-card').length===3",
+      "document.querySelectorAll('.path-card').length===4",
       returnByValue:true},sessionId);
     return r.result?.value===true;
-  },"M8.6B explorer did not render three verified courses");
+  },"M11 explorer did not render four verified courses");
   await cdp.send("Runtime.evaluate",{expression:
     "document.querySelector('#course-search').focus()",returnByValue:true},sessionId);
   await cdp.send("Input.insertText",{text:"Promise"},sessionId);
@@ -447,7 +447,7 @@ try{
     returnByValue:true},sessionId);
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
-      "document.querySelectorAll('.path-card').length===3 && !document.querySelector('#course-search').value",
+      "document.querySelectorAll('.path-card').length===4 && !document.querySelector('#course-search').value",
       returnByValue:true},sessionId);
     return r.result?.value===true;
   },"M8.6B course-search clear control did not work");
@@ -477,7 +477,7 @@ try{
     "resume:!!document.querySelector('.journey-card a[href=\"/kurslar\"]'),"+
     "overflow:d.scrollWidth>d.clientWidth+1};})()",
     returnByValue:true},sessionId);
-  assert.deepEqual(discoveryHome.result.value,{paths:3,radar:3,
+  assert.deepEqual(discoveryHome.result.value,{paths:4,radar:3,
     radarActive:true,resume:true,overflow:false},
     "M10 home must link to the active attributed sector radar");
   // New homepage learning path cards inherit the palette after choosing
@@ -705,6 +705,48 @@ try{
     returnByValue:true},sessionId);
   assert.ok(finalMobile.result.value.scrollWidth<=finalMobile.result.value.viewport+1,
     "M9 independent code editor caused 320px overflow: "+JSON.stringify(finalMobile.result.value));
+
+  // M11 SQL extends the catalog, but NEVER inherits a JavaScript runner or
+  // falsely exposes the Java/Python applied-code studio.
+  await cdp.send("Page.navigate",{url:base+"/sql-ornek-veri"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && document.querySelectorAll('.sql-dataset table').length===2",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M11 SQL fictional data page did not render on mobile");
+  const sqlTables=await cdp.send("Runtime.evaluate",{expression:
+    "document.documentElement.scrollWidth<=document.documentElement.clientWidth+1",
+    returnByValue:true},sessionId);
+  assert.equal(sqlTables.result.value,true,"M11 SQL dataset overflows at 320px");
+  await cdp.send("Page.navigate",{
+    url:base+"/kurslar/sql-temelleri/where-ve-null"},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "document.readyState==='complete' && !!document.querySelector('[data-lesson-step=\\\"1\\\"]')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M11 SQL lesson did not hydrate on mobile");
+  await cdp.send("Runtime.evaluate",{expression:
+    "document.querySelector('[data-lesson-step=\\\"1\\\"]').click()",
+    returnByValue:true},sessionId);
+  await waitFor(async()=>{
+    const r=await cdp.send("Runtime.evaluate",{expression:
+      "!!document.querySelector('.lesson-step-panel:not([hidden]) .editor-toolbar')",
+      returnByValue:true},sessionId);
+    return r.result?.value===true;
+  },"M11 SQL plain editor did not load");
+  const sqlMode=await cdp.send("Runtime.evaluate",{expression:
+    "(() => {const panel=document.querySelector('.lesson-step-panel:not([hidden])');"+
+    "const root=document.documentElement;return {"+
+    "plain:panel.querySelector('.editor-toolbar').textContent.includes('Düz metin modu'),"+
+    "runDisabled:panel.querySelector('.editor-footer button').disabled,"+
+    "noApplied:!panel.querySelector('.python-applied-studio'),"+
+    "overflow:root.scrollWidth>root.clientWidth+1};})()",
+    returnByValue:true},sessionId);
+  assert.deepEqual(sqlMode.result.value,
+    {plain:true,runDisabled:true,noApplied:true,overflow:false},
+    "M11 SQL must remain plain-text only and mobile safe");
 
   // M9 curriculum parity: seven JavaScript and three Java lessons now share
   // the real-life interactive practice path, without altering quizzes.

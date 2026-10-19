@@ -1264,3 +1264,14 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .radar-learning-actions a{overflow-wrap:anywhere}
 .radar-learning-actions span{font-size:.74rem;color:var(--ui-ink-subtle);text-align:right}
 @media(max-width:430px){.radar-learning-actions{grid-template-columns:1fr;gap:3px}.radar-learning-actions span{margin-bottom:10px;text-align:left}}
+
+/* M11 fictional SQL dataset; responsive tables share Olive & Earth tokens. */
+.sql-dataset{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:22px;margin:32px 0}
+.sql-dataset>section{min-width:0;padding:20px 22px;border:1px solid var(--ui-border);background:var(--ui-surface);border-radius:var(--radius-lg)}
+.sql-dataset h2{font-family:var(--font-display);font-size:1.45rem}
+.sql-dataset-scroll{overflow-x:auto;max-width:100%}
+.sql-dataset table{width:100%;border-collapse:collapse;text-align:left}
+.sql-dataset th,.sql-dataset td{padding:10px 12px;border-bottom:1px solid var(--ui-border);white-space:nowrap;font-size:.88rem}
+.sql-dataset th{background:var(--ui-surface-muted);color:var(--ui-ink)}
+.sql-dataset td{color:var(--ui-ink-subtle)}
+@media(max-width:800px){.sql-dataset{grid-template-columns:1fr}.sql-dataset>section{padding:16px}}

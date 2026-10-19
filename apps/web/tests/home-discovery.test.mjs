@@ -36,7 +36,8 @@ test("course and lesson search includes title, subject and real lesson matches",
   assert.equal(poly.length,1);
   assert.equal(poly[0].id,"course.java.fundamentals");
   assert.equal(searchLearningPaths(learningPaths,"olmayan dil").length,0);
-  assert.equal(searchLearningPaths(learningPaths,"").length,3);
+  assert.deepEqual(searchLearningPaths(learningPaths,"SQL").map(x=>x.id),["course.sql.fundamentals"]);
+  assert.equal(searchLearningPaths(learningPaths,"").length,4);
   assert.deepEqual(searchLearningPaths(learningPaths,"jaVA").map(x=>x.id),[
     "course.javascript.fundamentals","course.java.fundamentals"]);
 });
@@ -50,7 +51,7 @@ test("genuine progress chooses the most recently active unfinished lesson",()=>{
   assert.equal(progress.kind,"continue");
   assert.equal(progress.next.id,"lesson.javascript.scope");
   assert.equal(progress.completed,1);
-  assert.equal(progress.total,15);
+  assert.equal(progress.total,19);
   assert.equal(progress.stats.find(s=>s.id==="course.java.fundamentals").completed,1);
 });
 test("empty and completed-only progress do not invent active unfinished records",()=>{
@@ -66,7 +67,7 @@ test("empty and completed-only progress do not invent active unfinished records"
     .map(l=>saved(l.id,"2026-10-18T13:00:00Z","2026-10-18T13:00:00Z")));
   assert.equal(all.kind,"finished");
   assert.equal(all.next,null);
-  assert.equal(all.completed,15);
+  assert.equal(all.completed,19);
 });
 test("foreign, malformed and duplicate progress cannot pollute recommendations",()=>{
   const rows=[saved("private.fake.lesson","2026-10-18T16:00:00Z"),

@@ -9,6 +9,18 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    services:
+      sql-fixture:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ci_sql
+          POSTGRES_PASSWORD: ci_ephemeral_only
+          POSTGRES_DB: devacademy_sql_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ci_sql -d devacademy_sql_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 15
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -22,6 +34,10 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Validate app
         run: corepack pnpm check
+      - name: Verify SQL curriculum with isolated PostgreSQL 16
+        env:
+          M11_SQL_TEST_DATABASE_URL: postgresql://ci_sql:ci_ephemeral_only@127.0.0.1:5432/devacademy_sql_ci
+        run: node apps/web/tests/sql-postgres-fixtures.mjs
       - name: Install Java 21 for reviewed curriculum fixtures
         uses: actions/setup-java@v4
         with:

@@ -2,7 +2,7 @@
 
 **Interactive software learning, practice, assessment and industry awareness.**
 
-> Status: local development preview. Three published course paths (7 JavaScript, 3 Java and 5 Python lessons), 45 reviewed Learning Studio traces, authenticated progress, and optional isolated localhost-only JS/Java/Python code assessments are implemented. Public code execution and production deployment remain disabled.
+> Status: local development preview. Four published course paths (7 JavaScript, 3 Java, 5 Python and 4 SQL lessons), 45 reviewed Learning Studio traces for JS/Java/Python, authenticated progress, and optional isolated localhost-only JS/Java/Python code assessments are implemented. Public code execution and production deployment remain disabled.
 
 DevAcademy connects programming languages, software engineering concepts and modern technology stacks to interactive lessons, programming practice, skill checks, learning paths and attributed technology updates.
 
@@ -19,9 +19,9 @@ Open http://localhost:3000. `corepack pnpm check` runs lint, type checks, catalo
 
 ## Current preview
 
-- An Olive & Earth light/dark learning homepage, searchable JavaScript/Java/Python courses and responsive lesson workstation.
+- An Olive & Earth light/dark learning homepage, searchable JavaScript/Java/Python/SQL courses and responsive lesson workstation.
 - Catalog previews for languages, concepts and technologies, including the uncommon **COW** language.
-- 15 published lessons, 38 server-graded knowledge questions, 45 reviewed, real-runtime-checked Studio traces; independent prediction and code-transfer evidence exists for a six-concept subset only.
+- 19 published lessons, 46 server-graded knowledge questions, 45 reviewed, real-runtime-checked Studio traces; independent prediction and code-transfer evidence exists for a six-concept subset only.
 - Three function-writing challenges under `/pratik`, with open examples and worker-only hidden test cases. Evaluation is available only in an explicitly configured **local sandbox laboratory**, never in production.
 - PostgreSQL migrations for learner/attempt/progress, username credentials and server-side sessions, plus local registration/login, saved quiz attempts and account deletion. These features are active only with a configured database. Answers are not shipped in public question JSON.
 - Responsive styling, keyboard skip link and basic semantic markup.
@@ -152,4 +152,10 @@ All five Python fundamentals lessons now offer 15 real-life, graduated output-pr
 ## M9 · Common applied learning across all published courses
 
 After Python, all seven JavaScript and three Java fundamentals lessons also use the same real-life progression: three output-prediction levels with misconception-specific feedback, hints and fifteen total write-from-scratch self-review challenges across the platform. Authored outputs are checked in Node 24, Java 21 and Python 3.12. **These new practice tasks do not record independent mastery or run arbitrary learner code**. Existing authenticated code-transfer evidence remains separate and localhost-only. [Full 15-lesson M9 curriculum and validation](docs/learning/M9-ALL-COURSES-APPLIED.md).
-\n## M10 · Sector Radar\n\nOpen `/radar` to browse read-only Hacker News, DEV and repository release metadata. An internet connection is needed for fresh data; sources are fetched only by the server from fixed endpoints. Date filtering and in-memory caching prevent undated and long-expired entries from being presented as new. If the source cannot be reached, the interface either explicitly marks bounded stale records or displays an empty/unavailable state. The source of a title is not an endorsement and not the same as editorial verification of the linked article. The learning-context layer now distinguishes Python asyncio, data processing, testing, version/security topics; JavaScript Promise/array/Node topics; and Java OOP/Spring. Each article shows a curated context, why it matters, a question to check in the original source and an accurately labeled lesson/prerequisite/catalog link. These descriptions derive only from headlines, tags or known release repositories, never an assumed full-text summary. See [M10 architecture and source policy](docs/architecture/M10-SECTOR-RADAR.md).\n
+
+## M10 · Sector Radar
+
+Open `/radar` to browse read-only Hacker News, DEV and repository release metadata. An internet connection is needed for fresh data; sources are fetched only by the server from fixed endpoints. Date filtering and in-memory caching prevent undated and long-expired entries from being presented as new. If the source cannot be reached, the interface either explicitly marks bounded stale records or displays an empty/unavailable state. The source of a title is not an endorsement and not the same as editorial verification of the linked article. The learning-context layer now distinguishes Python asyncio, data processing, testing, version/security topics; JavaScript Promise/array/Node topics; and Java OOP/Spring. Each article shows a curated context, why it matters, a question to check in the original source and an accurately labeled lesson/prerequisite/catalog link. These descriptions derive only from headlines, tags or known release repositories, never an assumed full-text summary. See [M10 architecture and source policy](docs/architecture/M10-SECTOR-RADAR.md).\n
+## M11 · SQL Temelleri (controlled content expansion)
+
+The fourth course `/kurslar/sql-temelleri` has 4 lessons and 8 server-graded quiz items with one fictional customer/orders dataset at `/sql-ornek-veri`. SQL edits use a **plain-text editor**, not a browser/server SQL runner or the learner's PostgreSQL database. A dedicated ephemeral PostgreSQL 16 service in CI verifies authored query output and private answer keys. Original JavaScript/Java/Python lessons keep their 45 real-runtime Studio traces; new SQL lessons are taught via read/contrast/quiz without pretending to have a working SQL sandbox. The M11 student pilot remains pending. See `docs/learning/M11-SQL-FOUNDATIONS.md`.

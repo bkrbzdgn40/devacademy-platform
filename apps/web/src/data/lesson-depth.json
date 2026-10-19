@@ -148,5 +148,45 @@
     "challenge": "Profilde olmayan şehir bilgisini gösterirken uygulamayı durdurmadan hangi erişimi kullanırsın?",
     "answer": "person.get('city', 'Bilinmiyor') gibi bir varsayılan değer kullan; city zorunluysa eksik veriyi ayrıca doğrula.",
     "application": "Eksik API alanları, kullanıcı profilleri ve konfigürasyon sözlüklerini daha dayanıklı oku."
+  },
+  {
+    "id": "lesson.sql.select",
+    "model": "İlişkisel veritabanında bir SELECT ifadesi sonuç kümesinin hangi sütunlardan oluşacağını belirler. Satırların sırası yalnızca ORDER BY ile anlamlı biçimde sabitlenir.",
+    "pitfall": "ORDER BY kullanmadan kayıtlara kimlik numarası sırasıyla gelir diye güvenmek, tablo büyüdüğünde veya sorgu planı değiştiğinde kırılgan sonuçlar üretir.",
+    "contrast": "SELECT ad FROM musteriler; belirli bir sırayı garanti etmez. SELECT ad FROM musteriler ORDER BY id DESC; ise Can, Bora, Ayşe sırasını açıkça ister.",
+    "why": "İlişkisel sorgu bir kayıt kümesini tarif eder; fiziksel saklama sırası sonuç sırası kontratı değildir. ORDER BY açık sıralama kuralıdır.",
+    "challenge": "Üç müşteriden id'si en büyük olanın adını almak için hangi iki ifadeyi eklersin? Sonucun ilk satırı hangisi olur?",
+    "answer": "ORDER BY id DESC LIMIT 1 eklersin. Örnek veriyle sonuç Can olur; LIMIT sıralamadan sonra uygulanır.",
+    "application": "Ekran tablosunda en güncel kayıtları gösterirken rastgele gelen sıra yerine tarih ve benzersiz kimlik ile deterministik sıralama kullan."
+  },
+  {
+    "id": "lesson.sql.where",
+    "model": "WHERE satır düzeyinde koşul hesaplar. TRUE sonucu geçen satırları seçer; SQL'de NULL nedeniyle UNKNOWN olabilen koşullar normal TRUE ile aynı değildir.",
+    "pitfall": "Eksik tarihi = NULL ile aramak veya AND içindeki iki koşuldan yalnızca birinin sağlanmasını yeterli görmek hatalı sipariş raporlarına neden olur.",
+    "contrast": "WHERE teslim_tarihi = NULL ifadesi NULL değerlerini yakalamaz. WHERE teslim_tarihi IS NULL eksik tarihi olan 11 numaralı siparişi döndürür.",
+    "why": "NULL bir eşitlik değeri değil, bilinmeyen/eksik bilgiyi temsil eder. = karşılaştırması UNKNOWN verebilir; IS NULL bunun için tanımlanmış ayrı koşuldur.",
+    "challenge": "Teslim edilmiş ve 100 tutar eşiğini geçen siparişleri bulmak için hangi iki koşulu birleştirirsin? 80 tutarlı bekleyen kayıt neden gelmez?",
+    "answer": "WHERE durum = 'teslim' AND tutar >= 100 kullanırsın. Bekleyen ve düşük tutarlı sipariş iki koşulu da sağlamaz.",
+    "application": "Sipariş durumlarına, tarih aralıklarına ve eksik alanlara göre rapor çıkarırken NULL kontrolünü açıkça yaz."
+  },
+  {
+    "id": "lesson.sql.join",
+    "model": "JOIN iki tablo arasındaki bağı ON üzerinden eşleştirir. INNER JOIN yalnızca eşleşenleri tutarken LEFT JOIN soldaki her satırı saklar; sağ tarafta yoksa NULL döner.",
+    "pitfall": "INNER JOIN ile hiç siparişi olmayan müşterileri aramak veya soldaki müşteriyi korumak isterken sağ tabloya WHERE koşulu koyup LEFT JOIN'i fiilen INNER gibi yapmak.",
+    "contrast": "INNER JOIN ile Can görünmez. LEFT JOIN siparisler ON siparisler.musteri_id = musteriler.id kullanınca Can satırı da gelir; sipariş alanları NULL olur.",
+    "why": "Eşleşmeyen sağ tablo satırı bulunmadığında LEFT JOIN yine sol tarafı korur. İlişkisiz satırların kaybolmaması raporun amacına göre kritiktir.",
+    "challenge": "Bir satış raporunda henüz sipariş vermeyen müşterileri göstermek istiyorsun. INNER JOIN neden eksik kalır ve hangi sorgu düzeni gerekir?",
+    "answer": "LEFT JOIN ile musteriler solda olmalı; WHERE s.id IS NULL koşulu siparişi olmayan Can'ı seçer.",
+    "application": "Hiç işlem yapmayan kullanıcı, boş sepeti olan müşteri veya henüz kayıt üretmemiş proje listelerini eksiksiz raporlamak."
+  },
+  {
+    "id": "lesson.sql.group",
+    "model": "GROUP BY satırları gruplara ayırır, SUM ve COUNT gibi toplulaştırma işlevleri her grup için değer üretir. HAVING bu hesaplamadan sonra grupları süzer.",
+    "pitfall": "SUM(tutar) değerini WHERE içinde doğrudan filtrelemek veya teslim edilmemiş siparişleri toplam hesabına katmak satış raporunu yanlış sonuçlandırır.",
+    "contrast": "WHERE durum='teslim' grup öncesi bekleyen siparişi dışlar. HAVING SUM(tutar)>=230 grup sonrasında yalnızca teslim toplamı eşiği geçen Bora kaydını tutar.",
+    "why": "WHERE henüz grup oluşmadan bireysel satırları seçer. HAVING grup başına hesaplanmış SUM veya COUNT gibi değerlere karar verir.",
+    "challenge": "Müşteri başına teslim siparişlerini sayarken toplamı 230 ve üzeri olanları görmek istiyorsun. Filtreleme hangi sırada gerçekleşmeli?",
+    "answer": "Önce WHERE durum='teslim', ardından GROUP BY musteri_id ve en son HAVING SUM(tutar)>=230 yazılır.",
+    "application": "Satış, bütçe ve operasyon raporlarında şube/müşteri bazlı miktar veya toplamları hesaplarken filtreleme düzeylerini ayır."
   }
 ]

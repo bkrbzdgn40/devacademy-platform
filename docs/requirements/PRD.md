@@ -1,6 +1,6 @@
 # DevAcademy · Ürün Gereksinimleri
 
-**Sürüm:** 0.2 · **Güncelleme:** 2026-10-18
+**Sürüm:** 0.3 · **Güncelleme:** 2026-10-19
 **Statü:** Yerel çalışan ürün prototipi; henüz genel internet ürünü değil.
 **Strateji:** Önce öğreticilik ve içerik; ardından güncel sektör bilgisi
 ve gerçek öğrenci doğrulaması. Ayrıntılar [güncel yol haritasında](../roadmap/ROADMAP.md).
@@ -32,13 +32,13 @@ henüz saha çalışmasında doğrulanmamıştır.
 Birincil öğretim ve arayüz dili Türkçedir. İçeriğin yayımlanmış görünmesi
 otomatik olarak başka dillere çevrilmiş olduğunu göstermez.
 
-## 3. Bugün teslim edilmiş kapsam (2026-10-18)
+## 3. Bugün teslim edilmiş kapsam (2026-10-19)
 
 | Yetenek | Gerçek kapsam / sınır |
 | --- | --- |
-| Kurslar | JavaScript 7, Java 3, Python 5 olmak üzere 15 ders / 3 kurs |
-| Soru | 38 gözden geçirilmiş yayımlanmış bilgi sorusu |
-| Öğrenme Stüdyosu | 15 dersin tamamında 3'er hazır, CI'da gerçek dillerle doğrulanmış kod izleme varyantı (45) |
+| Kurslar | JavaScript 7, Java 3, Python 5 ve SQL 4 olmak üzere 19 ders / 4 kurs |
+| Soru | 46 gözden geçirilmiş yayımlanmış bilgi sorusu |
+| Öğrenme Stüdyosu | JavaScript/Java/Python 15 dersin tamamında 3'er hazır, CI'da gerçek dillerle doğrulanmış kod izleme varyantı (45) |
 | Öğretici açıklama | Kavram modeli, karşı örnek, yaygın hata, örneği adım adım takip ve ipuçları |
 | Değerlendirme | Sunucuda derecelendirilen quiz; kılavuzlu hata seçimi, bireysel kanıtlarla aynı değil |
 | Bağımsız kanıt | 6 kavramda çıktı tahmini, uyarlamalı teşhis ve en az 24 saat sonra bağımsız tekrar |
@@ -92,6 +92,8 @@ stale/hata durumları, kaynak bağlantısı, ilgili öğrenme konusu.
 Yalnızca API bağlandı diye eski/sahte veri yayımlanamaz.
 
 ### P2 · M11 Doğrulama ve genişleme
+
+**İlk içerik paketi:** SQL Temelleri (4 ders, 8 quiz, tek kurgusal veri kümesi, ayrı PostgreSQL 16 CI fixtürü). SQL çalıştırma API'si açılmaz ve SQL editörü düz metindir. Bu teknik testler öğrenci pilotunun yerini tutmaz.
 
 Küçük pilot, öğrenme görevi tamamlama gözlemi, içerik anlaşılabilirliği,
 daha iyi açıklama/kapsam gerekçesi ve kontrollü TypeScript/SQL/veri

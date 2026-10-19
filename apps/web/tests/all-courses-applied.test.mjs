@@ -7,11 +7,11 @@ import js from "../src/data/javascript-applied-path.json" with {type:"json"};
 import java from "../src/data/java-applied-path.json" with {type:"json"};
 import py from "../src/data/python-applied-path.json" with {type:"json"};
 
-test("each of fifteen published lessons has three real contexts and an independent code attempt",()=>{
+test("all 15 Java/JavaScript/Python lessons retain applied experiences; SQL has separate query cases",()=>{
   const all=[...js,...java,...py];
   assert.equal(all.length,15);
   assert.equal(new Set(all.map(x=>x.lessonId)).size,15);
-  assert.deepEqual(all.map(x=>x.lessonId).sort(),lessons.map(x=>x.id).sort());
+  assert.deepEqual(all.map(x=>x.lessonId).sort(),lessons.filter(x=>!x.id.startsWith("lesson.sql.")).map(x=>x.id).sort());
   for(const track of all){
     const published=lessons.find(l=>l.id===track.lessonId);
     const course=courses.find(c=>c.editorLanguage===track.language);
