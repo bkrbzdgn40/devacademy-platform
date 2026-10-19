@@ -36,7 +36,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
   const name = course.editorLanguage === "java" ? "Java" : course.editorLanguage === "javascript" ? "JavaScript" :
     course.editorLanguage === "python" ? "Python" : course.languageId === "language.sql" ? "SQL" : "Düz metin";
   const editorLanguage = course.editorLanguage === "java" ? "java" :
-    course.editorLanguage === "python" ? "python" : "plain";
+    course.editorLanguage === "python" ? "python" : course.editorLanguage === "javascript" ? "javascript" : "plain";
   const editor = <CodePlayground starterCode={lesson.code} displayLanguage={name}
     language={editorLanguage} label={lesson.title + " kod editörü"}/>;
   const completion = <CompleteLesson lessonId={lesson.id} questionCount={questions.length}/>;
