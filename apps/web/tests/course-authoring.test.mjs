@@ -45,9 +45,9 @@ test("generator emits safely disabled isolated curriculum drafts",async()=>{
   assert.throws(()=>preparePublication(base,draft.publicDraft,draft.privateDraft),/reviewed/);
   const {pub,priv}=complete(draft);
   const result=preparePublication(base,pub,priv);
-  assert.equal(result.courses.length,4);
-  assert.equal(result.lessons.length,16);
-  assert.equal(result.questions.length,39);
+  assert.equal(result.courses.length,5);
+  assert.equal(result.lessons.length,20);
+  assert.equal(result.questions.length,47);
   assert.equal(result.catalog.length,base.catalog.length);
   assert.equal(result.answers[pub.questions[0].id].optionId,"a");
 });

@@ -477,7 +477,7 @@ try{
     "resume:!!document.querySelector('.journey-card a[href=\"/kurslar\"]'),"+
     "overflow:d.scrollWidth>d.clientWidth+1};})()",
     returnByValue:true},sessionId);
-  assert.deepEqual(discoveryHome.result.value,{paths:3,radar:3,
+  assert.deepEqual(discoveryHome.result.value,{paths:4,radar:3,
     radarActive:true,resume:true,overflow:false},
     "M10 home must link to the active attributed sector radar");
   // New homepage learning path cards inherit the palette after choosing

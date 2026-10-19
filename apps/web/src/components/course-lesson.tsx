@@ -33,9 +33,10 @@ export function CourseLesson({ course, lesson, legacy = false }: {
   const studio = studioHasLesson(lesson.id) ? <LearningStudio lessonId={lesson.id}/> : null;
   const diagnostic = guide ? questions.find((item) => item.id === guide.questionId) : undefined;
   const predictionQuestions = guide ? questions.filter((item) => item.id !== guide.questionId) : questions;
-  const name = course.editorLanguage === "java" ? "Java" : course.editorLanguage === "javascript" ? "JavaScript" : "Python";
+  const name = course.editorLanguage === "java" ? "Java" : course.editorLanguage === "javascript" ? "JavaScript" :
+    course.editorLanguage === "python" ? "Python" : course.languageId === "language.sql" ? "SQL" : "Düz metin";
   const editorLanguage = course.editorLanguage === "java" ? "java" :
-    course.editorLanguage === "python" ? "python" : "javascript";
+    course.editorLanguage === "python" ? "python" : "plain";
   const editor = <CodePlayground starterCode={lesson.code} displayLanguage={name}
     language={editorLanguage} label={lesson.title + " kod editörü"}/>;
   const completion = <CompleteLesson lessonId={lesson.id} questionCount={questions.length}/>;
@@ -78,7 +79,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
     { id: "apply", label: "Uygula", title: "Yeni bir örnekte kendini dene", content: <>
       <p className="lesson-step-intro">Kodu kendin değiştir. Genel kullanıma açık kod çalıştırma kapalıdır; bilgi soruların ayrı değerlendirilir.</p>
       {editor}
-      {<AppliedLearningStudio lessonId={lesson.id} language={editorLanguage}/>}
+      {editorLanguage!=="plain" && <AppliedLearningStudio lessonId={lesson.id} language={editorLanguage}/>}
       <div className="lesson-section">
         <h3>Öğrendiğini farklı bir durumda kullan</h3>
         <div className="quiz-stack">{predictionQuestions.slice(1).map((question, i) =>
@@ -110,7 +111,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
     { id: "apply", label: "Kodla", title: "Örneği kendin değiştir", content: <>
       <p className="lesson-step-intro">Örneği düzenle. Kod çalıştırma yalnızca yetkilendirilmiş yerel laboratuvar ortamında etkinleşir.</p>
       {editor}
-      {<AppliedLearningStudio lessonId={lesson.id} language={editorLanguage}/>}
+      {editorLanguage!=="plain" && <AppliedLearningStudio lessonId={lesson.id} language={editorLanguage}/>}
     </> },
     { id: "assess", label: "Test et", title: "Bilgini kontrol et", content: <>
       <p className="lesson-step-intro">Önce sonucu tahmin et, sonra açıklamayı incele.</p>
@@ -134,6 +135,11 @@ export function CourseLesson({ course, lesson, legacy = false }: {
     <header className="lesson-header">
       <p className="overline">{course.title} · Ders {index + 1}/{entries.length}</p>
       <h1>{lesson.title}</h1><p>{lesson.summary}</p>
+      {course.languageId==="language.sql"&&<p className="small-note">
+        Örnek kayıtlar: <Link href="/sql-ornek-veri">Müşteri ve sipariş verilerini incele →</Link>.
+        SQL editörü düz metin olarak çalışır; sorgular tarayıcıda veya web sunucusunda yürütülmez.
+        Doğru cevaplar yalnızca ayrı bilgi sorularından değerlendirilir.
+      </p>}
       <div className="lesson-meta">
         <span>{lesson.level}</span><span>{lesson.durationMinutes} dakika</span>
         <span>{questions.length} soru</span>

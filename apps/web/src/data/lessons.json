@@ -345,5 +345,95 @@
     "prerequisites": [
       "lesson.python.functions"
     ]
+  },
+  {
+    "id": "lesson.sql.select",
+    "slug": "select-ve-siralama",
+    "title": "SELECT, sütun seçimi ve ORDER BY",
+    "level": "Başlangıç",
+    "durationMinutes": 24,
+    "objective": "Müşteri tablosundan yalnızca gereken sütunları seçip sıralama yönünü açıkça belirleyebilmek.",
+    "summary": "Müşteri listesinden seçili alanları getir, ORDER BY ile deterministik sırala.",
+    "explanation": "SELECT hangi sütunları okumak istediğini belirtir, FROM veri kaynağını seçer. SQL ilişkisel sonuçları ORDER BY yoksa garantili bir sırada gelmez. ORDER BY customer_id ASC kaydın artan kimlik sırasını garanti eder; DESC tersidir. Bu derste müşteriler(id, ad) tablosuyla çalışıyoruz. Örnek veri: 1 Ayşe, 2 Bora, 3 Can. Tabloların tamamını örnek veri bağlantısından görebilirsin.",
+    "code": "SELECT id, ad\nFROM musteriler\nORDER BY id DESC;",
+    "takeaways": [
+      "SELECT ile yalnızca ihtiyaç duyulan sütunları oku.",
+      "ORDER BY olmadan sonuç sırasına güvenme.",
+      "ASC artan, DESC azalan sıralamadır."
+    ],
+    "questionIds": [
+      "sql.select.desc",
+      "sql.select.columns"
+    ],
+    "prerequisites": []
+  },
+  {
+    "id": "lesson.sql.where",
+    "slug": "where-ve-null",
+    "title": "WHERE, AND ve NULL",
+    "level": "Başlangıç",
+    "durationMinutes": 27,
+    "objective": "Siparişlerden iki koşulu birlikte sağlayan kayıtları bulup NULL değerini doğru sorgulayabilmek.",
+    "summary": "Teslim edilen siparişleri koşulla filtrele; bilinmeyen tarihi IS NULL ile ara.",
+    "explanation": "WHERE satırları koşula göre seçer. AND iki koşulun birlikte doğru olmasını gerektirir. NULL, sıfır veya boş metin değildir; bilinmeyen/eksik değerdir. Bu nedenle `= NULL` yerine `IS NULL` kullanılır. Sipariş tablosunda tutar ve teslim durumu vardır. Yalnızca verilen filtreye uyan kayıtlar döner; sonucun sırası için ayrıca ORDER BY gerekir.",
+    "code": "SELECT id, tutar\nFROM siparisler\nWHERE durum = 'teslim' AND tutar >= 100\nORDER BY id;",
+    "takeaways": [
+      "WHERE ile satırları filtrele; AND bütün koşulları birlikte uygular.",
+      "NULL için = NULL değil IS NULL/IS NOT NULL kullan.",
+      "Filtrelenen sonucu sıralamak için ORDER BY yaz."
+    ],
+    "questionIds": [
+      "sql.where.delivered",
+      "sql.where.null"
+    ],
+    "prerequisites": [
+      "lesson.sql.select"
+    ]
+  },
+  {
+    "id": "lesson.sql.join",
+    "slug": "join-ve-eksik-kayitlar",
+    "title": "INNER JOIN ve LEFT JOIN",
+    "level": "Başlangıç",
+    "durationMinutes": 29,
+    "objective": "İlişkili siparişleri müşteri adıyla birleştirip hiç siparişi olmayan müşteriyi LEFT JOIN ile koruyabilmek.",
+    "summary": "İki tabloyu müşteri kimliği üzerinden birleştir; INNER ve LEFT JOIN farkını gör.",
+    "explanation": "JOIN iki tablo arasındaki ilişkiyi ON koşuluyla tarif eder. INNER JOIN yalnızca iki tarafta eşleşen kayıtları döndürür. LEFT JOIN soldaki tablonun her satırını korur ve eşleşme yoksa sağ tablo alanları NULL olur. JOIN için doğru anahtar seçmek önemlidir; yanlış ON koşulu satır çoğalmasına neden olabilir. Ayşe ve Bora sipariş oluşturmuş, Can henüz oluşturmamıştır.",
+    "code": "SELECT m.ad, s.id AS siparis_id\nFROM musteriler AS m\nLEFT JOIN siparisler AS s ON s.musteri_id = m.id\nORDER BY m.id, s.id;",
+    "takeaways": [
+      "INNER JOIN yalnızca eşleşen satırları getirir.",
+      "LEFT JOIN soldaki eşleşmeyen müşteriyi de NULL sipariş alanlarıyla korur.",
+      "JOIN koşulunu gerçek yabancı anahtar üzerinden kur."
+    ],
+    "questionIds": [
+      "sql.join.left",
+      "sql.join.inner"
+    ],
+    "prerequisites": [
+      "lesson.sql.where"
+    ]
+  },
+  {
+    "id": "lesson.sql.group",
+    "slug": "group-by-ve-having",
+    "title": "GROUP BY, COUNT ve HAVING",
+    "level": "Başlangıç",
+    "durationMinutes": 30,
+    "objective": "Her müşteri için teslim edilen siparişlerin sayısını ve toplamını hesaplayıp grupları HAVING ile filtreleyebilmek.",
+    "summary": "Gruplama, toplama ve grup sonrası filtrelemeyi güvenilir raporda birleştir.",
+    "explanation": "GROUP BY aynı anahtara sahip satırları bir araya getirir. COUNT(*) satır sayısını, SUM(tutar) tutarların toplamını hesaplar. WHERE gruplamadan önce tekil siparişleri filtreler; HAVING gruplandıktan sonra toplam gibi hesaplara göre grupları seçer. SQL'de SELECT ile gösterilen gruplanmamış sütunlar GROUP BY kapsamıyla uyumlu olmalıdır.",
+    "code": "SELECT musteri_id, COUNT(*) AS adet, SUM(tutar) AS toplam\nFROM siparisler\nWHERE durum = 'teslim'\nGROUP BY musteri_id\nHAVING SUM(tutar) >= 230\nORDER BY musteri_id;",
+    "takeaways": [
+      "WHERE gruplama öncesi satır filtresidir; HAVING grup sonrası filtredir.",
+      "COUNT(*) grup içindeki satır sayısını verir.",
+      "SUM, NULL olmayan sayısal değerleri toplar; eksik verinin anlamını ayrıca düşün."
+    ],
+    "questionIds": [
+      "sql.group.totals",
+      "sql.group.having"
+    ],
+    "prerequisites": [
+      "lesson.sql.join"
+    ]
   }
 ]

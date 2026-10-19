@@ -1,14 +1,14 @@
 # DevAcademy · Güncel Ürün Yol Haritası
 
-**Sürüm:** 0.2 · **Güncelleme:** 2026-10-18
+**Sürüm:** 0.3 · **Güncelleme:** 2026-10-19
 **Konum:** Yerel çalışan öğrenme prototipi. İnternet üzerinden kullanıma açılmış ürün değil.
 **Kural:** Bu belge güncel ürün planıdır; eski M0–M8 numaraları tarihi uygulama kayıtlarıdır.
 Takvim veya bağımsız güvenlik onayı vaat edilmez.
 
 ## Şu anda doğruladığımız durum
 
-- Yayınlanan **3 eğitim kursu**, **15 ders**: JavaScript (7), Java (3), Python (5).
-- 38 yayımlanmış bilgi sorusu; 45 gözden geçirilmiş, gerçek JS/Java/Python
+- Yayınlanan **4 eğitim kursu**, **19 ders**: JavaScript (7), Java (3), Python (5), SQL (4).
+- 46 yayımlanmış bilgi sorusu; önceki 15 Java/JavaScript/Python dersinde 45 gözden geçirilmiş, gerçek JS/Java/Python
   çalışma ortamında CI ile karşılaştırılmış Öğrenme Stüdyosu senaryosu.
 - Öğretici çıktı tahmini, satır izleme, karşı örnek, rehberli hata düzeltme
   ve kayıtlı ders ilerlemesi; zamanlanmış tekrar.
@@ -19,8 +19,8 @@ Takvim veya bağımsız güvenlik onayı vaat edilmez.
   yalnızca açıkça etkinleştirilen özel localhost Docker laboratuvarında vardır.
   Genel internet kod çalıştırıcısı ve üretim dağıtımı **yoktur**.
 - Açık/koyu toprak-zeytin teması, gerçek kurs/ders araması, ders çalışma
-  alanı ve kişisel ilerleme panosu mevcut. Sektör Radarı şimdilik kaynak
-  tanıtımıdır; **canlı haber API'si yoktur**.
+  alanı ve kişisel ilerleme panosu mevcut. Sektör Radarı canlı ve tarihli API metadata akışına bağlıdır;
+  ders bağlantıları önkoşul olarak açıklanır.
 - Otomatik CI başarıları yazılım davranışını doğrular. Gerçek öğrencide
   kalıcı öğrenme kazanımı **henüz ölçülmemiştir**.
 
@@ -77,7 +77,9 @@ başka bir duruma aktarabilir ve mümkün olduğunda kendi kodunu oluşturabilir
 5. Gönüllü pilotun yöntemi belirlenmiş, gerçek veriler ayrı raporlanmış
    olmalı. *Öğrenme etkisi* yalnızca bunlar ölçüldüyse iddia edilebilir.
 
-### M10 · Sektör Radarı ve Teknoloji Keşfi\n\n**Uygulama:** Resmî, sabit kaynak API'lerinden salt-okunur içerik çekimi, kaynak ve tarih doğrulaması, kanonik URL ayıklama ve mevcut öğrenme yolu eşleştirmeleri `/radar` altında gerçekleştirildi. Bu teknik geliştirme, dış kaynak haberlerinin editoryal olarak doğrulandığını veya M9 pilotunun tamamlandığını göstermez. CI ve gerçek tarayıcı kontrolü teslimatın ayrı kabul adımlarıdır. Ayrıntılar: [M10 kaynak politikası](../architecture/M10-SECTOR-RADAR.md).
+### M10 · Sektör Radarı ve Teknoloji Keşfi
+
+**Uygulama:** Resmî, sabit kaynak API'lerinden salt-okunur içerik çekimi, kaynak ve tarih doğrulaması, kanonik URL ayıklama ve mevcut öğrenme yolu eşleştirmeleri `/radar` altında gerçekleştirildi. Bu teknik geliştirme, dış kaynak haberlerinin editoryal olarak doğrulandığını veya M9 pilotunun tamamlandığını göstermez. CI ve gerçek tarayıcı kontrolü teslimatın ayrı kabul adımlarıdır. Ayrıntılar: [M10 kaynak politikası](../architecture/M10-SECTOR-RADAR.md).
 
 **Problem:** Geliştiricilerin güncel teknoloji haberi ile öğrendikleri
 kavramlar arasındaki bağ zayıf.
@@ -98,6 +100,10 @@ yayın tarihi, doğrulama zamanı ve neden ilgili olduğu açıklanır.
 Kaynak erişilemiyorsa şeffaf boş/hata durumu gösterilir.
 
 ### M11 · Öğrenci Doğrulaması ve Kontrollü Genişleme
+
+**İlk kontrollü içerik paketi:** SQL Temelleri için 4 ders, 8 ayrı değerlendirilen soru, kavramsal karşı örnekler ve kurgusal müşteri/sipariş veri kümesi. SQL sorguları tarayıcıda veya Next.js sürecinde çalıştırılmaz; bunların sonuçları CI'da ayrı PostgreSQL 16 geçici tablolarıyla doğrulanır. 15 eski Java/JavaScript/Python dersinin uygulamalı öğrenme araçları korunur. Gönüllü pilot henüz yapılmadığından M11'in saha kabulü **açıktır**.
+
+**Sonraki içerik adayları:** TypeScript, veri yapıları, algoritmalar ve proje laboratuvarları. Öncelik sırf sayı artırmak yerine teknik doğruluk ve müfredat gereksinimlerine göre belirlenecektir.
 
 **Problem:** Otomatik testler, öğreticiliğin gerçek hayattaki etkisini
 tek başına göstermez.

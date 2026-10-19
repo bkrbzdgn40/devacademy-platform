@@ -20,6 +20,9 @@ const links={
   javaCourse:shortcut("Java Temelleri kursu","/kurslar/java-temelleri","Temel hazırlık"),
   javaMethods:shortcut("Java: Metotlar ve return","/kurslar/java-temelleri/metotlar-ve-return","Temel hazırlık"),
   javaPoly:shortcut("Java: Çok biçimlilik","/kurslar/java-temelleri/polymorphism","İlgili ders"),
+  sqlCourse:shortcut("SQL Temelleri kursu","/kurslar/sql-temelleri","Temel hazırlık"),
+  sqlWhere:shortcut("SQL: WHERE ve NULL","/kurslar/sql-temelleri/where-ve-null","İlgili ders"),
+  sqlGroup:shortcut("SQL: GROUP BY ve HAVING","/kurslar/sql-temelleri/group-by-ve-having","İlgili ders"),
   languageCatalog:shortcut("Diller kataloğu","/kutuphane/diller","Katalog önizlemesi"),
   techCatalog:shortcut("Teknolojiler kataloğu","/kutuphane/teknolojiler","Katalog önizlemesi")
 };
@@ -55,9 +58,9 @@ const topicDefault={
     primary:links.techCatalog,secondary:links.jsFunctions,coverage:"katalog ve önkoşul"}),
   postgres:()=>bridge({label:"Veritabanı ve SQL",
     context:"Başlık veya etiketler SQL ya da veritabanı araçlarını işaret ediyor.",
-    why:"Tablo, sorgu ve kayıt kavramlarını bilmek için bağımsız SQL içeriği gerekir; henüz SQL dersimiz bulunmuyor.",
+    why:"SELECT, WHERE, JOIN ve GROUP BY temelleri sorgu, tablo ve raporlama konularını ayırt etmene yardım eder.",
     question:"Kaynağın konusu sorgu yazma mı, veri tutarlılığı mı, performans mı, yoksa yönetim mi?",
-    primary:links.languageCatalog,coverage:"katalog önizlemesi"}),
+    primary:links.sqlCourse,coverage:"temel hazırlık"}),
   docker:()=>bridge({label:"Konteynerler ve dağıtım",
     context:"Başlık veya etiketlerde Docker ya da konteyner ekosistemi var.",
     why:"Uygulama kodu ile onu paketleyen/çalıştıran ortam farklı katmanlardır. Henüz konteyner dersi sunmuyoruz.",

@@ -16,6 +16,12 @@ const details={
     foundation:["Türler ve dönüşümler","Metotlar ve return","Polymorphism"],
     next:"Nesne yönelimli tasarımın kavramsal temeli"
   },
+  "course.sql.fundamentals":{
+    area:"Veri sorgulama ve raporlama",mark:"DB",tone:"sand",
+    payoff:"Müşterileri, siparişleri ve sonuç kümelerini SQL ile güvenilir biçimde sorgula.",
+    foundation:["SELECT ve sıralama","WHERE ve JOIN","GROUP BY ve HAVING"],
+    next:"Veritabanı tasarımı ve indekslere hazırlık"
+  },
   "course.python.fundamentals":{
     area:"Problem çözme ve otomasyon",mark:"Py",tone:"sand",
     payoff:"Okunaklı kodla koşul, döngü, fonksiyon ve veri yapılarını öğren.",

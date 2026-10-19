@@ -122,6 +122,19 @@ try {
   assert.equal(javaWrong.status,200);
   assert.equal((await javaWrong.json()).correct,false);
 
+  const sqlCourse=await fetch(`${base}/kurslar/sql-temelleri`);
+  assert.equal(sqlCourse.status,200);
+  assert.match(await sqlCourse.text(),/SQL Temelleri/);
+  const sqlData=await fetch(`${base}/sql-ornek-veri`);
+  assert.equal(sqlData.status,200);
+  assert.match(await sqlData.text(),/musteriler/);
+  const sqlLesson=await fetch(`${base}/kurslar/sql-temelleri/where-ve-null`);
+  assert.equal(sqlLesson.status,200);
+  assert.match(await sqlLesson.text(),/WHERE, AND ve NULL/);
+  assert.equal((await fetch(`${base}/kurslar/sql-temelleri/missing`)).status,404);
+  const sqlGrade=await jsonPost({questionId:"sql.where.null",optionId:"a"});
+  assert.equal(sqlGrade.status,200);
+  assert.equal((await sqlGrade.json()).correct,true);
   const practice = await fetch(`${base}/pratik`);
   assert.equal(practice.status,200);
   const practiceHtml=await practice.text();

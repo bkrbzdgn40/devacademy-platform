@@ -758,5 +758,165 @@
         "text": "print(person.get(\"city\") + \"!\")"
       }
     ]
+  },
+  {
+    "id": "sql.select.desc",
+    "lessonId": "lesson.sql.select",
+    "prompt": "Örnek müşteriler için bu sorgunun ilk döndürdüğü ad hangisidir?",
+    "code": "SELECT ad FROM musteriler ORDER BY id DESC LIMIT 1;",
+    "options": [
+      {
+        "id": "a",
+        "text": "Ayşe"
+      },
+      {
+        "id": "b",
+        "text": "Can"
+      },
+      {
+        "id": "c",
+        "text": "Bora"
+      }
+    ]
+  },
+  {
+    "id": "sql.select.columns",
+    "lessonId": "lesson.sql.select",
+    "prompt": "Bu sorgu sonuç kümesinde kaç sütun döndürür?",
+    "code": "SELECT id, ad FROM musteriler ORDER BY id;",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "3"
+      },
+      {
+        "id": "c",
+        "text": "1"
+      }
+    ]
+  },
+  {
+    "id": "sql.where.delivered",
+    "lessonId": "lesson.sql.where",
+    "prompt": "Teslim edilmiş ve tutarı en az 100 olan kaç sipariş var?",
+    "code": "SELECT id FROM siparisler WHERE durum = 'teslim' AND tutar >= 100 ORDER BY id;",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "3"
+      },
+      {
+        "id": "c",
+        "text": "4"
+      }
+    ]
+  },
+  {
+    "id": "sql.where.null",
+    "lessonId": "lesson.sql.where",
+    "prompt": "Henüz teslim tarihi bulunmayan sipariş hangisidir?",
+    "code": "SELECT id FROM siparisler WHERE teslim_tarihi IS NULL ORDER BY id;",
+    "options": [
+      {
+        "id": "a",
+        "text": "11"
+      },
+      {
+        "id": "b",
+        "text": "12"
+      },
+      {
+        "id": "c",
+        "text": "Hiçbiri"
+      }
+    ]
+  },
+  {
+    "id": "sql.join.left",
+    "lessonId": "lesson.sql.join",
+    "prompt": "LEFT JOIN sonucunda hiç siparişi olmayan müşteri hangisidir?",
+    "code": "SELECT m.ad FROM musteriler m LEFT JOIN siparisler s ON s.musteri_id = m.id WHERE s.id IS NULL ORDER BY m.id;",
+    "options": [
+      {
+        "id": "a",
+        "text": "Bora"
+      },
+      {
+        "id": "b",
+        "text": "Ayşe"
+      },
+      {
+        "id": "c",
+        "text": "Can"
+      }
+    ]
+  },
+  {
+    "id": "sql.join.inner",
+    "lessonId": "lesson.sql.join",
+    "prompt": "INNER JOIN toplam kaç sipariş-müşteri satırı oluşturur?",
+    "code": "SELECT m.ad, s.id FROM musteriler m INNER JOIN siparisler s ON s.musteri_id = m.id ORDER BY s.id;",
+    "options": [
+      {
+        "id": "a",
+        "text": "3"
+      },
+      {
+        "id": "b",
+        "text": "5"
+      },
+      {
+        "id": "c",
+        "text": "6"
+      }
+    ]
+  },
+  {
+    "id": "sql.group.totals",
+    "lessonId": "lesson.sql.group",
+    "prompt": "Teslim edilmiş siparişlerin Bora için toplam tutarı kaçtır?",
+    "code": "SELECT SUM(tutar) AS toplam FROM siparisler WHERE durum = 'teslim' AND musteri_id = 2;",
+    "options": [
+      {
+        "id": "a",
+        "text": "200"
+      },
+      {
+        "id": "b",
+        "text": "250"
+      },
+      {
+        "id": "c",
+        "text": "300"
+      }
+    ]
+  },
+  {
+    "id": "sql.group.having",
+    "lessonId": "lesson.sql.group",
+    "prompt": "Toplam teslim siparişi tutarı 230 ve üzeri olan müşteri kimliği hangisidir?",
+    "code": "SELECT musteri_id FROM siparisler WHERE durum = 'teslim' GROUP BY musteri_id HAVING SUM(tutar) >= 230 ORDER BY musteri_id;",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "1"
+      },
+      {
+        "id": "c",
+        "text": "1 ve 2"
+      }
+    ]
   }
 ]

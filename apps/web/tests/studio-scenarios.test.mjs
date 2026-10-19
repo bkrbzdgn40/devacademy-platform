@@ -6,8 +6,8 @@ import {studioLessons,studioHasLesson,studioVariantCount,buildStudioScenario,
 
 test("studio has three distinct, bounded reviewed variants per supported concept",()=>{
   assert.equal(studioLessons.length,15);
-  assert.deepEqual([...studioLessons].sort(),lessons.map(x=>x.id).sort(),
-    "Every currently published lesson must have an independent authored trace.");
+  assert.deepEqual([...studioLessons].sort(),lessons.filter(x=>!x.id.startsWith("lesson.sql.")).map(x=>x.id).sort(),
+    "Every JavaScript/Java/Python lesson has an independent authored trace; SQL uses PostgreSQL fixtures.");
   assert.ok(studioLessons.some(x=>x.includes(".java.")));
   assert.ok(studioLessons.some(x=>x.includes(".python.")));
   assert.ok(studioLessons.some(x=>x.includes(".javascript.")));

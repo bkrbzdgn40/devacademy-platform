@@ -67,5 +67,27 @@
       "lesson.python.functions",
       "lesson.python.collections"
     ]
+  },
+  {
+    "id": "course.sql.fundamentals",
+    "slug": "sql-temelleri",
+    "languageId": "language.sql",
+    "title": "SQL Temelleri",
+    "summary": "Gerçek tablo kayıtlarından SELECT, filtreleme, JOIN ve GROUP BY ile güvenilir raporlar oluştur.",
+    "level": "Başlangıç",
+    "locale": "tr",
+    "editorLanguage": "plain",
+    "runtimeId": null,
+    "capabilities": {
+      "editor": true,
+      "run": false,
+      "codeAssessment": false
+    },
+    "lessonIds": [
+      "lesson.sql.select",
+      "lesson.sql.where",
+      "lesson.sql.join",
+      "lesson.sql.group"
+    ]
   }
 ]
