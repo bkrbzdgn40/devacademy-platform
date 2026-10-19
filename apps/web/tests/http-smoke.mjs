@@ -51,7 +51,13 @@ try {
   const homeHtml=await home.text();
   assert.match(homeHtml,/Öğrenme yollarını keşfet/);
   assert.match(homeHtml,/Kaldığın yeri arama/);
-  assert.match(homeHtml,/Canlı haber akışı henüz bağlı değil/);
+  assert.match(homeHtml,/Haber akışını aç/);
+  assert.ok(homeHtml.includes('href="/radar"'));
+  const radar=await fetch(`${base}/radar`);
+  assert.equal(radar.status,200);
+  const radarHtml=await radar.text();
+  assert.match(radarHtml,/Kaynakların durumu/);
+  assert.match(radarHtml,/Sektör Radarı/);
   const catalog = await fetch(`${base}/kutuphane/diller`);
   assert.equal(catalog.status, 200);
   assert.ok((await catalog.text()).includes('href="/kurslar/javascript-temelleri"'));

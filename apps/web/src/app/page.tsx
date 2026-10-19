@@ -98,9 +98,9 @@ pet.speak(); // Woof!`}</code></pre>
       <div className="radar-heading">
         <SectionHeading eyebrow="Sektör radarı · kaynak masası" id="radar-title"
           title="Teknoloji dünyasını öğrendiğin kavramlarla bağla."
-          description="Sektör tartışmalarını, makaleleri ve sürüm duyurularını tek yerde keşfetmek için hazırlanan alan."/>
-        <StatusPill tone="terracotta">Canlı haber akışı henüz bağlı değil</StatusPill>
-        <p className="radar-integrity">Şimdilik yalnızca kaynakları tanıtıyoruz. Güncelliği ve yayın tarihi doğrulanmamış başlıkları haber gibi göstermiyoruz.</p>
+          description="Hacker News, DEV ve resmî GitHub sürümlerinden güncel başlıkları derslerinle ilişkilendir."/>
+        <StatusPill tone="olive">Sektör Radarı aktif</StatusPill>
+        <p className="radar-integrity">Başlıklar ve kaynak kontrol tarihleri ayrı Radar sayfasında gösterilir. Bu ana sayfa yalnızca kaynakları tanıtır.</p><Link href="/radar" className="ui-button ui-button-primary">Haber akışını aç ↗</Link>
       </div>
       <div className="radar-source-grid">{sources.map((source,index)=><article className="radar-source ui-card" key={source.key}>
         <div className="radar-source-top"><span className="radar-source-index">0{index+1}</span>
@@ -109,7 +109,7 @@ pet.speak(); // Woof!`}</code></pre>
         <span className="radar-source-note">{source.note}</span>
         <a href={source.href} target="_blank" rel="noopener noreferrer">Kaynağı ziyaret et <span aria-hidden="true">↗</span></a>
       </article>)}</div>
-      <p className="radar-disclaimer">Veri entegrasyonu tamamlandığında her haberde kaynak, tarih ve ilgili ders bağlantısı gösterilecek. Topluluk yazıları resmî duyuru gibi etiketlenmeyecek.</p>
+      <p className="radar-disclaimer">Kaynakların gerçek başlıkları, yayın tarihleri, kontrol zamanı, konu eşleştirmesi ve erişim durumu Sektör Radarı sayfasındadır.</p>
     </section>
   </>;
 }

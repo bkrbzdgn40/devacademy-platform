@@ -46,7 +46,7 @@ otomatik olarak başka dillere çevrilmiş olduğunu göstermez.
 | Hesaplar | PostgreSQL kurulmuş yerel ortamda kullanıcı, oturum ve kaydedilmiş ilerleme |
 | Kişisel tekrar | Hata ve doğru cevaplara göre sıradaki tekrar zamanı; bağımsız kod becerisi puanı değil |
 | Tasarım | Olive & Earth açık/koyu tema, kurs/ders keşfi, duyarlı çalışma alanı |
-| Sektör Radarı | Kaynak bağlantısı görünümü; otomatik güncel haber akışı henüz yok |
+| Sektör Radarı | Sabit resmî API uçlarından yayın tarihi doğrulanan başlıklar; kaynak türü, kontrol zamanı, öğrenme bağlantısı, kesinti/eskime durumu |
 | Dağıtım | Genel canlı sürüm ve public öğrenci kodu çalıştırıcısı yok |
 
 Eski MVP hedefleri (4 yol, 5 public dil deneyimi, 100 kavram kartı,
@@ -109,7 +109,7 @@ ve topluluk varsayılan kapsam dışıdır.
   davranışsal doğruluk kanıtı üretilebilir.
 - **Geri dön:** Oturum açmış kullanıcı kendi ilerleme ve tekrarlarını
   görür; tamamlanma ile bağımsız kanıtı karıştırmadan ilgili derse gider.
-- **Güncel kal (plan):** Gerçek sektör akışında haberin tarihini,
+- **Güncel kal:** Gerçek sektör akışında haberin tarihini,
   kanonik kaynağını, türünü ve alakalı ders bağlantısını görür.
 
 ## 6. Başarı ölçümü: ürün değil, öğrenci odaklı

@@ -1205,3 +1205,47 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
   .python-applied-answer-actions{align-items:stretch;flex-direction:column;gap:3px}
   .python-applied-answer-actions button{width:100%}
 }
+
+/* M10: source-attributed radar. Semantic tokens preserve light/dark contrast. */
+.radar-page{padding-block:44px 92px}
+.radar-page-hero{max-width:840px;padding-block:20px 36px}
+.radar-page-hero h1{font-family:var(--font-display);font-size:clamp(2.2rem,5vw,4.2rem);line-height:1.14;letter-spacing:-.035em;margin-block:16px}
+.radar-page-hero h1 span{color:var(--ui-action)}
+.radar-page-hero>p:last-child{max-width:730px;color:var(--ui-ink-subtle)}
+.radar-health,.radar-stories{margin-top:36px}
+.radar-health h2,.radar-stories h2,.radar-method h2{font-family:var(--font-display);font-size:clamp(1.5rem,2.4vw,2.2rem)}
+.radar-health-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.radar-health-card{padding:22px;min-width:0}
+.radar-health-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.radar-health-card>p{margin:12px 0;color:var(--ui-ink-subtle)}
+.radar-health-card small{display:block;color:var(--ui-ink-subtle)}
+.radar-health-card>a{display:inline-block;margin-top:12px;color:var(--ui-action);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.radar-health-tag{font-size:.73rem;border-radius:var(--radius-pill);padding:4px 10px;background:var(--ui-surface-accent);color:var(--ui-action);font-weight:700}
+.radar-status-unavailable,.radar-status-stale{background:var(--color-critical-bg);color:var(--color-critical)}
+.radar-status-partial{background:var(--color-terracotta-100);color:var(--color-cinnamon)}
+.radar-status-empty{background:var(--ui-surface-muted);color:var(--ui-ink-subtle)}
+.radar-warning{color:var(--ui-warning);margin-top:10px}
+.radar-feed-head{display:flex;justify-content:space-between;align-items:end;gap:20px}
+.radar-feed-head>p{color:var(--ui-ink-subtle)}
+.radar-filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.radar-topic-filters{margin-top:0;margin-bottom:26px}
+.radar-filters a{display:inline-flex;min-height:44px;align-items:center;padding:9px 14px;border:1px solid var(--ui-border);border-radius:var(--radius-pill);background:var(--ui-surface);font-weight:600;font-size:.875rem}
+.radar-filters a[aria-current="page"]{background:var(--ui-action);color:var(--ui-action-ink);border-color:var(--ui-action)}
+.radar-article-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.radar-article{min-width:0;padding:24px;display:flex;flex-direction:column;gap:14px}
+.radar-article-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:.77rem;font-weight:750;color:var(--ui-ink-subtle)}
+.radar-article-meta span:first-child{color:var(--ui-action)}
+.radar-article h3{font-family:var(--font-display);font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.32;margin:0;overflow-wrap:anywhere}
+.radar-article h3 a:hover{text-decoration:underline;text-underline-offset:4px}
+.radar-article-date{font-size:.84rem;color:var(--ui-ink-subtle);margin:0}
+.radar-learning-link{border-top:1px solid var(--ui-border);padding-top:16px;margin-top:auto}
+.radar-learning-link strong{color:var(--ui-action)}
+.radar-learning-link p{color:var(--ui-ink-subtle);margin:6px 0 12px}
+.radar-learning-link a{color:var(--ui-action);font-weight:750;text-decoration:underline;text-underline-offset:3px}
+.radar-discussion{color:var(--ui-ink-subtle);font-size:.85rem;text-decoration:underline}
+.radar-empty{border:1px dashed var(--ui-border-strong);border-radius:var(--radius-lg);padding:24px;background:var(--ui-surface-muted);margin-top:18px}
+.radar-empty p{margin:10px 0;color:var(--ui-ink-subtle)}
+.radar-empty a{font-weight:700;color:var(--ui-action);text-decoration:underline}
+.radar-method{margin-top:48px;padding:24px 28px;border:1px solid var(--ui-border);background:var(--ui-surface-muted);border-radius:var(--radius-lg)}
+.radar-method p{color:var(--ui-ink-subtle);max-width:920px;margin:10px 0 0}
+@media(max-width:760px){.radar-health-grid{grid-template-columns:1fr}.radar-article-grid{grid-template-columns:1fr}.radar-page{padding-block:24px 60px}.radar-feed-head{align-items:start;flex-direction:column;gap:6px}.radar-article{padding:20px}.radar-page-hero h1{letter-spacing:-.02em}}

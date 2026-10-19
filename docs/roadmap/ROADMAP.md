@@ -77,7 +77,7 @@ başka bir duruma aktarabilir ve mümkün olduğunda kendi kodunu oluşturabilir
 5. Gönüllü pilotun yöntemi belirlenmiş, gerçek veriler ayrı raporlanmış
    olmalı. *Öğrenme etkisi* yalnızca bunlar ölçüldüyse iddia edilebilir.
 
-### M10 · Sektör Radarı ve Teknoloji Keşfi
+### M10 · Sektör Radarı ve Teknoloji Keşfi\n\n**Uygulama:** Resmî, sabit kaynak API'lerinden salt-okunur içerik çekimi, kaynak ve tarih doğrulaması, kanonik URL ayıklama ve mevcut öğrenme yolu eşleştirmeleri `/radar` altında gerçekleştirildi. Bu teknik geliştirme, dış kaynak haberlerinin editoryal olarak doğrulandığını veya M9 pilotunun tamamlandığını göstermez. CI ve gerçek tarayıcı kontrolü teslimatın ayrı kabul adımlarıdır. Ayrıntılar: [M10 kaynak politikası](../architecture/M10-SECTOR-RADAR.md).
 
 **Problem:** Geliştiricilerin güncel teknoloji haberi ile öğrendikleri
 kavramlar arasındaki bağ zayıf.
