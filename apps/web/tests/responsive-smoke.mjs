@@ -425,10 +425,10 @@ try{
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
       "document.readyState==='complete' && !!document.querySelector('#course-search') && "+
-      "document.querySelectorAll('.path-card').length===3",
+      "document.querySelectorAll('.path-card').length===4",
       returnByValue:true},sessionId);
     return r.result?.value===true;
-  },"M8.6B explorer did not render three verified courses");
+  },"M11 explorer did not render four verified courses");
   await cdp.send("Runtime.evaluate",{expression:
     "document.querySelector('#course-search').focus()",returnByValue:true},sessionId);
   await cdp.send("Input.insertText",{text:"Promise"},sessionId);
@@ -447,7 +447,7 @@ try{
     returnByValue:true},sessionId);
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
-      "document.querySelectorAll('.path-card').length===3 && !document.querySelector('#course-search').value",
+      "document.querySelectorAll('.path-card').length===4 && !document.querySelector('#course-search').value",
       returnByValue:true},sessionId);
     return r.result?.value===true;
   },"M8.6B course-search clear control did not work");
