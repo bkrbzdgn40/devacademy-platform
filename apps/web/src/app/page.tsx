@@ -6,6 +6,8 @@ import {ContinueLearning} from "@/components/continue-learning";
 import {LearningPathCard,type LearningPath} from "@/components/learning-path-card";
 import {learningPaths} from "@/lib/learning-paths.mjs";
 import {courseOfferPhrase} from "@/lib/course-summary.mjs";
+import {canonicalFor} from "@/lib/site-url.mjs";
+import type {Metadata} from "next";
 import courses from "@/data/courses.json";
 import lessons from "@/data/lessons.json";
 import questions from "@/data/questions.json";
@@ -28,6 +30,8 @@ const sources=[
     href:"https://github.com/explore",note:"Depo keşfi"}
 ];
 const sections: CatalogKind[] = ["language","concept","technology"];
+
+export const metadata:Metadata={...canonicalFor("/")};
 
 export default function Home() {
   return <>

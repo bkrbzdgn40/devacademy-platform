@@ -4,9 +4,12 @@ import Script from "next/script";
 import {SiteNav} from "@/components/site-nav";
 import {ThemeSwitcher} from "@/components/theme-switcher";
 import {StatusPill} from "@/components/ui-primitives";
+import {siteOrigin} from "@/lib/site-url.mjs";
 import "./globals.css";
 
+const origin=siteOrigin();
 export const metadata: Metadata = {
+  ...(origin?{metadataBase:new URL(origin)}:{}),
   title: { default: "DevAcademy | Yazılımı öğren, uygulayarak ilerle", template: "%s | DevAcademy" },
   description: "Programlama dillerini, yazılım kavramlarını ve teknolojileri keşfet.",
 };

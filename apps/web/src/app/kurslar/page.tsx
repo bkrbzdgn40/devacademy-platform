@@ -3,7 +3,9 @@ import Link from "next/link";
 import {CourseExplorer} from "@/components/course-explorer";
 import {learningPaths} from "@/lib/learning-paths.mjs";
 import {courseOfferPhrase,languageCount} from "@/lib/course-summary.mjs";
+import {canonicalFor} from "@/lib/site-url.mjs";
 export const metadata:Metadata={
+  ...canonicalFor("/kurslar"),
   title:"Öğrenme yolları ve kurs keşfi",
   description:courseOfferPhrase()+" kurslarını ve derslerini arayarak sana uygun öğrenme yolunu seç."
 };

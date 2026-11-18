@@ -4,13 +4,14 @@ import { notFound } from "next/navigation";
 import { categoryInfo, entriesForKind, kindByRoute } from "@/lib/catalog";
 import { courses } from "@/lib/courses";
 import {courseOfferPhrase} from "@/lib/course-summary.mjs";
+import {canonicalFor} from "@/lib/site-url.mjs";
 
 type Props = { params: Promise<{ category: string }> };
 export function generateStaticParams() { return Object.keys(kindByRoute).map((category) => ({ category })); }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
   const kind = kindByRoute[category];
-  return { title: kind ? categoryInfo[kind].title : "Sayfa bulunamadı" };
+  return kind ? { title: categoryInfo[kind].title, ...canonicalFor("/kutuphane/" + category) } : { title: "Sayfa bulunamadı" };
 }
 export default async function CategoryPage({ params }: Props) {
   const { category } = await params;

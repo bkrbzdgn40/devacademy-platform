@@ -3,7 +3,9 @@ import Link from "next/link";
 import {getRadarFeed,radarSources,radarTopics} from "@/lib/radar-feed.mjs";
 import {isLooseRadarMatch} from "@/lib/radar-learning.mjs";
 
+import {canonicalFor} from "@/lib/site-url.mjs";
 export const metadata:Metadata={
+  ...canonicalFor("/radar"),
   title:"Sektör Radarı | Güncel yazılım kaynakları",
   description:"Hacker News, DEV Community ve resmî GitHub sürümlerinden kaynaklı yazılım gelişmeleri ve ilgili DevAcademy dersleri."
 };
