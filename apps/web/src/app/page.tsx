@@ -40,10 +40,12 @@ export default function Home() {
         <div className="eyebrow"><span className="status-dot" /> Tasarlanmış öğrenme deneyimi</div>
         <h1>Kodu öğrenmek değil,<br /><span>anlamak için buradasın.</span></h1>
         <p>Önce tahmin et, kodun davranışını incele, yanlış varsayımlarını keşfet ve öğrendiğini yeni bir problemde kullan. {courseOfferPhrase()} ile kendi öğrenme yoluna başla.</p>
+      </div>
+      <HeroPredict/>
+      <div className="hero-meta">
         <div className="hero-actions"><ActionLink href="/kurslar">Öğrenme yollarını keşfet <span aria-hidden="true">↗</span></ActionLink><ActionLink href="/kutuphane/diller" variant="secondary">Kod ve kavramları keşfet <span aria-hidden="true">→</span></ActionLink></div>
         <p className="small-note">{courses.length} kurs · {lessons.length} ders · {questions.length} bilgi sorusu. Kod çalıştırma yalnızca özel yerel laboratuvarda mümkündür.</p>
       </div>
-      <HeroPredict/>
     </section>
     <section className="shell home-journey-area" aria-labelledby="journey-heading">
       <div className="home-journey-intro"><p className="overline">Sana ait öğrenme rotası</p>

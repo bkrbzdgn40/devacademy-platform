@@ -1358,3 +1358,26 @@ body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
 body>main{flex:1 0 auto}
 .notfound-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:15px}
 .notfound .notfound-actions .primary-button{margin-top:0}
+
+/* Jury pass 2 | Hero fits 1280x800; on phones the card follows the heading and paragraph. */
+.hero{grid-template-areas:"text visual" "meta visual";grid-template-rows:auto 1fr;
+  row-gap:0;padding-block:40px 48px;min-height:0;align-items:start}
+.hero-text{grid-area:text;align-self:end}
+.hero-predict{grid-area:visual;align-self:center}
+.hero-meta{grid-area:meta}
+.hero h1{margin-block:16px 18px}
+.hero-text>p:not(.small-note){margin-bottom:0;line-height:1.7}
+.hero-predict-code{padding:10px 0}
+.hero-predict-code .studio-code-row{line-height:1.55}
+.hero-predict-panel{padding:12px 16px 14px}
+.hero-predict-form fieldset{grid-template-columns:repeat(3,minmax(0,1fr))}
+.hero-predict-option{padding:6px 10px}
+.hero-predict-button{margin-top:10px}
+@media(max-width:900px){
+  .hero{grid-template-areas:"text" "visual" "meta";grid-template-rows:auto;row-gap:28px;padding-block:32px 48px}
+  .hero-meta .hero-actions{margin-top:0}
+}
+@media(max-width:600px){
+  .hero{padding-block:24px 40px;row-gap:22px}
+  .hero-predict-form fieldset{grid-template-columns:1fr}
+}
