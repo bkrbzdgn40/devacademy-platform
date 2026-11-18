@@ -13,7 +13,7 @@ const orders=[
 export default function SqlDataPage(){
   return <section className="shell listing-page">
     <Link href="/kurslar/sql-temelleri" className="back-link">← SQL Temelleri kursu</Link>
-    <div className="listing-header"><p className="overline">M11 · Örnek veri kümesi</p>
+    <div className="listing-header"><p className="overline">Örnek veri kümesi</p>
       <h1>Müşteriler ve siparişler</h1>
       <p>SQL derslerindeki bütün sorgular aynı sabit, kurgusal veriyi kullanır. Gerçek kişi veya öğrenci verileri değildir.</p></div>
     <div className="availability-note" role="status">

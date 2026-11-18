@@ -119,3 +119,8 @@ test("theme choice is user-controlled and never touches learner records",()=>{
   const editor=read("components/code-playground.tsx");
   assert.match(editor,/theme=\{resolvedTheme\}/);
 });
+test("theme boot disables transitions until the first frame",()=>{
+  assert.match(layout,/root\.classList\.add\("theme-booting"\)/);
+  assert.match(layout,/requestAnimationFrame\(function\(\)\{requestAnimationFrame\(function\(\)\{root\.classList\.remove\("theme-booting"\)/);
+  assert.match(styles,/html\.theme-booting \*[^{]*\{\s*transition:none!important/);
+});

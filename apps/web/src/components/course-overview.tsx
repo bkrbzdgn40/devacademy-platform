@@ -7,7 +7,7 @@ export function CourseOverview({course,legacy=false}:{course:Course;legacy?:bool
   return <section className="shell listing-page">
     <Link className="back-link" href="/kurslar">← Tüm kurslar</Link>
     <div className="listing-header">
-      <p className="overline">{course.title} · Türkçe içerik · Geliştirme önizlemesi</p>
+      <p className="overline">{course.title} · Türkçe içerik</p>
       <h1>{course.title}</h1>
       <p>{course.summary}</p>
     </div>

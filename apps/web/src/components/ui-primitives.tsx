@@ -20,10 +20,10 @@ export function SurfaceCard({children,className="",eyebrow}:{
   </article>;
 }
 export function SectionHeading({eyebrow,title,description,id}:{
-  eyebrow:string;title:string;description?:string;id:string;
+  eyebrow?:string;title:string;description?:string;id:string;
 }){
   return <header className="ui-section-heading">
-    <p className="ui-eyebrow">{eyebrow}</p>
+    {eyebrow&&<p className="ui-eyebrow">{eyebrow}</p>}
     <h2 id={id}>{title}</h2>
     {description&&<p>{description}</p>}
   </header>;

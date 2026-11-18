@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
-import {selectRadarLearning} from "../src/lib/radar-learning.mjs";
+import {isLooseRadarMatch,selectRadarLearning} from "../src/lib/radar-learning.mjs";
 import {matchRadarTopic,radarTopics} from "../src/lib/radar-feed.mjs";
 
 const lessons=JSON.parse(readFileSync(new URL("../src/data/lessons.json",import.meta.url),"utf8"));
@@ -43,7 +43,7 @@ test("Python asyncio is never misrepresented as JavaScript Promise instruction",
   assert.equal(topic.key,"python");
   assert.equal(learning.label,"Python'da asyncio ve eşzamanlılık");
   assert.equal(learning.primary.href,"/kurslar/python-temelleri/fonksiyonlar");
-  assert.equal(learning.coverage,"temel hazırlık");
+  assert.equal(learning.coverage,"Önkoşul dersi");
   assert.doesNotMatch(learning.context,/Promise dersi bu konunun doğrudan karşılığıdır/i);
   assert.match(learning.context,/doğrudan karşılığı değildir/);
 });
@@ -84,8 +84,8 @@ test("unsupported TypeScript/React/Docker courses are not advertised as complete
   for(const headline of ["TypeScript 6 releases","React compiler",
     "Docker containers"]){
     const {learning}=classify(headline);
-    assert.equal(learning.primary.kind,"Katalog önizlemesi",headline);
-    assert.match(learning.coverage,/katalog/);
+    assert.equal(learning.primary.kind,"Katalog sayfası",headline);
+    assert.match(learning.coverage,/Katalog/);
     assert.ok(learning.primary.href.startsWith("/kutuphane/"));
   }
 });
@@ -122,4 +122,16 @@ test("UI labels source-derived hints as hints, exposes an article-reading questi
   assert.match(html,/Kaynağı|Kaynağı okurken/);
   assert.match(html,/makale özeti değildir/);
   assert.doesNotMatch(html,/dangerouslySetInnerHTML/);
+});
+test("generic language-only matches are kept out of the main radar list",()=>{
+  const loose=classify("Python: a tool with no matching lesson").learning;
+  assert.equal(loose.coverage,"Genel dil kursu");
+  assert.ok(isLooseRadarMatch(loose));
+  assert.ok(isLooseRadarMatch(null));
+  for(const headline of ["Python range loops","JavaScript Array.map()","Binary search algorithm","TypeScript 6 releases"])
+    assert.ok(!isLooseRadarMatch(classify(headline).learning),headline);
+  const page=readFileSync(new URL("../src/app/radar/page.tsx",import.meta.url),"utf8");
+  assert.match(page,/filter\(item=>!isLooseRadarMatch\(item\.learning\)\)/);
+  assert.match(page,/<details className="radar-related">/);
+  assert.match(page,/İlgili olabilir/);
 });

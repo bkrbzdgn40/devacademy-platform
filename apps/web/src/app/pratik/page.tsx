@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import practice from "@/data/practice.json";
-export const metadata: Metadata={title:"Kod pratiği",description:"JavaScript, Python ve Java fonksiyonları yazma alıştırmaları."};
+import {canonicalFor} from "@/lib/site-url.mjs";
+export const metadata: Metadata={...canonicalFor("/pratik"),title:"Kod pratiği",description:"JavaScript, Python ve Java fonksiyonları yazma alıştırmaları."};
 export default function PracticeIndex(){
   return <section className="shell listing-page">
     <Link href="/dersler" className="back-link">← Derslere dön</Link>
     <div className="listing-header">
-      <p className="overline">Gerçek kod pratiği · Geliştirme önizlemesi</p>
+      <p className="overline">Gerçek kod pratiği</p>
       <h1>Kodu kendin yaz.</h1>
       <p>Bir fonksiyon geliştir, açık örneklere göre kontrol et, gizli sınır durumlarına karşı ne kadar sağlam olduğunu öğren.</p>
     </div>

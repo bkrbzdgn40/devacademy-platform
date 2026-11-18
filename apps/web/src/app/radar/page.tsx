@@ -1,8 +1,11 @@
 import type {Metadata} from "next";
 import Link from "next/link";
 import {getRadarFeed,radarSources,radarTopics} from "@/lib/radar-feed.mjs";
+import {isLooseRadarMatch} from "@/lib/radar-learning.mjs";
 
+import {canonicalFor} from "@/lib/site-url.mjs";
 export const metadata:Metadata={
+  ...canonicalFor("/radar"),
   title:"Sektör Radarı | Güncel yazılım kaynakları",
   description:"Hacker News, DEV Community ve resmî GitHub sürümlerinden kaynaklı yazılım gelişmeleri ve ilgili DevAcademy dersleri."
 };
@@ -23,7 +26,9 @@ export default async function RadarPage({searchParams}:Props){
   const feed=await getRadarFeed();
   const source=typeof params.kaynak==="string"&&radarSources.some(s=>s.key===params.kaynak)?params.kaynak:null;
   const topic=typeof params.konu==="string"&&radarTopics.some(t=>t.key===params.konu)?params.konu:null;
-  const items=feed.items.filter(item=>(!source||item.source===source)&&(!topic||item.topic.key===topic));
+  const filtered=feed.items.filter(item=>(!source||item.source===source)&&(!topic||item.topic.key===topic));
+  const items=filtered.filter(item=>!isLooseRadarMatch(item.learning));
+  const related=filtered.filter(item=>isLooseRadarMatch(item.learning));
   const unavailable=feed.sources.every(s=>s.status==="unavailable");
   const stale=feed.sources.some(s=>s.status==="stale");
   const href=(key:string|null,tag:string|null)=>{
@@ -35,7 +40,7 @@ export default async function RadarPage({searchParams}:Props){
   return <div className="shell radar-page">
     <header className="radar-page-hero">
       <Link className="back-link" href="/">← Ana sayfa</Link>
-      <p className="overline">Sektör Radarı · M10</p>
+      <p className="overline">Sektör radarı</p>
       <h1>Güncel gelişmeleri <span>öğrendiğin kavramlara bağla.</span></h1>
       <p>Kaynakların resmî okuma API&apos;lerinden alınan başlıklar, yayımlanma tarihleri ve mevcut derslere dönüş yolları. Haberlerin doğruluğunu bağımsız olarak teyit etmiyoruz. Konu rehberleri yalnızca başlık, varsa etiketler ve resmî sürüm kayıtlarına dayanan editoryal öğrenme köprüleridir; makale özeti değildir.</p>
     </header>
@@ -70,11 +75,12 @@ export default async function RadarPage({searchParams}:Props){
         {radarTopics.map(t=><Link key={t.key} aria-current={topic===t.key?"page":undefined}
           href={href(source,t.key)}>{t.label}</Link>)}
       </nav>
-      {items.length===0?<div className="radar-empty" role="status">
+      {items.length===0&&related.length>0&&<p className="radar-empty" role="status">Bu filtrelerde bir derse doğrudan bağlanan başlık yok. Yalnızca genel dil eşleşmesi olan başlıklar aşağıda, “İlgili olabilir” bölümünde.</p>}
+      {items.length===0&&related.length===0?<div className="radar-empty" role="status">
         <strong>Bu filtrelerde doğrulanabilir güncel bağlantı yok.</strong>
         <p>Kaynakların erişimi, son yayın tarihleri veya konu eşleştirmeleri nedeniyle liste boş olabilir. Eski başlıkları güncelmiş gibi göstermiyoruz.</p>
         <Link href="/radar">Tüm konulara dön →</Link>
-      </div>:
+      </div>:items.length>0&&
         <div className="radar-article-grid">{items.map(item=>{const check=feed.sources.find(s=>s.key===item.source);return <article key={item.id} className="radar-article ui-card">
           <div className="radar-article-meta">
             <span>{radarSources.find(s=>s.key===item.source)?.name}</span>
@@ -108,6 +114,15 @@ export default async function RadarPage({searchParams}:Props){
           {item.discussionUrl&&item.discussionUrl!==item.url&&
             <a className="radar-discussion" href={item.discussionUrl} target="_blank" rel="noopener noreferrer">Hacker News tartışması ↗</a>}
         </article>;})}</div>}
+      {related.length>0&&<details className="radar-related">
+        <summary>İlgili olabilir <span>({related.length} başlık)</span></summary>
+        <p>Bu başlıklar yalnızca dil etiketiyle eşleşti. Belirli bir derse bağlanmadıkları için ana listede değiller; konu dışı olabilirler.</p>
+        <ul>{related.map(item=><li key={item.id}>
+          <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title} ↗</a>
+          <span>{radarSources.find(s=>s.key===item.source)?.name} · <time dateTime={item.publishedAt}>{formatDate(item.publishedAt)}</time></span>
+          <Link href={item.learning.primary.href}>{item.learning.primary.label} →</Link>
+        </li>)}</ul>
+      </details>}
     </section>
     <aside className="radar-method" aria-label="Veri ve editoryal yöntem">
       <h2>Bu akış nasıl hazırlanıyor?</h2>

@@ -5,7 +5,7 @@ const root=new URL("../src/",import.meta.url);
 const read=(path)=>readFileSync(new URL(path,root),"utf8");
 const lesson=read("components/course-lesson.tsx");
 const stepper=read("components/lesson-stepper.tsx");
-const layout=read("app/layout.tsx");
+const nav=read("components/site-nav.tsx");
 const questions=JSON.parse(read("data/questions.json"));
 const guides=JSON.parse(read("data/lesson-guides.json"));
 const lessons=JSON.parse(read("data/lessons.json"));
@@ -35,8 +35,25 @@ test("lesson stages have accessible navigation, preserve visited answers and laz
 });
 test("main menu keeps four top-level actions and accessible discovery paths",()=>{
   for(const href of ["/kurslar","/pratik","/hesap","/kutuphane/diller","/kutuphane/kavramlar","/kutuphane/teknolojiler"]){
-    assert.ok(layout.includes('href="'+href+'"'));
+    assert.ok(nav.includes('href="'+href+'"'),href);
   }
-  assert.match(layout,/<details className="nav-discovery">/);
-  assert.ok(!layout.includes('href="/laboratuvar"'));
+  assert.match(nav,/<details className="nav-discovery"/);
+  assert.ok(!nav.includes('href="/laboratuvar"'));
+});
+test("stage jumps land below the sticky stage bar",()=>{
+  const styles=read("app/globals.css");
+  assert.match(styles,/scroll-margin-top:var\(--lesson-stage-offset\)/);
+  assert.match(stepper,/--lesson-stage-offset/);
+  assert.match(stepper,/ResizeObserver/);
+  assert.match(stepper,/panel.scrollIntoView\(\{block:"start"/);
+});
+test("layout aligns lesson width with the shell and keeps the footer at the bottom",()=>{
+  const styles=read("app/globals.css");
+  const notFound=read("app/not-found.tsx");
+  assert.doesNotMatch(styles,/\.lesson-workspace-page\{width:/);
+  assert.match(lesson,/className="shell lesson-page lesson-workspace-page"/);
+  assert.match(styles,/body\{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column\}/);
+  assert.match(styles,/body>main\{flex:1 0 auto\}/);
+  assert.match(styles,/\.radar-heading\{display:flex;align-items:center/);
+  assert.ok(notFound.includes('href="/kutuphane/kavramlar"'));
 });
