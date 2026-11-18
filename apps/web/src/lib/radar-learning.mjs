@@ -29,6 +29,10 @@ const links={
   techCatalog:shortcut("Teknolojiler kataloğu","/kutuphane/teknolojiler","Katalog sayfası")
 };
 const matches=(text,pattern)=>pattern.test(text);
+// A bridge that only points at a whole language course (for example a crypto
+// token headline tagged "python") is too loose for the main radar list.
+export const looseRadarCoverage="Genel dil kursu";
+export const isLooseRadarMatch=(learning)=>!learning||learning.coverage===looseRadarCoverage;
 function bridge({label,context,why,question,primary,secondary=null,coverage}){
   return {label,context,why,question,primary,secondary,coverage};
 }
@@ -37,17 +41,17 @@ const topicDefault={
     context:"Başlık veya etiketler Python ekosistemine işaret ediyor; makalenin ayrıntılarını henüz incelemedik.",
     why:"Dil temellerini bilmek bir kütüphane veya araç duyurusundaki örnekleri yorumlamayı kolaylaştırır.",
     question:"Kaynakta hangi dil özelliği veya araç etkileniyor? Mevcut kodunla hangi bağlantıyı kurabiliyorsun?",
-    primary:links.pyCourse,coverage:"Genel dil kursu"}),
+    primary:links.pyCourse,coverage:looseRadarCoverage}),
   javascript:()=>bridge({label:"JavaScript ekosistemi",
     context:"Başlık veya etiketlerde JavaScript ya da Node.js ile ilişkili terimler bulunuyor.",
     why:"Sözdizimi ve fonksiyon bilgisini yeni çalışma ortamlarıyla ilişkilendirmek daha sağlıklı bir başlangıçtır.",
     question:"Söz konusu değişiklik JavaScript dilinde mi, yoksa araç/çalışma ortamında mı?",
-    primary:links.jsCourse,coverage:"Genel dil kursu"}),
+    primary:links.jsCourse,coverage:looseRadarCoverage}),
   java:()=>bridge({label:"Java ekosistemi",
     context:"Başlık veya etiketler Java ya da JVM ekosistemine işaret ediyor.",
     why:"Dil ve nesne yönelimli programlama bilgisi, framework ve sürüm duyurularını ayırt etmeyi sağlar.",
     question:"Kaynak bir Java dil değişikliğinden mi, JVM'den mi, yoksa ayrı bir framework'ten mi bahsediyor?",
-    primary:links.javaCourse,coverage:"Genel dil kursu"}),
+    primary:links.javaCourse,coverage:looseRadarCoverage}),
   typescript:()=>bridge({label:"TypeScript ve tip güvenliği",
     context:"Başlık veya etiketlerde TypeScript'e ilişkin bir konu bulunuyor.",
     why:"TypeScript, JavaScript üzerine tip denetimi ekler; doğrudan TypeScript kursumuz henüz yok.",
@@ -147,7 +151,7 @@ export function selectRadarLearning({title="",tags=[],topicKey,releaseRepo=null}
         context:"Başlık/etiketler Python bağlamında bir güvenlik konusuna işaret ediyor; başlığın doğru ve etkisinin gerçek olduğunu ayrıca doğrulamak gerekir.",
         why:"Güvenlik duyurularını yorumlamak için etkilenen sürüm, tehdit modeli ve düzeltme bilgisi gerekir. Güvenlik kursumuz yok.",
         question:"Duyurunun birincil kaynağında etkilenen sürümler, çözüm ve yayımlanma tarihi belirtiliyor mu?",
-        primary:links.pyCourse,coverage:"Genel dil kursu"});
+        primary:links.pyCourse,coverage:looseRadarCoverage});
     else if(matches(text,/\b(?:python\s+3(?:\.\d+)?|cpython|language\s+release|release\s+notes|version)\b/i))
       result=bridge({label:"Python sürüm ve dil gelişmeleri",
         context:"Başlık/etiketlerde Python sürümü veya dil gelişmesiyle ilgili terimler bulunuyor.",

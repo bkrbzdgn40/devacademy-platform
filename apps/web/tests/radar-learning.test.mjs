@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
-import {selectRadarLearning} from "../src/lib/radar-learning.mjs";
+import {isLooseRadarMatch,selectRadarLearning} from "../src/lib/radar-learning.mjs";
 import {matchRadarTopic,radarTopics} from "../src/lib/radar-feed.mjs";
 
 const lessons=JSON.parse(readFileSync(new URL("../src/data/lessons.json",import.meta.url),"utf8"));
@@ -122,4 +122,16 @@ test("UI labels source-derived hints as hints, exposes an article-reading questi
   assert.match(html,/Kaynağı|Kaynağı okurken/);
   assert.match(html,/makale özeti değildir/);
   assert.doesNotMatch(html,/dangerouslySetInnerHTML/);
+});
+test("generic language-only matches are kept out of the main radar list",()=>{
+  const loose=classify("Python: a tool with no matching lesson").learning;
+  assert.equal(loose.coverage,"Genel dil kursu");
+  assert.ok(isLooseRadarMatch(loose));
+  assert.ok(isLooseRadarMatch(null));
+  for(const headline of ["Python range loops","JavaScript Array.map()","Binary search algorithm","TypeScript 6 releases"])
+    assert.ok(!isLooseRadarMatch(classify(headline).learning),headline);
+  const page=readFileSync(new URL("../src/app/radar/page.tsx",import.meta.url),"utf8");
+  assert.match(page,/filter\(item=>!isLooseRadarMatch\(item\.learning\)\)/);
+  assert.match(page,/<details className="radar-related">/);
+  assert.match(page,/İlgili olabilir/);
 });
