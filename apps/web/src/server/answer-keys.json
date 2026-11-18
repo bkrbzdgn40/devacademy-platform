@@ -1,123 +1,243 @@
 {
   "js.binding.increment": {
     "optionId": "b",
-    "explanation": "score önce 2'dir. += 3 ifadesi aynı değişkene 5 değerini atar."
+    "explanation": "score önce 2'dir. += 3 ifadesi aynı değişkene 5 değerini atar.",
+    "wrongFeedback": {
+      "a": "2 ilk değerdir; += 3 aynı değişkene yeni değer atar, bu yüzden 2 kalmaz.",
+      "c": "score bir sayıdır; += 3 metin birleştirmez, 2 ile 3'ü toplar."
+    }
   },
   "js.binding.object": {
     "optionId": "c",
-    "explanation": "const nesne referansının yeniden atanmasını engeller; person.name alanını değiştirmeye izin verir."
+    "explanation": "const nesne referansının yeniden atanmasını engeller; person.name alanını değiştirmeye izin verir.",
+    "wrongFeedback": {
+      "a": "const yalnızca person değişkenine yeniden atamayı engeller; nesnenin alanını değiştirmek hata vermez.",
+      "b": "person.name = 'Grace' satırı alanı değiştirir; yazdırma bu satırdan sonra yapıldığı için Ada kalmaz."
+    }
   },
   "js.equality.strict": {
     "optionId": "b",
-    "explanation": "0 sayı, false boolean türündedir. === farklı türler arasında dönüşüm yapmaz, dolayısıyla false döndürür."
+    "explanation": "0 sayı, false boolean türündedir. === farklı türler arasında dönüşüm yapmaz, dolayısıyla false döndürür.",
+    "wrongFeedback": {
+      "a": "=== tür dönüşümü yapmaz; 0 sayı, false boolean olduğu için sonuç true olamaz.",
+      "c": "Karşılaştırma her zaman true ya da false döndürür, undefined üretmez."
+    }
   },
   "js.equality.loose": {
     "optionId": "a",
-    "explanation": "== karşılaştırması boolean false değerini 0'a dönüştürdüğünden 0 == false sonucu true'dur."
+    "explanation": "== karşılaştırması boolean false değerini 0'a dönüştürdüğünden 0 == false sonucu true'dur.",
+    "wrongFeedback": {
+      "b": "== türleri karşılaştırmadan önce dönüştürür; false 0'a dönüşünce iki taraf eşit olur.",
+      "c": "Farklı türleri == ile karşılaştırmak hata fırlatmaz, dönüşüm yapıp sonuç verir."
+    }
   },
   "js.map.output": {
     "optionId": "b",
-    "explanation": "map her sayıyı ikiyle çarpar ve [2,4,6] oluşturur; join(',') bunu 2,4,6 metnine dönüştürür."
+    "explanation": "map her sayıyı ikiyle çarpar ve [2,4,6] oluşturur; join(',') bunu 2,4,6 metnine dönüştürür.",
+    "wrongFeedback": {
+      "a": "Bu orijinal dizinin değerleri; map her sayıyı ikiyle çarpıp yeni dizi üretir.",
+      "c": "join(',') diziyi köşeli parantez olmadan, virgülle ayrılmış metne dönüştürür."
+    }
   },
   "js.map.original": {
     "optionId": "a",
-    "explanation": "map yeni bir dizi döndürür. Dönen dizi saklanmazsa bile values değişmez; ilk öğe 1'dir."
+    "explanation": "map yeni bir dizi döndürür. Dönen dizi saklanmazsa bile values değişmez; ilk öğe 1'dir.",
+    "wrongFeedback": {
+      "b": "n + 1 sonucu map'in döndürdüğü yeni diziye gider; values dizisi değişmez.",
+      "c": "values[0] mevcut bir öğedir; map diziyi boşaltmaz, ilk öğe 1 olarak kalır."
+    }
   },
   "js.functions.return": {
     "optionId": "b",
-    "explanation": "f(5) sonucu 7 olur; return değeri çağırana iletilir."
+    "explanation": "f(5) sonucu 7 olur; return değeri çağırana iletilir.",
+    "wrongFeedback": {
+      "a": "5 fonksiyona verilen argümandır; return x + 2 bu değere 2 ekleyip döndürür.",
+      "c": "Fonksiyonda return olduğu için çağrı undefined değil, x + 2 değerini verir."
+    }
   },
   "js.functions.arrow": {
     "optionId": "a",
-    "explanation": "Tek ifadeli ok fonksiyonu 4 * 2 değerini örtük olarak döndürür."
+    "explanation": "Tek ifadeli ok fonksiyonu 4 * 2 değerini örtük olarak döndürür.",
+    "wrongFeedback": {
+      "b": "4 argümanın kendisi; ok fonksiyonu x * 2 ifadesinin sonucunu döndürür.",
+      "c": "4 * 2 geçerli bir sayı işlemidir, NaN üretmez."
+    }
   },
   "js.scope.inner": {
     "optionId": "b",
-    "explanation": "İç bloktaki n dış bloktaki n değerini gölgeler."
+    "explanation": "İç bloktaki n dış bloktaki n değerini gölgeler.",
+    "wrongFeedback": {
+      "a": "İç bloktaki let n yeni bir değişkendir ve dıştaki n'yi gölgeler; console.log bu iç değişkeni okur.",
+      "c": "İç blokta n tanımlanıp 5 atandıktan sonra yazdırılır, undefined olmaz."
+    }
   },
   "js.scope.outer": {
     "optionId": "a",
-    "explanation": "İç blokta ayrı bir let oluşturulur; dış n hâlâ 2'dir."
+    "explanation": "İç blokta ayrı bir let oluşturulur; dış n hâlâ 2'dir.",
+    "wrongFeedback": {
+      "b": "5, yalnızca iç bloktaki ayrı n değişkenine atanır; blok bitince dıştaki n değişmez.",
+      "c": "Dıştaki n blok dışında tanımlıdır, erişim hata vermez."
+    }
   },
   "js.filter.evens": {
     "optionId": "b",
-    "explanation": "Çift sayılar 2 ve 4'tür; filter yeni bir dizi üretir."
+    "explanation": "Çift sayılar 2 ve 4'tür; filter yeni bir dizi üretir.",
+    "wrongFeedback": {
+      "a": "Bunlar tek sayılar; koşul x % 2 === 0 yalnızca çift sayıları tutar.",
+      "c": "filter koşulu sağlamayan öğeleri dışarıda bırakır; tüm dizi geri gelmez."
+    }
   },
   "js.reduce.sum": {
     "optionId": "c",
-    "explanation": "reduce, 0 + 2 + 3 + 5 = 10 değerini döndürür."
+    "explanation": "reduce, 0 + 2 + 3 + 5 = 10 değerini döndürür.",
+    "wrongFeedback": {
+      "a": "5 dizinin son öğesidir; reduce tüm öğeleri 0 başlangıç değerine ekler.",
+      "b": "Toplam 2 + 3 + 5 = 10'dur; 15 bu dizinin toplamı değildir."
+    }
   },
   "js.async.sync": {
     "optionId": "a",
-    "explanation": "İlk console.log senkron olarak A yazar."
+    "explanation": "İlk console.log senkron olarak A yazar.",
+    "wrongFeedback": {
+      "b": "B de senkron yazılır ama ondan önce gelen console.log('A') önce çalışır.",
+      "c": "then içindeki C microtask kuyruğuna girer; senkron satırlar bitmeden çalışmaz."
+    }
   },
   "js.async.microtask": {
     "optionId": "b",
-    "explanation": "Senkron push önce, Promise microtask'ı queueMicrotask callback'inden önce çalışır."
+    "explanation": "Senkron push önce, Promise microtask'ı queueMicrotask callback'inden önce çalışır.",
+    "wrongFeedback": {
+      "a": "then callback'i hemen değil microtask olarak çalışır; senkron events.push('sync') önce yapılır.",
+      "c": "Promise microtask'ı, queueMicrotask callback'inden önce kuyruğa girdiği için micro da diziye eklenmiş olur."
+    }
   },
   "java.variables.increment": {
     "optionId": "b",
-    "explanation": "count önce 2'dir, += 3 işleminden sonra 5 olur."
+    "explanation": "count önce 2'dir, += 3 işleminden sonra 5 olur.",
+    "wrongFeedback": {
+      "a": "2 ilk değerdir; count += 3 değişkene 5 atar.",
+      "c": "count bir int'tir; += 3 sayıları toplar, metin birleştirmez."
+    }
   },
   "java.variables.division": {
     "optionId": "b",
-    "explanation": "5 / 2 iki int arasında hesaplanır ve 2 üretir. Sonuç double türüne 2.0 olarak atanır."
+    "explanation": "5 / 2 iki int arasında hesaplanır ve 2 üretir. Sonuç double türüne 2.0 olarak atanır.",
+    "wrongFeedback": {
+      "a": "5 / 2 iki int arasında hesaplanır ve 2 verir; double'a atama kesri geri getirmez.",
+      "c": "int sonucun double değişkene atanması geçerlidir, kod derlenir."
+    }
   },
   "java.methods.square": {
     "optionId": "a",
-    "explanation": "square(4) metodu return ile 4 * 4 yani 16 döndürür."
+    "explanation": "square(4) metodu return ile 4 * 4 yani 16 döndürür.",
+    "wrongFeedback": {
+      "b": "4 argümandır; metot value * value döndürür.",
+      "c": "Metot return ile 4 * 4 değerini döndürür, 0 değil."
+    }
   },
   "java.methods.void": {
     "optionId": "c",
-    "explanation": "void dönüş türü değer döndürmez; metot System.out.println ile Merhaba yazar."
+    "explanation": "void dönüş türü değer döndürmez; metot System.out.println ile Merhaba yazar.",
+    "wrongFeedback": {
+      "a": "greet bir değer döndürüp yazdırılmaz; kendi içinde println ile Merhaba yazar.",
+      "b": "void yalnızca dönüş türünü belirtir, konsola yazılan bir metin değildir."
+    }
   },
   "java.polymorphism.override": {
     "optionId": "b",
-    "explanation": "Animal türündeki referans Dog nesnesini gösterdiğinden override edilmiş speak() çağrılır."
+    "explanation": "Animal türündeki referans Dog nesnesini gösterdiğinden override edilmiş speak() çağrılır.",
+    "wrongFeedback": {
+      "a": "Referans türü Animal olsa da nesne Dog'dur; override edilmiş speak() çalışır.",
+      "c": "Dog nesnesini Animal referansında tutmak geçerlidir, kod derlenir."
+    }
   },
   "java.polymorphism.field": {
     "optionId": "a",
-    "explanation": "Alan erişimi referansın derleme zamanı türüne göre seçilir. Animal a referansında a.kind animal değerini verir."
+    "explanation": "Alan erişimi referansın derleme zamanı türüne göre seçilir. Animal a referansında a.kind animal değerini verir.",
+    "wrongFeedback": {
+      "b": "Alanlar override edilmez; a.kind referansın türü olan Animal'daki alanı okur.",
+      "c": "Dog nesnesini Animal referansında tutmak ve kind alanına erişmek geçerlidir, kod derlenir."
+    }
   },
   "python.variables.reassignment": {
     "optionId": "a",
-    "explanation": "x önce 4 değerini alır. Ardından x + 3 işlemiyle yeni değer 7 olarak atanır."
+    "explanation": "x önce 4 değerini alır. Ardından x + 3 işlemiyle yeni değer 7 olarak atanır.",
+    "wrongFeedback": {
+      "b": "4 ilk değerdir; x = x + 3 satırı x'e yeni değer atar.",
+      "c": "x bir sayıdır; + 3 metin birleştirmez, toplama yapar."
+    }
   },
   "python.variables.division": {
     "optionId": "b",
-    "explanation": "Python 3'te / operatörü 5 / 2 için 2.5 üretir. Bunun türü float olur."
+    "explanation": "Python 3'te / operatörü 5 / 2 için 2.5 üretir. Bunun türü float olur.",
+    "wrongFeedback": {
+      "a": "Python 3'te / her zaman float döndürür; tamsayı bölme için // kullanılır.",
+      "c": "Bölme sayı üretir; type(...).__name__ sonucun türünü yazar, str değil."
+    }
   },
   "python.conditions.age": {
     "optionId": "a",
-    "explanation": "17 sayısı 18'den küçük olduğu için koşul yanlıştır ve else bloğu çalışır."
+    "explanation": "17 sayısı 18'den küçük olduğu için koşul yanlıştır ve else bloğu çalışır.",
+    "wrongFeedback": {
+      "b": "17 >= 18 koşulu yanlıştır; bu yüzden if bloğu değil else bloğu çalışır.",
+      "c": "Koşulun sonucu yazdırılmaz; çalışan blok kendi print çağrısıyla metin yazar."
+    }
   },
   "python.conditions.empty-list": {
     "optionId": "b",
-    "explanation": "Boş liste False kabul edilir; bool([]) çıktısı False olur."
+    "explanation": "Boş liste False kabul edilir; bool([]) çıktısı False olur.",
+    "wrongFeedback": {
+      "a": "Boş liste bool dönüşümünde False sayılır; True için en az bir öğe gerekir.",
+      "c": "bool() her zaman True ya da False döndürür, listenin kendisini değil."
+    }
   },
   "python.loops.range-step": {
     "optionId": "a",
-    "explanation": "range(1, 6, 2) 1'den başlar, ikişer artar ve 6'yı dahil etmez: 1, 3, 5."
+    "explanation": "range(1, 6, 2) 1'den başlar, ikişer artar ve 6'yı dahil etmez: 1, 3, 5.",
+    "wrongFeedback": {
+      "b": "range bitiş değerini dahil etmez; 6 listeye girmez.",
+      "c": "Üçüncü argüman 2 olduğu için sayılar ikişer artar; ara değerler atlanır."
+    }
   },
   "python.loops.continue": {
     "optionId": "b",
-    "explanation": "n=1 olduğunda continue print çağrısını atlar. Bu nedenle yalnızca 0 ve 2 yazdırılır."
+    "explanation": "n=1 olduğunda continue print çağrısını atlar. Bu nedenle yalnızca 0 ve 2 yazdırılır.",
+    "wrongFeedback": {
+      "a": "n == 1 olduğunda continue print'i atlar; 1 yazdırılmaz.",
+      "c": "continue döngüyü bitirmez, yalnızca o turu atlar; 1 tam da atlanan değerdir."
+    }
   },
   "python.functions.return": {
     "optionId": "b",
-    "explanation": "double(6), 6 * 2 hesaplayarak 12 döndürür; print bu değeri yazar."
+    "explanation": "double(6), 6 * 2 hesaplayarak 12 döndürür; print bu değeri yazar.",
+    "wrongFeedback": {
+      "a": "6 argümandır; fonksiyon n * 2 sonucunu döndürür.",
+      "c": "Fonksiyonda return olduğu için çağrı None değil, 12 döndürür."
+    }
   },
   "python.functions.default": {
     "optionId": "b",
-    "explanation": "greet() çağrısı name argümanı almadığı için varsayılan Ada değerini kullanır."
+    "explanation": "greet() çağrısı name argümanı almadığı için varsayılan Ada değerini kullanır.",
+    "wrongFeedback": {
+      "a": "Argüman verilmediğinde name varsayılan Ada değerini alır ve metne eklenir.",
+      "c": "name değişkenin adıdır; birleştirmede değişkenin değeri olan Ada kullanılır."
+    }
   },
   "python.collections.slice": {
     "optionId": "a",
-    "explanation": "Dilimleme 1. indeksten başlar ve 3. indeksi dışarıda bırakır: 20 ve 30."
+    "explanation": "Dilimleme 1. indeksten başlar ve 3. indeksi dışarıda bırakır: 20 ve 30.",
+    "wrongFeedback": {
+      "b": "Dilimin bitiş indeksi 3 dahil değildir; 40 dışarıda kalır.",
+      "c": "Dilim 1. indeksten başlar; 0. indeksteki 10 dahil edilmez."
+    }
   },
   "python.collections.get": {
     "optionId": "c",
-    "explanation": "city anahtarı sözlükte olmadığı için get ikinci argümandaki 'bilinmiyor' değerini döndürür."
+    "explanation": "city anahtarı sözlükte olmadığı için get ikinci argümandaki 'bilinmiyor' değerini döndürür.",
+    "wrongFeedback": {
+      "a": "get'e ikinci argüman verildiği için eksik anahtarda None değil, bu varsayılan döner.",
+      "b": "get eksik anahtarda hata fırlatmaz; KeyError köşeli parantezle erişimde olur."
+    }
   },
   "debug.java.variables": {
     "optionId": "a",

@@ -67,7 +67,7 @@ export function QuizCard({ question, number, hints=[], mode="predict", onGraded 
           <button type="button" className="subtle-action quiz-reveal" onClick={()=>setRevealSolution(true)}>
             Çözüm açıklamasını göster
           </button>}
-        {!result.correct && wrongAttempts>0 && <p className="retry-cue">Yanıtı yeniden seçerek tekrar deneyebilirsin. Hatalı deneme öğrenmenin bir parçası; önemli olan nedenini açıklayabilmen.</p>}
+        {!result.correct && wrongAttempts>0 && mode==="debug" && !revealSolution && <p className="retry-cue">Yanıtı yeniden seçerek tekrar deneyebilirsin.</p>}
         <p className="quiz-save-state">{result.saved ? "Cevabın hesabına kaydedildi." : "Bu deneme kalıcı kaydedilmedi. Kayıt için oturum açmalısın."}</p>
         {!result.correct && (mode==="predict"||revealSolution) && <span>Doğru seçenek: {question.options.find((option) => option.id === result.correctOptionId)?.text}</span>}
       </div>}
