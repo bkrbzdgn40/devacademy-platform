@@ -1,6 +1,6 @@
 "use client";
 
-import {useRef,useState,type KeyboardEvent,type ReactNode} from "react";
+import {useEffect,useRef,useState,type KeyboardEvent,type ReactNode} from "react";
 
 export type LessonStep = {
   id:string;
@@ -14,20 +14,40 @@ export function LessonStepper({steps}:{steps:LessonStep[]}){
   // Preserve answers in visited panels. CodeMirror stays unmounted until Apply.
   const [visited,setVisited]=useState<number[]>([0]);
   const navRef=useRef<HTMLElement>(null);
+  const rootRef=useRef<HTMLElement>(null);
+  // Content headings get scroll-margin-top equal to the sticky stage bar so a
+  // jump never lands underneath it. The CSS fallback covers no-JS rendering.
+  useEffect(()=>{
+    const nav=navRef.current,root=rootRef.current;
+    if(!nav||!root||typeof ResizeObserver==="undefined")return;
+    const update=()=>{
+      const top=parseFloat(getComputedStyle(nav).top)||0;
+      root.style.setProperty("--lesson-stage-offset",Math.ceil(top+nav.offsetHeight+12)+"px");
+    };
+    update();
+    const observer=new ResizeObserver(update);
+    observer.observe(nav);
+    return ()=>observer.disconnect();
+  },[]);
   if(!steps.length)return null;
 
   function openStep(index:number,fromFooter=false){
     if(index<0||index>=steps.length)return;
     setActive(index);
     setVisited(old=>old.includes(index)?old:[...old,index]);
-    if(fromFooter){
-      // The footer can be far below a long exercise. Return focus to the new
-      // stage instead of leaving the learner at the bottom of the document.
-      requestAnimationFrame(()=>{
-        navRef.current?.scrollIntoView({block:"start",behavior:"instant"});
-        document.getElementById("lesson-step-heading-"+steps[index].id)?.focus({preventScroll:true});
-      });
-    }
+    requestAnimationFrame(()=>{
+      const heading=document.getElementById("lesson-step-heading-"+steps[index].id);
+      const panel=heading?.parentElement;
+      if(!heading||!panel)return;
+      // Land on the new stage card and its heading, just below the sticky
+      // stage bar. A card whose top is already visible is left where it is.
+      const offset=parseFloat(getComputedStyle(panel).scrollMarginTop)||0;
+      const top=panel.getBoundingClientRect().top;
+      if(fromFooter||top<offset||top>window.innerHeight*.6)
+        panel.scrollIntoView({block:"start",behavior:"instant"});
+      // The footer can be far below a long exercise; move focus with the view.
+      if(fromFooter)heading.focus({preventScroll:true});
+    });
   }
   function onStepKeys(event:KeyboardEvent<HTMLElement>){
     const keys=["ArrowLeft","ArrowRight","Home","End"];
@@ -43,7 +63,7 @@ export function LessonStepper({steps}:{steps:LessonStep[]}){
     buttons[next]?.focus();
   }
 
-  return <section className="lesson-stepper" aria-label="Ders çalışma aşamaları">
+  return <section ref={rootRef} className="lesson-stepper" aria-label="Ders çalışma aşamaları">
     <div className="lesson-stage-bar">
       <span className="ui-eyebrow">Çalışma akışı</span>
       <div className="lesson-stage-position" aria-live="polite">

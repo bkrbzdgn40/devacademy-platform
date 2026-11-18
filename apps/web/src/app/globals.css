@@ -954,7 +954,10 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
   margin:5px 0 0;color:var(--ui-ink)}
 .lesson-workspace-main .lesson-objective p{font-size:13px;line-height:1.8;margin:0;
   color:var(--ui-ink-subtle)}
-.lesson-stepper{min-width:0}
+.lesson-stepper{min-width:0;--lesson-stage-offset:92px}
+/* Sticky stage bar must never cover a heading or exercise card after a jump. */
+.lesson-step-panel,.lesson-step-panel>h2,.lesson-step-panel :is(h3,section,form,.quiz-card,[id]){
+  scroll-margin-top:var(--lesson-stage-offset)}
 .lesson-stage-bar{display:grid;grid-template-columns:1fr auto;align-items:end;
   gap:7px 14px;margin:0 0 12px}
 .lesson-stage-position{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}

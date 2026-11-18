@@ -40,3 +40,10 @@ test("main menu keeps four top-level actions and accessible discovery paths",()=
   assert.match(nav,/<details className="nav-discovery"/);
   assert.ok(!nav.includes('href="/laboratuvar"'));
 });
+test("stage jumps land below the sticky stage bar",()=>{
+  const styles=read("app/globals.css");
+  assert.match(styles,/scroll-margin-top:var\(--lesson-stage-offset\)/);
+  assert.match(stepper,/--lesson-stage-offset/);
+  assert.match(stepper,/ResizeObserver/);
+  assert.match(stepper,/panel.scrollIntoView\(\{block:"start"/);
+});
