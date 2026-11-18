@@ -11,9 +11,9 @@ import questions from "@/data/questions.json";
 
 const paths=learningPaths as LearningPath[];
 const steps=[
-  {number:"01",title:"Önce tahmin et",description:"Programın sonucunu görmeden düşün ve kendi cevabını yaz."},
-  {number:"02",title:"Satır satır kanıtla",description:"Değişkenlerin ve çıktının nerede değiştiğini adım adım takip et."},
-  {number:"03",title:"Farklı koşulda uygula",description:"Karşı örnekleri incele, bağımsız kavram sorularında bilgini sınamaya çalış."},
+  {title:"Önce tahmin et",description:"Programın sonucunu görmeden düşün ve kendi cevabını yaz."},
+  {title:"Satır satır kanıtla",description:"Değişkenlerin ve çıktının nerede değiştiğini adım adım takip et."},
+  {title:"Farklı koşulda uygula",description:"Karşı örnekleri incele, bağımsız kavram sorularında bilgini sınamaya çalış."},
 ];
 const sources=[
   {key:"hn",title:"Hacker News",label:"Sektör tartışmaları",
@@ -26,11 +26,7 @@ const sources=[
     text:"Kütüphane ve araçların resmî depo sürümleri üzerinden yapılan duyurular.",
     href:"https://github.com/explore",note:"Depo keşfi"}
 ];
-const sections: { kind: CatalogKind; number: string; accent: string }[] = [
-  { kind: "language", number: "01", accent: "violet" },
-  { kind: "concept", number: "02", accent: "green" },
-  { kind: "technology", number: "03", accent: "blue" },
-];
+const sections: CatalogKind[] = ["language","concept","technology"];
 
 export default function Home() {
   return <>
@@ -52,7 +48,7 @@ export default function Home() {
     </section>
     <section className="shell section home-path-section" aria-labelledby="paths-title">
       <div className="home-section-top">
-        <SectionHeading eyebrow="Bir yol seç, bir düşünme biçimi kazan" id="paths-title"
+        <SectionHeading id="paths-title"
           title="Öğrenme yolları"
           description="Her kurs birbiri üzerine kurulan derslerden oluşur. İlgi alanına göre bir yol seç."/>
         <Link href="/kurslar" className="home-text-link">Kurs ve derslerde ara ↗</Link>
@@ -64,20 +60,19 @@ export default function Home() {
       <SectionHeading eyebrow="DevAcademy öğrenme döngüsü" id="method-heading"
         title="Cevabı değil, düşünme biçimini geliştir."
         description="Kavramı yalnızca dinlemek yerine tahmin et, kanıtla ve farklı bir durumda kullan."/>
-      <div className="home-method-grid">{steps.map(step=><article className="home-method-card" key={step.number}>
-        <span className="home-method-number">{step.number}</span>
+      <ol className="home-method-flow">{steps.map(step=><li className="home-method-step" key={step.title}>
         <h3>{step.title}</h3><p>{step.description}</p>
-      </article>)}</div>
+      </li>)}</ol>
       <p className="home-method-note">Rehberli deneyler bağımsız yeterlilik kanıtından ayrıdır. Bir doğru cevap her şeyi öğrenmiş olduğunu göstermez.</p>
     </section>
     <section className="shell section" aria-labelledby="explore-title">
       <div className="section-heading"><SectionHeading eyebrow="Yolculuğun başlangıcı" id="explore-title" title="Neyi öğrenmek istiyorsun?"/><p>Teknolojileri ezberlemek yerine aralarındaki bağlantıları gör.</p></div>
-      <div className="section-grid">{sections.map(({ kind, number, accent }) => {
+      <ul className="home-explore-list">{sections.map(kind => {
         const info = categoryInfo[kind];
-        return <Link href={info.href} className={`feature-card ui-card card-${accent}`} key={kind}>
-          <span className="card-number">{number} / 03</span><div><h3>{info.title}</h3><p>{info.description}</p></div><span className="card-bottom"><span>{catalog.filter((item) => item.kind === kind).length} örnek başlık</span><span aria-hidden="true">↗</span></span>
-        </Link>;
-      })}</div>
+        return <li key={kind}><Link href={info.href} className="feature-card ui-card home-explore-row">
+          <h3>{info.title}</h3><p>{info.description}</p><span className="home-explore-count">{catalog.filter((item) => item.kind === kind).length} başlık</span><span className="home-explore-arrow" aria-hidden="true">→</span>
+        </Link></li>;
+      })}</ul>
     </section>
     <section className="shell section radar-section radar-redesign" aria-labelledby="radar-title">
       <div className="radar-heading">
@@ -87,9 +82,8 @@ export default function Home() {
         <StatusPill tone="olive">Sektör Radarı aktif</StatusPill>
         <p className="radar-integrity">Başlıklar ve kaynak kontrol tarihleri ayrı Radar sayfasında gösterilir. Bu ana sayfa yalnızca kaynakları tanıtır.</p><Link href="/radar" className="ui-button ui-button-primary">Haber akışını aç ↗</Link>
       </div>
-      <div className="radar-source-grid">{sources.map((source,index)=><article className="radar-source ui-card" key={source.key}>
-        <div className="radar-source-top"><span className="radar-source-index">0{index+1}</span>
-          <span className="radar-source-type">{source.label}</span></div>
+      <div className="radar-source-grid">{sources.map(source=><article className="radar-source ui-card" key={source.key}>
+        <span className="radar-source-type">{source.label}</span>
         <h3>{source.title}</h3><p>{source.text}</p>
         <span className="radar-source-note">{source.note}</span>
         <a href={source.href} target="_blank" rel="noopener noreferrer">Kaynağı ziyaret et <span aria-hidden="true">↗</span></a>
