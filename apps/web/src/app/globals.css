@@ -831,9 +831,10 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .home-method-step p,.home-method-note{font-size:13px;line-height:1.75;color:var(--ui-ink-subtle);margin:0;max-width:34ch}
 .home-method-note{margin:28px 0 0;max-width:72ch}
 .radar-redesign{display:block}
-.radar-heading{display:flex;align-items:start;gap:15px;flex-wrap:wrap}
+.radar-heading{display:flex;align-items:center;gap:12px 15px;flex-wrap:wrap}
 .radar-heading .ui-section-heading{width:100%;margin-bottom:3px}
-.radar-integrity{font-size:13px;color:var(--ui-ink-subtle);margin:0 0 18px;max-width:68ch}
+.radar-integrity{font-size:13px;color:var(--ui-ink-subtle);max-width:68ch}
+.radar-section .radar-heading .radar-integrity{margin:0}
 .radar-source-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
 .radar-source{display:flex;flex-direction:column;align-items:stretch;gap:11px;min-width:0;
   border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:21px}
@@ -908,7 +909,8 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 
 
 /* M8.6C | Lesson Workstation 2.0. All surfaces use M8.6 semantic light/dark tokens. */
-.lesson-workspace-page{width:min(1320px,calc(100% - 48px));padding-block:35px 80px}
+/* Width comes from .shell so the lesson edge lines up with the header and other pages. */
+.lesson-workspace-page{padding-block:35px 80px}
 .lesson-workspace-page .breadcrumb{margin:0 0 25px;gap:9px;line-height:1.55}
 .lesson-workspace-page .breadcrumb [aria-current="page"]{color:var(--ui-ink)}
 .lesson-workspace-page .lesson-header{border:0;padding:0 0 26px;max-width:900px}
@@ -1038,7 +1040,7 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
   .lesson-workspace-main{width:100%}
 }
 @media(max-width:700px){
-  .lesson-workspace-page{width:calc(100% - 30px);padding-block:26px 62px}
+  .lesson-workspace-page{padding-block:26px 62px}
   .lesson-workspace-page .breadcrumb{margin-bottom:20px}
   .lesson-workspace-page .lesson-header{padding-bottom:20px}
   .lesson-workspace-page .lesson-header h1{font-size:clamp(2rem,8.2vw,2.7rem)}
@@ -1350,3 +1352,9 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 /* Theme boot: no transitions until the first frame with the resolved theme. */
 html.theme-booting,html.theme-booting *,html.theme-booting *::before,html.theme-booting *::after{
   transition:none!important}
+
+/* Sticky footer: short pages (404, empty states) keep the footer at the bottom. */
+body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+body>main{flex:1 0 auto}
+.notfound-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:15px}
+.notfound .notfound-actions .primary-button{margin-top:0}

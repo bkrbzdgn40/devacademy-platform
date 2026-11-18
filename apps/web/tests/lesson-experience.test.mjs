@@ -47,3 +47,13 @@ test("stage jumps land below the sticky stage bar",()=>{
   assert.match(stepper,/ResizeObserver/);
   assert.match(stepper,/panel.scrollIntoView\(\{block:"start"/);
 });
+test("layout aligns lesson width with the shell and keeps the footer at the bottom",()=>{
+  const styles=read("app/globals.css");
+  const notFound=read("app/not-found.tsx");
+  assert.doesNotMatch(styles,/\.lesson-workspace-page\{width:/);
+  assert.match(lesson,/className="shell lesson-page lesson-workspace-page"/);
+  assert.match(styles,/body\{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column\}/);
+  assert.match(styles,/body>main\{flex:1 0 auto\}/);
+  assert.match(styles,/\.radar-heading\{display:flex;align-items:center/);
+  assert.ok(notFound.includes('href="/kutuphane/kavramlar"'));
+});
