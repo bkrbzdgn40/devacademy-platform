@@ -58,7 +58,12 @@ test("shared basic components are used in actual pages, not merely authored",()=
   for(const prop of ["ui-button-primary","ui-button-secondary","ui-button-text",
     "ui-card","ui-eyebrow","ui-pill"])assert.ok(primitives.includes(prop),prop);
   assert.match(home,/ActionLink href="\/kurslar"/);
-  assert.match(home,/SectionHeading eyebrow="Yolculuğun başlangıcı"/);
+  assert.match(home,/SectionHeading id="explore-title"/);
+  for(const overline of ["Yolculuğun başlangıcı","Sana ait öğrenme rotası","DevAcademy öğrenme döngüsü","Sektör radarı"])
+    assert.ok(!home.includes(overline),overline);
+  assert.doesNotMatch(home,/href="\/[^"]*"[^>]*>[^<]*↗/);
+  assert.doesNotMatch(read("components/hero-predict.tsx"),/window-dots/);
+  assert.doesNotMatch(read("components/learning-path-card.tsx"),/path-mark/);
   assert.match(home,/feature-card ui-card/);
   assert.match(layout,/StatusPill tone="terracotta"/);
   assert.match(course,/CourseExplorer/);

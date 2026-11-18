@@ -1381,3 +1381,20 @@ body>main{flex:1 0 auto}
   .hero{padding-block:24px 40px;row-gap:22px}
   .hero-predict-form fieldset{grid-template-columns:1fr}
 }
+
+/* Jury pass 2 | Fewer template marks: single-colour H1, plain course cards, 2 + 3 course grid. */
+.hero h1 em{font-style:italic;color:inherit}
+.path-card,.path-card.path-terra,.path-card.path-sand{border-top:1px solid var(--ui-border)}
+.path-card .path-level{margin:0;text-align:left}
+.path-grid:has(>:nth-child(5):last-child){grid-template-columns:repeat(6,minmax(0,1fr))}
+.path-grid:has(>:nth-child(5):last-child)>*{grid-column:span 2}
+.path-grid:has(>:nth-child(5):last-child)>:nth-child(-n+2){grid-column:span 3}
+@media(max-width:1000px){
+  .path-grid:has(>:nth-child(5):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
+  .path-grid:has(>:nth-child(5):last-child)>*,.path-grid:has(>:nth-child(5):last-child)>:nth-child(-n+2){grid-column:auto}
+  .path-grid:has(>:nth-child(5):last-child)>:last-child{grid-column:1/-1}
+}
+@media(max-width:680px){
+  .path-grid:has(>:nth-child(5):last-child){grid-template-columns:1fr}
+  .path-grid:has(>:nth-child(5):last-child)>:last-child{grid-column:auto}
+}

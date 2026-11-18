@@ -21,7 +21,7 @@ test("pages no longer hard-code course lists, language counts or milestone codes
   }
   assert.match(list,/\{languageCount\}<\/strong> dil/);
   assert.doesNotMatch(list,/programlama dili/);
-  assert.match(home,/eyebrow="Sektör radarı"/);
+  assert.doesNotMatch(home,/eyebrow="Sektör radarı"/);
   for(const page of ["app/radar/page.tsx","app/sql-ornek-veri/page.tsx","components/code-transfer-lab.tsx"])
     assert.doesNotMatch(read(page),/overline">[^<]*\bM\d/,page);
   for(const page of ["app/pratik/page.tsx","app/laboratuvar/page.tsx","components/course-overview.tsx"])

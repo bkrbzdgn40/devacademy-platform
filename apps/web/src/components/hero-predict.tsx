@@ -60,7 +60,7 @@ export function HeroPredict(){
     :"";
 
   return <div className="hero-visual hero-predict" role="group" aria-labelledby={baseId+"-title"}>
-    <div className="code-heading"><span className="window-dots" aria-hidden="true">● ● ●</span><span>Polymorphism.java</span><span>Java</span></div>
+    <div className="code-heading"><span>Polymorphism.java</span><span>Java</span></div>
     <div className="hero-predict-code" role="region" aria-label="Polymorphism.java kaynak kodu" tabIndex={0}>
       {codeLines.map((line,index)=><div key={index}
         className={"studio-code-row"+(activeLine===index+1?" studio-code-active":"")}
