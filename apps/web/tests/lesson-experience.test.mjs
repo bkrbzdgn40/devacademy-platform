@@ -5,7 +5,7 @@ const root=new URL("../src/",import.meta.url);
 const read=(path)=>readFileSync(new URL(path,root),"utf8");
 const lesson=read("components/course-lesson.tsx");
 const stepper=read("components/lesson-stepper.tsx");
-const layout=read("app/layout.tsx");
+const nav=read("components/site-nav.tsx");
 const questions=JSON.parse(read("data/questions.json"));
 const guides=JSON.parse(read("data/lesson-guides.json"));
 const lessons=JSON.parse(read("data/lessons.json"));
@@ -35,8 +35,8 @@ test("lesson stages have accessible navigation, preserve visited answers and laz
 });
 test("main menu keeps four top-level actions and accessible discovery paths",()=>{
   for(const href of ["/kurslar","/pratik","/hesap","/kutuphane/diller","/kutuphane/kavramlar","/kutuphane/teknolojiler"]){
-    assert.ok(layout.includes('href="'+href+'"'));
+    assert.ok(nav.includes('href="'+href+'"'),href);
   }
-  assert.match(layout,/<details className="nav-discovery">/);
-  assert.ok(!layout.includes('href="/laboratuvar"'));
+  assert.match(nav,/<details className="nav-discovery"/);
+  assert.ok(!nav.includes('href="/laboratuvar"'));
 });

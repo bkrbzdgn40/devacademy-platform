@@ -1327,3 +1327,9 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .home-explore-arrow{color:var(--ui-action);font-size:18px;transition:transform var(--motion-quick)}
 .home-explore-row:hover .home-explore-arrow{transform:translateX(4px)}
 .home-explore-row:focus-visible{outline:3px solid var(--ui-focus);outline-offset:2px}
+
+/* Jury pass 1 | Current section in the header navigation. */
+.nav-links>a[aria-current="page"],.nav-discovery>summary[aria-current="page"]{
+  color:var(--ui-action);background:var(--ui-surface-accent);box-shadow:inset 0 -2px 0 var(--ui-action)}
+.nav-discovery-links a[aria-current="page"]{color:var(--ui-action);font-weight:800;
+  box-shadow:inset 3px 0 0 var(--ui-action)}
