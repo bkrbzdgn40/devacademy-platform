@@ -21,7 +21,7 @@ export function CourseOverview({course,legacy=false}:{course:Course;legacy?:bool
         <span className="lesson-number">{String(index+1).padStart(2,"0")}</span>
         <span className="lesson-item-body"><strong>{lesson.title}</strong><span>{lesson.summary}</span>
           <small>{lesson.durationMinutes} dk · {lesson.questionIds.length} soru</small></span>
-        <span aria-hidden="true" className="lesson-arrow">↗</span>
+        <span aria-hidden="true" className="lesson-arrow">→</span>
       </Link>
     </li>)}</ol>
   </section>;

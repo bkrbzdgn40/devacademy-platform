@@ -30,16 +30,14 @@ export function ContinueLearning(){
     return ()=>controller.abort();
   },[refreshKey]);
   if(state.status==="loading")return <section className="journey-card ui-card" aria-label="Öğrenme devam noktası">
-    <span className="ui-eyebrow">Sana özel öğrenme rotası</span>
     <p role="status">Öğrenme durumun kontrol ediliyor…</p>
   </section>;
   if(state.status!=="ready")return <section className="journey-card ui-card" aria-label="Öğrenme devam noktası">
-    <span className="ui-eyebrow">Öğrenme rotan</span>
-    <h3>{state.status==="guest"?"Kendi rotanı oluştur.":state.status==="unconfigured"?
+    <h3>{state.status==="guest"?"Bir kursla başla.":state.status==="unconfigured"?
       "Kurslar herkese açık.":"İlerlemene şu anda ulaşamıyoruz."}</h3>
     <p>{state.status==="guest"?"Dersleri hemen keşfedebilirsin. Hesabınla giriş yaptığında tamamladığın dersler ve kaldığın yer burada görünür.":
       state.status==="unconfigured"?"Bu ortamda hesap ve ilerleme servisi yapılandırılmamış. Dersleri inceleyebilirsin; kişisel ilerleme kaydı bulunmuyor.":
-      "Kayıtları tahmin ederek göstermiyoruz. Kursları keşfedebilir veya durumu yeniden kontrol edebilirsin."}</p>
+      "Kursları keşfedebilir veya durumu yeniden kontrol edebilirsin."}</p>
     <div className="journey-actions">
       <Link className="ui-button ui-button-primary" href="/kurslar">Kursları keşfet →</Link>
       {state.status==="guest"&&<Link href="/hesap" className="ui-button ui-button-secondary">Oturum aç</Link>}
@@ -48,7 +46,7 @@ export function ContinueLearning(){
     </div>
   </section>;
   const journey=resolveLearningJourney(learningPaths,state.lessons);
-  return <section className="journey-card ui-card" aria-label="Kaydedilmiş öğrenme rotası">
+  return <section className="journey-card ui-card" aria-label="Kaydedilmiş ilerleme">
     <div className="journey-card-top"><span className="ui-eyebrow">Hesabındaki öğrenme durumu</span>
       <span className="journey-count">{journey.completed}/{journey.total} ders tamamlandı</span></div>
     <progress value={journey.completed} max={Math.max(1,journey.total)}
@@ -59,9 +57,9 @@ export function ContinueLearning(){
       <Link className="ui-button ui-button-primary" href="/tekrar">Tekrara geç →</Link>
     </>:<>
       <h3>{journey.kind==="continue"?"Kaldığın yerden devam et.":journey.kind==="next"?
-        "Sıradaki kavram seni bekliyor.":"İlk adımı birlikte seçelim."}</h3>
+        "Sıradaki kavram seni bekliyor.":"İlk dersini seç."}</h3>
       <p>{journey.next?journey.next.courseTitle+" · "+journey.next.title:
-        "Mevcut öğrenme yollarını inceleyerek başla."}</p>
+        "Kurslardan birini seçerek başla."}</p>
       <div className="journey-actions">
         <Link className="ui-button ui-button-primary" href={journey.next?.href??"/kurslar"}>
           {journey.kind==="start"?"İlk dersi aç →":"Derse devam et →"}</Link>

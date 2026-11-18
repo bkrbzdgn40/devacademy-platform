@@ -10,10 +10,7 @@ export function LearningPathCard({path,compact=false}:{
   path:LearningPath;compact?:boolean;
 }){
   return <article className={"path-card ui-card path-"+path.tone+(compact?" path-compact":"")}>
-    <div className="path-top">
-      <span className="path-mark" aria-hidden="true">{path.mark}</span>
-      <span className="path-level">{path.area}</span>
-    </div>
+    <p className="path-level">{path.area}</p>
     <h3><Link href={path.href}>{path.title}</Link></h3>
     <p className="path-payoff">{path.payoff}</p>
     <div className="path-facts"><span>{path.lessonCount} ders</span><span>{path.questionCount} soru</span>
@@ -21,7 +18,7 @@ export function LearningPathCard({path,compact=false}:{
     {!compact&&<><p className="path-subheading">Bu yolda neleri kavrayacaksın?</p>
       <ul className="path-topics">{path.foundation.map(x=><li key={x}>{x}</li>)}</ul>
       <p className="path-destination">Hazırlık: {path.next}</p></>}
-    <Link className="path-cta" href={path.href}>Ders yolunu incele <span aria-hidden="true">↗</span></Link>
+    <Link className="path-cta" href={path.href}>Ders yolunu incele <span aria-hidden="true">→</span></Link>
     {Boolean(path.matches?.length)&&<div className="path-matches">
       <strong>Aramana uyan dersler</strong>
       <ul>{path.matches?.map(l=><li key={l.id}><Link href={l.href}>{l.title} →</Link></li>)}</ul>

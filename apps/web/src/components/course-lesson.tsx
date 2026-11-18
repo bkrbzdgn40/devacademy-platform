@@ -72,7 +72,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
       <p className="lesson-step-intro">{diagnostic.prompt}</p>
       <div className="code-label">Hatalı örnek · Düzeltmeyi aşağıdaki soruda seç</div>
       <pre className="lesson-code"><code>{diagnostic.code}</code></pre>
-      <p className="lesson-step-tip">Bu aşamada seçtiğin düzeltme değerlendirilir; yazdığın kod değil. Bir sonraki aşamada kodu düzenleyebilirsin.</p>
+      <p className="lesson-step-tip">Bu aşamada yalnızca seçtiğin düzeltme değerlendirilir. Kodu bir sonraki aşamada düzenleyebilirsin.</p>
       <QuizCard question={diagnostic} number={2} mode="debug" hints={guide.hints}/>
       <p className="reflection-question"><strong>Kendine sor:</strong> {guide.reflection}</p>
     </> },

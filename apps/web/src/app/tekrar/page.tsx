@@ -7,7 +7,7 @@ export default function ReviewPage(){
    <Link className="back-link" href="/kurslar">← Kurslara dön</Link>
    <header className="listing-header"><p className="overline">Öğrenme laboratuvarı · Aralıklı tekrar</p>
      <h1>Hatırladığını kanıtla.</h1>
-     <p>Tekrarlar rastgele değil, geçmiş cevaplarına göre zamanlanır. Amaç ezberlenmiş işaretlemeleri değil, konuyu gerçekten hatırlamayı geliştirmek.</p>
+     <p>Tekrarlar geçmiş cevaplarına göre zamanlanır.</p>
    </header>
    <ReviewSession/>
  </section>;

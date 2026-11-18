@@ -6,7 +6,7 @@ export function LessonDepth({lessonId}:{lessonId:string}) {
   return <section className="lesson-depth" aria-labelledby={"lesson-depth-"+lessonId}>
     <header className="lesson-depth-header">
       <span className="overline">KAVRAMI DERİNLEŞTİR</span>
-      <h3 id={"lesson-depth-"+lessonId}>Sadece sonucu değil, nedenini öğren</h3>
+      <h3 id={"lesson-depth-"+lessonId}>Neden böyle çalışır?</h3>
       <p>Örneği yeni bir durumda kullanabilmek için aşağıdaki varsayımları incele.</p>
     </header>
     <div className="lesson-depth-grid">

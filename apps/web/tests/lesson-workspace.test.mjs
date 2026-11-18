@@ -17,7 +17,8 @@ test("every published lesson has a real linked course map",()=>{
   assert.match(map,/<details className="course-map-mobile">/);
   assert.match(map,/className="course-map-desktop"/);
   assert.match(map,/href=\{lessonBase\+"\/"\+entry.slug\}/);
-  assert.match(map,/Konumun gösteriliyor, tamamlama puanı değil/);
+  assert.match(map,/<p>Ders \{position\}\/\{lessons.length\}<\/p>/);
+  assert.doesNotMatch(map,/tamamlama puanı değil/);
   assert.doesNotMatch(map,/completedAt|localStorage|fetch\(/);
   assert.match(css,/\.course-map-desktop\{position:sticky/);
 });

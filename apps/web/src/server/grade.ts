@@ -19,7 +19,7 @@ export function gradeSubmission(input: unknown): GradeResult {
   if (!question || !key || !question.options.some((option) => option.id === data.optionId)) return { status: "invalid" };
   return { status: "graded", questionId: question.id, correct: key.optionId === data.optionId,
     correctOptionId: key.optionId, explanation: key.explanation,
-    tailoredFeedback:key.optionId===data.optionId?null:(key.wrongFeedback?.[data.optionId]??"Bu seçenek neden uygun değil? İşlem sırasını ve türleri tekrar kontrol et.") };
+    tailoredFeedback:key.optionId===data.optionId?null:(key.wrongFeedback?.[data.optionId]??null) };
 }
 
 export function answerKeyIds(): string[] { return Object.keys(answerKeys); }

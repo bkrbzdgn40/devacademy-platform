@@ -3,35 +3,35 @@ import {useId,useState,useSyncExternalStore,type FormEvent} from "react";
 
 // Fully client-side "predict first" demo for the home hero. No API calls:
 // the trace below is authored by hand and never executes code.
+// Valid Java 25 compact source file. Semantics checked against a classic
+// Main class on a real JVM; the answer is not printed verbatim at the call site.
 const codeLines=[
-  "abstract class Animal {",
-  "  abstract void speak();",
+  "class Animal {",
+  "  void speak() { System.out.println(\"...\"); }",
   "}",
-  "",
   "class Dog extends Animal {",
-  "  @Override",
-  "  void speak() {",
-  "    System.out.println(\"Woof!\");",
-  "  }",
+  "  @Override void speak() { System.out.println(\"Hav!\"); }",
   "}",
-  "",
-  "Animal pet = new Dog();",
-  "pet.speak();",
+  "void main() {",
+  "  Animal pet = new Dog();",
+  "  pet.speak();",
+  "}",
 ];
+// Correct answer is deliberately not the first option.
 const options=[
-  {id:"woof",label:"Woof!",correct:true,
-    feedback:"Doğru. Değişkenin türü Animal olsa da çağrı nesnenin gerçek türü olan Dog'a gider."},
-  {id:"nothing",label:"Hiçbir şey yazdırmaz",correct:false,
-    feedback:"Tahminin tutmadı. Animal.speak soyut ve hiç çalışmaz. Çağrı, nesnenin gerçek türü olan Dog'daki metoda gider."},
+  {id:"animal",label:"...",correct:false,
+    feedback:"Tahminin tutmadı. Değişkenin türü Animal olsa da çağrı nesnenin türüne göre çözülür. Nesne Dog olduğu için Dog'daki speak çalışır."},
   {id:"error",label:"Derleme hatası verir",correct:false,
-    feedback:"Tahminin tutmadı. Soyut sınıf doğrudan örneklenmez; burada örneklenen Dog. Animal türünde bir değişkende tutulması geçerlidir."},
+    feedback:"Tahminin tutmadı. Dog, Animal'ın alt sınıfı. Bir Dog nesnesini Animal türünde bir değişkende tutmak geçerlidir, kod derlenir."},
+  {id:"dog",label:"Hav!",correct:true,
+    feedback:"Doğru. pet değişkeninin türü Animal, nesnenin türü Dog. Çağrı çalışma anında Dog'daki speak metoduna gider."},
 ];
 const trace=[
-  {line:12,text:"new Dog() bir Dog nesnesi oluşturur. pet değişkeninin türü Animal."},
-  {line:13,text:"pet.speak() çağrısı çalışma anında nesnenin gerçek türüne göre çözülür."},
-  {line:8,text:"Dog içindeki speak çalışır ve konsola Woof! yazılır."},
+  {line:8,text:"new Dog() bir Dog nesnesi oluşturur. pet değişkeninin türü Animal."},
+  {line:9,text:"pet.speak() çağrısı derleme anında Animal'da aranır, çalışma anında nesnenin türüne göre çözülür."},
+  {line:5,text:"Dog, speak metodunu override ettiği için Animal'daki sürüm atlanır ve konsola Hav! yazılır."},
 ];
-const output="Woof!";
+const output="Hav!";
 
 const subscribe=()=>()=>{};
 // false on the server and during hydration, true once JS runs in the browser.
@@ -60,7 +60,7 @@ export function HeroPredict(){
     :"";
 
   return <div className="hero-visual hero-predict" role="group" aria-labelledby={baseId+"-title"}>
-    <div className="code-heading"><span className="window-dots" aria-hidden="true">● ● ●</span><span>Polymorphism.java</span><span>Java</span></div>
+    <div className="code-heading"><span>Polymorphism.java</span><span>Java</span></div>
     <div className="hero-predict-code" role="region" aria-label="Polymorphism.java kaynak kodu" tabIndex={0}>
       {codeLines.map((line,index)=><div key={index}
         className={"studio-code-row"+(activeLine===index+1?" studio-code-active":"")}
@@ -98,6 +98,6 @@ export function HeroPredict(){
       </div>}
       <p className="sr-only" aria-live="polite">{announcement}</p>
     </div>
-    <div className="code-footnote"><span>Tarayıcıda çalışan örnek</span><span>Kod çalıştırılmaz, iz önceden hazırlandı</span></div>
+    <div className="code-footnote"><span>Önceden hazırlanmış iz</span></div>
   </div>;
 }

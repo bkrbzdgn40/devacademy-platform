@@ -22,8 +22,8 @@ export function LessonCourseMap({courseTitle,courseHref,lessons,currentIndex,les
     <div className="course-map-desktop">
       <header className="course-map-head">
         <span className="ui-eyebrow">Ders haritası</span>
-        <Link href={courseHref} className="course-map-course">{courseTitle} ↗</Link>
-        <p>Ders {position}/{lessons.length} · Konumun gösteriliyor, tamamlama puanı değil.</p>
+        <Link href={courseHref} className="course-map-course">{courseTitle}</Link>
+        <p>Ders {position}/{lessons.length}</p>
         <progress value={position} max={lessons.length} aria-label={"Kurs içindeki konum: ders "+position+"/"+lessons.length}/>
       </header>
       <nav aria-label="Kursta dersler"><MapList lessons={lessons} currentIndex={currentIndex} lessonBase={lessonBase}/></nav>

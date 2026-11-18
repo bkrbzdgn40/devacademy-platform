@@ -17,7 +17,7 @@ export function CourseProgress({courseSlug,lessons}:{courseSlug:string;lessons:R
    return ()=>controller.abort();
  },[]);
  if(state.status!=="ready")return <aside className="course-progress-card" aria-label="Kurs ilerlemesi">
-   <strong>Kişisel öğrenme rotan</strong>
+   <strong>İlerlemen</strong>
    <p>{state.status==="loading"?"Kayıtlı ilerlemen yükleniyor…":state.status==="signedout"?
      "Tamamladığın dersleri kaydetmek ve sıradaki adımı görmek için oturum aç.":"Bu oturumda kalıcı ilerleme verisi kullanılamıyor; dersler açık."}</p>
    {state.status==="signedout"&&<Link href="/hesap">Hesabına git →</Link>}
