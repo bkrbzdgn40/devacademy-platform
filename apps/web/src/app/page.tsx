@@ -5,6 +5,7 @@ import {HeroPredict} from "@/components/hero-predict";
 import {ContinueLearning} from "@/components/continue-learning";
 import {LearningPathCard,type LearningPath} from "@/components/learning-path-card";
 import {learningPaths} from "@/lib/learning-paths.mjs";
+import {courseOfferPhrase} from "@/lib/course-summary.mjs";
 import courses from "@/data/courses.json";
 import lessons from "@/data/lessons.json";
 import questions from "@/data/questions.json";
@@ -34,7 +35,7 @@ export default function Home() {
       <div className="hero-text">
         <div className="eyebrow"><span className="status-dot" /> Tasarlanmış öğrenme deneyimi</div>
         <h1>Kodu öğrenmek değil,<br /><span>anlamak için buradasın.</span></h1>
-        <p>Önce tahmin et, kodun davranışını incele, yanlış varsayımlarını keşfet ve öğrendiğini yeni bir problemde kullan. JavaScript, Java ve Python ile kendi öğrenme yoluna başla.</p>
+        <p>Önce tahmin et, kodun davranışını incele, yanlış varsayımlarını keşfet ve öğrendiğini yeni bir problemde kullan. {courseOfferPhrase()} ile kendi öğrenme yoluna başla.</p>
         <div className="hero-actions"><ActionLink href="/kurslar">Öğrenme yollarını keşfet <span aria-hidden="true">↗</span></ActionLink><ActionLink href="/kutuphane/diller" variant="secondary">Kod ve kavramları keşfet <span aria-hidden="true">→</span></ActionLink></div>
         <p className="small-note">{courses.length} kurs · {lessons.length} ders · {questions.length} bilgi sorusu. Kod çalıştırma yalnızca özel yerel laboratuvarda mümkündür.</p>
       </div>
@@ -76,7 +77,7 @@ export default function Home() {
     </section>
     <section className="shell section radar-section radar-redesign" aria-labelledby="radar-title">
       <div className="radar-heading">
-        <SectionHeading eyebrow="Sektör radarı · kaynak masası" id="radar-title"
+        <SectionHeading eyebrow="Sektör radarı" id="radar-title"
           title="Teknoloji dünyasını öğrendiğin kavramlarla bağla."
           description="Hacker News, DEV ve resmî GitHub sürümlerinden güncel başlıkları derslerinle ilişkilendir."/>
         <StatusPill tone="olive">Sektör Radarı aktif</StatusPill>

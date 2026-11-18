@@ -2,9 +2,10 @@ import type {Metadata} from "next";
 import Link from "next/link";
 import {CourseExplorer} from "@/components/course-explorer";
 import {learningPaths} from "@/lib/learning-paths.mjs";
+import {courseOfferPhrase,languageCount} from "@/lib/course-summary.mjs";
 export const metadata:Metadata={
   title:"Öğrenme yolları ve kurs keşfi",
-  description:"JavaScript, Java ve Python kurslarını ve mevcut derslerini arayarak sana uygun öğrenme yolunu seç."
+  description:courseOfferPhrase()+" kurslarını ve derslerini arayarak sana uygun öğrenme yolunu seç."
 };
 export default function CourseList(){
   const count=learningPaths.reduce((n:number,p:{lessonCount:number})=>n+p.lessonCount,0);
@@ -17,7 +18,7 @@ export default function CourseList(){
       <div className="discovery-facts">
         <span><strong>{learningPaths.length}</strong> yayımlanmış kurs</span>
         <span><strong>{count}</strong> ders</span>
-        <span><strong>3</strong> programlama dili</span>
+        <span><strong>{languageCount}</strong> dil</span>
       </div>
     </header>
     <CourseExplorer/>

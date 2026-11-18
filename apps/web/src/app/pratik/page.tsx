@@ -6,7 +6,7 @@ export default function PracticeIndex(){
   return <section className="shell listing-page">
     <Link href="/dersler" className="back-link">← Derslere dön</Link>
     <div className="listing-header">
-      <p className="overline">Gerçek kod pratiği · Geliştirme önizlemesi</p>
+      <p className="overline">Gerçek kod pratiği</p>
       <h1>Kodu kendin yaz.</h1>
       <p>Bir fonksiyon geliştir, açık örneklere göre kontrol et, gizli sınır durumlarına karşı ne kadar sağlam olduğunu öğren.</p>
     </div>

@@ -35,7 +35,7 @@ export default async function RadarPage({searchParams}:Props){
   return <div className="shell radar-page">
     <header className="radar-page-hero">
       <Link className="back-link" href="/">← Ana sayfa</Link>
-      <p className="overline">Sektör Radarı · M10</p>
+      <p className="overline">Sektör radarı</p>
       <h1>Güncel gelişmeleri <span>öğrendiğin kavramlara bağla.</span></h1>
       <p>Kaynakların resmî okuma API&apos;lerinden alınan başlıklar, yayımlanma tarihleri ve mevcut derslere dönüş yolları. Haberlerin doğruluğunu bağımsız olarak teyit etmiyoruz. Konu rehberleri yalnızca başlık, varsa etiketler ve resmî sürüm kayıtlarına dayanan editoryal öğrenme köprüleridir; makale özeti değildir.</p>
     </header>

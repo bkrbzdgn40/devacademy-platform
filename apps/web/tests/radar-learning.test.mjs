@@ -43,7 +43,7 @@ test("Python asyncio is never misrepresented as JavaScript Promise instruction",
   assert.equal(topic.key,"python");
   assert.equal(learning.label,"Python'da asyncio ve eşzamanlılık");
   assert.equal(learning.primary.href,"/kurslar/python-temelleri/fonksiyonlar");
-  assert.equal(learning.coverage,"temel hazırlık");
+  assert.equal(learning.coverage,"Önkoşul dersi");
   assert.doesNotMatch(learning.context,/Promise dersi bu konunun doğrudan karşılığıdır/i);
   assert.match(learning.context,/doğrudan karşılığı değildir/);
 });
@@ -84,8 +84,8 @@ test("unsupported TypeScript/React/Docker courses are not advertised as complete
   for(const headline of ["TypeScript 6 releases","React compiler",
     "Docker containers"]){
     const {learning}=classify(headline);
-    assert.equal(learning.primary.kind,"Katalog önizlemesi",headline);
-    assert.match(learning.coverage,/katalog/);
+    assert.equal(learning.primary.kind,"Katalog sayfası",headline);
+    assert.match(learning.coverage,/Katalog/);
     assert.ok(learning.primary.href.startsWith("/kutuphane/"));
   }
 });

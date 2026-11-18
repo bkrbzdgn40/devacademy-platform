@@ -44,7 +44,7 @@ export function CodeTransferLab({lessonId,task}:{lessonId:string;task:Task}) {
     finally{setUpdating(false);}
   }
   return <section className="code-transfer-lab" aria-labelledby={"code-transfer-"+task.id}>
-    <p className="overline">BAĞIMSIZ KOD ÜRETİMİ · M8.3</p>
+    <p className="overline">Bağımsız kod üretimi</p>
     <h2 id={"code-transfer-"+task.id}>Bu kez kodu sen yaz</h2>
     <p>Çıktıyı tahmin etmekten farklı olarak, bir fonksiyonun davranışını kendin oluştur. Gizli sınır durumları da doğruysa ayrı bir <strong>kod üretimi kanıtı</strong> elde edersin.</p>
     {fetchStatus==="loading"&&<p role="status">Kanıt durumu okunuyor…</p>}
