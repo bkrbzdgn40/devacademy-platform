@@ -1398,3 +1398,7 @@ body>main{flex:1 0 auto}
   .path-grid:has(>:nth-child(5):last-child){grid-template-columns:1fr}
   .path-grid:has(>:nth-child(5):last-child)>:last-child{grid-column:auto}
 }
+/* Jury pass 2 | Radar heading: pill and button share one row under the paragraph, clear space before the source cards. */
+.radar-redesign .radar-heading{margin-bottom:40px}
+.radar-redesign .radar-heading .ui-section-heading{margin-bottom:8px}
+@media(max-width:600px){.radar-redesign .radar-heading{margin-bottom:28px}}
