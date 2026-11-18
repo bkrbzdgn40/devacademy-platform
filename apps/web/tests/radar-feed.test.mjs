@@ -136,7 +136,7 @@ test("published timestamps and release status must be real, not plausible string
 });
 test("front-end never claims to have verified the full content of a story",()=>{
   const src=readFileSync(new URL("../src/app/radar/page.tsx",import.meta.url),"utf8");
-  assert.match(src,/Haberlerin doğruluğunu bağımsız olarak teyit etmiyoruz/);
+  assert.match(src,/haberlerin doğruluğunu bağımsız olarak teyit etmiyoruz/i);
   assert.match(src,/Son başarılı kontrol/);
   assert.match(src,/role="status"/);
   assert.match(src,/target="_blank" rel="noopener noreferrer"/);

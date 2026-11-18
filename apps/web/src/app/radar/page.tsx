@@ -42,7 +42,7 @@ export default async function RadarPage({searchParams}:Props){
       <Link className="back-link" href="/">← Ana sayfa</Link>
       <p className="overline">Sektör radarı</p>
       <h1>Güncel gelişmeleri <span>öğrendiğin kavramlara bağla.</span></h1>
-      <p>Kaynakların resmî okuma API&apos;lerinden alınan başlıklar, yayımlanma tarihleri ve mevcut derslere dönüş yolları. Haberlerin doğruluğunu bağımsız olarak teyit etmiyoruz. Konu rehberleri yalnızca başlık, varsa etiketler ve resmî sürüm kayıtlarına dayanan editoryal öğrenme köprüleridir; makale özeti değildir.</p>
+      <p>Kaynakların resmî API&apos;lerinden gelen başlıkları ilgili derslere bağlıyoruz; haberlerin doğruluğunu bağımsız olarak teyit etmiyoruz.</p>
     </header>
     <section className="radar-health" aria-labelledby="radar-health-title">
       <h2 id="radar-health-title">Kaynakların durumu</h2>
@@ -63,7 +63,7 @@ export default async function RadarPage({searchParams}:Props){
       {stale&&<p className="radar-warning" role="status">Bazı bilgiler son başarılı kontrolden geliyor. Tarihleri kontrol ederek değerlendir.</p>}
     </section>
     <section className="radar-stories" aria-labelledby="radar-feed-title">
-      <div className="radar-feed-head"><div><p className="overline">Kaynaklardan seçilen gerçek başlıklar</p>
+      <div className="radar-feed-head"><div><p className="overline">Kaynaklardan seçilen başlıklar</p>
         <h2 id="radar-feed-title">Yazılım gündemi</h2></div><p>{items.length} eşleşen bağlantı</p></div>
       <nav className="radar-filters" aria-label="Kaynağa göre filtrele">
         <Link aria-current={!source?"page":undefined} href={href(null,topic)}>Tüm kaynaklar</Link>
@@ -126,7 +126,7 @@ export default async function RadarPage({searchParams}:Props){
     </section>
     <aside className="radar-method" aria-label="Veri ve editoryal yöntem">
       <h2>Bu akış nasıl hazırlanıyor?</h2>
-      <p>Hacker News tartışmaları ve DEV Community yazıları topluluk içeriğidir; GitHub Releases bağlantıları adı geçen depoların kendi sürüm kayıtlarıdır. Başlıklar resmî API yanıtından alınır. Yayımlanma tarihi ve son başarılı kontrol ayrı gösterilir. Aynı kanonik bağlantı tekrar gösterilmez.</p>
+      <p>Hacker News tartışmaları ve DEV Community yazıları topluluk içeriğidir; GitHub Releases bağlantıları adı geçen depoların kendi sürüm kayıtlarıdır. Başlıklar resmî API yanıtından alınır. Yayımlanma tarihi ve son başarılı kontrol ayrı gösterilir. Aynı kanonik bağlantı tekrar gösterilmez. Konu rehberleri başlığa, varsa etiketlere ve resmî sürüm kayıtlarına dayanır; makale özeti değildir.</p>
       <p>İlk iki kaynakta 35 günden, sürüm kayıtlarında 120 günden eski içerik görünmez. Veriler en fazla 15 dakikada bir yeniden istenir; kısa erişim kesintilerinde en fazla 6 saat önce kontrol edilmiş kayıtlar <strong>son başarılı kayıt</strong> olarak işaretlenebilir. Sunucu yeniden başlarsa bu geçici önbellek kaybolur. Dış sayfalardaki içerikler DevAcademy&apos;ye aktarılmaz ve kaynakların iddiaları eğitim önerisi olarak doğrulanmış sayılmaz.</p>
     </aside>
   </div>;

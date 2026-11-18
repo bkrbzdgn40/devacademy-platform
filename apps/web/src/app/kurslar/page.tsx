@@ -16,7 +16,7 @@ export default function CourseList(){
     <header className="listing-header discovery-header">
       <p className="overline">Öğrenme yolları · DevAcademy</p>
       <h1>Önce ne öğrenmek istediğini bul.</h1>
-      <p>Web geliştirme, nesne yönelimli programlama veya Python ile problem çözme. Bütün kurslar gerçek derslerden oluşur; aradığın kavramı doğrudan açabilirsin.</p>
+      <p>Web geliştirme, nesne yönelimli programlama veya Python ile problem çözme. Aradığın kavramı doğrudan açabilirsin.</p>
       <div className="discovery-facts">
         <span><strong>{learningPaths.length}</strong> yayımlanmış kurs</span>
         <span><strong>{count}</strong> ders</span>

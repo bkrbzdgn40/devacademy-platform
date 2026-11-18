@@ -14,7 +14,7 @@ import questions from "@/data/questions.json";
 
 const paths=learningPaths as LearningPath[];
 const steps=[
-  {title:"Önce tahmin et",description:"Programın sonucunu görmeden düşün ve kendi cevabını yaz."},
+  {title:"Önce tahmin et",description:"Programın sonucunu görmeden düşün ve cevabını yaz."},
   {title:"Satır satır kanıtla",description:"Değişkenlerin ve çıktının nerede değiştiğini adım adım takip et."},
   {title:"Farklı koşulda uygula",description:"Karşı örnekleri incele, bağımsız kavram sorularında bilgini sınamaya çalış."},
 ];
@@ -38,7 +38,7 @@ export default function Home() {
     <section className="hero shell">
       <div className="hero-text">
         <h1>Kodu öğrenmek değil, <em>anlamak</em> için buradasın.</h1>
-        <p>Önce tahmin et, kodun davranışını incele, yanlış varsayımlarını keşfet ve öğrendiğini yeni bir problemde kullan. {courseOfferPhrase()} ile kendi öğrenme yoluna başla.</p>
+        <p>Önce tahmin et, kodun davranışını incele, yanlış varsayımlarını keşfet ve öğrendiğini yeni bir problemde kullan. {courseOfferPhrase()} kurslarından biriyle başla.</p>
       </div>
       <HeroPredict/>
       <div className="hero-meta">
@@ -49,7 +49,7 @@ export default function Home() {
     <section className="shell home-journey-area" aria-labelledby="journey-heading">
       <div className="home-journey-intro">
         <h2 id="journey-heading">Kaldığın yeri arama. Buradan devam et.</h2>
-        <p>Hesabındaki gerçek ders kayıtlarıyla çalışır. Oturumun yoksa kurs keşfi açık kalır.</p></div>
+        <p>Hesabındaki ders kayıtlarını kullanır. Oturumun yoksa kurs keşfi açık kalır.</p></div>
       <ContinueLearning/>
     </section>
     <section className="shell section home-path-section" aria-labelledby="paths-title">
@@ -64,15 +64,13 @@ export default function Home() {
     </section>
     <section className="shell section home-method-section" id="nasil-ogrenirsin" aria-labelledby="method-heading">
       <SectionHeading id="method-heading"
-        title="Cevabı değil, düşünme biçimini geliştir."
-        description="Kavramı yalnızca dinlemek yerine tahmin et, kanıtla ve farklı bir durumda kullan."/>
+        title="Düşünme biçimini geliştir."/>
       <ol className="home-method-flow">{steps.map(step=><li className="home-method-step" key={step.title}>
         <h3>{step.title}</h3><p>{step.description}</p>
       </li>)}</ol>
-      <p className="home-method-note">Rehberli deneyler bağımsız yeterlilik kanıtından ayrıdır. Bir doğru cevap her şeyi öğrenmiş olduğunu göstermez.</p>
     </section>
     <section className="shell section" aria-labelledby="explore-title">
-      <div className="section-heading"><SectionHeading id="explore-title" title="Neyi öğrenmek istiyorsun?"/><p>Teknolojileri ezberlemek yerine aralarındaki bağlantıları gör.</p></div>
+      <div className="section-heading"><SectionHeading id="explore-title" title="Neyi öğrenmek istiyorsun?"/><p>Diller, kavramlar ve teknolojiler arasındaki bağlantıları gör.</p></div>
       <ul className="home-explore-list">{sections.map(kind => {
         const info = categoryInfo[kind];
         return <li key={kind}><Link href={info.href} className="feature-card ui-card home-explore-row">
@@ -86,7 +84,7 @@ export default function Home() {
           title="Teknoloji dünyasını öğrendiğin kavramlarla bağla."
           description="Hacker News, DEV ve resmî GitHub sürümlerinden güncel başlıkları derslerinle ilişkilendir."/>
         <StatusPill tone="olive">Sektör Radarı aktif</StatusPill>
-        <p className="radar-integrity">Başlıklar ve kaynak kontrol tarihleri ayrı Radar sayfasında gösterilir. Bu ana sayfa yalnızca kaynakları tanıtır.</p><Link href="/radar" className="ui-button ui-button-primary">Haber akışını aç</Link>
+        <Link href="/radar" className="ui-button ui-button-primary">Haber akışını aç</Link>
       </div>
       <div className="radar-source-grid">{sources.map(source=><article className="radar-source ui-card" key={source.key}>
         <span className="radar-source-type">{source.label}</span>
@@ -94,7 +92,6 @@ export default function Home() {
         <span className="radar-source-note">{source.note}</span>
         <a href={source.href} target="_blank" rel="noopener noreferrer">Kaynağı ziyaret et <span aria-hidden="true">↗</span></a>
       </article>)}</div>
-      <p className="radar-disclaimer">Kaynakların gerçek başlıkları, yayın tarihleri, kontrol zamanı, konu eşleştirmesi ve erişim durumu Sektör Radarı sayfasındadır.</p>
     </section>
   </>;
 }

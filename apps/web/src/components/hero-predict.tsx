@@ -98,6 +98,6 @@ export function HeroPredict(){
       </div>}
       <p className="sr-only" aria-live="polite">{announcement}</p>
     </div>
-    <div className="code-footnote"><span>Tarayıcıda çalışan örnek</span><span>Kod çalıştırılmaz, iz önceden hazırlandı</span></div>
+    <div className="code-footnote"><span>Önceden hazırlanmış iz</span></div>
   </div>;
 }

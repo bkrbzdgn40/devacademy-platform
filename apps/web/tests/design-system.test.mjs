@@ -63,6 +63,9 @@ test("shared basic components are used in actual pages, not merely authored",()=
     assert.ok(!home.includes(overline),overline);
   assert.doesNotMatch(home,/href="\/[^"]*"[^>]*>[^<]*↗/);
   assert.doesNotMatch(read("components/hero-predict.tsx"),/window-dots/);
+  assert.equal(home.match(/değil,/g)?.length,1,"X değil, Y yalnızca H1'de");
+  for(const note of ["home-method-note","radar-integrity","radar-disclaimer","gerçek"])assert.ok(!home.includes(note),note);
+  assert.match(read("components/hero-predict.tsx"),/<span>Önceden hazırlanmış iz<\/span><\/div>/);
   assert.doesNotMatch(read("components/learning-path-card.tsx"),/path-mark/);
   assert.match(home,/feature-card ui-card/);
   assert.match(layout,/StatusPill tone="terracotta"/);

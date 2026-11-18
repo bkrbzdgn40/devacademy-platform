@@ -121,7 +121,7 @@ export function TransferLab({lessonId}:{lessonId:string}) {
     </p>}
     {loadStatus==="ready"&&state?.status==="retained"&&<p role="status">
       <strong>Gecikmeli transfer kanıtı elde edildi.</strong> Aynı kavramı en az 24 saat sonra
-      yeni bir örnekte yeniden çözdün. Bu, gerçek kod yazma sertifikası değildir.
+      yeni bir örnekte yeniden çözdün. Bu bir kod yazma sertifikası değildir.
     </p>}
     {loadStatus==="ready"&&state?.status==="cooldown"&&<p role="status">
       Bu aşamadaki sekiz denemeyi kullandın. Yeni örnekler {state.dueAt?when(state.dueAt):"24 saat sonra"}
