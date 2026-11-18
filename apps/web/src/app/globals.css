@@ -1336,3 +1336,7 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
   color:var(--ui-action);background:var(--ui-surface-accent);box-shadow:inset 0 -2px 0 var(--ui-action)}
 .nav-discovery-links a[aria-current="page"]{color:var(--ui-action);font-weight:800;
   box-shadow:inset 3px 0 0 var(--ui-action)}
+
+/* Theme boot: no transitions until the first frame with the resolved theme. */
+html.theme-booting,html.theme-booting *,html.theme-booting *::before,html.theme-booting *::after{
+  transition:none!important}

@@ -11,7 +11,25 @@ export const metadata: Metadata = {
   description: "Programlama dillerini, yazılım kavramlarını ve teknolojileri keşfet.",
 };
 
-const themeBoot="// M8.6 dark theme initial boot: keep it tiny and run before first CSS paint.\n// Not a source of account preferences. System preference is the default.\ntry {\n  var pref=localStorage.getItem(\"devacademy-theme\");\n  if(pref!==\"light\"&&pref!==\"dark\")pref=\"system\";\n  var dark=pref===\"dark\"||(pref===\"system\"&&window.matchMedia(\"(prefers-color-scheme: dark)\").matches);\n  var root=document.documentElement;\n  root.dataset.theme=dark?\"dark\":\"light\";\n  root.dataset.themePreference=pref;\n  root.style.colorScheme=dark?\"dark\":\"light\";\n}catch(e){\n  document.documentElement.dataset.theme=\"light\";\n  document.documentElement.dataset.themePreference=\"system\";\n}\n";
+const themeBoot=`// M8.6 dark theme initial boot: keep it tiny and run before first CSS paint.
+// Not a source of account preferences. System preference is the default.
+// theme-booting disables every transition until the first frame has painted,
+// so colors never animate from the light palette into the stored theme.
+var root=document.documentElement;
+root.classList.add("theme-booting");
+try {
+  var pref=localStorage.getItem("devacademy-theme");
+  if(pref!=="light"&&pref!=="dark")pref="system";
+  var dark=pref==="dark"||(pref==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);
+  root.dataset.theme=dark?"dark":"light";
+  root.dataset.themePreference=pref;
+  root.style.colorScheme=dark?"dark":"light";
+}catch(e){
+  root.dataset.theme="light";
+  root.dataset.themePreference="system";
+}
+requestAnimationFrame(function(){requestAnimationFrame(function(){root.classList.remove("theme-booting");});});
+`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="tr" suppressHydrationWarning><body>
