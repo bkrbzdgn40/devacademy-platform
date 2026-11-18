@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {ActionLink,SectionHeading,StatusPill} from "@/components/ui-primitives";
 import { catalog, categoryInfo, type CatalogKind } from "@/lib/catalog";
+import {HeroPredict} from "@/components/hero-predict";
 import {ContinueLearning} from "@/components/continue-learning";
 import {LearningPathCard,type LearningPath} from "@/components/learning-path-card";
 import {learningPaths} from "@/lib/learning-paths.mjs";
@@ -41,23 +42,7 @@ export default function Home() {
         <div className="hero-actions"><ActionLink href="/kurslar">Öğrenme yollarını keşfet <span aria-hidden="true">↗</span></ActionLink><ActionLink href="/kutuphane/diller" variant="secondary">Kod ve kavramları keşfet <span aria-hidden="true">→</span></ActionLink></div>
         <p className="small-note">{courses.length} kurs · {lessons.length} ders · {questions.length} bilgi sorusu. Kod çalıştırma yalnızca özel yerel laboratuvarda mümkündür.</p>
       </div>
-      <div className="hero-visual" aria-label="DevAcademy örnek ders kartı">
-        <div className="code-heading"><span className="window-dots" aria-hidden="true">● ● ●</span><span>Polymorphism.java</span><span>Java</span></div>
-        <pre className="code-sample"><code>{`abstract class Animal {
-  abstract void speak();
-}
-
-class Dog extends Animal {
-  @Override
-  void speak() {
-    System.out.println("Woof!");
-  }
-}
-
-Animal pet = new Dog();
-pet.speak(); // Woof!`}</code></pre>
-        <div className="code-footnote"><span>Örnek içerik</span><span>Çalıştırma aktif değil</span></div>
-      </div>
+      <HeroPredict/>
     </section>
     <section className="shell home-journey-area" aria-labelledby="journey-heading">
       <div className="home-journey-intro"><p className="overline">Sana ait öğrenme rotası</p>

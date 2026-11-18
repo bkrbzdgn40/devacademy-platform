@@ -1265,3 +1265,42 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .sql-dataset th{background:var(--ui-surface-muted);color:var(--ui-ink)}
 .sql-dataset td{color:var(--ui-ink-subtle)}
 @media(max-width:800px){.sql-dataset{grid-template-columns:1fr}.sql-dataset>section{padding:16px}}
+
+/* Jury pass 1 | Visually hidden text for screen readers (used by several components). */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Jury pass 1 | Home hero "predict first" card. Client-side only, never executes code. */
+.hero-predict{display:flex;flex-direction:column;color:var(--ui-code-ink)}
+.hero-predict-code{padding:14px 0;overflow-x:auto;font-family:var(--font-code)}
+.hero-predict-code:focus-visible{outline:3px solid var(--ui-focus);outline-offset:-3px}
+.hero-predict-code .studio-code-row{font-size:13px;line-height:1.75;transition:background-color var(--motion-normal)}
+.hero-predict-panel{padding:16px 18px 18px;border-top:1px solid var(--color-code-surface);
+  background:var(--color-code-surface)}
+.hero-predict-title{margin:0 0 10px;font-weight:700;color:var(--ui-code-ink)}
+.hero-predict-form fieldset{margin:0;padding:0;border:0;display:grid;gap:8px}
+.hero-predict-option{display:flex;align-items:center;gap:10px;min-height:44px;padding:8px 12px;
+  border:1px solid var(--color-code-bg);border-radius:var(--radius-sm);background:var(--ui-code);
+  cursor:pointer;font-family:var(--font-code);font-size:14px}
+.hero-predict-option:has(input:checked){border-color:var(--color-tan)}
+.hero-predict-option input{accent-color:var(--color-tan);width:18px;height:18px;margin:0}
+.hero-predict-option:has(input:focus-visible){outline:3px solid var(--ui-focus);outline-offset:2px}
+.hero-predict-error{margin:8px 0 0;color:var(--color-code-ink);font-size:14px}
+.hero-predict-button,.hero-predict-actions button{min-height:44px;padding:9px 14px;border-radius:var(--radius-sm);
+  font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.hero-predict-button{margin-top:12px;width:100%;border:0;background:var(--color-tan);color:var(--color-code-bg)}
+.hero-predict-button:focus-visible,.hero-predict-actions button:focus-visible{outline:3px solid var(--ui-focus);outline-offset:2px}
+.hero-predict-result{animation:hero-predict-in var(--motion-normal) ease-out}
+.hero-predict-output{display:flex;align-items:baseline;gap:10px;margin:0 0 10px}
+.hero-predict-output span{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--color-code-muted)}
+.hero-predict-output code{font-family:var(--font-code);font-size:16px;color:var(--ui-code-ink)}
+.hero-predict-feedback{margin:0 0 10px;padding-left:10px;border-left:3px solid var(--color-code-muted);
+  color:var(--color-code-muted);font-size:14px}
+.hero-predict-feedback.is-correct{border-left-color:var(--color-tan);color:var(--ui-code-ink)}
+.hero-predict-trace{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px;color:var(--color-code-muted)}
+.hero-predict-trace li.is-active{color:var(--ui-code-ink)}
+.hero-predict-line{font-family:var(--font-code);font-size:12px;color:var(--color-tan)}
+.hero-predict-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.hero-predict-actions button{border:1px solid var(--color-code-muted);background:transparent;color:var(--ui-code-ink)}
+.hero-predict-actions button:disabled{opacity:.45;cursor:default}
+@keyframes hero-predict-in{from{opacity:0}to{opacity:1}}
