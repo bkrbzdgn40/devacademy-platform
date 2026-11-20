@@ -783,38 +783,36 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .home-text-link{font-weight:750;color:var(--ui-action);font-size:13px;white-space:nowrap;
   border-bottom:1px solid var(--ui-action);padding-bottom:3px;margin-bottom:4px}
 .home-text-link:hover{color:var(--ui-action-hover)}
-.path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:18px;align-items:stretch}
-.path-card{display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;
-  padding:24px;border-top:4px solid var(--ui-action);min-width:0}
-.path-card.path-terra{border-top-color:var(--color-terracotta-700)}
-.path-card.path-sand{border-top-color:var(--color-tan)}
-.path-top{display:flex;gap:12px;justify-content:space-between;align-items:center}
-.path-mark{width:48px;height:48px;display:grid;place-items:center;flex:none;
-  background:var(--ui-surface-accent);color:var(--ui-action);border-radius:12px;
-  font:800 17px var(--font-code)}
-.path-terra .path-mark{background:var(--color-terracotta-100);color:var(--color-terracotta-700)}
-.path-sand .path-mark{background:var(--ui-surface-muted);color:var(--color-cinnamon)}
-.path-level{font-size:11px;text-align:right;line-height:1.4;color:var(--ui-ink-subtle);font-weight:750}
-.path-card h3{font:700 1.55rem/1.25 var(--font-display);margin:0;color:var(--ui-ink)}
-.path-card h3 a:hover{color:var(--ui-action)}
-.path-payoff{font-size:13px;line-height:1.8;color:var(--ui-ink-subtle);margin:0;flex:1}
-.path-facts{display:flex;flex-wrap:wrap;gap:6px}
-.path-facts span{font-size:10px;color:var(--ui-ink-subtle);background:var(--ui-surface-muted);
-  border:1px solid var(--ui-border);border-radius:99px;padding:4px 8px}
-.path-subheading{font-weight:750;font-size:12px;margin:6px 0 -3px;color:var(--ui-ink)}
-.path-topics{margin:0;padding-left:20px;display:grid;gap:8px}
-.path-topics li{color:var(--ui-ink-subtle);font-size:12px;line-height:1.55}
-.path-topics li::marker{color:var(--ui-action)}
-.path-destination{font-size:12px;line-height:1.6;color:var(--ui-ink-subtle);
-  border-top:1px solid var(--ui-border);margin:0;padding-top:13px}
-.path-cta{margin-top:auto;display:flex;align-items:center;justify-content:space-between;
-  gap:8px;color:var(--ui-action);font-weight:800;font-size:13px;
-  border-top:1px solid var(--ui-border);padding-top:15px;min-height:44px}
+/* Ders yolları: kutu kart yerine numaralı dergi fihristi. Çerçeve, gölge ve
+   yuvarlak köşe yok; satırlar yalnızca ince çizgilerle ayrılır. */
+.path-index{list-style:none;margin:0;padding:0;border-top:1px solid var(--ui-border-strong)}
+.path-index>li{border-bottom:1px solid var(--ui-border)}
+.path-card{--path-tone:var(--ui-action);display:grid;
+  grid-template-columns:5.25rem minmax(0,1fr) minmax(190px,15rem);gap:6px 36px;
+  align-items:start;padding:30px 0;min-width:0}
+.path-card.path-terra{--path-tone:var(--color-terracotta-700)}
+.path-card.path-sand{--path-tone:var(--color-cinnamon)}
+.path-index-no{font:300 3.75rem/.82 var(--font-display);letter-spacing:-.05em;
+  font-variant-numeric:lining-nums tabular-nums;color:color-mix(in srgb,var(--path-tone) 45%,transparent);
+  transition:color var(--motion-quick),transform var(--motion-normal) ease-out}
+.path-index-body{min-width:0}
+.path-card h3{font:600 clamp(1.45rem,2.3vw,1.95rem)/1.15 var(--font-display);letter-spacing:-.015em;
+  margin:0 0 9px;color:var(--ui-ink)}
+.path-payoff{font-size:15px;line-height:1.7;color:var(--ui-ink-subtle);margin:0;max-width:58ch}
+.path-index-meta{display:grid;gap:5px;justify-items:start;padding-top:7px;min-width:0}
+.path-facts{font:12.5px/1.5 var(--font-code);color:var(--ui-ink);margin:0}
+.path-level{font-size:12px;line-height:1.5;color:var(--ui-ink-subtle);margin:0}
+.path-cta{margin-top:6px;display:inline-flex;align-items:center;gap:10px;min-height:44px;
+  color:var(--ui-action);font-weight:750;font-size:13px}
 .path-cta:hover{color:var(--ui-action-hover)}
-.path-matches{background:var(--ui-surface-accent);border-radius:var(--radius-sm);padding:14px}
+.path-subheading{font-weight:750;font-size:12px;margin:22px 0 8px;color:var(--ui-ink)}
+.path-topics{margin:0;padding-left:18px;columns:2;column-gap:32px}
+.path-topics li{color:var(--ui-ink-subtle);font-size:13px;line-height:1.55;margin-bottom:7px;break-inside:avoid}
+.path-topics li::marker{color:var(--path-tone)}
+.path-destination{font-size:13px;line-height:1.6;color:var(--ui-ink-subtle);margin:10px 0 0}
+.path-matches{margin-top:18px;border-left:2px solid var(--path-tone);padding:2px 0 2px 14px}
 .path-matches>strong{font-size:12px;color:var(--ui-ink)}
-.path-matches ul{list-style:none;display:grid;gap:9px;padding:9px 0 0;margin:0}
+.path-matches ul{list-style:none;display:grid;gap:8px;padding:8px 0 0;margin:0}
 .path-matches a{font-size:12px;color:var(--ui-action);font-weight:700;text-decoration:underline}
 .home-method-section{border-block:1px solid var(--ui-border)}
 /* One continuous process line instead of three equal cards. */
@@ -879,10 +877,10 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .discovery-guidance h2{font:700 1.65rem var(--font-display);color:var(--ui-ink);margin-bottom:13px}
 .discovery-guidance p{font-size:14px;color:var(--ui-ink-subtle);max-width:73ch;line-height:1.8}
 .discovery-guidance a{font-size:13px;font-weight:750;color:var(--ui-action);text-decoration:underline}
-@media(max-width:1000px){.path-grid,.radar-source-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:1000px){.radar-source-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .home-journey-area{grid-template-columns:1fr;gap:15px}
 }
-@media(max-width:680px){.path-grid,.radar-source-grid{grid-template-columns:1fr}
+@media(max-width:680px){.radar-source-grid{grid-template-columns:1fr}
   .home-method-flow{grid-template-columns:1fr;gap:22px}
   .home-method-flow::before{left:7px;right:auto;top:7px;bottom:7px;border-top:0;border-left:2px solid var(--ui-border-strong)}
   .home-method-step{padding:0 0 0 32px}
@@ -896,7 +894,6 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
   .home-journey-area{padding-block:10px 50px}
   .home-journey-intro h2{font-size:1.9rem}
   .journey-card{padding:18px}
-  .path-card{padding:20px}
   .discovery-facts{gap:8px}
   .discovery-facts span{flex:1;min-width:88px;text-align:center;padding:9px 7px}
   .discovery-facts strong{display:block;font-size:19px}
@@ -1382,22 +1379,8 @@ body>main{flex:1 0 auto}
   .hero-predict-form fieldset{grid-template-columns:1fr}
 }
 
-/* Jury pass 2 | Fewer template marks: single-colour H1, plain course cards, 2 + 3 course grid. */
+/* Jury pass 2 | Fewer template marks: single-colour H1. */
 .hero h1 em{font-style:italic;color:inherit}
-.path-card,.path-card.path-terra,.path-card.path-sand{border-top:1px solid var(--ui-border)}
-.path-card .path-level{margin:0;text-align:left}
-.path-grid:has(>:nth-child(5):last-child){grid-template-columns:repeat(6,minmax(0,1fr))}
-.path-grid:has(>:nth-child(5):last-child)>*{grid-column:span 2}
-.path-grid:has(>:nth-child(5):last-child)>:nth-child(-n+2){grid-column:span 3}
-@media(max-width:1000px){
-  .path-grid:has(>:nth-child(5):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
-  .path-grid:has(>:nth-child(5):last-child)>*,.path-grid:has(>:nth-child(5):last-child)>:nth-child(-n+2){grid-column:auto}
-  .path-grid:has(>:nth-child(5):last-child)>:last-child{grid-column:1/-1}
-}
-@media(max-width:680px){
-  .path-grid:has(>:nth-child(5):last-child){grid-template-columns:1fr}
-  .path-grid:has(>:nth-child(5):last-child)>:last-child{grid-column:auto}
-}
 /* Jury pass 2 | Radar heading: pill and button share one row under the paragraph, clear space before the source cards. */
 .radar-redesign .radar-heading{margin-bottom:40px}
 .radar-redesign .radar-heading .ui-section-heading{margin-bottom:8px}
@@ -1802,10 +1785,24 @@ html .editor-shell .editor-privacy{background:var(--color-code-surface);padding-
 @media(max-width:600px){.hero-loop{grid-template-rows:none;row-gap:12px}.hero-loop li{grid-row:auto;grid-template-rows:none}}
 /* Course lesson list: numerals in a fixed column. */
 .lesson-number{flex:none;width:2.2ch;font-variant-numeric:tabular-nums;text-align:left}
-/* Home course cards: card-level lift on hover. */
-.path-card{transition:transform var(--motion-quick) ease-out,border-color var(--motion-quick),box-shadow var(--motion-quick)}
-.path-card:has(a:hover){transform:translateY(-3px);border-color:var(--ui-action);box-shadow:var(--shadow-hover)}
-@media(prefers-reduced-motion:reduce){.path-card:has(a:hover){transform:none}}
+/* Ders yolu fihristi: satır hover/odak durumunda numara tam tona boyanıp hafifçe kayar. */
+.path-card:is(:hover,:focus-within) .path-index-no{color:var(--path-tone);transform:translateX(5px)}
+.path-card:is(:hover,:focus-within) h3 a{background-size:100% 1px}
+.path-card:is(:hover,:focus-within) .path-cta span{transform:translateX(4px)}
+@media(prefers-reduced-motion:reduce){.path-card:is(:hover,:focus-within) .path-index-no,
+  .path-card:is(:hover,:focus-within) .path-cta span{transform:none}}
+@media(max-width:1000px){
+  .path-card{grid-template-columns:4rem minmax(0,1fr);column-gap:24px}
+  .path-index-no{font-size:3rem}
+  .path-index-meta{grid-column:2;grid-template-columns:auto;padding-top:10px}
+}
+@media(max-width:680px){
+  .path-card{grid-template-columns:minmax(0,1fr);padding:24px 0;row-gap:4px}
+  .path-index-no{font-size:1.75rem;line-height:1;margin-bottom:6px}
+  .path-index-meta{grid-column:1}
+  .path-topics{columns:1}
+  .path-card:is(:hover,:focus-within) .path-index-no{transform:none}
+}
 /* Jury pass 17: quieter availability notes, footer logo hover, remaining small links. */
 .availability-note{background:var(--ui-surface-muted);border:1px solid var(--ui-border);border-left:3px solid var(--color-terracotta-700);
   color:var(--ui-ink-subtle);font-size:13px;padding:10px 14px;border-radius:var(--radius-sm)}

@@ -56,8 +56,8 @@ export default function Home() {
           description="Her kurs birbiri üzerine kurulan derslerden oluşur. İlgi alanına göre bir yol seç."/>
         <Link href="/kurslar" className="home-text-link">Kurs ve derslerde ara <span aria-hidden="true">→</span></Link>
       </div>
-      <div className="path-grid home-path-grid">{paths.map(path=>
-        <LearningPathCard path={path} compact key={path.id}/>)}</div>
+      <ol className="path-index home-path-grid">{paths.map((path,i)=>
+        <li key={path.id}><LearningPathCard path={path} index={i} compact/></li>)}</ol>
     </section>
     <section className="shell section" aria-labelledby="explore-title">
       <SectionHeading id="explore-title" title="Neyi öğrenmek istiyorsun?" description="Diller, kavramlar ve teknolojiler arasındaki bağlantıları gör."/>

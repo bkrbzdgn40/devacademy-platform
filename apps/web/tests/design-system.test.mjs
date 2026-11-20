@@ -71,8 +71,15 @@ test("shared basic components are used in actual pages, not merely authored",()=
   assert.match(layout,/StatusPill tone="terracotta"/);
   assert.match(course,/CourseExplorer/);
   const card=read("components/learning-path-card.tsx");
-  assert.match(card,/ui-card path-/);
+  // Fihrist düzeni: ders yolları kutu kart değil, numaralı liste satırı.
+  assert.match(card,/"path-card path-"/);
+  assert.doesNotMatch(card,/ui-card/);
+  assert.match(card,/className="path-index-no" aria-hidden="true"/);
   assert.match(card,/className="path-cta"/);
+  assert.match(home,/<ol className="path-index home-path-grid"/);
+  assert.match(read("components/course-explorer.tsx"),/<ol className="path-index"/);
+  assert.match(read("components/course-explorer.tsx"),/index=\{learningPaths\.findIndex\(p=>p\.id===path\.id\)\}/);
+  assert.doesNotMatch(styles,/\.path-grid/);
   assert.match(progress,/dashboard-stat ui-card/);
   assert.match(styles,/\.studio-code\{background:var\(--ui-code\)/);
 });

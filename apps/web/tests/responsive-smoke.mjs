@@ -486,10 +486,11 @@ try{
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
       "document.documentElement.dataset.theme==='dark' && "+
-      "getComputedStyle(document.querySelector('.home-path-grid .path-card')).backgroundColor==='rgb(41, 39, 32)'",
+      "getComputedStyle(document.querySelector('.home-path-grid .path-card h3')).color!=='rgb(41, 35, 31)' && "+
+      "getComputedStyle(document.querySelector('.home-path-grid .path-card')).backgroundColor==='rgba(0, 0, 0, 0)'",
       returnByValue:true},sessionId);
     return r.result?.value===true;
-  },"M8.6B new course cards do not inherit the dark palette");
+  },"M8.6B course index rows do not inherit the dark palette");
   await selectTheme("light");
 
   // M8.6C: desktop 1280px real course map, then 320px mobile disclosure

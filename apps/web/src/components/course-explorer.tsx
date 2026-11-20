@@ -17,10 +17,10 @@ export function CourseExplorer(){
       <p>Arama kurs adları, öğrenme hedefleri ve mevcut derslerin başlıkları üzerinden yapılır.</p>
     </div>
     <p className="explorer-count" aria-live="polite">{matched.length} öğrenme yolu gösteriliyor.
-      {query.trim()?" Eşleşen dersler kartların içinde listelenir.":""}</p>
+      {query.trim()?" Eşleşen dersler ilgili kursun altında listelenir.":""}</p>
     <h2 className="sr-only">Kurslar</h2>
-    {matched.length?<div className="path-grid">{matched.map(path=>
-      <LearningPathCard key={path.id} path={path}/>)}</div>:
+    {matched.length?<ol className="path-index">{matched.map(path=>
+      <li key={path.id}><LearningPathCard path={path} index={learningPaths.findIndex(p=>p.id===path.id)}/></li>)}</ol>:
       <div className="explorer-empty" role="status"><strong>Eşleşen kurs veya ders bulunamadı.</strong>
         <p>Henüz yayımlanmamış teknolojiler için sonuç uydurmuyoruz. Başka bir kavram ara.</p>
         <button type="button" className="ui-button ui-button-secondary" onClick={()=>setQuery("")}>Tüm kursları göster</button>
