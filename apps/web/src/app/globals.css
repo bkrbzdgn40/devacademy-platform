@@ -1868,7 +1868,8 @@ html[data-theme="dark"] .availability-note{background:var(--ui-surface-muted);bo
 .practice-card>.predict-line{grid-column:2;margin-top:8px}
 .lesson-item-body>.predict-line-still{margin:8px 0 4px;max-width:520px}
 .lesson-item:hover .predict-line-q{transform:translateX(3px)}
-.catalog-card>.predict-line{margin:4px 0 16px}
+.catalog-card{min-width:0}
+.catalog-card>.predict-line{margin:4px 0 16px;max-width:100%}
 @media(max-width:700px){.practice-card>.predict-line{grid-column:1}}
 @media(prefers-reduced-motion:reduce){.predict-line-q,.predict-line>summary{transition:none}.predict-line>summary:hover .predict-line-q,.lesson-item:hover .predict-line-q{transform:none}}
 .lesson-item-body{min-width:0}
