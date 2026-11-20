@@ -9,5 +9,7 @@ test("editor loads one runtime grammar on demand",()=>{
   }
   assert.match(source,/grammar\?\.language === language/);
   assert.match(source,/cancelled = true/);
-  assert.match(source,/extensions \? <CodeMirror/);
+  // Editor renders only once its grammar is ready, from the same import (no second lazy suspension = no CLS).
+  assert.match(source,/ready \? <ready\.Editor/);
+  assert.ok(!source.includes("next/dynamic"));
 });

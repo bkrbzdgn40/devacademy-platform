@@ -232,7 +232,7 @@ try{
     const result=await cdp.send("Runtime.evaluate",{expression:
       "(() => {const root=getComputedStyle(document.documentElement);"+
       "const button=document.querySelector('.ui-button-primary');"+
-      "const card=document.querySelector('.radar-source.ui-card');"+
+      "const card=document.querySelector('.radar-source-list.ui-card');"+
       "if(document.readyState!=='complete'||!button||!card)return null;"+
       "return {scheme:root.colorScheme,olive:root.getPropertyValue('--color-olive-800').trim(),"+
       "canvas:root.getPropertyValue('--color-cream').trim(),"+
@@ -334,7 +334,7 @@ try{
   const darkColors=await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
       "(() => {const root=document.documentElement; const style=getComputedStyle(root);"+
-      "const panel=document.querySelector('.radar-source.ui-card');"+
+      "const panel=document.querySelector('.radar-source-list.ui-card');"+
       "const button=document.querySelector('.ui-button-primary');"+
       "return {scheme:style.colorScheme,background:getComputedStyle(document.body).color,"+
       "panel:getComputedStyle(panel).backgroundColor,action:getComputedStyle(button).backgroundColor,"+

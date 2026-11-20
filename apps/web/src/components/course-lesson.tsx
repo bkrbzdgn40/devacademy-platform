@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { QuizCard } from "@/components/quiz-card";
 import { CodePlayground } from "@/components/code-playground";
 import { CompleteLesson } from "@/components/complete-lesson";
@@ -47,8 +48,9 @@ export function CourseLesson({ course, lesson, legacy = false }: {
     functionName:task.functionName,starterCode:task.starterCode,publicCases:task.publicCases
   }}/> : null;
   const steps: LessonStep[] = guide && diagnostic ? [
-    { id: "predict", label: "Tahmin et", title: "Önce kendi tahminini yap", content: <>
-      <p className="lesson-step-intro">Açıklamayı görmeden önce kodun ne yapacağını düşün. Yanlış cevap öğrenme fırsatıdır.</p>
+    { id: "predict", label: "Tahmin et", title: "Önce kendi tahminini yap",
+      questionIds: predictionQuestions[0] ? [predictionQuestions[0].id] : [], content: <>
+      <p className="lesson-step-intro">Açıklamayı görmeden önce kodun ne yapacağını düşün. Sonucun yukarıdaki aşama çubuğuna işlenir.</p>
       {predictionQuestions[0] && <QuizCard question={predictionQuestions[0]} number={1}/>}
     </> },
     { id: "understand", label: "Anla ve izle", title: "Konuyu anlayalım", content: <>
@@ -67,7 +69,8 @@ export function CourseLesson({ course, lesson, legacy = false }: {
       </details>
       {studio && <p className="lesson-step-tip">Bu inceleme, gözden geçirilmiş bir deney üzerinde kodun davranışını izlemeni sağlar; ders içindeki diğer soruların yanıtlarını otomatik olarak değiştirmez.</p>}
     </> },
-    { id: "debug", label: "Hata avcısı", title: "Hatayı düzelt", content: <>
+    { id: "debug", label: "Hata avcısı", title: "Hatayı düzelt",
+      questionIds: [diagnostic.id], content: <>
       <h3>{guide.missionTitle}</h3>
       <p className="lesson-step-intro">{diagnostic.prompt}</p>
       <div className="code-label">Hatalı örnek · Düzeltmeyi aşağıdaki soruda seç</div>
@@ -76,7 +79,8 @@ export function CourseLesson({ course, lesson, legacy = false }: {
       <QuizCard question={diagnostic} number={2} mode="debug" hints={guide.hints}/>
       <p className="reflection-question"><strong>Kendine sor:</strong> {guide.reflection}</p>
     </> },
-    { id: "apply", label: "Uygula", title: "Yeni bir örnekte kendini dene", content: <>
+    { id: "apply", label: "Uygula", title: "Yeni bir örnekte kendini dene",
+      questionIds: predictionQuestions.slice(1).map((question) => question.id), content: <>
       <p className="lesson-step-intro">Kodu kendin değiştir. Genel kullanıma açık kod çalıştırma kapalıdır; bilgi soruların ayrı değerlendirilir.</p>
       {editor}
       {editorLanguage!=="plain" && <AppliedLearningStudio lessonId={lesson.id} language={editorLanguage}/>}
@@ -113,7 +117,8 @@ export function CourseLesson({ course, lesson, legacy = false }: {
       {editor}
       {editorLanguage!=="plain" && <AppliedLearningStudio lessonId={lesson.id} language={editorLanguage}/>}
     </> },
-    { id: "assess", label: "Test et", title: "Bilgini kontrol et", content: <>
+    { id: "assess", label: "Test et", title: "Bilgini kontrol et",
+      questionIds: questions.map((question) => question.id), content: <>
       <p className="lesson-step-intro">Önce sonucu tahmin et, sonra açıklamayı incele.</p>
       <div className="quiz-stack">{questions.map((question, i) =>
         <QuizCard key={question.id} question={question} number={i + 1}/>)}</div>
@@ -129,12 +134,14 @@ export function CourseLesson({ course, lesson, legacy = false }: {
   return <article className="shell lesson-page lesson-workspace-page">
     <nav aria-label="İçerik konumu" className="breadcrumb">
       <Link href="/kurslar">Kurslar</Link><span aria-hidden="true">/</span>
-      <Link href={path}>{course.title}</Link><span aria-hidden="true">/</span>
+      <Link href={path} transitionTypes={["title-morph"]}>{course.title}</Link><span aria-hidden="true">/</span>
       <span aria-current="page">{lesson.title}</span>
     </nav>
     <header className="lesson-header">
       <p className="overline">{course.title} · Ders {index + 1}/{entries.length}</p>
-      <h1>{lesson.title}</h1><p>{lesson.summary}</p>
+      <ViewTransition name={"lesson-title-" + course.slug + "-" + lesson.slug} share={{"title-morph":"title-morph",default:"none"}} default="none">
+        <h1>{lesson.title}</h1>
+      </ViewTransition><p>{lesson.summary}</p>
       {course.languageId==="language.sql"&&<p className="small-note">
         Örnek kayıtlar: <Link href="/sql-ornek-veri">Müşteri ve sipariş verilerini incele →</Link>.
         SQL editörü düz metin olarak çalışır; sorgular tarayıcıda veya web sunucusunda yürütülmez.
@@ -150,8 +157,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
         lessons={entries} currentIndex={index} lessonBase={path}/>
       <div className="lesson-workspace-main" id="ders-calisma">
         <section className="lesson-objective" aria-labelledby="objective-title">
-          <div><span className="ui-eyebrow">Bu dersin hedefi</span>
-            <h2 id="objective-title">Öğrenme hedefin</h2></div>
+          <h2 id="objective-title" className="ui-eyebrow">Bu dersin hedefi</h2>
           <p>{lesson.objective}</p>
         </section>
         <LessonStepper steps={steps}/>

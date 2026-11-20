@@ -52,8 +52,8 @@
   --ui-code:var(--color-code-bg);
   --ui-code-ink:var(--color-code-ink);
 
-  --font-body:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-serif;
-  --font-display:Georgia,"Iowan Old Style","Palatino Linotype",serif;
+  --font-body:var(--font-inter),Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-display:var(--font-fraunces),Georgia,"Iowan Old Style","Palatino Linotype",serif;
   --font-code:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
   --text-compact:0.8125rem;
   --text-body:1rem;

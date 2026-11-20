@@ -1,13 +1,11 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import {useResolvedTheme} from "@/components/theme-switcher";
 // Only the selected editor language loads its grammar package.
 type EditorLanguage = "javascript" | "java" | "python" | "plain";
 type GrammarExtension = ReturnType<(typeof import("@codemirror/lang-javascript"))["javascript"]>;
-async function loadGrammar(language: EditorLanguage): Promise<GrammarExtension[]> {
+async function loadLanguage(language: EditorLanguage): Promise<GrammarExtension[]> {
   switch (language) {
     case "javascript": return [(await import("@codemirror/lang-javascript")).javascript()];
     case "java": return [(await import("@codemirror/lang-java")).java()];
@@ -15,11 +13,44 @@ async function loadGrammar(language: EditorLanguage): Promise<GrammarExtension[]
     case "plain": return [];
   }
 }
-
-const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
-  ssr: false,
-  loading: () => <p role="status" className="editor-loading">Kod editörü yükleniyor…</p>,
-});
+// Grammar plus a11y: the editable surface gets an accessible name. Code surfaces are
+// dark brown in both site themes (home card, lesson code), so the editor always uses
+// the same studio palette; every token colour clears 5:1 on both code surfaces.
+type EditorComponent = (typeof import("@uiw/react-codemirror"))["default"];
+// The editor component comes from the same import as the extensions, so it renders
+// in one step once ready: no second lazy suspension that collapses and re-expands the page.
+async function loadGrammar(language: EditorLanguage, label: string): Promise<{extensions:GrammarExtension[];Editor:EditorComponent;theme:GrammarExtension}> {
+  const [grammar, {default: Editor, EditorView}, {HighlightStyle, syntaxHighlighting}, {tags: t}] = await Promise.all([
+    loadLanguage(language), import("@uiw/react-codemirror"), import("@codemirror/language"), import("@lezer/highlight"),
+  ]);
+  const studioTheme = EditorView.theme({
+    "&": {color: "var(--ui-code-ink)", backgroundColor: "var(--color-code-surface)"},
+    ".cm-content": {caretColor: "var(--color-tan)"},
+    ".cm-cursor, .cm-dropCursor": {borderLeftColor: "var(--color-tan)"},
+    ".cm-gutters": {backgroundColor: "var(--color-code-surface)", color: "#B5A797", border: "none", borderRight: "1px solid rgba(242,232,216,.12)"},
+    ".cm-activeLine": {backgroundColor: "rgba(242,232,216,.05)"},
+    ".cm-activeLineGutter": {backgroundColor: "rgba(242,232,216,.07)", color: "var(--ui-code-ink)"},
+    "&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground, .cm-selectionBackground, ::selection": {backgroundColor: "rgba(202,161,123,.32)"},
+    ".cm-matchingBracket": {backgroundColor: "rgba(202,161,123,.22)", outline: "1px solid rgba(202,161,123,.5)"},
+    ".cm-foldPlaceholder": {backgroundColor: "transparent", border: "1px solid rgba(242,232,216,.2)", color: "#C7B9A6"},
+    ".cm-tooltip": {backgroundColor: "#2A231D", color: "var(--ui-code-ink)", border: "1px solid rgba(242,232,216,.18)"},
+    ".cm-tooltip-autocomplete > ul > li[aria-selected]": {backgroundColor: "rgba(202,161,123,.28)", color: "var(--ui-code-ink)"},
+  }, {dark: true});
+  const studioHighlight = HighlightStyle.define([
+    {tag: [t.keyword, t.controlKeyword, t.operatorKeyword, t.moduleKeyword], color: "#E8A27C"},
+    {tag: [t.string, t.special(t.string), t.regexp], color: "#B9C98A"},
+    {tag: [t.number, t.bool, t.null, t.atom], color: "#E6C07B"},
+    {tag: [t.comment, t.lineComment, t.blockComment], color: "#B5A797", fontStyle: "italic"},
+    {tag: [t.function(t.variableName), t.function(t.propertyName)], color: "#8FC1B5"},
+    {tag: [t.definition(t.variableName), t.className, t.typeName], color: "#E4B6D0"},
+    {tag: [t.propertyName], color: "#D9C4A8"},
+    {tag: [t.operator, t.punctuation, t.bracket], color: "#C7B9A6"},
+    {tag: t.invalid, color: "#F2E8D8", textDecoration: "underline wavy #E8A27C"},
+  ]);
+  const extensions = [...grammar, EditorView.contentAttributes.of({"aria-label": label})] as GrammarExtension[];
+  const theme = [studioTheme, syntaxHighlighting(studioHighlight)] as unknown as GrammarExtension;
+  return {extensions, Editor, theme};
+}
 
 type ExecutionJob = {
   id: string;
@@ -42,23 +73,22 @@ const sleep = (ms:number) => new Promise<void>(resolve=>setTimeout(resolve,ms));
 
 export function CodePlayground({ starterCode, label = "JavaScript kod editörü",  exerciseId, exerciseRevision, language="javascript", displayLanguage,onAssessmentFinished }: { starterCode: string; label?: string; exerciseId?: string; exerciseRevision?: number; language?:"javascript"|"java"|"python"|"plain"; displayLanguage?:string;onAssessmentFinished?:()=>void }) {
   const [code, setCode] = useState(starterCode);
-  const resolvedTheme=useResolvedTheme();
   const [capability, setCapability] = useState<Capability | null>(null);
   const [job,setJob]=useState<ExecutionJob | null>(null);
   const [error,setError]=useState("");
   const [busy,setBusy]=useState(false);
   const controller=useRef<AbortController | null>(null);
-  const [grammar, setGrammar] = useState<{language:EditorLanguage;extensions:GrammarExtension[]} | null>(null);
-  const extensions = grammar?.language === language ? grammar.extensions : null;
+  const [grammar, setGrammar] = useState<{language:EditorLanguage;extensions:GrammarExtension[];Editor:EditorComponent;theme:GrammarExtension} | null>(null);
+  const ready = grammar?.language === language ? grammar : null;
   useEffect(() => {
     let cancelled = false;
-    void loadGrammar(language).then((value) => {
-      if (!cancelled) setGrammar({language,extensions:value});
+    void loadGrammar(language, label).then((value) => {
+      if (!cancelled) setGrammar({language,...value});
     }).catch(() => {
       if (!cancelled) setError("Dil araçları yüklenemedi. Sayfayı yenileyip tekrar deneyin.");
     });
     return () => {cancelled = true;};
-  }, [language]);
+  }, [language, label]);
   const changed = code !== starterCode;
   const bytes = new TextEncoder().encode(code).byteLength;
   const assessmentMode=Boolean(exerciseId && exerciseRevision);
@@ -120,14 +150,14 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
   return <section aria-label={label} className="editor-shell">
     <div className="editor-toolbar">
       <div><strong>{displayLanguage ?? (language==="java"?"Java":language==="python"?"Python":language==="plain"?"Genel kod":"JavaScript")} editörü</strong><span>CodeMirror 6 · {language==="plain"?"Düz metin modu":(displayLanguage ?? (language==="java"?"Java":language==="python"?"Python":"JavaScript"))+" sözdizimi renklendirme"}</span></div>
-      <button type="button" onClick={()=>{setCode(starterCode);setJob(null);setError("");}} disabled={!changed}>Örneği sıfırla</button>
+      <button type="button" onClick={()=>{setCode(starterCode);setJob(null);setError("");}} disabled={!changed} title={changed?undefined:"Kodu değiştirdiğinde etkinleşir"}>Örneği sıfırla</button>
     </div>
-    {extensions ? <CodeMirror
-      value={code} theme={resolvedTheme} extensions={extensions} height="320px"
+    {ready ? <ready.Editor
+      value={code} theme={ready.theme} extensions={ready.extensions} height="320px"
       basicSetup={{lineNumbers:true,highlightActiveLine:true,foldGutter:true,autocompletion:true}}
       onChange={value=>{setCode(value);if(!busy){setJob(null);setError("");}}}
-      aria-label={label}
-    /> : <p role="status" className="editor-loading">Dil araçları yükleniyor…</p>}
+      aria-label={label} indentWithTab={false}
+    /> : <p role="status" className="editor-loading">Kod editörü yükleniyor…</p>}
     <div className="editor-footer">
       <span aria-live="polite">{bytes.toLocaleString("tr-TR")} bayt · {code.split("\n").length} satır</span>
       <button type="button" disabled={!available||busy||bytes>(assessmentMode?6000:8192)||!code.trim()}

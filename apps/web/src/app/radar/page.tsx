@@ -4,6 +4,7 @@ import {getRadarFeed,radarSources,radarTopics} from "@/lib/radar-feed.mjs";
 import {isLooseRadarMatch} from "@/lib/radar-learning.mjs";
 
 import {canonicalFor} from "@/lib/site-url.mjs";
+import {OutputTeaser} from "@/components/output-teaser";
 export const metadata:Metadata={
   ...canonicalFor("/radar"),
   title:"Sektör Radarı | Güncel yazılım kaynakları",
@@ -38,12 +39,16 @@ export default async function RadarPage({searchParams}:Props){
     return "/radar"+(query.size?"?"+query.toString():"");
   };
   return <div className="shell radar-page">
+    <div className="teaser-header">
     <header className="radar-page-hero">
       <Link className="back-link" href="/">← Ana sayfa</Link>
       <p className="overline">Sektör radarı</p>
       <h1>Güncel gelişmeleri <span>öğrendiğin kavramlara bağla.</span></h1>
       <p>Kaynakların resmî API&apos;lerinden gelen başlıkları ilgili derslere bağlıyoruz; haberlerin doğruluğunu bağımsız olarak teyit etmiyoruz.</p>
     </header>
+    <OutputTeaser file="eski-bir-karar.js" code={"console.log(typeof null);"} answer="object"
+      explanation="Dilin ilk sürümünden kalan bilinen bir tuhaflık; mevcut siteleri bozmamak için hiç düzeltilmedi. Haberlerin arkasındaki kavramlar da çoğu zaman böyle bir geçmiş taşır."/>
+    </div>
     <section className="radar-health" aria-labelledby="radar-health-title">
       <h2 id="radar-health-title">Kaynakların durumu</h2>
       <div className="radar-health-grid">
@@ -56,7 +61,7 @@ export default async function RadarPage({searchParams}:Props){
             <small>Başarılı veri kontrolü yok.</small>}
           {s.status==="stale"&&<p className="radar-warning">Kaynak şu anda yanıt vermiyor. Gösterilen kayıtlar son başarılı kontrolden kaldı.</p>}
           {s.status==="partial"&&<p className="radar-warning">Kaynağın bazı kayıtlarına ulaşılamadı.</p>}
-          <a href={s.href} target="_blank" rel="noopener noreferrer">Kaynağın sitesi ↗</a>
+          <a href={s.href} target="_blank" rel="noopener noreferrer">{s.name} sitesi ↗</a>
         </article>)}
       </div>
       {unavailable&&<p className="radar-empty" role="status">Üç kaynağa da şu an erişilemiyor. Doğrulanmamış başlık veya örnek haber göstermiyoruz. Daha sonra yeniden kontrol et.</p>}
@@ -88,7 +93,8 @@ export default async function RadarPage({searchParams}:Props){
           </div>
           <h3><a href={item.url} target="_blank" rel="noopener noreferrer">{item.title} ↗</a></h3>
           <p className="radar-article-date">Yayın: <time dateTime={item.publishedAt}>{formatDate(item.publishedAt)}</time></p>
-          <p className="radar-article-date">Kaynak kontrolü: {check?.checkedAt?<time dateTime={check.checkedAt}>{formatDate(check.checkedAt)}</time>:"Başarılı kontrol yok"} {check?.status==="stale"&&<strong>(Son başarılı kayıt)</strong>}</p>
+          {/* The check time is already on each source card above; repeat it only when this record is stale. */}
+          {check?.status==="stale"&&<p className="radar-article-date">Kaynak kontrolü: {check.checkedAt?<time dateTime={check.checkedAt}>{formatDate(check.checkedAt)}</time>:"Başarılı kontrol yok"} <strong>(Son başarılı kayıt)</strong></p>}
           <div className="radar-learning-link">
             <div className="radar-bridge-head">
               <span className="radar-bridge-scope">{item.learning.coverage}</span>

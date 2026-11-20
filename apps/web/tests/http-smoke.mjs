@@ -49,7 +49,7 @@ try {
   assert.equal(home.headers.get("x-content-type-options"),"nosniff");
   assert.equal(home.headers.get("referrer-policy"),"strict-origin-when-cross-origin");
   const homeHtml=await home.text();
-  assert.match(homeHtml,/Öğrenme yollarını keşfet/);
+  assert.match(homeHtml,/Kursları gör/);
   assert.match(homeHtml,/Kaldığın yeri arama/);
   assert.match(homeHtml,/Haber akışını aç/);
   assert.ok(homeHtml.includes('href="/radar"'));
