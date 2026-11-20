@@ -1,7 +1,8 @@
+import {canonicalFor} from "@/lib/site-url.mjs";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CodePlayground } from "@/components/code-playground";
-export const metadata: Metadata = {title:"Kod laboratuvarı",description:"CodeMirror 6 ile JavaScript kodu düzenle."};
+export const metadata: Metadata = {...canonicalFor("/laboratuvar"),title:"Kod laboratuvarı",description:"Tarayıcıda JavaScript kodu yaz, çıktısını önce tahmin et ve sözdizimi renklendirmeli editörde dene."};
 const sample=`function greet(name) {
   return \`Merhaba, \${name}!\`;
 }

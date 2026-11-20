@@ -1,7 +1,8 @@
+import {canonicalFor} from "@/lib/site-url.mjs";
 import Link from "next/link";
 import type {Metadata} from "next";
 import {ReviewSession} from "@/components/review-session";
-export const metadata:Metadata={title:"Kişisel tekrar",description:"Yanlışların ve doğru cevaplarının zamanlanmış tekrarları."};
+export const metadata:Metadata={...canonicalFor("/tekrar"),title:"Kişisel tekrar",description:"Yanlış ve doğru cevapladığın soruların zamanlanmış tekrarları; unutmadan önce yeniden karşına çıkar."};
 export default function ReviewPage(){
  return <section className="shell review-page">
    <Link className="back-link" href="/kurslar">← Kurslara dön</Link>

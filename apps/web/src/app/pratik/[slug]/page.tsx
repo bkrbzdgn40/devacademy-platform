@@ -1,3 +1,4 @@
+import {canonicalFor} from "@/lib/site-url.mjs";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -6,7 +7,8 @@ import { CodePlayground } from "@/components/code-playground";
 type Props={params:Promise<{slug:string}>};
 export function generateStaticParams(){return practice.map(p=>({slug:p.slug}));}
 export async function generateMetadata({params}:Props):Promise<Metadata>{
-  const {slug}=await params;return {title:practice.find(p=>p.slug===slug)?.title??"Görev bulunamadı"};
+  const {slug}=await params;const task=practice.find(p=>p.slug===slug);
+  return task?{title:task.title,...canonicalFor("/pratik/"+task.slug)}:{title:"Görev bulunamadı"};
 }
 export default async function PracticeTask({params}:Props){
   const {slug}=await params;
