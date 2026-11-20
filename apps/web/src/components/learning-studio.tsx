@@ -2,6 +2,7 @@
 import {useMemo,useState,type FormEvent} from "react";
 import {buildStudioScenario,gradeStudioPrediction,studioVariantCount}
   from "@/lib/studio-scenarios.mjs";
+import {HighlightedLine} from "./code-tokens";
 
 type Snapshot={line:number;variables:Record<string,string|number>;
   outputs:{label:string;value:string}[];message:string};
@@ -60,7 +61,7 @@ export function LearningStudio({lessonId}:{lessonId:string}) {
           {scenario.codeLines.map((line,i)=><div key={i} data-studio-line={i+1}
             className={"studio-code-row"+(current?.line===i+1?" studio-code-active":"")}>
             <span className="studio-line-number" aria-hidden="true">{i+1}</span>
-            <code>{line||" "}</code>
+            <code><HighlightedLine line={line} language={lessonId.split(".")[1]}/></code>
             {current?.line===i+1&&<span className="studio-code-pointer" aria-hidden="true">←</span>}
           </div>)}
         </div>

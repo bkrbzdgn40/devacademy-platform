@@ -1402,3 +1402,477 @@ body>main{flex:1 0 auto}
 .radar-redesign .radar-heading{margin-bottom:40px}
 .radar-redesign .radar-heading .ui-section-heading{margin-bottom:8px}
 @media(max-width:600px){.radar-redesign .radar-heading{margin-bottom:28px}}
+
+/* Jury pass 4 | Hero: vertical code that fits 390 px, one trace step at a time, constant panel height. */
+.hero-predict-code .studio-code-row{font-size:12.5px;line-height:1.5}
+.hero-predict-stage{display:grid}
+.hero-predict-stage>*{grid-area:1/1;min-width:0}
+.hero-predict-sizer{visibility:hidden;pointer-events:none}
+.hero-predict-form[hidden]{display:block;visibility:hidden}
+.hero-predict-result:focus{outline:none}
+.hero-predict-step{margin:0;font-size:14px;line-height:1.6;color:var(--ui-code-ink)}
+.hero-predict-step .hero-predict-line{display:block;margin-bottom:2px}
+.hero-predict-feedback{font-size:14px;line-height:1.6}
+@media(max-width:600px){.hero-predict-code .studio-code-row{font-size:12px}}
+
+/* Jury pass 4 | Lesson stage bar records the learner's guesses: a trail, not a progress meter. */
+.lesson-stepper-nav li{display:flex;flex-direction:column;gap:6px}
+.lesson-stepper-nav li::after{content:"";height:3px;border-radius:3px;background:var(--ui-border);
+  transition:background-color var(--motion-normal)}
+.lesson-stepper-nav li.is-passed::after{background:var(--ui-border-strong)}
+.lesson-stepper-nav li.is-hit::after{background:var(--color-olive-700)}
+.lesson-stepper-nav li.is-fixed::after{background:var(--color-tan)}
+.lesson-stepper-nav li.is-miss::after{background:var(--color-terracotta-700)}
+.lesson-stepper-nav button{flex:1}
+.lesson-step-text{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;min-width:0}
+.lesson-trail-note{font-size:11px;font-weight:650;line-height:1.3;color:var(--ui-ink-subtle);white-space:nowrap}
+.lesson-trail-node.is-hit .lesson-trail-note{color:var(--color-olive-700)}
+.lesson-trail-node.is-miss .lesson-trail-note{color:var(--color-terracotta-700)}
+.lesson-trail-node.is-fixed .lesson-trail-note{color:var(--color-cinnamon)}
+.lesson-stepper-nav .lesson-trail-node.is-hit .lesson-step-number{background:var(--color-olive-700);color:var(--color-paper)}
+.lesson-stepper-nav .lesson-trail-node.is-fixed .lesson-step-number{background:var(--color-tan);color:var(--color-code-bg)}
+.lesson-stepper-nav .lesson-trail-node.is-miss .lesson-step-number{background:transparent;color:var(--color-terracotta-700);
+  box-shadow:inset 0 0 0 2px var(--color-terracotta-700)}
+.lesson-stepper-nav button[aria-current="step"] .lesson-trail-note{color:inherit;opacity:.85}
+html[data-theme="dark"] .lesson-trail-node.is-fixed .lesson-trail-note{color:var(--color-tan)}
+html[data-theme="dark"] .lesson-stepper-nav .lesson-trail-node.is-hit .lesson-step-number{color:var(--color-code-bg)}
+.lesson-workspace-main .lesson-objective h2.ui-eyebrow{font:750 11px/1.4 var(--font-body);letter-spacing:.12em;
+  text-transform:uppercase;color:var(--color-cinnamon);margin:4px 0 0}
+html[data-theme="dark"] .lesson-workspace-main .lesson-objective h2.ui-eyebrow{color:var(--color-terracotta-700)}
+.lesson-workspace-main .lesson-objective p{font-size:15px;color:var(--ui-ink)}
+.lesson-stepper-nav{margin-bottom:6px}
+@media(max-width:600px){.lesson-workspace-main .lesson-objective{grid-template-columns:1fr;gap:6px}}
+@media(prefers-reduced-motion:reduce){.lesson-stepper-nav li::after{transition:none}}
+
+/* Jury pass 4 | Practice grouped by language as rows; level shown only when it differs. */
+.practice-group{margin-top:36px}
+.practice-group h2{display:flex;align-items:baseline;gap:12px;margin:0 0 10px;
+  font:700 1.55rem/1.25 var(--font-display);color:var(--ui-ink)}
+.practice-group h2 span{font:650 12px var(--font-body);color:var(--ui-ink-subtle)}
+.practice-list{display:block;margin:0;border-top:1px solid var(--ui-border)}
+.practice-card,.practice-list>li{display:grid;grid-template-columns:minmax(220px,1fr) 2fr;gap:4px 32px;
+  align-items:baseline;background:transparent;border:0;border-bottom:1px solid var(--ui-border);
+  border-radius:0;padding:16px 4px}
+.practice-card .practice-row-link{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;
+  min-height:24px;color:var(--ui-ink);text-decoration:none}
+.practice-card .practice-row-link strong{font-size:16px;text-decoration:underline;
+  text-decoration-color:transparent;text-underline-offset:4px;transition:text-decoration-color var(--motion-quick)}
+.practice-card .practice-row-link:hover strong,.practice-card .practice-row-link:focus-visible strong{
+  text-decoration-color:currentColor;color:var(--ui-action)}
+.practice-level{font-size:11px;font-weight:700;color:var(--color-cinnamon);background:var(--ui-surface-accent);
+  border-radius:var(--radius-pill);padding:2px 9px}
+html[data-theme="dark"] .practice-level{color:var(--color-terracotta-700)}
+.practice-card p{margin:0}
+@media(max-width:700px){.practice-card,.practice-list>li{grid-template-columns:1fr}}
+
+/* Jury pass 4 | Home radar sources as one list instead of three equal cards. */
+.radar-source-list{list-style:none;margin:0;padding:4px 24px;border-radius:var(--radius-lg)}
+.radar-source.radar-source-row{display:grid;grid-template-columns:200px minmax(0,1fr) auto;gap:6px 28px;
+  align-items:baseline;padding:18px 0;border-radius:0;box-shadow:none}
+.radar-source.radar-source-row+.radar-source-row{border-top:1px solid var(--ui-border)}
+.radar-source.radar-source-row h3{font-size:1.15rem}
+.radar-source.radar-source-row a{border-top:0;padding-top:0;gap:8px;justify-content:flex-start;white-space:nowrap}
+@media(max-width:700px){
+  .radar-source-list{padding:2px 18px}
+  .radar-source.radar-source-row{grid-template-columns:1fr;gap:4px}
+}
+
+/* Jury pass 5 | Trail colours win over the current-step fill; H1 breaks per sentence; hero fits 800 px. */
+.lesson-stepper-nav .lesson-trail-node.is-hit button .lesson-step-number,
+html[data-theme] .lesson-stepper-nav .lesson-trail-node.is-hit button[aria-current="step"] .lesson-step-number{
+  background:var(--color-olive-700);color:var(--color-paper)}
+.lesson-stepper-nav .lesson-trail-node.is-fixed button .lesson-step-number,
+html[data-theme] .lesson-stepper-nav .lesson-trail-node.is-fixed button[aria-current="step"] .lesson-step-number{
+  background:var(--color-tan);color:var(--color-code-bg)}
+.lesson-stepper-nav .lesson-trail-node.is-miss button .lesson-step-number,
+html[data-theme] .lesson-stepper-nav .lesson-trail-node.is-miss button[aria-current="step"] .lesson-step-number{
+  background:var(--ui-surface);color:var(--color-terracotta-700);box-shadow:inset 0 0 0 2px var(--color-terracotta-700)}
+html[data-theme="dark"] .lesson-stepper-nav .lesson-trail-node.is-hit button .lesson-step-number{color:var(--color-code-bg)}
+.hero h1 .hero-h1-line{display:block}
+.hero h1{max-width:none}
+.hero{padding-block:28px 40px}
+.hero-predict-code{padding:8px 0}
+.hero-predict-code .studio-code-row{line-height:1.42}
+/* Jury pass 5b | Line spans must not inherit the old accent colour; lock button sits at the bottom of the reserved panel. */
+.hero h1 span.hero-h1-line{color:inherit}
+.hero-predict-form{display:flex;flex-direction:column;height:100%}
+.hero-predict-form .hero-predict-button{margin-top:auto}
+.hero-predict-form fieldset{margin-bottom:12px}
+.hero-predict-code .studio-code-row{font-size:12px;line-height:1.38}
+.hero-predict-option{font-size:13px}
+
+/* Jury pass 6 | Identity: trace-line logo mark; Fraunces display with a soft optical axis. */
+.logo-mark{display:block;width:38px;height:38px;background:none;border-radius:0;box-shadow:none;flex:none}
+.logo-mark-bg{fill:var(--color-olive-800)}
+.logo-mark-line{fill:var(--color-paper);fill-opacity:.6}
+.logo-mark-trace{fill:var(--color-camel)}
+.logo-mark-active{fill:var(--color-cocoa)}
+html[data-theme="dark"] .logo-mark{background:none;box-shadow:none}
+html[data-theme="dark"] .logo-mark-bg{fill:#3B4A2B}
+html[data-theme="dark"] .logo-mark-line{fill:var(--color-code-ink)}
+html[data-theme="dark"] .logo-mark-trace{fill:var(--color-tan)}
+html[data-theme="dark"] .logo-mark-active{fill:#1B2315}
+.logo:hover .logo-mark-trace,.logo:focus-visible .logo-mark-trace{transform:translateY(-.5px);fill:var(--color-tan)}
+.logo-mark-trace{transition:fill var(--motion-quick)}
+@media(max-width:600px){.logo-mark{width:34px;height:34px}}
+h1,h2,h3,.hero h1,.listing-header h1,.lesson-header h1{font-optical-sizing:auto}
+.hero h1,.listing-header h1,.lesson-header h1{font-variation-settings:"SOFT" 40;letter-spacing:-.035em}
+.hero h1 em{font-variation-settings:"SOFT" 100}
+
+/* Jury pass 6 | Route transitions: a course or lesson title moves into the next page's H1. */
+::view-transition-group(.title-morph){animation-duration:420ms;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
+::view-transition-old(.title-morph),::view-transition-new(.title-morph){height:100%;object-fit:none;object-position:left top}
+::view-transition-old(root){animation:180ms ease-out both da-fade-out}
+::view-transition-new(root){animation:260ms ease-out 80ms both da-fade-in}
+@keyframes da-fade-out{to{opacity:0}}
+@keyframes da-fade-in{from{opacity:0}}
+@media(prefers-reduced-motion:reduce){
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+}
+
+/* Jury pass 7 | Hero options stack so the reserved panel has no empty band; dark logo separates from the header. */
+.hero-predict-form fieldset{grid-template-columns:1fr;gap:6px}
+.hero-predict-option{min-height:40px;padding:6px 12px}
+html[data-theme="dark"] .logo-mark-bg{fill:#4E6138}
+
+/* Jury pass 8 | Phone: explore rows put title and arrow on one line, then the description, then the count.
+   The desktop rule above (.feature-card.home-explore-row, 4 columns) outranks the 680px rule, so restate it here. */
+@media(max-width:680px){
+  .feature-card.home-explore-row{grid-template-columns:minmax(0,1fr) auto;row-gap:6px;column-gap:16px;padding:18px 4px}
+  .feature-card.home-explore-row h3{grid-column:1;grid-row:1;overflow-wrap:normal}
+  .feature-card.home-explore-row .home-explore-arrow{grid-column:2;grid-row:1}
+  .feature-card.home-explore-row p{grid-column:1/-1;grid-row:2}
+  .feature-card.home-explore-row .home-explore-count{grid-column:1/-1;grid-row:3}
+}
+
+/* Jury pass 8 | Hover that is more than a colour change on every primary target. */
+/* Text links: an underline draws in from the left. */
+.back-link,.home-text-link,.practice-lab-link a,.course-progress-card a,.catalog-lesson-link,.path-cta,
+.path-card h3 a,.radar-health-card>a,.breadcrumb a{
+  background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;
+  background-position:0 100%;background-size:0 1px;padding-bottom:2px;
+  transition:background-size var(--motion-normal) ease-out,color var(--motion-quick),transform var(--motion-quick)}
+.back-link:hover,.home-text-link:hover,.practice-lab-link a:hover,.course-progress-card a:hover,.catalog-lesson-link:hover,
+.path-cta:hover,.path-card h3 a:hover,.radar-health-card>a:hover,.breadcrumb a:hover{background-size:100% 1px}
+.back-link{display:inline-block}
+.back-link:hover{transform:translateX(-3px)}
+.path-cta span{display:inline-block;transition:transform var(--motion-quick)}
+.path-cta:hover span{transform:translateX(4px)}
+/* Header and radar filters: a bar under the item, the same mark as the current page. */
+.nav-links>a,.nav-discovery>summary{transition:background-color var(--motion-quick),color var(--motion-quick),box-shadow var(--motion-quick)}
+.nav-links>a:hover,.nav-discovery>summary:hover{box-shadow:inset 0 -2px 0 var(--ui-action)}
+.nav-links>a[aria-current="page"]:hover,.nav-discovery>summary[aria-current="page"]:hover{box-shadow:inset 0 -4px 0 var(--ui-action)}
+.radar-filters a{transition:box-shadow var(--motion-quick),background-color var(--motion-quick)}
+.radar-filters a:hover{box-shadow:inset 0 -2px 0 var(--ui-action)}
+/* Buttons: lift by a pixel with a soft shadow. */
+.ui-button-secondary,.auth-tabs button,.editor-toolbar button,.hero-predict-button{
+  transition:background-color var(--motion-quick),border-color var(--motion-quick),box-shadow var(--motion-quick),transform var(--motion-quick)}
+.ui-button-secondary:hover:not(:disabled),.auth-tabs button:hover,
+.editor-toolbar button:hover:not(:disabled),.hero-predict-button:hover{
+  transform:translateY(-1px);box-shadow:0 6px 14px rgba(41,35,31,.14)}
+/* Hint toggle: an underlined text button whose line thickens. */
+.studio-hint-action{text-decoration:none;background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;
+  background-position:0 calc(100% - 4px);background-size:100% 1px;transition:background-size var(--motion-quick)}
+.studio-hint-action:hover{background-size:100% 2px}
+/* Lesson map: the row steps in and gains a side bar. */
+.course-map-lesson{transition:background-color var(--motion-quick),box-shadow var(--motion-quick)}
+.course-map-lesson:hover{background-color:var(--ui-surface-accent);box-shadow:inset 3px 0 0 var(--ui-action)}
+@media(prefers-reduced-motion:reduce){
+  .back-link:hover,.path-cta:hover span,.ui-button-secondary:hover,.auth-tabs button:hover,
+  .editor-toolbar button:hover,.hero-predict-button:hover{transform:none}
+}
+
+/* Jury pass 9 | Stronger hover on primary CTAs and the last plain targets; sequential page fade. */
+/* Primary buttons: the arrow slides forward. */
+.ui-button-primary span[aria-hidden="true"],.primary-button span[aria-hidden="true"]{display:inline-block;transition:transform var(--motion-quick)}
+.ui-button-primary:hover span[aria-hidden="true"],.primary-button:hover span[aria-hidden="true"]{transform:translateX(4px)}
+/* Predict lock: a light fill floods in from the left. */
+.hero-predict-button{background-image:linear-gradient(rgba(255,255,255,.24),rgba(255,255,255,.24));background-repeat:no-repeat;
+  background-position:0 0;background-size:0 100%;
+  transition:background-size var(--motion-normal) ease-out,box-shadow var(--motion-quick),transform var(--motion-quick)}
+.hero-predict-button:hover{background-size:100% 100%;transform:translateY(-2px);box-shadow:0 10px 22px rgba(41,35,31,.22)}
+/* Lesson stepper tabs: lift with a shadow. */
+.lesson-stepper-nav button{transition:background-color var(--motion-quick),border-color var(--motion-quick),box-shadow var(--motion-quick),transform var(--motion-quick)}
+.lesson-stepper-nav button:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(41,35,31,.14)}
+/* Radar discussion and lesson-map course link: underline draws in. */
+.radar-discussion,.course-map-course{text-decoration:none;background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;
+  background-position:0 100%;background-size:0 1px;padding-bottom:2px;transition:background-size var(--motion-normal) ease-out,color var(--motion-quick)}
+.radar-discussion{background-size:100% 1px}
+.radar-discussion:hover{background-size:100% 2px}
+.course-map-course{width:fit-content}
+.course-map-course:hover{background-size:100% 2px}
+/* Practice rows: the title steps forward. */
+.practice-card .practice-row-link strong{display:inline-block;transition:transform var(--motion-quick),text-decoration-color var(--motion-quick)}
+.practice-card .practice-row-link:hover strong{transform:translateX(3px)}
+/* Disabled editor buttons still answer the pointer. */
+.editor-toolbar button:disabled{cursor:not-allowed}
+.editor-toolbar button:disabled:hover{box-shadow:inset 0 0 0 1px var(--ui-border-strong);opacity:.75}
+/* Page change: the old page leaves before the new one arrives, rising slightly. */
+::view-transition-old(root){animation:150ms ease-in both da-fade-out}
+::view-transition-new(root){animation:240ms cubic-bezier(.2,.7,.2,1) 150ms both da-rise-in}
+@keyframes da-rise-in{from{opacity:0;transform:translateY(8px)}}
+@media(prefers-reduced-motion:reduce){
+  .ui-button-primary:hover span[aria-hidden="true"],.primary-button:hover span[aria-hidden="true"],.hero-predict-button:hover,
+  .lesson-stepper-nav button:hover,.practice-card .practice-row-link:hover strong{transform:none}
+  ::view-transition-old(root),::view-transition-new(root){animation:none!important}
+}
+
+/* Jury pass 10: a page swap the eye can follow, editor focus and contrast. */
+/* The layout wraps <main> in a ViewTransition (default="page-swap"): the old page
+   lifts away, the new one rises 16px into place. Header and footer stay put. */
+::view-transition-old(root),::view-transition-new(root){animation:none}
+::view-transition-old(.page-swap){animation:240ms cubic-bezier(.4,0,1,1) both da-swap-out}
+::view-transition-new(.page-swap){animation:460ms cubic-bezier(.2,.7,.2,1) 200ms both da-swap-in}
+@keyframes da-swap-out{to{opacity:0;transform:translateY(-12px)}}
+@keyframes da-swap-in{from{opacity:0;transform:translateY(16px)}}
+@media (prefers-reduced-motion:reduce){
+  ::view-transition-old(.page-swap),::view-transition-new(.page-swap){animation:none!important}
+}
+/* Keyboard focus lands on .cm-content; draw the ring there too. */
+.editor-shell .cm-content:focus-visible{outline:2px solid var(--ui-focus);outline-offset:-2px}
+/* Light editor sits on paper/sand, so the muted code tone (#C7B9A6) fails 4.5:1 there. */
+html:not([data-theme="dark"]) .editor-footer>span,html:not([data-theme="dark"]) .editor-privacy{color:var(--ui-ink-subtle)}
+
+/* Jury pass 11: skip link is unmistakable on focus; editor placeholder reserves the 320px editor box (no CLS). */
+.skip-link{position:fixed;top:-120px;left:16px;z-index:1000;opacity:1;animation:none;transition:none;
+  padding:12px 18px;background:var(--color-olive-950);color:#F8F5EF;font-weight:750;font-size:15px;
+  text-decoration:underline;text-underline-offset:3px;border-radius:var(--radius-sm);box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.skip-link:focus,.skip-link:focus-visible{top:12px;outline:3px solid var(--color-cinnamon);outline-offset:2px}
+html[data-theme="dark"] .skip-link{background:#F8F5EF;color:#303C25}
+.editor-loading{box-sizing:border-box;height:320px;margin:0;padding:0 20px;display:flex;align-items:center;justify-content:center}
+/* Jury pass 12: phone hero puts the CTA right after the paragraph and drops the
+   reserved result height (growth on reveal is user-initiated, not CLS). The lesson
+   stepper splits its three tabs evenly instead of scrolling past "03 Test". */
+@media(max-width:900px){
+  .hero{grid-template-areas:"text" "meta" "visual"}
+}
+@media(max-width:600px){
+  .hero-predict-sizer{display:none}
+}
+@media(max-width:700px){
+  .lesson-stepper-nav ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;overflow:visible;scroll-snap-type:none}
+  .lesson-stepper-nav li{min-width:0;flex:none}
+  .lesson-stepper-nav button{padding:8px 6px;gap:5px;min-width:0}
+  .lesson-trail-note{white-space:normal}
+}
+
+/* Jury pass 13: listing headers (kurslar, radar, hesap, 404) carry a small
+   "what does this print?" card in the right half, styled like the home code card. */
+.teaser-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,400px);column-gap:56px;align-items:center}
+.teaser-header>header,.teaser-header>div{min-width:0}
+.listing-page .teaser-header{margin:35px 0 28px}
+.listing-page .teaser-header>.listing-header{margin:0}
+.output-teaser{border:1px solid var(--ui-border-strong);background:var(--color-code-surface);color:var(--ui-code-ink);border-radius:15px;box-shadow:0 25px 80px rgba(41,35,31,.14);overflow:hidden}
+.output-teaser-code{padding:12px 6px;overflow-x:auto;font-family:var(--font-code)}
+.output-teaser-code code{font-family:inherit}
+.output-teaser-answer{border-top:1px solid var(--ui-border-strong)}
+.output-teaser-answer summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:46px;padding:10px 17px;cursor:pointer;list-style:none;font-size:13px;font-weight:700;color:var(--ui-code-ink)}
+.output-teaser-answer summary::-webkit-details-marker{display:none}
+.output-teaser-answer summary span{font-size:12px;color:var(--color-tan);transition:color .15s}
+.output-teaser-answer summary:hover span{color:var(--ui-code-ink)}
+.output-teaser-answer summary:focus-visible{outline:2px solid var(--ui-focus);outline-offset:-3px;border-radius:0 0 14px 14px}
+.output-teaser-answer[open] summary span{color:var(--color-code-muted)}
+.output-teaser-answer p{margin:0;padding:0 17px 12px;font-size:12.5px;line-height:1.7;color:var(--color-code-muted)}
+.output-teaser-answer p:first-of-type{display:flex;align-items:baseline;gap:10px}
+.output-teaser-answer p:last-child{padding-bottom:16px}
+.output-teaser-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--color-tan)}
+.output-teaser-answer p code{font-family:var(--font-code);font-size:15px;font-weight:700;color:var(--ui-code-ink)}
+.notfound.teaser-header{min-height:65vh}
+.notfound p{max-width:52ch}
+.notfound>div>p:not(.overline){color:var(--muted)}
+@media(max-width:900px){
+  .teaser-header{grid-template-columns:1fr;row-gap:24px}
+  .output-teaser{max-width:520px}
+  .notfound.teaser-header{padding-block:70px;min-height:auto}
+}
+
+/* Jury pass 13b: disabled editor buttons stay readable (no opacity fade). Text is
+   code-muted on the code surface (7:1+), and a dashed border marks "not yet". */
+.editor-shell .editor-toolbar button:disabled,.editor-shell .editor-footer button:disabled{opacity:1;color:var(--color-code-muted);border-style:dashed;border-color:rgba(242,232,216,.28);background:transparent}
+.editor-shell .editor-toolbar,.editor-shell .editor-footer{background:var(--color-code-surface);border-color:rgba(242,232,216,.14)}
+.editor-shell .editor-toolbar strong{color:var(--ui-code-ink)}
+.editor-shell .editor-toolbar span,.editor-shell .editor-loading,.editor-shell .editor-footer>span,.editor-shell .editor-privacy{color:var(--color-code-muted)}
+.editor-shell .editor-toolbar button:not(:disabled),.editor-shell .editor-footer button:not(:disabled){background:var(--color-tan);border-color:var(--color-tan);color:#211B16}
+.editor-shell .cm-editor{background:var(--color-code-surface);color:var(--ui-code-ink)}
+.editor-shell .cm-gutters{background:var(--color-code-surface);color:#B5A797;border-right:1px solid rgba(242,232,216,.12)}
+.editor-shell .cm-activeLineGutter{color:var(--ui-code-ink)}
+.output-teaser .code-heading>:last-child,.output-teaser-answer summary span,.output-teaser-label{color:#D2AE8A}
+html .editor-shell .editor-footer>span,html .editor-shell .editor-privacy{color:var(--color-code-muted)}
+
+/* Jury pass 14 | One hover language for every primary target: a fill floods in
+   from the left and the arrow steps forward (the explore-row treatment). */
+.ui-button-primary,.primary-button{background-image:linear-gradient(var(--ui-action-hover),var(--ui-action-hover));
+  background-repeat:no-repeat;background-position:0 0;background-size:0 100%;
+  transition:background-size var(--motion-normal) ease-out,box-shadow var(--motion-quick),transform var(--motion-quick)}
+.ui-button-primary:hover,.primary-button:hover{background-color:var(--ui-action);
+  background-image:linear-gradient(var(--ui-action-hover),var(--ui-action-hover));background-size:100% 100%;transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(41,35,31,.2)}
+.ui-button-secondary{background-image:linear-gradient(var(--ui-action),var(--ui-action));background-repeat:no-repeat;
+  background-position:0 0;background-size:0 100%;
+  transition:background-size var(--motion-normal) ease-out,color var(--motion-normal),border-color var(--motion-quick),box-shadow var(--motion-quick),transform var(--motion-quick)}
+.ui-button-secondary:hover:not(:disabled){background-color:var(--ui-surface);
+  background-image:linear-gradient(var(--ui-action),var(--ui-action));background-size:100% 100%;color:var(--ui-action-ink);border-color:var(--ui-action)}
+.ui-button-secondary span[aria-hidden="true"]{display:inline-block;transition:transform var(--motion-quick)}
+.ui-button-secondary:hover:not(:disabled) span[aria-hidden="true"]{transform:translateX(-4px)}
+.ui-button-secondary:disabled{background-size:0 100%}
+/* Predict lock: an opaque cream flood, so the change reads at a glance. */
+.hero-predict-button,.hero-predict-button:hover{background-image:linear-gradient(#F3E4CF,#F3E4CF)}
+.hero-predict-button span[aria-hidden="true"]{display:inline-block;margin-left:6px;transition:transform var(--motion-quick)}
+.hero-predict-button:hover span[aria-hidden="true"]{transform:translateX(4px)}
+/* Text link beside section headings: the underline thickens, the arrow steps. */
+.home-text-link{border-bottom:0;background-size:100% 1px}
+.home-text-link span{display:inline-block;margin-left:4px;transition:transform var(--motion-quick)}
+.home-text-link:hover{background-size:100% 3px}
+.home-text-link:hover span{transform:translateX(4px)}
+@media(prefers-reduced-motion:reduce){
+  .ui-button-primary,.primary-button,.ui-button-secondary,.hero-predict-button{transition:none}
+  .ui-button-primary:hover,.primary-button:hover{transform:none}
+  .ui-button-secondary:hover span,.hero-predict-button:hover span,.home-text-link:hover span{transform:none}
+}
+
+/* Hero: the lesson loop under the actions fills the left column and names the
+   three moves the card on the right lets you try. */
+.hero-loop{list-style:none;margin:32px 0 0;padding:20px 0 0;border-top:1px solid var(--ui-border);
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;max-width:580px}
+.hero-loop li{display:grid;gap:2px}
+.hero-loop span{font:700 12px var(--font-code);color:var(--color-cinnamon,var(--ui-action))}
+.hero-loop strong{font:700 1.1rem var(--font-display);color:var(--ui-ink)}
+.hero-loop small{font-size:13px;line-height:1.5;color:var(--ui-ink-subtle)}
+@media(max-width:600px){.hero-loop{grid-template-columns:1fr;gap:12px;margin-top:24px}
+  .hero-loop li{grid-template-columns:28px minmax(0,1fr);column-gap:10px}
+  .hero-loop li span{grid-row:1/3}}
+
+/* Read-only code: monospace and the lab editor's token colours (all >=5:1 on the code surface). */
+.studio-code{font-family:var(--font-code)}
+.studio-code-row .tok-kw{color:#E8A27C}
+.studio-code-row .tok-str{color:#B9C98A}
+.studio-code-row .tok-num,.studio-code-row .tok-lit{color:#E6C07B}
+.studio-code-row .tok-com{color:#B5A797;font-style:italic}
+.studio-code-row .tok-fn{color:#8FC1B5}
+.studio-code-row .tok-ann{color:#E4B6D0}
+.studio-code-active .tok-com{color:#D8CBB8}
+/* The privacy note sits under the always-dark footer; give it the same surface so its muted text keeps >=5:1. */
+html .editor-shell .editor-privacy{background:var(--color-code-surface);padding-top:2px}
+
+/* Jury pass 15: screen-reader-only headings keep the outline h1 > h2 > h3. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Jury pass 16 | 24 px minimum targets, designed footer. */
+.back-link,.home-text-link,.catalog-lesson-link,.discovery-guidance>a,.radar-related li>a,.radar-health-card>a{
+  display:inline-flex;align-items:center;min-height:24px;width:fit-content}
+.radar-related li>a:last-child{min-height:24px;display:inline-flex;align-items:center}
+.footer{padding-block:56px 32px}
+.footer-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,2fr);gap:40px 64px}
+.footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.footer-brand p{margin:0;max-width:34ch;color:var(--ui-ink-subtle);font-size:.95rem;line-height:1.6}
+.footer-status{display:inline-flex}
+.footer-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.footer-nav h2{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ui-ink-subtle);margin:0 0 12px;font-weight:750}
+.footer-nav ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.footer-nav a{display:inline-flex;align-items:center;min-height:32px;color:var(--ui-ink);font-weight:550;
+  background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-position:0 85%;background-size:0 1px;
+  transition:background-size var(--motion-normal) ease-out,color var(--motion-quick)}
+.footer-nav a:hover{background-size:100% 1px;color:var(--ui-action)}
+.footer-legal{grid-column:1/-1;margin:8px 0 0;padding-top:20px;border-top:1px solid var(--ui-border);font-size:.8rem;color:var(--ui-ink-subtle)}
+@media(max-width:700px){.footer-grid{grid-template-columns:1fr;gap:32px}.footer-nav{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Phone header on one row: mark-only logo, compact theme toggle. */
+@media(max-width:600px){
+  .site-header .nav-inner{flex-wrap:nowrap;gap:6px;min-height:64px;padding-block:10px}
+  .site-header .logo{order:0;flex:none}
+  .site-header .logo-type{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .site-header .nav-links{display:flex;order:1;flex:1 1 auto;width:auto;min-width:0;margin:0;justify-content:space-evenly;gap:0;flex-wrap:nowrap}
+  .site-header .nav-links>a,.site-header .nav-discovery>summary{display:inline-flex;align-items:center;min-height:44px;padding:8px 6px;font-size:13px;white-space:nowrap}
+  .site-header .theme-control{order:2;margin-left:0;padding:2px;gap:0}
+  .site-header .theme-control-label{display:none}
+  .site-header .theme-control-trigger{width:40px;padding:0}
+  .site-header .theme-control-trigger>span{display:none}
+  .site-header .theme-control-trigger::before{content:"◐";font-size:18px;line-height:1}
+}
+/* Hero loop: the three steps share one row grid so titles sit on one baseline. */
+.hero-loop{grid-template-rows:auto auto auto;row-gap:2px}
+.hero-loop li{grid-row:span 3;grid-template-rows:subgrid;gap:2px;align-content:start}
+@media(max-width:600px){.hero-loop{grid-template-rows:none;row-gap:12px}.hero-loop li{grid-row:auto;grid-template-rows:none}}
+/* Course lesson list: numerals in a fixed column. */
+.lesson-number{flex:none;width:2.2ch;font-variant-numeric:tabular-nums;text-align:left}
+/* Home course cards: card-level lift on hover. */
+.path-card{transition:transform var(--motion-quick) ease-out,border-color var(--motion-quick),box-shadow var(--motion-quick)}
+.path-card:has(a:hover){transform:translateY(-3px);border-color:var(--ui-action);box-shadow:var(--shadow-hover)}
+@media(prefers-reduced-motion:reduce){.path-card:has(a:hover){transform:none}}
+/* Jury pass 17: quieter availability notes, footer logo hover, remaining small links. */
+.availability-note{background:var(--ui-surface-muted);border:1px solid var(--ui-border);border-left:3px solid var(--color-terracotta-700);
+  color:var(--ui-ink-subtle);font-size:13px;padding:10px 14px;border-radius:var(--radius-sm)}
+html[data-theme="dark"] .availability-note{background:var(--ui-surface-muted);border-color:var(--ui-border);border-left-color:var(--color-tan);color:var(--ui-ink-subtle)}
+@media(prefers-color-scheme:dark){html:not([data-theme="light"]) .availability-note{background:var(--ui-surface-muted);border-color:var(--ui-border);border-left-color:var(--color-tan);color:var(--ui-ink-subtle)}}
+.footer .logo .logo-type{transition:color var(--motion-quick)}
+.footer .logo svg{transition:transform var(--motion-quick)}
+.footer .logo:hover .logo-type{color:var(--ui-action)}
+.footer .logo:hover svg{transform:translateY(-2px) rotate(-4deg)}
+.footer .logo{transition:transform var(--motion-quick)}
+.footer .logo:hover{transform:translateX(3px)}
+@media(prefers-reduced-motion:reduce){.footer .logo:hover svg,.footer .logo:hover{transform:none}}
+.practice-lab-link a,.course-progress-card>a{display:inline-flex;align-items:center;min-height:32px}
+.course-progress-reserve{display:block;height:32px}
+.radar-page-hero .back-link{margin-bottom:20px}
+
+/* Jury pass 18: a page change that reads like a trace.
+   The nav pill is one shared element that slides to the new section; the new page is
+   revealed top to bottom behind a thin sage trace line, like the lesson's line-by-line run. */
+.nav-links>a,.nav-discovery>summary{position:relative;isolation:isolate}
+.nav-label,.nav-discovery>summary::after{position:relative;z-index:1}
+.nav-links>a[aria-current="page"],.nav-discovery>summary[aria-current="page"]{background:transparent;box-shadow:none}
+.nav-links>a[aria-current="page"]:hover,.nav-discovery>summary[aria-current="page"]:hover{box-shadow:none}
+.nav-pill{position:absolute;inset:0;z-index:0;border-radius:inherit;pointer-events:none;
+  background:var(--ui-surface-accent);box-shadow:inset 0 -2px 0 var(--ui-action);transition:box-shadow var(--motion-quick)}
+.nav-links>a[aria-current="page"]:hover .nav-pill,.nav-discovery>summary[aria-current="page"]:hover .nav-pill{box-shadow:inset 0 -4px 0 var(--ui-action)}
+::view-transition-group(.nav-pill-slide){animation-duration:520ms;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
+::view-transition-new(.nav-pill-enter){animation:420ms cubic-bezier(.2,.8,.2,1) both da-pill-in}
+::view-transition-old(.nav-pill-exit){animation:200ms ease-in both da-fade-out}
+@keyframes da-pill-in{from{opacity:0;transform:scaleX(.2)}}
+
+@property --da-trace{syntax:"<length>";inherits:false;initial-value:0px}
+::view-transition-old(.page-swap){animation:180ms cubic-bezier(.4,0,1,1) both da-trace-out}
+::view-transition-new(.page-swap){animation:720ms cubic-bezier(.3,.6,.2,1) 120ms both da-trace-in}
+::view-transition-image-pair(.page-swap){
+  background:linear-gradient(var(--ui-action),var(--ui-action)) no-repeat 0 var(--da-trace)/100% 2px;
+  animation:720ms cubic-bezier(.3,.6,.2,1) 120ms both da-trace-line}
+@keyframes da-trace-out{to{opacity:.12;transform:translateY(-6px)}}
+@keyframes da-trace-in{from{clip-path:inset(0 0 calc(100% - 0px) 0)}to{clip-path:inset(0 0 calc(100% - 100vh) 0)}}
+@keyframes da-trace-line{from{--da-trace:0px;opacity:1}92%{opacity:1}to{--da-trace:100vh;opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*),::view-transition-image-pair(*){animation:none!important}
+  ::view-transition-image-pair(.page-swap){background:none}
+}
+/* Labels ride above the sliding pill; the caret moves into the label so it is not covered. */
+.nav-discovery>summary::after{content:none}
+.nav-discovery>summary .nav-label::after{content:" ▾";font-size:11px}
+::view-transition-group(.nav-label){animation-duration:0s}
+::view-transition-old(.nav-label){animation:none;opacity:0}
+::view-transition-new(.nav-label){animation:none}
+::view-transition-group(.nav-label){z-index:3}
+
+/* Jury pass 19: predict-first lines on working pages (pratik rows, lesson rows, library cards). */
+.predict-line{display:block;border:1px solid var(--ui-border-strong);background:var(--color-code-surface);color:var(--ui-code-ink);border-radius:10px;font-family:var(--font-code);font-size:12.5px;line-height:1.6;min-width:0}
+.predict-line>summary,.predict-line-still{display:flex;align-items:center;gap:14px;padding:8px 12px;min-height:44px}
+.predict-line>summary{cursor:pointer;list-style:none;border-radius:9px;transition:background-color var(--motion-quick,.15s)}
+.predict-line>summary::-webkit-details-marker{display:none}
+.predict-line>summary:hover{background:color-mix(in srgb,var(--ui-code-ink) 8%,transparent)}
+.predict-line>summary:focus-visible{outline:2px solid var(--ui-focus);outline-offset:2px}
+.predict-line-code{display:flex;flex-direction:column;min-width:0;overflow-x:auto;white-space:pre}
+.predict-line-code code{font-family:inherit}
+.predict-line-q{margin-left:auto;flex:none;font-weight:700;color:#D2AE8A;transition:transform var(--motion-quick,.15s)}
+.predict-line>summary:hover .predict-line-q{transform:translateX(3px)}
+.predict-line[open]>summary .predict-line-q{color:var(--color-code-muted)}
+.predict-line>p{margin:0;padding:2px 12px 10px;display:flex;align-items:baseline;gap:10px;font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+.predict-line>p code{font-family:var(--font-code);font-size:14px;font-weight:700;color:var(--ui-code-ink)}
+.predict-line .output-teaser-label{color:#D2AE8A}
+.practice-card>.predict-line{grid-column:2;margin-top:8px}
+.lesson-item-body>.predict-line-still{margin:8px 0 4px;max-width:520px}
+.lesson-item:hover .predict-line-q{transform:translateX(3px)}
+.catalog-card>.predict-line{margin:4px 0 16px}
+@media(max-width:700px){.practice-card>.predict-line{grid-column:1}}
+@media(prefers-reduced-motion:reduce){.predict-line-q,.predict-line>summary{transition:none}.predict-line>summary:hover .predict-line-q,.lesson-item:hover .predict-line-q{transform:none}}
+.lesson-item-body{min-width:0}
+.lesson-item-body>.predict-line-still{color:var(--ui-code-ink);font-size:12.5px;line-height:1.6}
+.practice-card>.predict-line{justify-self:start;width:min(100%,420px)}
+.lesson-list>li,.lesson-item{min-width:0}
+.predict-line .tok-kw{color:#E8A27C}.predict-line .tok-str{color:#B9C98A}.predict-line .tok-lit{color:#E6C07B}.predict-line .tok-com{color:#B5A797;font-style:italic}.predict-line .tok-fn{color:#8FC1B5}.predict-line .tok-ann{color:#E4B6D0}

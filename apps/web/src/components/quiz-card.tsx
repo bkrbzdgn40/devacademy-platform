@@ -33,6 +33,8 @@ export function QuizCard({ question, number, hints=[], mode="predict", onGraded 
       const grade=body as GradeResponse;
       setResult(grade);
       onGraded?.(grade.correct);
+      // The lesson stage bar listens for this to show the learner's trail of guesses.
+      window.dispatchEvent(new CustomEvent("devacademy:graded",{detail:{questionId:question.id,correct:grade.correct}}));
       setRevealSolution(false);
       if(!grade.correct)setWrongAttempts(count=>count+1);
     } catch {

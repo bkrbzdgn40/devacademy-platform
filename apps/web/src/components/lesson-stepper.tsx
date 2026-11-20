@@ -7,7 +7,30 @@ export type LessonStep = {
   label:string;
   title:string;
   content:ReactNode;
+  // Questions answered in this stage; their first and latest result form the trail.
+  questionIds?:string[];
 };
+
+type Attempt={first:boolean;latest:boolean};
+type Trail={tone:"hit"|"fixed"|"miss";text:string};
+
+// The stage bar records how each guess went, so the "predict, then prove"
+// idea of the home hero carries through the whole lesson.
+function trailFor(step:LessonStep,attempts:Record<string,Attempt>):Trail|null{
+  const ids=(step.questionIds??[]).filter(id=>attempts[id]);
+  if(!ids.length)return null;
+  const total=step.questionIds?.length??ids.length;
+  if(total>1){
+    const hits=ids.filter(id=>attempts[id].first).length;
+    return {tone:hits===total?"hit":hits>0||ids.some(id=>attempts[id].latest)?"fixed":"miss",
+      text:hits+"/"+total+" ilk denemede doğru"};
+  }
+  const a=attempts[ids[0]];
+  const guess=step.id==="predict";
+  if(a.first)return {tone:"hit",text:guess?"Tahminin tuttu":"İlk denemede doğru"};
+  if(a.latest)return {tone:"fixed",text:"Sonra düzelttin"};
+  return {tone:"miss",text:guess?"Tahminin tutmadı":"Henüz doğru değil"};
+}
 
 export function LessonStepper({steps}:{steps:LessonStep[]}){
   const [active,setActive]=useState(0);
@@ -15,6 +38,17 @@ export function LessonStepper({steps}:{steps:LessonStep[]}){
   const [visited,setVisited]=useState<number[]>([0]);
   const navRef=useRef<HTMLElement>(null);
   const rootRef=useRef<HTMLElement>(null);
+  const [attempts,setAttempts]=useState<Record<string,Attempt>>({});
+  useEffect(()=>{
+    const onGraded=(event:Event)=>{
+      const detail=(event as CustomEvent<{questionId?:string;correct?:boolean}>).detail;
+      const questionId=detail?.questionId,correct=detail?.correct;
+      if(!questionId||typeof correct!=="boolean")return;
+      setAttempts(old=>({...old,[questionId]:{first:old[questionId]?.first??correct,latest:correct}}));
+    };
+    window.addEventListener("devacademy:graded",onGraded);
+    return ()=>window.removeEventListener("devacademy:graded",onGraded);
+  },[]);
   // Content headings get scroll-margin-top equal to the sticky stage bar so a
   // jump never lands underneath it. The CSS fallback covers no-JS rendering.
   useEffect(()=>{
@@ -64,30 +98,23 @@ export function LessonStepper({steps}:{steps:LessonStep[]}){
   }
 
   return <section ref={rootRef} className="lesson-stepper" aria-label="Ders çalışma aşamaları">
-    <div className="lesson-stage-bar">
-      <span className="ui-eyebrow">Çalışma akışı</span>
-      <div className="lesson-stage-position" aria-live="polite">
-        <span>Aşama {active+1} / {steps.length}</span>
-        <strong>{steps[active].label}</strong>
-      </div>
-      <progress value={active+1} max={steps.length}
-        aria-label={"Ders aşamasındaki konum: "+(active+1)+"/"+steps.length}/>
+    <div className="lesson-stage-position sr-only" aria-live="polite">
+      <span>Aşama {active+1} / {steps.length}</span> <strong>{steps[active].label}</strong>
     </div>
     <nav className="lesson-stepper-nav" aria-label="Ders aşamaları"
       ref={navRef} onKeyDown={onStepKeys}>
-      <ol>{steps.map((step,index)=><li key={step.id}>
+      <ol>{steps.map((step,index)=>{const trail=trailFor(step,attempts);return <li key={step.id}
+        className={"lesson-trail-node"+(trail?" is-"+trail.tone:"")+(index<active?" is-passed":"")}>
         <button type="button" data-lesson-step={index}
           aria-current={active===index?"step":undefined}
           aria-controls={visited.includes(index)?"lesson-step-panel-"+step.id:undefined}
           onClick={()=>openStep(index)}>
-          <span className="lesson-step-number">{String(index+1).padStart(2,"0")}</span>
-          <span>{step.label}</span>
+          <span className="lesson-step-number" aria-hidden="true">{trail?.tone==="hit"?"✓":trail?.tone==="miss"?"×":String(index+1).padStart(2,"0")}</span>
+          <span className="lesson-step-text"><span>{step.label}</span>
+            {trail&&<span className="lesson-trail-note">{trail.text}</span>}</span>
         </button>
-      </li>)}</ol>
+      </li>;})}</ol>
     </nav>
-    <p className="lesson-step-count">
-      Aşamalar arasında geçiş yapabilirsin. Görüntülediğin soruların yanıtları bu sayfada korunur.
-    </p>
     {steps.map((step,index)=>visited.includes(index)?<section key={step.id}
       id={"lesson-step-panel-"+step.id}
       className="lesson-step-panel" aria-labelledby={"lesson-step-heading-"+step.id}
@@ -98,9 +125,9 @@ export function LessonStepper({steps}:{steps:LessonStep[]}){
     <div className="lesson-step-actions">
       <button type="button" className="ui-button ui-button-secondary"
         data-stage-previous disabled={active===0}
-        onClick={()=>openStep(active-1,true)}>← Önceki aşama</button>
+        onClick={()=>openStep(active-1,true)}><span aria-hidden="true">←</span> Önceki aşama</button>
       {active<steps.length-1&&<button type="button" className="primary-button"
-        data-stage-next onClick={()=>openStep(active+1,true)}>Sonraki aşama →</button>}
+        data-stage-next onClick={()=>openStep(active+1,true)}>Sonraki aşama <span aria-hidden="true">→</span></button>}
       {active===steps.length-1&&<span className="lesson-last-stage-note">
         Son aşamadasın. Ders tamamlanma durumun, değerlendirme sonucuna bağlıdır.
       </span>}

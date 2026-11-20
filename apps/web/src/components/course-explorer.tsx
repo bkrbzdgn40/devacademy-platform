@@ -10,7 +10,7 @@ export function CourseExplorer(){
       <label htmlFor="course-search">Kurs veya ders ara</label>
       <div className="explorer-search-row">
         <input id="course-search" type="search" autoComplete="off"
-          placeholder="Örn. polymorphism, döngüler, Promise"
+          placeholder="Örn. döngüler"
           value={query} onChange={e=>setQuery(e.target.value)} />
         {query&&<button type="button" onClick={()=>setQuery("")}>Temizle</button>}
       </div>
@@ -18,6 +18,7 @@ export function CourseExplorer(){
     </div>
     <p className="explorer-count" aria-live="polite">{matched.length} öğrenme yolu gösteriliyor.
       {query.trim()?" Eşleşen dersler kartların içinde listelenir.":""}</p>
+    <h2 className="sr-only">Kurslar</h2>
     {matched.length?<div className="path-grid">{matched.map(path=>
       <LearningPathCard key={path.id} path={path}/>)}</div>:
       <div className="explorer-empty" role="status"><strong>Eşleşen kurs veya ders bulunamadı.</strong>

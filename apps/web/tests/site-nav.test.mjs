@@ -12,6 +12,6 @@ test("header navigation marks the current section with aria-current",()=>{
   assert.match(nav,/usePathname/);
   assert.match(nav,/within\(pathname,"\/kurslar"\)\)return "learn"/);
   assert.match(nav,/within\(pathname,"\/kutuphane"\)\|\|within\(pathname,"\/radar"\)\)return "discover"/);
-  assert.match(nav,/<summary aria-current=\{current\("discover"\)\}>Keşfet<\/summary>/);
+  assert.match(nav,/<summary aria-current=\{current\("discover"\)\}>.*<span className="nav-label"[^>]*>Keşfet<\/span><\/summary>/);
   assert.match(styles,/\.nav-links>a\[aria-current="page"\]/);
 });

@@ -8,7 +8,14 @@ export function CourseProgress({courseSlug,lessons}:{courseSlug:string;lessons:R
  const [state,setState]=useState<{status:"loading"|"signedout"|"ready"|"unavailable";rows:Saved[]}>({status:"loading",rows:[]});
  useEffect(()=>{
    const controller=new AbortController();
-   fetch("/api/progress",{cache:"no-store",signal:controller.signal}).then(async response=>{
+   // Ask /api/me first so a signed-out visitor never triggers a 401 on /api/progress.
+   fetch("/api/me",{cache:"no-store",signal:controller.signal}).then(async me=>{
+     const viewer=me.ok?await me.json() as {authenticated?:boolean;configured?:boolean}:null;
+     if(viewer&&!viewer.configured){setState({status:"unavailable",rows:[]});return null;}
+     if(!viewer?.authenticated){setState({status:"signedout",rows:[]});return null;}
+     return fetch("/api/progress",{cache:"no-store",signal:controller.signal});
+   }).then(async response=>{
+     if(!response)return;
      if(response.status===401){setState({status:"signedout",rows:[]});return;}
      if(!response.ok){setState({status:"unavailable",rows:[]});return;}
      const data=(await response.json()) as Api;
@@ -21,6 +28,8 @@ export function CourseProgress({courseSlug,lessons}:{courseSlug:string;lessons:R
    <p>{state.status==="loading"?"Kayıtlı ilerlemen yükleniyor…":state.status==="signedout"?
      "Tamamladığın dersleri kaydetmek ve sıradaki adımı görmek için oturum aç.":"Bu oturumda kalıcı ilerleme verisi kullanılamıyor; dersler açık."}</p>
    {state.status==="signedout"&&<Link href="/hesap">Hesabına git →</Link>}
+   {/* Reserve the link row while loading so the card does not grow afterwards. */}
+   {state.status==="loading"&&<span className="course-progress-reserve" aria-hidden="true"/>}
  </aside>;
  const saved=new Map(state.rows.filter(row=>lessons.some(l=>l.id===row.lessonId)).map(row=>[row.lessonId,row]));
  const completed=lessons.filter(l=>saved.get(l.id)?.completedAt).length;

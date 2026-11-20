@@ -13,21 +13,13 @@ import lessons from "@/data/lessons.json";
 import questions from "@/data/questions.json";
 
 const paths=learningPaths as LearningPath[];
-const steps=[
-  {title:"Önce tahmin et",description:"Programın sonucunu görmeden düşün ve cevabını yaz."},
-  {title:"Satır satır kanıtla",description:"Değişkenlerin ve çıktının nerede değiştiğini adım adım takip et."},
-  {title:"Farklı koşulda uygula",description:"Karşı örnekleri incele, bağımsız kavram sorularında bilgini sınamaya çalış."},
-];
 const sources=[
-  {key:"hn",title:"Hacker News",label:"Sektör tartışmaları",
-    text:"Geliştiricilerin tartıştığı yeni araçlar, projeler ve mühendislik kararları.",
-    href:"https://news.ycombinator.com/",note:"Topluluk akışı"},
-  {key:"dev",title:"DEV Community",label:"Uygulamalı yazılar",
-    text:"Teknoloji etiketleriyle yayımlanan yazılım örnekleri ve geliştirici deneyimleri.",
-    href:"https://dev.to/",note:"Topluluk içeriği"},
-  {key:"releases",title:"GitHub Releases",label:"Sürüm duyuruları",
-    text:"Kütüphane ve araçların resmî depo sürümleri üzerinden yapılan duyurular.",
-    href:"https://github.com/explore",note:"Depo keşfi"}
+  {key:"hn",title:"Hacker News",text:"Geliştiricilerin tartıştığı yeni araçlar, projeler ve mühendislik kararları.",
+    href:"https://news.ycombinator.com/"},
+  {key:"dev",title:"DEV Community",text:"Teknoloji etiketleriyle yayımlanan yazılım örnekleri ve geliştirici deneyimleri.",
+    href:"https://dev.to/"},
+  {key:"releases",title:"GitHub Releases",text:"Kütüphane ve araçların resmî depo sürümleri üzerinden yapılan duyurular.",
+    href:"https://github.com/explore"}
 ];
 const sections: CatalogKind[] = ["language","concept","technology"];
 
@@ -37,13 +29,18 @@ export default function Home() {
   return <>
     <section className="hero shell">
       <div className="hero-text">
-        <h1>Kodu öğrenmek değil, <em>anlamak</em> için buradasın.</h1>
-        <p>Önce tahmin et, kodun davranışını incele, yanlış varsayımlarını keşfet ve öğrendiğini yeni bir problemde kullan. {courseOfferPhrase()} kurslarından biriyle başla.</p>
+        <h1><span className="hero-h1-line">Bu kod ne yazdırır?</span> <span className="hero-h1-line">Önce <em>sen</em> söyle.</span></h1>
+        <p>Her derste önce kodun sonucunu tahmin edersin, sonra yanıldığın yeri satır satır görürsün. {courseOfferPhrase()} kurslarından biriyle başla.</p>
       </div>
       <HeroPredict/>
       <div className="hero-meta">
-        <div className="hero-actions"><ActionLink href="/kurslar">Öğrenme yollarını keşfet <span aria-hidden="true">→</span></ActionLink><ActionLink href="/kutuphane/diller" variant="secondary">Kod ve kavramları keşfet</ActionLink></div>
+        <div className="hero-actions"><ActionLink href="/kurslar">Kursları gör <span aria-hidden="true">→</span></ActionLink><ActionLink href="/kutuphane/kavramlar" variant="secondary">Kavram kütüphanesi</ActionLink></div>
         <p className="small-note">{courses.length} kurs · {lessons.length} ders · {questions.length} bilgi sorusu. Kod çalıştırma yalnızca özel yerel laboratuvarda mümkündür.</p>
+        <ol className="hero-loop" aria-label="Bir dersin akışı">
+          <li><span aria-hidden="true">01</span><strong>Tahmin et</strong><small>Kodu okuyup çıktıyı seç.</small></li>
+          <li><span aria-hidden="true">02</span><strong>Kilitle</strong><small>Cevabını değiştirmeden gönder.</small></li>
+          <li><span aria-hidden="true">03</span><strong>Satır satır izle</strong><small>Yanıldığın adımı gör.</small></li>
+        </ol>
       </div>
     </section>
     <section className="shell home-journey-area" aria-labelledby="journey-heading">
@@ -57,20 +54,13 @@ export default function Home() {
         <SectionHeading id="paths-title"
           title="Öğrenme yolları"
           description="Her kurs birbiri üzerine kurulan derslerden oluşur. İlgi alanına göre bir yol seç."/>
-        <Link href="/kurslar" className="home-text-link">Kurs ve derslerde ara</Link>
+        <Link href="/kurslar" className="home-text-link">Kurs ve derslerde ara <span aria-hidden="true">→</span></Link>
       </div>
       <div className="path-grid home-path-grid">{paths.map(path=>
         <LearningPathCard path={path} compact key={path.id}/>)}</div>
     </section>
-    <section className="shell section home-method-section" id="nasil-ogrenirsin" aria-labelledby="method-heading">
-      <SectionHeading id="method-heading"
-        title="Düşünme biçimini geliştir."/>
-      <ol className="home-method-flow">{steps.map(step=><li className="home-method-step" key={step.title}>
-        <h3>{step.title}</h3><p>{step.description}</p>
-      </li>)}</ol>
-    </section>
     <section className="shell section" aria-labelledby="explore-title">
-      <div className="section-heading"><SectionHeading id="explore-title" title="Neyi öğrenmek istiyorsun?"/><p>Diller, kavramlar ve teknolojiler arasındaki bağlantıları gör.</p></div>
+      <SectionHeading id="explore-title" title="Neyi öğrenmek istiyorsun?" description="Diller, kavramlar ve teknolojiler arasındaki bağlantıları gör."/>
       <ul className="home-explore-list">{sections.map(kind => {
         const info = categoryInfo[kind];
         return <li key={kind}><Link href={info.href} className="feature-card ui-card home-explore-row">
@@ -81,17 +71,15 @@ export default function Home() {
     <section className="shell section radar-section radar-redesign" aria-labelledby="radar-title">
       <div className="radar-heading">
         <SectionHeading id="radar-title"
-          title="Teknoloji dünyasını öğrendiğin kavramlarla bağla."
-          description="Hacker News, DEV ve resmî GitHub sürümlerinden güncel başlıkları derslerinle ilişkilendir."/>
+          title="Gündemdeki başlıklar ve ilgili dersler"
+          description="Radar, Hacker News, DEV ve GitHub sürüm notlarındaki başlıkları senin kurslarındaki konularla eşleştirir."/>
         <StatusPill tone="olive">Sektör Radarı aktif</StatusPill>
         <Link href="/radar" className="ui-button ui-button-primary">Haber akışını aç</Link>
       </div>
-      <div className="radar-source-grid">{sources.map(source=><article className="radar-source ui-card" key={source.key}>
-        <span className="radar-source-type">{source.label}</span>
+      <ul className="radar-source-list ui-card">{sources.map(source=><li className="radar-source radar-source-row" key={source.key}>
         <h3>{source.title}</h3><p>{source.text}</p>
-        <span className="radar-source-note">{source.note}</span>
-        <a href={source.href} target="_blank" rel="noopener noreferrer">Kaynağı ziyaret et <span aria-hidden="true">↗</span></a>
-      </article>)}</div>
+        <a href={source.href} target="_blank" rel="noopener noreferrer" aria-label={"Kaynağa git: "+source.title+" (yeni sekmede açılır)"}>Kaynağa git <span aria-hidden="true">↗</span></a>
+      </li>)}</ul>
     </section>
   </>;
 }
