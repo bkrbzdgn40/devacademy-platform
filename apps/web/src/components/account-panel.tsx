@@ -98,8 +98,8 @@ export function AccountPanel() {
     finally { setBusy(false); }
   }
 
-  if (!viewer) return <p role="status">Hesap durumu yükleniyor…</p>;
-  if (!viewer.configured) return <div className="availability-note">Kimlik doğrulama bu ortamda yapılandırılmamış. Hesap oluşturmak ve ilerleme kaydetmek için yerel PostgreSQL bağlantısı gereklidir.</div>;
+  if (!viewer) return <div className="account-panel"><div className="account-section account-loading"><p role="status">Hesap durumu yükleniyor…</p></div></div>;
+  if (!viewer.configured) return <div className="account-panel"><div className="availability-note">Kimlik doğrulama bu ortamda yapılandırılmamış. Hesap oluşturmak ve ilerleme kaydetmek için yerel PostgreSQL bağlantısı gereklidir.</div></div>;
 
   return <div className="account-panel">
     {message && <p className="account-message" role="status">{message}</p>}

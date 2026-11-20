@@ -135,3 +135,19 @@ test("generic language-only matches are kept out of the main radar list",()=>{
   assert.match(page,/<details className="radar-related">/);
   assert.match(page,/İlgili olabilir/);
 });
+test("multiple SQL and Docker headlines receive distinct learning rationales instead of identical boilerplate",()=>{
+  const sqlItems=[
+    classify("Supabase backups and restore drills in GitHub Actions",["postgres","database"]),
+    classify("Postgres 19 Repack: Faster table maintenance without locks"),
+    classify("SQLite WAL mode concurrency in local apps")
+  ];
+  const dockerItems=[
+    classify("Sandscale vs Daytona: containers or microVMs"),
+    classify("Kubernetes from Zero: Pods, Deployments, and Services"),
+    classify("Hybrid Cloud Interconnects, BGP Routing and Containers")
+  ];
+  assert.equal(new Set(sqlItems.map(x=>x.learning.context)).size,sqlItems.length);
+  assert.equal(new Set(sqlItems.map(x=>x.learning.why)).size,sqlItems.length);
+  assert.equal(new Set(dockerItems.map(x=>x.learning.context)).size,dockerItems.length);
+  assert.equal(new Set(dockerItems.map(x=>x.learning.why)).size,dockerItems.length);
+});

@@ -36,6 +36,47 @@ export const isLooseRadarMatch=(learning)=>!learning||learning.coverage===looseR
 function bridge({label,context,why,question,primary,secondary=null,coverage}){
   return {label,context,why,question,primary,secondary,coverage};
 }
+const textIndex=(text)=>{
+  let hash=0;
+  for(let i=0;i<text.length;i++)hash=(hash*31+text.charCodeAt(i))>>>0;
+  return hash;
+};
+const cueList=(text,rules)=>rules.filter(([pattern])=>pattern.test(text)).map(([,name])=>name);
+const formatCue=(cues,fallback)=>cues.length?cues.slice(0,2).join(" ve "):fallback;
+const postgresCues=[
+  [/\bpostgres(?:ql)?(?:\s*\d+)?\b/i,"PostgreSQL"],
+  [/\bsqlite\b/i,"SQLite"],
+  [/\b(?:backup|restore|wal|pg_dump|recovery|failover)\b/i,"yedekleme ve kurtarma"],
+  [/\b(?:index|vacuum|repack|explain|query\s+plan|latency|performance)\b/i,"sorgu performansı"],
+  [/\b(?:schema|migration|ddl|table|join|group\s+by)\b/i,"tablo ve şema tasarımı"],
+  [/\b(?:replication|cluster|ha|shard|locking|deadlock)\b/i,"eşzamanlılık ve tutarlılık"]
+];
+const dockerCues=[
+  [/\b(?:kubernetes|k8s|pods?|deployments?|helm|ingress)\b/i,"Kubernetes ve orkestrasyon"],
+  [/\b(?:microvm|firecracker|gvisor|sandbox|kernel|isolation)\b/i,"izolasyon ve çalışma katmanı"],
+  [/\b(?:docker|dockerfile|compose|image|registry|containerfile)\b/i,"konteyner imajları"],
+  [/\b(?:bgp|routing|network|proxy|mesh|cloud|bare[- ]metal)\b/i,"ağ ve dağıtım altyapısı"]
+];
+const tsCues=[
+  [/\btypescript\b/i,"TypeScript"],
+  [/\b(?:compiler|tsc|build|bundler)\b/i,"derleyici ve derleme adımı"],
+  [/\b(?:type|generic|infer|narrowing|schema)\b/i,"tip denetimi"],
+  [/\b(?:node|react|next|api|calculator|formula)\b/i,"uygulama kodu"]
+];
+const reactCues=[
+  [/\breact(?:\.js)?\b/i,"React"],
+  [/\b(?:compiler|memo|render|re-?render)\b/i,"render davranışı"],
+  [/\b(?:hook|state|effect|server\s+component|rsc)\b/i,"bileşen ve durum akışı"],
+  [/\b(?:next\.js|router|form|ui)\b/i,"arayüz mimarisi"]
+];
+const algoCues=[
+  [/\b(?:binary search|ikili arama)\b/i,"ikili arama"],
+  [/\b(?:sort|quicksort|mergesort|heap)\b/i,"sıralama"],
+  [/\b(?:tree|graph|bfs|dfs|trie)\b/i,"ağaç ve graf yapısı"],
+  [/\b(?:hash|map|set|cache)\b/i,"arama ve eşleme yapısı"]
+];
+const pick=(list,seed)=>list[seed%list.length];
+
 const topicDefault={
   python:()=>bridge({label:"Python ekosistemi",
     context:"Başlık veya etiketler Python ekosistemine işaret ediyor; makalenin ayrıntılarını henüz incelemedik.",
@@ -52,31 +93,102 @@ const topicDefault={
     why:"Dil ve nesne yönelimli programlama bilgisi, framework ve sürüm duyurularını ayırt etmeyi sağlar.",
     question:"Kaynak bir Java dil değişikliğinden mi, JVM'den mi, yoksa ayrı bir framework'ten mi bahsediyor?",
     primary:links.javaCourse,coverage:looseRadarCoverage}),
-  typescript:()=>bridge({label:"TypeScript ve tip güvenliği",
-    context:"Başlık veya etiketlerde TypeScript'e ilişkin bir konu bulunuyor.",
-    why:"TypeScript, JavaScript üzerine tip denetimi ekler; doğrudan TypeScript kursumuz henüz yok.",
-    question:"Kaynakta bahsedilen değişiklik derleme zamanı tip denetimini mi, çalışma zamanındaki JavaScript'i mi etkiliyor?",
-    primary:links.languageCatalog,secondary:links.jsVars,coverage:"Katalog ve önkoşul ders"}),
-  react:()=>bridge({label:"React ve bileşenler",
-    context:"Başlık veya etiketler React ekosistemiyle ilişkili.",
-    why:"React bileşenlerini anlamak için JavaScript fonksiyonları iyi bir temel oluşturur. Henüz React dersimiz yok.",
-    question:"Söz konusu özellik React'e mi ait, yoksa genel JavaScript davranışı mı?",
-    primary:links.techCatalog,secondary:links.jsFunctions,coverage:"Katalog ve önkoşul ders"}),
-  postgres:()=>bridge({label:"Veritabanı ve SQL",
-    context:"Başlık veya etiketler SQL ya da veritabanı araçlarını işaret ediyor.",
-    why:"SELECT, WHERE, JOIN ve GROUP BY temelleri sorgu, tablo ve raporlama konularını ayırt etmene yardım eder.",
-    question:"Kaynağın konusu sorgu yazma mı, veri tutarlılığı mı, performans mı, yoksa yönetim mi?",
-    primary:links.sqlCourse,coverage:"Önkoşul dersi"}),
-  docker:()=>bridge({label:"Konteynerler ve dağıtım",
-    context:"Başlık veya etiketlerde Docker ya da konteyner ekosistemi var.",
-    why:"Uygulama kodu ile onu paketleyen/çalıştıran ortam farklı katmanlardır. Henüz konteyner dersi sunmuyoruz.",
-    question:"Kaynak imaj oluşturma, çalıştırma, dağıtım veya orkestrasyon konularından hangisini ele alıyor?",
-    primary:links.techCatalog,coverage:"Katalog sayfası"}),
-  algorithms:()=>bridge({label:"Algoritmalar ve maliyet analizi",
-    context:"Başlık veya etiketlerde algoritma, veri yapısı veya arama yöntemiyle ilgili terimler bulunuyor.",
-    why:"Doğru veri yapısı ve algoritma önkoşulları uygulamanın hem sonucunu hem ölçeklenmesini etkileyebilir.",
-    question:"Kaynak hangi veri yapısı, sıralama varsayımı veya işlem maliyetini inceliyor?",
-    primary:links.algorithmCourse,coverage:"Önkoşul dersi"}),
+  typescript:(text="")=>{
+    const seed=textIndex(text);
+    const focus=formatCue(cueList(text,tsCues),"TypeScript");
+    return bridge({label:"TypeScript ve tip güvenliği",
+      context:pick([
+        `Başlık veya etiketlerde ${focus} odaklı terimler geçiyor; doğrudan TypeScript kursumuz henüz yok.`,
+        `Etiketler ${focus} başlığını işaret ediyor; konu JavaScript üzerine kurulan statik tip katmanıyla ilgili.`
+      ],seed),
+      why:pick([
+        "Derleme aşamasındaki tip kuralları, çalışma zamanındaki JavaScript davranışını öngörmeyi kolaylaştırır.",
+        "TypeScript ile üretilen JavaScript çıktısını ayırabilmek için önce değişken ve tür davranışını tanımak gerekir."
+      ],seed),
+      question:pick([
+        "Kaynakta bahsedilen örnek derleme zamanı tip kontrolünü mü, çalışma zamanındaki JavaScript'i mi etkiliyor?",
+        "Yazıda ele alınan kural tip tanımlarında mı kalıyor, yoksa üretilen kodu da değiştiriyor mu?"
+      ],seed),
+      primary:links.languageCatalog,secondary:links.jsVars,coverage:"Katalog ve önkoşul ders"});
+  },
+  react:(text="")=>{
+    const seed=textIndex(text);
+    const focus=formatCue(cueList(text,reactCues),"React");
+    return bridge({label:"React ve bileşenler",
+      context:pick([
+        `Başlık veya etiketlerde ${focus} ile ilişkili ifadeler bulunuyor; henüz React dersimiz yok.`,
+        `Kayıt ${focus} bağlamında görünüyor; bileşen yapısını anlamak için JavaScript fonksiyonları önkoşuldur.`
+      ],seed),
+      why:pick([
+        "Bileşen yaşam döngüsü ve durum güncellemeleri doğrudan JavaScript fonksiyonları ve kapanışlar üzerine kuruludur.",
+        "Arayüz kütüphanelerindeki değişiklikleri ayırt etmek için önce temel fonksiyon ve dönüş değerlerini bilmek gerekir."
+      ],seed),
+      question:pick([
+        "Söz konusu özellik React'e mi ait, yoksa genel JavaScript davranışı mı?",
+        "Kaynakta anlatılan değişiklik bileşen render'ını mı, veri akışını mı etkiliyor?"
+      ],seed),
+      primary:links.techCatalog,secondary:links.jsFunctions,coverage:"Katalog ve önkoşul ders"});
+  },
+  postgres:(text="")=>{
+    const seed=textIndex(text);
+    const focus=formatCue(cueList(text,postgresCues),"SQL ve veritabanı");
+    return bridge({label:"Veritabanı ve SQL",
+      context:pick([
+        `Başlık veya etiketlerde ${focus} ile ilgili terimler görünüyor; makale metni ayrıca doğrulanmamıştır.`,
+        `Bu kayıt ${focus} odağında eşleşti; başlık veritabanı sorgulama veya veri yönetimiyle ilişkili.`,
+        `Etiketler ${focus} konusuna işaret ediyor; sunulan ders bağlantısı yalnızca hazırlık amaçlıdır.`
+      ],seed),
+      why:pick([
+        "SELECT, WHERE, JOIN ve GROUP BY temelleri farklı veri araçlarındaki sorgu ve tablo kararlarını okumayı kolaylaştırır.",
+        "Koşul süzme, boş değer (NULL) kontrolü ve gruplama kuralları veritabanı davranışını yorumlamanın temelidir.",
+        "Tablo ilişkileri ile filtreleme mantığını kavramak, yeni veri motorlarındaki örnekleri kıyaslamayı sağlar."
+      ],seed),
+      question:pick([
+        "Kaynağın odağı sorgu yazma mı, veri tutarlılığı mı, performans mı, yoksa yönetim mi?",
+        "Başlıkta geçen yaklaşım tablo tasarımını mı, sorgu maliyetini mi değiştiriyor?",
+        "Örnekte tekil kayıt filtresi mi, yoksa toplu raporlama/birleştirme mi öne çıkıyor?"
+      ],seed),
+      primary:links.sqlCourse,coverage:"Önkoşul dersi"});
+  },
+  docker:(text="")=>{
+    const seed=textIndex(text);
+    const focus=formatCue(cueList(text,dockerCues),"konteyner teknolojileri");
+    return bridge({label:"Konteynerler ve dağıtım",
+      context:pick([
+        `Başlık veya etiketlerde ${focus} ile ilgili kavramlar geçiyor; henüz konteyner dersimiz bulunmuyor.`,
+        `Kayıt ${focus} başlığıyla eşleşti; içerik uygulama kodunun çalıştırıldığı altyapı katmanıyla ilgili.`,
+        `Etiketler ${focus} alanına işaret ediyor; uygulama mantığı ile dağıtım ortamı burada ayrışır.`
+      ],seed),
+      why:pick([
+        "Uygulama mantığıyla onu izole eden veya dağıtan çalışma ortamını ayırmak üretim sorunlarını okumayı kolaylaştırır.",
+        "Konteyner veya sanal ortam katmanını anlamak, kodun hangi sınırlar içinde çalıştığını görmene yardımcı olur.",
+        "Paketleme ve çalışma zamanı sınırlarını bilmek, kodun farklı makinelerde neden aynı davrandığını açıklar."
+      ],seed),
+      question:pick([
+        "Kaynak imaj oluşturma, izolasyon, dağıtım veya orkestrasyon adımlarından hangisini inceliyor?",
+        "Yazıda ele alınan mimari geliştirme ortamını mı, üretim dağıtımını mı hedefliyor?",
+        "Örnekte vurgulanan değişiklik uygulama kodunda mı, çalışma ortamı yapılandırmasında mı?"
+      ],seed),
+      primary:links.techCatalog,coverage:"Katalog sayfası"});
+  },
+  algorithms:(text="")=>{
+    const seed=textIndex(text);
+    const focus=formatCue(cueList(text,algoCues),"algoritma ve veri yapıları");
+    return bridge({label:"Algoritmalar ve maliyet analizi",
+      context:pick([
+        `Başlık veya etiketlerde ${focus} ile ilişkili terimler bulunuyor.`,
+        `Bu kayıt ${focus} konusuna işaret ediyor; doğruluk şartlarını mevcut derslerle karşılaştırabilirsin.`
+      ],seed),
+      why:pick([
+        "Doğru veri yapısı ve algoritma önkoşulları uygulamanın hem sonucunu hem ölçeklenmesini belirler.",
+        "Zaman karmaşıklığı ve veri düzeni varsayımlarını bilmek performans iddialarını sınamayı sağlar."
+      ],seed),
+      question:pick([
+        "Kaynak hangi veri yapısı, sıralama varsayımı veya işlem maliyetini inceliyor?",
+        "Anlatılan yöntemin çalışması için verinin hangi önkoşulu sağlaması gerekiyor?"
+      ],seed),
+      primary:links.algorithmCourse,coverage:"Önkoşul dersi"});
+  },
   async:()=>bridge({label:"Asenkron JavaScript akışı",
     context:"Başlık veya etiketler Promise, async/await ya da event loop terimleri içeriyor.",
     why:"Promise ve microtask sıralamasını anlamak bu ifadeleri okurken somut bir temel sağlar.",
@@ -191,6 +303,44 @@ export function selectRadarLearning({title="",tags=[],topicKey,releaseRepo=null}
         why:"Bir dilin özellikleri ile çalışma ortamının sağladığı API'leri ayırmak önemlidir.",
         question:"Kaynakta değişen davranış JavaScript diline mi, Node.js'e mi, paket yöneticisine mi ait?",
         primary:links.jsCourse,coverage:"Önkoşul dersi"});
+  }else if(topicKey==="postgres"){
+    if(matches(text,/\b(?:sqlite)\b/i))
+      result=bridge({label:"Gömülü SQL ve SQLite",
+        context:"Başlık veya etiketlerde dosya tabanlı gömülü veritabanı SQLite geçiyor.",
+        why:"Sunuculu veritabanlarından farklı olarak SQLite uygulama süreci içinde tek dosya üzerinde çalışır; temel SQL kuralları ortaktır.",
+        question:"Kaynakta vurgulanan kısıt veya avantaj eşzamanlı yazma mı, taşınabilirlik mi?",
+        primary:links.sqlWhere,secondary:links.sqlCourse,coverage:"Önkoşul dersi"});
+    else if(matches(text,/\b(?:backup|restore|wal|pg_dump|recovery|failover|replica)\b/i))
+      result=bridge({label:"Veritabanı yedekleme ve kurtarma",
+        context:"Başlık veya etiketlerde yedekleme, kurtarma ya da kesintisiz çalışma terimleri yer alıyor.",
+        why:"Kayıt tutarlılığı ve işlem bütünlüğü olmadan yedek geri yükleme senaryolarında veri kaybı riski doğar.",
+        question:"Kaynakta yedek alma yöntemi, geri yükleme süresi veya tutarlılık garantisi nasıl sınanıyor?",
+        primary:links.sqlWhere,secondary:links.sqlCourse,coverage:"Önkoşul dersi"});
+    else if(matches(text,/\b(?:index|vacuum|repack|explain|query\s+plan|slow|performance|latency)\b/i))
+      result=bridge({label:"Sorgu performansı ve indeksler",
+        context:"Başlık veya etiketler sorgu planı, indeks bakımı ya da performans iyileştirmesiyle ilgili.",
+        why:"WHERE koşulları ve toplulaştırma sorgularının maliyeti seçilen filtre ve indeks düzenine doğrudan bağlıdır.",
+        question:"Hızlanma veya maliyet düşüşü tablo okuma biçiminden mi, indeks yapısından mı geliyor?",
+        primary:links.sqlGroup,secondary:links.sqlCourse,coverage:"Önkoşul dersi"});
+  }else if(topicKey==="docker"){
+    if(matches(text,/\b(?:microvm|firecracker|gvisor|sandbox|isolation|kernel)\b/i))
+      result=bridge({label:"Konteyner izolasyonu ve MicroVM",
+        context:"Başlık veya etiketler çekirdek izolasyonu, sandbox ya da MicroVM mimarisine odaklanıyor.",
+        why:"Paylaşımlı çekirdekli konteynerlerle donanım sanallaştırmalı ortamlar güvenlik ve başlatma maliyeti açısından ayrılır.",
+        question:"Kaynak güvenlik sınırını nasıl çiziyor ve başlatma gecikmesini hangi katmanda ölçüyor?",
+        primary:links.techCatalog,coverage:"Katalog sayfası"});
+    else if(matches(text,/\b(?:kubernetes|k8s|pods?|deployments?|helm|ingress)\b/i))
+      result=bridge({label:"Kubernetes ve orkestrasyon",
+        context:"Başlık veya etiketler çoklu konteyner orkestrasyonu ve Kubernetes bileşenlerine işaret ediyor.",
+        why:"Tek bir imajı çalıştırmak ile pod planlama, servis keşfi ve ölçekleme yönetimi farklı sorumluluklardır.",
+        question:"Yazı pod yaşam döngüsünü mü, servis yönlendirmeyi mi, yoksa küme operasyonunu mu ele alıyor?",
+        primary:links.techCatalog,coverage:"Katalog sayfası"});
+    else if(matches(text,/\b(?:bgp|routing|network|interconnect|proxy|port)\b/i))
+      result=bridge({label:"Konteyner ağı ve yönlendirme",
+        context:"Başlık veya etiketlerde dağıtık ağ, yönlendirme ya da servis bağlantısı terimleri bulunuyor.",
+        why:"Konteynerlerin dış dünya ve diğer servislerle konuşabilmesi için ağ geçidi ve port kurallarının net olması gerekir.",
+        question:"Kaynakta bağlantı gecikmesini veya trafiği yöneten katman hangisi?",
+        primary:links.techCatalog,coverage:"Katalog sayfası"});
   }else if(topicKey==="java"){
     if(matches(text,/\b(?:polymorphism|override|overloading|inheritance|oop)\b/i))
       result=bridge({label:"Java'da nesne yönelimli davranış",
@@ -205,5 +355,5 @@ export function selectRadarLearning({title="",tags=[],topicKey,releaseRepo=null}
         question:"Bahsedilen özelliğin Spring Boot'a mı yoksa Java/JVM sürümüne mi ait olduğunu kontrol et.",
         primary:links.javaMethods,secondary:links.javaCourse,coverage:"Önkoşul dersi"});
   }
-  return {...(result??topicDefault[topicKey]()),basis:"Başlık ve varsa etiket eşleşmesi"};
+  return {...(result??topicDefault[topicKey](text)),basis:"Başlık ve varsa etiket eşleşmesi"};
 }
