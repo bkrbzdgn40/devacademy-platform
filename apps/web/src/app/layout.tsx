@@ -10,8 +10,8 @@ import {StatusPill} from "@/components/ui-primitives";
 import {siteOrigin} from "@/lib/site-url.mjs";
 import "./globals.css";
 
-// Display: Fraunces with optical sizing; body: Inter. Both carry Turkish glyphs (latin-ext).
-const display=Fraunces({subsets:["latin","latin-ext"],axes:["opsz","SOFT"],variable:"--font-fraunces",display:"swap"});
+// Display: Fraunces 700 (normal + italic) and body: Inter. Both carry Turkish glyphs (latin-ext).
+const display=Fraunces({subsets:["latin","latin-ext"],weight:["700"],style:["normal","italic"],variable:"--font-fraunces",display:"swap"});
 const body=Inter({subsets:["latin","latin-ext"],variable:"--font-inter",display:"swap"});
 const origin=siteOrigin();
 export const metadata: Metadata = {
