@@ -1650,9 +1650,10 @@ html[data-theme="dark"] .skip-link{background:#F8F5EF;color:#303C25}
   .hero-predict-sizer{display:none}
 }
 @media(max-width:700px){
-  .lesson-stepper-nav ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;overflow:visible;scroll-snap-type:none}
-  .lesson-stepper-nav li{min-width:0;flex:none}
-  .lesson-stepper-nav button{padding:8px 6px;gap:5px;min-width:0}
+  /* Only when every stage fits; four or more stages keep scrolling inside the bar. */
+  .lesson-stepper-nav ol:not(:has(>li:nth-child(4))){display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;overflow:visible;scroll-snap-type:none}
+  .lesson-stepper-nav ol:not(:has(>li:nth-child(4)))>li{min-width:0;flex:none}
+  .lesson-stepper-nav ol:not(:has(>li:nth-child(4))) button{padding:8px 6px;gap:5px;min-width:0}
   .lesson-trail-note{white-space:normal}
 }
 
