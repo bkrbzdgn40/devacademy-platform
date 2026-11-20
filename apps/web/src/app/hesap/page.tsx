@@ -1,8 +1,9 @@
+import {canonicalFor} from "@/lib/site-url.mjs";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AccountPanel } from "@/components/account-panel";
 
-export const metadata: Metadata = { title: "Hesabım", description: "DevAcademy hesabın ve kaydedilen ders ilerlemen." };
+export const metadata: Metadata = { ...canonicalFor("/hesap"), title: "Hesabım", description: "DevAcademy hesabına giriş yap; tamamladığın dersleri, tahmin sonuçlarını ve tekrar bekleyen soruları tek yerde gör." };
 export default function AccountPage() {
   return <section className="shell account-page">
     <Link href="/dersler" className="back-link">← JavaScript dersleri</Link>

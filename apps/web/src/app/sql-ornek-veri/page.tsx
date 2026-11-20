@@ -1,7 +1,8 @@
+import {canonicalFor} from "@/lib/site-url.mjs";
 import type {Metadata} from "next";
 import Link from "next/link";
 
-export const metadata:Metadata={title:"SQL Temelleri · Örnek veri"};
+export const metadata:Metadata={...canonicalFor("/sql-ornek-veri"),title:"SQL Temelleri · Örnek veri",description:"SQL Temelleri kursundaki sorguların çalıştığı örnek tabloların yapısı ve satırları."};
 const customers=[{id:1,name:"Ayşe"},{id:2,name:"Bora"},{id:3,name:"Can"}];
 const orders=[
   {id:10,customer:1,amount:120,status:"teslim",date:"2026-10-01"},
