@@ -15,3 +15,21 @@ test("header navigation marks the current section with aria-current",()=>{
   assert.match(nav,/<summary aria-current=\{current\("discover"\)\}>.*<span className="nav-label"[^>]*>Keşfet<\/span><\/summary>/);
   assert.match(styles,/\.nav-links>a\[aria-current="page"\]/);
 });
+test("Keşfet menüsü dışarı tıklayınca, Escape ile ve sayfa değişince kapanır",()=>{
+  assert.match(nav,/<details ref=\{menu\} className="nav-discovery"/);
+  // Dışarıdaki herhangi bir işaretçi basışı menüyü kapatır; içerideki tıklama kapatmaz.
+  assert.match(nav,/addEventListener\("pointerdown"/);
+  assert.match(nav,/!el\.contains\(event\.target as Node\)/);
+  // Escape menüyü kapatır ve odağı Keşfet düğmesine geri verir.
+  assert.match(nav,/event\.key==="Escape"/);
+  assert.match(nav,/querySelector<HTMLElement>\("summary"\)\?\.focus\(\)/);
+  // Layout istemci gezintisinde yeniden oluşmadığı için yol değişince elle kapatılır.
+  assert.match(nav,/useEffect\(\(\)=>\{if\(menu\.current\)menu\.current\.open=false;\},\[pathname\]\)/);
+  assert.match(nav,/removeEventListener\("pointerdown"/);
+  // Bağlantıya basınca menü sayfa yüklenmesini beklemeden kapanır.
+  assert.ok(nav.includes('className="nav-discovery-links" onClick={()=>{if(menu.current)menu.current.open=false;}}'));
+});
+test("Keşfet menüsü Tab ile dışarı çıkınca kapanır",()=>{
+  assert.ok(nav.includes('document.addEventListener("focusin",onFocus)'));
+  assert.ok(nav.includes('document.removeEventListener("focusin",onFocus)'));
+});

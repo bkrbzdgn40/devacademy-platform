@@ -77,6 +77,9 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
   const [job,setJob]=useState<ExecutionJob | null>(null);
   const [error,setError]=useState("");
   const [busy,setBusy]=useState(false);
+  // Sıfırlamadan önceki kod: öğrenci yanlışlıkla bastıysa tek tıkla geri alabilir.
+  const [undoCode,setUndoCode]=useState<string|null>(null);
+  const shell=useRef<HTMLElement>(null);
   const controller=useRef<AbortController | null>(null);
   const [grammar, setGrammar] = useState<{language:EditorLanguage;extensions:GrammarExtension[];Editor:EditorComponent;theme:GrammarExtension} | null>(null);
   const ready = grammar?.language === language ? grammar : null;
@@ -147,15 +150,19 @@ export function CodePlayground({ starterCode, label = "JavaScript kod editörü"
     }
   }
 
-  return <section aria-label={label} className="editor-shell">
+  return <section ref={shell} aria-label={label} className="editor-shell">
     <div className="editor-toolbar">
       <div><strong>{displayLanguage ?? (language==="java"?"Java":language==="python"?"Python":language==="plain"?"Genel kod":"JavaScript")} editörü</strong><span>CodeMirror 6 · {language==="plain"?"Düz metin modu":(displayLanguage ?? (language==="java"?"Java":language==="python"?"Python":"JavaScript"))+" sözdizimi renklendirme"}</span></div>
-      <button type="button" onClick={()=>{setCode(starterCode);setJob(null);setError("");}} disabled={!changed} title={changed?undefined:"Kodu değiştirdiğinde etkinleşir"}>Örneği sıfırla</button>
+      <button type="button" onClick={()=>{setUndoCode(code);setCode(starterCode);setJob(null);setError("");}} disabled={!changed} title={changed?undefined:"Kodu değiştirdiğinde etkinleşir"}>Örneği sıfırla</button>
     </div>
+    {undoCode!==null&&<p className="editor-undo" role="status">Kod başlangıç örneğine döndü.
+      <button type="button" onClick={()=>{setCode(undoCode);setUndoCode(null);setJob(null);setError("");
+        // Düğme kaybolunca odak sayfa başına düşmesin: editöre dön.
+        shell.current?.querySelector<HTMLElement>(".cm-content")?.focus();}}>Geri al</button></p>}
     {ready ? <ready.Editor
       value={code} theme={ready.theme} extensions={ready.extensions} height="320px"
       basicSetup={{lineNumbers:true,highlightActiveLine:true,foldGutter:true,autocompletion:true}}
-      onChange={value=>{setCode(value);if(!busy){setJob(null);setError("");}}}
+      onChange={value=>{setCode(value);setUndoCode(null);if(!busy){setJob(null);setError("");}}}
       aria-label={label} indentWithTab={false}
     /> : <p role="status" className="editor-loading">Kod editörü yükleniyor…</p>}
     <div className="editor-footer">

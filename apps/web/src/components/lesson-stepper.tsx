@@ -1,6 +1,7 @@
 "use client";
 
 import {useEffect,useRef,useState,type KeyboardEvent,type ReactNode} from "react";
+import {replaceSearchParam} from "@/lib/url-state";
 
 export type LessonStep = {
   id:string;
@@ -11,6 +12,7 @@ export type LessonStep = {
   questionIds?:string[];
 };
 
+const STAGE_PARAM="asama";
 type Attempt={first:boolean;latest:boolean};
 type Trail={tone:"hit"|"fixed"|"miss";text:string};
 
@@ -63,12 +65,27 @@ export function LessonStepper({steps}:{steps:LessonStep[]}){
     observer.observe(nav);
     return ()=>observer.disconnect();
   },[]);
+  // Yenileme ya da geri dönüşte öğrenci kaldığı aşamaya döner (?asama=<id>).
+  useEffect(()=>{
+    const id=new URLSearchParams(window.location.search).get(STAGE_PARAM);
+    const index=id?steps.findIndex(step=>step.id===id):-1;
+    if(index<=0)return;
+    // Hidrasyondan hemen sonra uygula (gizli sekmede de çalışır); sunucu çıktısı aşama 01 ile eşleşir.
+    const timer=setTimeout(()=>{
+      setActive(index);
+      setVisited(old=>old.includes(index)?old:[...old,index]);
+    },0);
+    return ()=>clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- yalnızca ilk açılışta adresi oku
+  },[]);
   if(!steps.length)return null;
 
   function openStep(index:number,fromFooter=false){
     if(index<0||index>=steps.length)return;
     setActive(index);
     setVisited(old=>old.includes(index)?old:[...old,index]);
+    // Aşamalar geri tuşu geçmişini doldurmaz, yalnızca adres güncellenir.
+    replaceSearchParam(STAGE_PARAM,index===0?null:steps[index].id);
     requestAnimationFrame(()=>{
       const heading=document.getElementById("lesson-step-heading-"+steps[index].id);
       const panel=heading?.parentElement;
