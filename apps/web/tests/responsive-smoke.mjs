@@ -232,13 +232,13 @@ try{
     const result=await cdp.send("Runtime.evaluate",{expression:
       "(() => {const root=getComputedStyle(document.documentElement);"+
       "const button=document.querySelector('.ui-button-primary');"+
-      "const card=document.querySelector('.radar-source-list.ui-card');"+
-      "if(document.readyState!=='complete'||!button||!card)return null;"+
+      "if(document.readyState!=='complete'||!button)return null;"+
+      "const card=(()=>{const el=Object.assign(document.createElement('div'),{className:'ui-card'});document.body.append(el);const bg=getComputedStyle(el).backgroundColor;el.remove();return bg;})();"+
       "return {scheme:root.colorScheme,olive:root.getPropertyValue('--color-olive-800').trim(),"+
       "canvas:root.getPropertyValue('--color-cream').trim(),"+
       "text:getComputedStyle(document.body).color,"+
       "action:getComputedStyle(button).backgroundColor,"+
-      "card:getComputedStyle(card).backgroundColor};})()",
+      "card};})()",
       returnByValue:true},sessionId);
     return result.result?.value||null;
   },"Olive Earth palette not loaded in production browser");
@@ -334,10 +334,10 @@ try{
   const darkColors=await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
       "(() => {const root=document.documentElement; const style=getComputedStyle(root);"+
-      "const panel=document.querySelector('.radar-source-list.ui-card');"+
+      "const panel=(()=>{const el=Object.assign(document.createElement('div'),{className:'ui-card'});document.body.append(el);const bg=getComputedStyle(el).backgroundColor;el.remove();return bg;})();"+
       "const button=document.querySelector('.ui-button-primary');"+
       "return {scheme:style.colorScheme,background:getComputedStyle(document.body).color,"+
-      "panel:getComputedStyle(panel).backgroundColor,action:getComputedStyle(button).backgroundColor,"+
+      "panel,action:getComputedStyle(button).backgroundColor,"+
       "trigger:document.querySelector('.theme-control-trigger').textContent.trim(),"+
       "overflow:root.scrollWidth>root.clientWidth+1};})()",
       returnByValue:true},sessionId);

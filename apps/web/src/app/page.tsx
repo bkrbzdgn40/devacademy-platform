@@ -63,7 +63,7 @@ export default function Home() {
       <SectionHeading id="explore-title" title="Neyi öğrenmek istiyorsun?" description="Diller, kavramlar ve teknolojiler arasındaki bağlantıları gör."/>
       <ul className="home-explore-list">{sections.map(kind => {
         const info = categoryInfo[kind];
-        return <li key={kind}><Link href={info.href} className="feature-card ui-card home-explore-row">
+        return <li key={kind}><Link href={info.href} className="feature-card home-explore-row">
           <h3>{info.title}</h3><p>{info.description}</p><span className="home-explore-count">{catalog.filter((item) => item.kind === kind).length} başlık</span><span className="home-explore-arrow" aria-hidden="true">→</span>
         </Link></li>;
       })}</ul>
@@ -76,7 +76,7 @@ export default function Home() {
         <StatusPill tone="olive">Sektör Radarı aktif</StatusPill>
         <Link href="/radar" className="ui-button ui-button-primary">Haber akışını aç</Link>
       </div>
-      <ul className="radar-source-list ui-card">{sources.map(source=><li className="radar-source radar-source-row" key={source.key}>
+      <ul className="radar-source-list">{sources.map(source=><li className="radar-source radar-source-row" key={source.key}>
         <h3>{source.title}</h3><p>{source.text}</p>
         <a href={source.href} target="_blank" rel="noopener noreferrer" aria-label={"Kaynağa git: "+source.title+" (yeni sekmede açılır)"}>Kaynağa git <span aria-hidden="true">↗</span></a>
       </li>)}</ul>

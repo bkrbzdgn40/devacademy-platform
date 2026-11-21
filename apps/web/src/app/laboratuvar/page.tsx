@@ -13,7 +13,7 @@ export default function LabPage(){
     <div className="availability-note">Kodlar burada çalıştırılmaz. Güvenlik sınırı kanıtlanana kadar çalıştırma işlevi kapalıdır.</div>
     <div className="lab-layout">
       <CodePlayground starterCode={sample}/>
-      <aside className="ui-card lab-aside" aria-label="Editör rehberi">
+      <aside className="lab-aside" aria-label="Editör rehberi">
         <p className="overline">Çalışma alanı notu</p>
         <h2>Bu editör ne için?</h2>
         <p>Sözdizimini okumak, kendi çözüm taslağını yazmak ve kod yapısını görmek için açık bir CodeMirror alanıdır.</p>

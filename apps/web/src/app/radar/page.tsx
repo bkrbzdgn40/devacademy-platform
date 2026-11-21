@@ -52,7 +52,7 @@ export default async function RadarPage({searchParams}:Props){
     <section className="radar-health" aria-labelledby="radar-health-title">
       <h2 id="radar-health-title">Kaynakların durumu</h2>
       <div className="radar-health-grid">
-        {feed.sources.map(s=><article key={s.key} className="radar-health-card ui-card">
+        {feed.sources.map(s=><article key={s.key} className="radar-health-card">
           <div className="radar-health-head"><strong>{s.name}</strong>
             <span className={`radar-health-tag radar-status-${s.status}`}>{statusLabel[s.status]??s.status}</span>
           </div>
@@ -86,7 +86,7 @@ export default async function RadarPage({searchParams}:Props){
         <p>Kaynakların erişimi, son yayın tarihleri veya konu eşleştirmeleri nedeniyle liste boş olabilir. Eski başlıkları güncelmiş gibi göstermiyoruz.</p>
         <Link href="/radar">Tüm konulara dön →</Link>
       </div>:items.length>0&&
-        <div className="radar-article-grid">{items.map(item=>{const check=feed.sources.find(s=>s.key===item.source);return <article key={item.id} className="radar-article ui-card">
+        <div className="radar-article-grid">{items.map(item=>{const check=feed.sources.find(s=>s.key===item.source);return <article key={item.id} className="radar-article">
           <div className="radar-article-meta">
             <span>{radarSources.find(s=>s.key===item.source)?.name}</span>
             <span>{radarSources.find(s=>s.key===item.source)?.kind}</span>

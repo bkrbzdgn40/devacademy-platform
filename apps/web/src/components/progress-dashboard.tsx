@@ -30,7 +30,7 @@ export function ProgressDashboard({progress}:Props){
       note:"Yalnızca yetkili yerel laboratuvarın açık ve gizli testleri."}
   ];
   return <div className="learning-dashboard">
-    <section className="learning-next-action ui-card" aria-labelledby="learning-next-title">
+    <section className="learning-next-action" aria-labelledby="learning-next-title">
       <div className="learning-next-copy">
         <span className="ui-eyebrow">{recommendation.eyebrow}</span>
         <h2 id="learning-next-title">{recommendation.title}</h2>
@@ -49,16 +49,16 @@ export function ProgressDashboard({progress}:Props){
       </div>
     </section>
     <div className="dashboard-stats">
-      <div className="dashboard-stat ui-card"><span>Tamamlanan dersler</span><strong>{s.completed}/{s.total}</strong></div>
+      <div className="dashboard-stat"><span>Tamamlanan dersler</span><strong>{s.completed}/{s.total}</strong></div>
       <div className="dashboard-stat"><span>Başlanan dersler</span><strong>{s.started}</strong></div>
       <div className="dashboard-stat"><span>Son kayıtlı denemeler</span><strong>{s.recentAttemptCount}</strong></div>
       <div className="dashboard-stat"><span>Son denemelerde başarı</span><strong>{s.recentCorrectPercent===null?"Henüz yok":`%${s.recentCorrectPercent}`}</strong></div>
     </div>
-    <div className="dashboard-overall ui-card"><div className="dashboard-progress-label"><strong>Öğrenme yolu ilerlemesi</strong><span>%{s.percent}</span></div>
+    <div className="dashboard-overall"><div className="dashboard-progress-label"><strong>Öğrenme yolu ilerlemesi</strong><span>%{s.percent}</span></div>
       <progress aria-label="Tamamlanan ders yüzdesi" max={Math.max(1,allLessons.length)} value={s.completed}>{s.percent}%</progress>
       <p>Deneme başarı oranı sadece son {s.recentAttemptCount} kayıtlı sonucu (en fazla 50) kapsar. Ders ilerlemesi tüm dersler üzerinden hesaplanır.</p>
     </div>
-    <aside className="dashboard-reviews ui-card" aria-label="Kişisel tekrar planı">
+    <aside className="dashboard-reviews" aria-label="Kişisel tekrar planı">
        <strong>Zamanlanmış tekrar</strong>
        <p>{progress.reviewSummary?.due??0} soru bugün tekrar bekliyor · {progress.reviewSummary?.total??0} soru takip ediliyor</p>
        <Link href="/tekrar">Tekrar oturumuna başla →</Link>
@@ -70,7 +70,7 @@ export function ProgressDashboard({progress}:Props){
       <p><strong>{progress.codeTransferSummary?.verified??0} kavram</strong> için bağımsız kod üretimi davranış kanıtı. Bu kayıt yalnızca yerel Docker laboratuvarında geçen açık ve gizli testlere dayanır.</p>
     </aside>
     <h3>Kursların ve derslerin</h3>
-    {courses.map(course=><section key={course.id} aria-label={course.title} className="dashboard-course ui-card">
+    {courses.map(course=><section key={course.id} aria-label={course.title} className="dashboard-course">
       <h4><Link href={"/kurslar/"+course.slug}>{course.title}</Link></h4>
       {(()=>{
         const items=lessonsForCourse(course);

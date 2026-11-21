@@ -1907,3 +1907,131 @@ html[data-theme="dark"] .availability-note{background:var(--ui-surface-muted);bo
 @media(max-width:960px){
   .lab-layout,.account-layout{grid-template-columns:1fr}
 }
+
+/* M8.7 | Fihrist dili tüm sitede. Ders yolu fihristindeki dil kalan kutu kartlara taşınır:
+   (1) listeler ince çizgili satırlar, (2) eş ızgaralar gazete sütunları,
+   (3) tekil paneller üst çizgili "kenar notu". Arka plan, çerçeve, yuvarlak köşe ve gölge yok.
+   Kapsam dışı: quiz-card, kod/stüdyo yüzeyleri, arama formu, butonlar, filtre çipleri. */
+
+/* 1 | Listeler: ders listesi, keşif satırları, Radar kaynakları, kütüphane, pano kursları. */
+.lesson-list{gap:0;border-top:1px solid var(--ui-border-strong)}
+.lesson-list>*{border-bottom:1px solid var(--ui-border)}
+.lesson-list .lesson-item{background:transparent;border:0;border-radius:0;box-shadow:none;transform:none;
+  align-items:flex-start;gap:28px;padding:24px 0}
+.lesson-list .lesson-item:is(:hover,:focus-visible){background:transparent;box-shadow:none;transform:none}
+.lesson-list .lesson-number{font:300 2.6rem/.9 var(--font-display);letter-spacing:-.04em;width:3.4rem;
+  font-variant-numeric:lining-nums tabular-nums;
+  color:color-mix(in srgb,var(--color-terracotta-700) 45%,transparent);
+  transition:color var(--motion-quick),transform var(--motion-normal) ease-out}
+.lesson-list .lesson-item:is(:hover,:focus-visible) .lesson-number{color:var(--color-terracotta-700);transform:translateX(4px)}
+.lesson-list .lesson-item-body strong{font-family:var(--font-display);font-weight:600;font-size:1.3rem;line-height:1.25}
+.lesson-list .lesson-item:is(:hover,:focus-visible) .lesson-item-body strong{text-decoration:underline;
+  text-decoration-thickness:1px;text-underline-offset:5px}
+.lesson-list .lesson-item-body small{font-family:var(--font-code);font-size:12px}
+.lesson-list .lesson-arrow{align-self:center;transition:transform var(--motion-quick)}
+.lesson-list .lesson-item:is(:hover,:focus-visible) .lesson-arrow{transform:translateX(4px)}
+
+.home-explore-list{border-top-color:var(--ui-border-strong)}
+.home-explore-list .feature-card.home-explore-row:is(:hover,:focus-visible){background:transparent}
+.home-explore-list .home-explore-row:is(:hover,:focus-visible) h3{text-decoration:underline;
+  text-decoration-thickness:1px;text-underline-offset:5px}
+.home-explore-count{font-family:var(--font-code);font-weight:500}
+
+.radar-source-list{padding:0;border-radius:0;background:transparent;box-shadow:none;
+  border-top:1px solid var(--ui-border-strong);border-bottom:1px solid var(--ui-border)}
+
+.catalog-grid{gap:40px 32px}
+.catalog-grid .catalog-card{background:transparent;border:0;border-top:2px solid var(--ui-ink);border-radius:0;
+  box-shadow:none;transform:none;min-height:0;padding:16px 0 4px}
+.catalog-grid .catalog-card:hover{border-color:var(--ui-action);box-shadow:none;transform:none}
+.catalog-grid .catalog-card h2{font-family:var(--font-display);margin-top:12px}
+.catalog-grid :is(.level-chip,.locked-chip){background:transparent;border:0;border-radius:0;padding:0;
+  font:500 11.5px/1.5 var(--font-code)}
+.catalog-grid .catalog-top{gap:14px}
+.catalog-grid .tags{gap:0 10px}
+.catalog-grid .tags span{background:transparent;border:0;border-radius:0;padding:0;
+  font:500 11.5px/1.6 var(--font-code);color:var(--ui-ink-subtle)}
+.catalog-grid .tags span+span::before{content:"·";margin-right:10px;color:var(--ui-border-strong)}
+
+.dashboard-course{border-top:1px solid var(--ui-border-strong);padding:20px 0 4px;min-width:0}
+.dashboard-course h4{font:600 1.3rem/1.25 var(--font-display);margin:0}
+.dashboard-course h4 a:hover{text-decoration:underline;text-underline-offset:4px}
+.dashboard-course-signal{border:0;border-left:2px solid var(--ui-action);border-radius:0;
+  background:transparent;padding:2px 0 2px 14px}
+
+/* 2 | Eş ızgaralar: gazete sütunları ve künye satırları. */
+.radar-health-grid{gap:0;border-top:1px solid var(--ui-border-strong);border-bottom:1px solid var(--ui-border)}
+.radar-health-card{padding:18px 22px 20px;background:transparent;border:0;border-radius:0;box-shadow:none}
+.radar-health-card+.radar-health-card{border-left:1px solid var(--ui-border)}
+.radar-health-card:first-child{padding-left:0}
+.radar-health-card strong{font:600 1.15rem var(--font-display)}
+.radar-health-card .radar-health-tag{background:transparent;border-radius:0;padding:0;
+  display:inline-flex;align-items:center;gap:7px;font:600 11.5px/1.4 var(--font-code)}
+.radar-health-card .radar-health-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+
+.radar-article-grid{gap:44px 36px}
+.radar-article{padding:18px 0 0;background:transparent;border:0;border-top:2px solid var(--ui-ink);
+  border-radius:0;box-shadow:none}
+.radar-article-meta{font-family:var(--font-code);font-weight:500}
+
+.dashboard-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;
+  border-top:1px solid var(--ui-border-strong);border-bottom:1px solid var(--ui-border)}
+.dashboard-stats>.dashboard-stat{background:transparent;border:0;border-radius:0;box-shadow:none;
+  padding:16px 18px;align-content:start}
+.dashboard-stats>.dashboard-stat+.dashboard-stat{border-left:1px solid var(--ui-border)}
+.dashboard-stats>.dashboard-stat:first-child{padding-left:0}
+.dashboard-stats>.dashboard-stat span{font:500 11.5px/1.45 var(--font-code)}
+.dashboard-stats>.dashboard-stat strong{font:400 clamp(1.6rem,2.4vw,2.1rem)/1.1 var(--font-display);
+  letter-spacing:-.02em}
+
+.discovery-facts{gap:0;border-top:1px solid var(--ui-border-strong);border-bottom:1px solid var(--ui-border)}
+.discovery-facts span{background:transparent;border:0;border-radius:0;padding:12px 22px;
+  font:500 12px/1.5 var(--font-code)}
+.discovery-facts span+span{border-left:1px solid var(--ui-border)}
+.discovery-facts span:first-child{padding-left:0}
+.discovery-facts strong{font-weight:400;font-size:1.6rem}
+
+/* 3 | Tekil paneller: üst çizgili kenar notu. Eylem çağıranlar (devam et, sıradaki adım) eylem renginde. */
+:is(.journey-card,.learning-next-action,.dashboard-overall,.dashboard-reviews,.discovery-guidance,
+  .lab-aside,.account-aside,.completion-card,.review-card,.account-section,.radar-empty,
+  .radar-related,.radar-method,.explorer-empty){background:transparent;border:0;
+  border-top:2px solid var(--ui-ink);border-radius:0;box-shadow:none;padding:20px 0 0}
+:is(.journey-card,.learning-next-action){border-top-color:var(--ui-action)}
+.account-section.danger-section{border-top-color:var(--color-critical)}
+html[data-theme="dark"] :is(.review-card,.dashboard-reviews){border-top-color:var(--ui-ink)}
+html[data-theme="dark"] .account-section.danger-section{border-top-color:var(--color-critical)}
+.radar-related>summary{padding-inline:0}
+.radar-related>p{margin-inline:0}
+.radar-related ul{padding-inline:0}
+.learning-next-context{background:transparent;border:0;border-left:1px solid var(--ui-border);
+  border-radius:0;padding:0 0 0 clamp(18px,3vw,32px)}
+.journey-courses{gap:0 22px}
+.journey-course{background:transparent;border:0;border-top:1px solid var(--ui-border);border-radius:0;
+  padding:10px 0 0}
+.journey-course:hover{border-color:var(--ui-action)}
+
+@media(max-width:850px){
+  .learning-next-context{border-left:0;border-top:1px solid var(--ui-border);padding:16px 0 0}
+}
+@media(max-width:760px){
+  .radar-health-card,.radar-health-card:first-child{padding:16px 0}
+  .radar-health-card+.radar-health-card{border-left:0;border-top:1px solid var(--ui-border)}
+  .radar-article{padding:16px 0 0}
+}
+@media(max-width:700px){.radar-source-list{padding:0}}
+@media(max-width:680px){
+  .lesson-list .lesson-item{gap:16px;padding:20px 0}
+  .lesson-list .lesson-number{font-size:1.75rem;width:2.4rem}
+  .lesson-list .lesson-item-body strong{font-size:1.12rem}
+  .dashboard-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dashboard-stats>.dashboard-stat,.dashboard-stats>.dashboard-stat:first-child{padding:14px 14px 14px 0}
+  .dashboard-stats>.dashboard-stat:nth-child(odd){border-left:0}
+  .dashboard-stats>.dashboard-stat:nth-child(even){padding-left:14px}
+  .dashboard-stats>.dashboard-stat:nth-child(n+3){border-top:1px solid var(--ui-border)}
+  .discovery-facts span{padding:10px 14px}
+  .journey-courses{grid-template-columns:1fr}
+  :is(.journey-card,.learning-next-action){padding:18px 0 0}
+}
+@media(prefers-reduced-motion:reduce){
+  .lesson-list .lesson-item:is(:hover,:focus-visible) :is(.lesson-number,.lesson-arrow){transform:none}
+}
