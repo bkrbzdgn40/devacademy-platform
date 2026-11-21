@@ -4,100 +4,100 @@
   "cases": [
     {
       "lessonId": "lesson.python.variables",
-      "concept": "Değişkenler ve tür dönüşümü",
+      "concept": "Ondalıklı metin, float ve iki basamaklı biçim",
       "forms": [
         {
           "id": "A",
-          "title": "Kantin fişi",
-          "context": "Fiyat bir metin olarak alınmıştır. İndirim düşüldükten sonra ekrana ne yazılır?",
-          "code": "price_text = \"18\"\nquantity = 3\ndiscount = 4\nprint(int(price_text) * quantity - discount)",
-          "expected": "50",
-          "reasoningKey": "int dönüşümü metni sayıya çevirir; 18×3−4=50.",
-          "likelyError": "Metin birleştirmesi yapıldığını sanmak veya indirimi unutturmak."
+          "title": "Koşu antrenmanı",
+          "context": "Tur uzunluğu formdan metin olarak geliyor. Isınma eklendikten sonra ekrana tam olarak ne yazılır?",
+          "code": "lap_km_text = \"2.40\"\nlaps = 3\nwarmup_km = 0.5\nprint(f\"{float(lap_km_text) * laps + warmup_km:.2f}\")",
+          "expected": "7.70",
+          "reasoningKey": "float metni ondalıklı sayıya çevirir; 2.4×3+0.5=7.7 ve :.2f iki basamakla 7.70 yazar.",
+          "likelyError": "Metnin tekrarlandığını sanmak ya da :.2f sonucunu 7.7 diye yazmak."
         },
         {
           "id": "B",
-          "title": "Bisiklet kiralama",
-          "context": "Saatlik ücret metin olarak geliyor. Kupon düşüldükten sonraki çıktıyı hesapla.",
-          "code": "hourly_text = \"16\"\nhours = 4\ncoupon = 3\nprint(int(hourly_text) * hours - coupon)",
-          "expected": "61",
-          "reasoningKey": "int dönüşümü sonrası 16×4−3=61.",
-          "likelyError": "str ile int işlem hatası veya çarpma yerine toplama varsaymak."
+          "title": "Günlük su takibi",
+          "context": "Bardak hacmi metin olarak kaydedilmiş. Ek su eklendikten sonra ekranda hangi değer görünür?",
+          "code": "glass_l_text = \"1.25\"\nglasses = 4\nextra_l = 0.3\nprint(f\"{float(glass_l_text) * glasses + extra_l:.2f}\")",
+          "expected": "5.30",
+          "reasoningKey": "float dönüşümü sonrası 1.25×4+0.3=5.3; :.2f biçimi bunu 5.30 olarak yazar.",
+          "likelyError": "int() kullanılmış gibi ondalığı atmak ya da sondaki sıfırı yazmamak."
         },
         {
           "id": "C",
-          "title": "Bilet satışı",
-          "context": "Bilet fiyatı metin olarak geliyor. Kampanya indirimi sonrası çıktıyı bul.",
-          "code": "ticket_text = \"21\"\ncount = 2\npromotion = 5\nprint(int(ticket_text) * count - promotion)",
-          "expected": "37",
-          "reasoningKey": "int dönüşümü sonrası 21×2−5=37.",
-          "likelyError": "Metni sayıya çevirmeden aritmetik yapıldığını varsaymak."
+          "title": "Kumaş kesimi",
+          "context": "Parça uzunluğu metin olarak ölçülmüş. Yedek pay eklendikten sonra ekrana ne yazılır?",
+          "code": "piece_m_text = \"0.75\"\npieces = 6\nspare_m = 1.2\nprint(f\"{float(piece_m_text) * pieces + spare_m:.2f}\")",
+          "expected": "5.70",
+          "reasoningKey": "float dönüşümü sonrası 0.75×6+1.2=5.7; :.2f biçimi iki basamakla 5.70 yazar.",
+          "likelyError": "Biçimlendirmenin sayıyı yuvarlayıp 6 yazdığını ya da 5.7 bıraktığını sanmak."
         }
       ]
     },
     {
       "lessonId": "lesson.python.conditions",
-      "concept": "Sıralı koşul ve and",
+      "concept": "Kademeli koşul sırası ve sınır değeri",
       "forms": [
         {
           "id": "A",
-          "title": "Kargo önceliği",
-          "context": "Sıcaklık 25 değil. İkinci koşul değerlendirilince ne yazılır?",
-          "code": "temperature = 20\nexpress = True\nif temperature >= 25:\n    print(\"Sıcak\")\nelif express and temperature >= 18:\n    print(\"Öncelikli\")\nelse:\n    print(\"Normal\")",
-          "expected": "Öncelikli",
-          "reasoningKey": "İlk koşul yanlış; iki alt koşul doğru olduğundan elif çalışır.",
-          "likelyError": "elif'in atlandığını veya >=25 sağlandığını sanmak."
+          "title": "Su deposu göstergesi",
+          "context": "Depo seviyesi tam olarak bir eşik değerinde. Zincirde hangi dal çalışır ve ne yazılır?",
+          "code": "level = 20\nif level >= 50:\n    print(\"Yeşil\")\nelif level >= 20:\n    print(\"Sarı\")\nelse:\n    print(\"Kırmızı\")",
+          "expected": "Sarı",
+          "reasoningKey": "İlk koşul yanlış; >= sınırı dahil ettiği için 20 >= 20 doğrudur ve ilk doğru dal Sarı'dır.",
+          "likelyError": ">= yerine > varmış gibi sınır değerini alt kademeye, Kırmızı'ya atmak."
         },
         {
           "id": "B",
-          "title": "Üyelik indirimi",
-          "context": "Alışveriş 150 altında. Üyelik kuralını izleyip çıktıyı bul.",
-          "code": "subtotal = 110\nmember = True\nif subtotal >= 150:\n    print(\"Ücretsiz\")\nelif member and subtotal >= 100:\n    print(\"İndirimli\")\nelse:\n    print(\"Standart\")",
-          "expected": "İndirimli",
-          "reasoningKey": "İlk dal yanlış; üye ve 100 sınırı birlikte doğru.",
-          "likelyError": "Bir if dalı yanlışsa doğrudan else çalışır sanmak."
+          "title": "Sınav notu kademesi",
+          "context": "Not, en üst kademenin sınırına tam eşit. Zincirde ilk doğru koşulu bul ve çıktıyı yaz.",
+          "code": "score = 85\nif score >= 85:\n    print(\"Pekiyi\")\nelif score >= 70:\n    print(\"İyi\")\nelse:\n    print(\"Geçti\")",
+          "expected": "Pekiyi",
+          "reasoningKey": "85 >= 85 doğrudur; zincirde ilk doğru dal çalışır, sonraki elif hiç denetlenmez.",
+          "likelyError": "Sınırda olan değerin bir alt kademeye düştüğünü ya da iki dalın da çalıştığını sanmak."
         },
         {
           "id": "C",
-          "title": "Pil yönetimi",
-          "context": "Pil yüzde 60 altında. Tasarruf koşuluna göre çıktı nedir?",
-          "code": "battery = 35\nsaver = True\nif battery >= 60:\n    print(\"Normal\")\nelif saver and battery >= 30:\n    print(\"Tasarruf\")\nelse:\n    print(\"Uyarı\")",
-          "expected": "Tasarruf",
-          "reasoningKey": "İlk dal yanlış; saver True ve pil >=30, elif çalışır.",
-          "likelyError": "and iki koşulunu ayrı ayrı kontrol etmemek."
+          "title": "Rüzgâr uyarısı",
+          "context": "Rüzgâr hızı orta kademenin sınırının hemen altında. Hangi uyarı yazılır?",
+          "code": "speed = 39\nif speed >= 62:\n    print(\"Fırtına\")\nelif speed >= 40:\n    print(\"Kuvvetli\")\nelse:\n    print(\"Hafif\")",
+          "expected": "Hafif",
+          "reasoningKey": "39 iki eşiğin de altında kalır; hiçbir koşul doğru olmadığı için else dalı çalışır.",
+          "likelyError": "39 ile 40'ı yaklaşık sayıp Kuvvetli dalının çalıştığını düşünmek."
         }
       ]
     },
     {
       "lessonId": "lesson.python.loops",
-      "concept": "Döngüde continue ve negatifleri atlama",
+      "concept": "continue ile geçersiz kaydı atlayıp sayma",
       "forms": [
         {
           "id": "A",
-          "title": "Kafe satışları",
-          "context": "Negatif kayıtlar iadedir, sıfır geçerlidir. Sonuç kaçtır?",
-          "code": "sales = [5, -1, 0, 9]\ntotal = 0\nfor value in sales:\n    if value < 0:\n        continue\n    total += value\nprint(total)",
-          "expected": "14",
-          "reasoningKey": "-1 atlanır; 5+0+9=14. Negatif kayıt continue ile döngünün toplam adımından çıkarılır.",
-          "likelyError": "continue sonrası toplanmayan negatif kaydı toplamaya katmak."
+          "title": "Kütüphane ziyaretleri",
+          "context": "Negatif kayıtlar hatalı girilmiş, sıfır geçerli bir gündür. Kaç geçerli gün sayılır?",
+          "code": "visits = [3, -1, 0, 5, -2]\nvalid_days = 0\nfor visit in visits:\n    if visit < 0:\n        continue\n    valid_days += 1\nprint(valid_days)",
+          "expected": "3",
+          "reasoningKey": "continue negatif turda sayacı atlar; 3, 0 ve 5 geçerlidir, sayaç 3 olur. Değerler toplanmaz.",
+          "likelyError": "Değerleri toplayıp 8 yazmak ya da sıfırı geçersiz sayıp 2 yazmak."
         },
         {
           "id": "B",
-          "title": "Depo tarayıcısı",
-          "context": "Negatif kayıt hatadır, sıfır geçerlidir. Toplamı tahmin et.",
-          "code": "units = [3, -4, 6, 0]\ntotal = 0\nfor unit in units:\n    if unit < 0:\n        continue\n    total += unit\nprint(total)",
-          "expected": "9",
-          "reasoningKey": "-4 atlanır; 3+6+0=9. Negatif kayıt continue ile döngünün toplam adımından çıkarılır.",
-          "likelyError": "Negatif değeri dahil etmek veya sıfırı geçersiz sanmak."
+          "title": "Kuş gözlem defteri",
+          "context": "Negatif sayımlar okunamayan sayfalardır, sıfır gerçek bir gözlemdir. Kaç kayıt geçerli?",
+          "code": "sightings = [-1, 0, 7, -4]\nvalid = 0\nfor seen in sightings:\n    if seen < 0:\n        continue\n    valid += 1\nprint(valid)",
+          "expected": "2",
+          "reasoningKey": "-1 ve -4 turlarında continue sayacı atlar; 0 ve 7 geçerli olduğundan sonuç 2'dir.",
+          "likelyError": "Listenin uzunluğunu, 4, yazmak ya da sıfırı atlayıp 1 yazmak."
         },
         {
           "id": "C",
-          "title": "Sıcaklık günlüğü",
-          "context": "Negatif kayıtlar geçersiz. Yazdırılan toplamı bul.",
-          "code": "readings = [0, 8, -2, 7]\nsum_valid = 0\nfor reading in readings:\n    if reading < 0:\n        continue\n    sum_valid += reading\nprint(sum_valid)",
-          "expected": "15",
-          "reasoningKey": "-2 atlanır; 0+8+7=15. Negatif kayıt continue ile döngünün toplam adımından çıkarılır.",
-          "likelyError": "continue ifadesinin kalan gövdeyi atladığını kaçırmak."
+          "title": "Adım sayar günlüğü",
+          "context": "Cihazın yazdığı negatif değerler arızadır, sıfır adım geçerlidir. Geçerli gün sayısı kaçtır?",
+          "code": "steps = [6, 0, 0, -5, 2]\ndays = 0\nfor step in steps:\n    if step < 0:\n        continue\n    days += 1\nprint(days)",
+          "expected": "4",
+          "reasoningKey": "Yalnızca -5 turunda continue sayacı atlar; kalan dört değer, iki sıfır dahil, sayılır.",
+          "likelyError": "Adımları toplayıp 8 yazmak ya da iki sıfırı geçersiz sayıp 2 yazmak."
         }
       ]
     },
@@ -136,34 +136,34 @@
     },
     {
       "lessonId": "lesson.python.collections",
-      "concept": "Sözlük get varsayılanı ve anahtar okuma",
+      "concept": "Sözlükte get varsayılanı ile liste kurma",
       "forms": [
         {
           "id": "A",
-          "title": "Kırtasiye sayımı",
-          "context": "Listede olmayan ürüne get ile sıfır varsayılıyor. Ekrana ne yazılır?",
-          "code": "stock = {\"kalem\": 2, \"defter\": 5}\nprint(stock.get(\"silgi\", 0) + stock[\"kalem\"])",
-          "expected": "2",
-          "reasoningKey": "Eksik silgi varsayılan 0; kalem değeri 2; toplam 2.",
-          "likelyError": "get olmayan anahtarda KeyError verir sanmak."
+          "title": "Okul kulüpleri",
+          "context": "Sorulan kulüplerin üye sayıları sırayla bir listeye yazılıyor. Kayıtsız kulüp de soruluyor. Çıktı nedir?",
+          "code": "members = {\"satranç\": 12, \"robotik\": 8}\nasked = [\"robotik\", \"drama\", \"satranç\"]\nprint([members.get(club, 0) for club in asked])",
+          "expected": "[8, 0, 12]",
+          "reasoningKey": "Liste asked sırasıyla kurulur; drama anahtarı olmadığından get KeyError vermez, 0 döndürür.",
+          "likelyError": "Eksik anahtarın atlandığını sanıp [8, 12] yazmak ya da sözlük sırasını kullanmak."
         },
         {
           "id": "B",
-          "title": "Mutfak stoğu",
-          "context": "Eksik ürün ve mevcut ürünün değerleri toplanıyor. Sonuç nedir?",
-          "code": "inventory = {\"çay\": 4, \"süt\": 1}\nprint(inventory.get(\"pirinç\", 0) + inventory[\"süt\"])",
-          "expected": "1",
-          "reasoningKey": "Pirinç eksik → 0, süt 1 → toplam 1.",
-          "likelyError": "get varsayılanını var olan ürünün değerine uygulamak."
+          "title": "Bitki sulama planı",
+          "context": "Her bitki için haftalık sulama sayısı listeleniyor. Plan dışı bir bitki de var. Ekrana ne yazılır?",
+          "code": "waterings = {\"fesleğen\": 2, \"nane\": 3}\nplants = [\"nane\", \"kaktüs\"]\nprint([waterings.get(plant, 0) for plant in plants])",
+          "expected": "[3, 0]",
+          "reasoningKey": "nane için 3 okunur; kaktüs sözlükte olmadığı için get varsayılan 0'ı listeye ekler.",
+          "likelyError": "Eksik bitki için KeyError beklemek ya da None yazıldığını sanmak."
         },
         {
           "id": "C",
-          "title": "Etkinlik biletleri",
-          "context": "Olmayan türün varsayılanını, mevcut biletle topla.",
-          "code": "tickets = {\"yetişkin\": 3, \"çocuk\": 7}\nprint(tickets.get(\"öğrenci\", 0) + tickets[\"çocuk\"])",
-          "expected": "7",
-          "reasoningKey": "Öğrenci anahtarı yok → 0, çocuk 7 → toplam 7.",
-          "likelyError": "Sözlüğün ilk değerinin otomatik seçildiğini düşünmek."
+          "title": "Haftalık ders saatleri",
+          "context": "Programdaki derslerin saatleri sırayla toplanıyor; aynı eksik ders iki kez geçiyor. Çıktı nedir?",
+          "code": "hours = {\"matematik\": 5, \"müzik\": 1}\nweek = [\"müzik\", \"resim\", \"resim\"]\nprint([hours.get(lesson, 0) for lesson in week])",
+          "expected": "[1, 0, 0]",
+          "reasoningKey": "Her eleman için ayrı get çağrılır; resim iki kez geçtiği için listeye iki kez 0 eklenir.",
+          "likelyError": "Tekrarlanan dersi bir kez sayıp [1, 0] yazmak ya da eksik dersleri atlamak."
         }
       ]
     }
