@@ -10,7 +10,7 @@ test("every independent concept has one authored, revision-pinned code task",()=
     assert.ok(supportsCodeTransfer(lessonId));
     const task=publicCodeTransferTask(lessonId);
     assert.ok(task?.starterCode?.length>20);
-    assert.equal(task.revision,1);
+    assert.ok(Number.isInteger(task.revision) && task.revision>=1);
     assert.equal(task.publicCases.length,2);
     assert.ok(["javascript","python","java"].includes(task.language));
     assert.ok(practice.some(x=>x.id===task.id));

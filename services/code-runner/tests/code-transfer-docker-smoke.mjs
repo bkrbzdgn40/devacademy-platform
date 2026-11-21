@@ -16,7 +16,7 @@ const solutions=[
   ["transfer.js.functions","nodejs-24",
    "function computePaceScore(laps,perLap=15,bonus=5){return laps*perLap+bonus;}"],
   ["transfer.js.scope","nodejs-24",
-   "function trackQuota(initialQuota,localQuota,globalDelta){let quota=initialQuota;let localResult;{let quota=localQuota+2;localResult=quota;}quota+=globalDelta;return [localResult,quota];}"],
+   "function weeklyPeaks(weeks){const peaks=[];let overall=null;for(const week of weeks){let peak=-Infinity;for(const t of week){if(t>peak)peak=t;}peaks.push(peak);if(overall===null||peak>overall)overall=peak;}return [peaks,overall];}"],
   ["transfer.js.filter","nodejs-24",
    "function sumQualifiedOrders(amounts,minAmount){return amounts.filter(n=>n>=minAmount).reduce((s,n)=>s+n,0);}"],
   ["transfer.js.async","nodejs-24",

@@ -30,7 +30,7 @@ try {
     }
     verified++;
   }
-  console.log("Java reviewed snippets PASS: "+verified+" javac/java runs, all six answer keys agree.");
+  console.log("Java reviewed snippets PASS: "+verified+" javac/java runs; every graded answer key matches the real Java output.");
 }finally{
   await rm(dir,{recursive:true,force:true,maxRetries:3,retryDelay:100});
 }

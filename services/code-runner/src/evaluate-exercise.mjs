@@ -9,16 +9,24 @@ export function validExercise(id, revision) {
   return typeof id==="string" && Number.isInteger(revision) &&
     Object.hasOwn(caseBank,id) && caseBank[id].revision===revision;
 }
-export function harness(source,functionName,args) {
+export function harness(source,functionName,args,{requirePromise=false}={}) {
   if(!/^[a-zA-Z_$][\w$]*$/.test(functionName))throw Error("INVALID_ENTRYPOINT");
   if(typeof source!=="string" || Buffer.byteLength(source,"utf8")>MAX_SUBMISSION_BYTES || !source.trim())
     throw Error("INVALID_SUBMISSION");
   // No secret expected values, hidden-case names or scoring code are sent to the sandbox.
-  const program="const __fn = (() => { \"use strict\";\n"+source+"\n; return typeof "+functionName+"===\"function\" ? "+functionName+" : null; })();\n"+
-    "if(!__fn){process.stderr.write(\"Missing required function\");process.exitCode=1;}\n"+
-    "else {Promise.resolve().then(()=>__fn(..."+JSON.stringify(args)+")).then(v=>{"+
+  const settle=".then(v=>{"+
     "if(v===undefined || typeof v===\"bigint\"){process.stderr.write(\"Unsupported result\");process.exitCode=1;return;}"+
-    "process.stdout.write(JSON.stringify(v));}).catch(()=>{process.stderr.write(\"Function threw an error\");process.exitCode=1;});}\n";
+    "process.stdout.write(JSON.stringify(v));}).catch(()=>{process.stderr.write(\"Function threw an error\");process.exitCode=1;});";
+  const call="__fn(..."+JSON.stringify(args)+")";
+  // Promise-objective tasks: a synchronous (non-thenable) result is graded as a wrong answer,
+  // not as a crash, so a learner who skips the Promise cannot pass on values alone.
+  const run=requirePromise
+    ?"else {let __r;try{__r="+call+";}catch{__r=Promise.reject(Error());}"+
+      "if(!__r||typeof __r.then!==\"function\"){process.stdout.write(JSON.stringify({notPromise:true}));}"+
+      "else {Promise.resolve(__r)"+settle+"}}\n"
+    :"else {Promise.resolve().then(()=>"+call+")"+settle+"}\n";
+  const program="const __fn = (() => { \"use strict\";\n"+source+"\n; return typeof "+functionName+"===\"function\" ? "+functionName+" : null; })();\n"+
+    "if(!__fn){process.stderr.write(\"Missing required function\");process.exitCode=1;}\n"+run;
   validateSource(program);
   return program;
 }
@@ -45,10 +53,10 @@ export function harnessJava(source,functionName,args){
   validateSource(program);
   return program;
 }
-export function harnessForRuntime(source,functionName,args,runtimeId){
+export function harnessForRuntime(source,functionName,args,runtimeId,options={}){
   if(runtimeId==="python-3.12")return harnessPython(source,functionName,args);
   if(runtimeId==="java-21")return harnessJava(source,functionName,args);
-  if(runtimeId==="nodejs-24")return harness(source,functionName,args);
+  if(runtimeId==="nodejs-24")return harness(source,functionName,args,options);
   throw Error("UNKNOWN_RUNTIME");
 }
 
@@ -60,7 +68,8 @@ export async function evaluateExercise({source,exerciseId,exerciseRevision,image
   let durationMs=0;
   for(const scenario of definition.cases) {
     const runtimeId=definition.runtimeId??"nodejs-24";
-    const program=harnessForRuntime(source,definition.functionName,scenario.args,runtimeId);
+    const program=harnessForRuntime(source,definition.functionName,scenario.args,runtimeId,
+      {requirePromise:definition.requirePromise===true});
     let output;
     try {output=await execute(program,{image});}
     catch {return {status:"infrastructure_error",stdout:"",stderr:"Sandbox unavailable.",exitCode:null,durationMs:0,assessment:null};}

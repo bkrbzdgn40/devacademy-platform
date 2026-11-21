@@ -64,3 +64,18 @@ test("malformed runner output cannot be counted as a passing test",async()=>{
   assert.equal(out.assessment.verdict,"failed");
   assert.equal(out.assessment.passed,0);
 });
+
+test("Promise-objective harness grades a synchronous result as wrong, not as a pass", async ()=>{
+  const {spawnSync}=await import("node:child_process");
+  const run=source=>spawnSync(process.execPath,["-e",harness(source,"f",[2,3],{requirePromise:true})],{encoding:"utf8"});
+  const sync=run("function f(a,b){return [a,b];}");
+  assert.equal(sync.status,0);
+  assert.equal(sync.stdout,JSON.stringify({notPromise:true}));
+  const viaAsync=run("async function f(a,b){return [a,b];}");
+  assert.equal(viaAsync.stdout,"[2,3]");
+  const viaResolve=run("function f(a,b){return Promise.resolve([a,b]);}");
+  assert.equal(viaResolve.stdout,"[2,3]");
+  const thrown=run("function f(){throw Error('x');}");
+  assert.equal(thrown.status,1);
+  assert.equal(caseBank["transfer.js.async"].requirePromise,true);
+});

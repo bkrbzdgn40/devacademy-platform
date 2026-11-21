@@ -82,12 +82,12 @@ export const caseBank = Object.freeze({
     ]
   },
   "transfer.js.scope": {
-    revision:1,functionName:"trackQuota",cases:[
-      {label:"Yerel gölgeleme ve dış artış",public:true,args:[25,10,5],expected:[12,30]},
-      {label:"Dış kontenjan azalırken yerel sabit artış",public:true,args:[20,8,-4],expected:[10,16]},
-      {public:false,args:[15,0,0],expected:[2,15]},
-      {public:false,args:[30,18,10],expected:[20,40]},
-      {public:false,args:[12,5,-12],expected:[7,0]}
+    revision:2,functionName:"weeklyPeaks",cases:[
+      {label:"Haftanın zirvesi her hafta sıfırlanır",public:true,args:[[[3,9,4],[2,5],[7,1]]],expected:[[9,5,7],9]},
+      {label:"Yalnızca eksi sıcaklıklar",public:true,args:[[[-4,-1,-6],[-8,-3]]],expected:[[-1,-3],-1]},
+      {public:false,args:[[[12]]],expected:[[12],12]},
+      {public:false,args:[[[-2,-9],[0,-1],[-5]]],expected:[[-2,0,-5],0]},
+      {public:false,args:[[]],expected:[[],null]}
     ]
   },
   "transfer.js.filter": {
@@ -100,7 +100,7 @@ export const caseBank = Object.freeze({
     ]
   },
   "transfer.js.async": {
-    revision:1,functionName:"resolveAlertBatch",cases:[
+    revision:2,requirePromise:true,functionName:"resolveAlertBatch",cases:[
       {label:"Acil ve normal bildirimler kısmen sığar",public:true,args:[4,5,6],expected:[4,2,3]},
       {label:"Acil bildirimler tüm kapasiteyi doldurur",public:true,args:[8,3,5],expected:[5,0,6]},
       {public:false,args:[0,3,5],expected:[0,3,0]},
