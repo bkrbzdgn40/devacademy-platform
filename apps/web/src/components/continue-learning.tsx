@@ -29,10 +29,10 @@ export function ContinueLearning(){
     void load();
     return ()=>controller.abort();
   },[refreshKey]);
-  if(state.status==="loading")return <section className="journey-card ui-card" aria-label="Öğrenme devam noktası">
+  if(state.status==="loading")return <section className="journey-card" aria-label="Öğrenme devam noktası">
     <p role="status">Öğrenme durumun kontrol ediliyor…</p>
   </section>;
-  if(state.status!=="ready")return <section className="journey-card ui-card" aria-label="Öğrenme devam noktası">
+  if(state.status!=="ready")return <section className="journey-card" aria-label="Öğrenme devam noktası">
     <h3>{state.status==="guest"?"Bir kursla başla.":state.status==="unconfigured"?
       "Kurslar herkese açık.":"İlerlemene şu anda ulaşamıyoruz."}</h3>
     <p>{state.status==="guest"?"Dersleri hemen keşfedebilirsin. Hesabınla giriş yaptığında tamamladığın dersler ve kaldığın yer burada görünür.":
@@ -46,7 +46,7 @@ export function ContinueLearning(){
     </div>
   </section>;
   const journey=resolveLearningJourney(learningPaths,state.lessons);
-  return <section className="journey-card ui-card" aria-label="Kaydedilmiş ilerleme">
+  return <section className="journey-card" aria-label="Kaydedilmiş ilerleme">
     <div className="journey-card-top"><span className="ui-eyebrow">Hesabındaki öğrenme durumu</span>
       <span className="journey-count">{journey.completed}/{journey.total} ders tamamlandı</span></div>
     <progress value={journey.completed} max={Math.max(1,journey.total)}

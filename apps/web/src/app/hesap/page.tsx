@@ -10,7 +10,7 @@ export default function AccountPage() {
     <header className="listing-header"><p className="overline">DevAcademy hesabın</p><h1>Öğrenmeye kaldığın yerden devam et.</h1><p>İlerleme kayıtları yalnızca kendi hesabına aittir.</p></header>
     <div className="account-layout">
       <AccountPanel />
-      <aside className="ui-card account-aside" aria-label="Hesap kapsamı">
+      <aside className="account-aside" aria-label="Hesap kapsamı">
         <p className="overline">Kayıt ve gizlilik</p>
         <h2>Hesap neleri saklar?</h2>
         <ul className="account-aside-list">

@@ -67,13 +67,44 @@ test("shared basic components are used in actual pages, not merely authored",()=
   for(const note of ["home-method-note","radar-integrity","radar-disclaimer","gerçek"])assert.ok(!home.includes(note),note);
   assert.match(read("components/hero-predict.tsx"),/<span>Önceden hazırlanmış iz<\/span><\/div>/);
   assert.doesNotMatch(read("components/learning-path-card.tsx"),/path-mark/);
-  assert.match(home,/feature-card ui-card/);
+  // M8.7 fihrist dili: liste, ızgara ve panel öğeleri kutu kart değil.
+  assert.match(home,/className="feature-card home-explore-row"/);
+  assert.match(home,/className="radar-source-list"/);
   assert.match(layout,/StatusPill tone="terracotta"/);
   assert.match(course,/CourseExplorer/);
   const card=read("components/learning-path-card.tsx");
-  assert.match(card,/ui-card path-/);
+  // Fihrist düzeni: ders yolları kutu kart değil, numaralı liste satırı.
+  assert.match(card,/"path-card path-"/);
+  assert.doesNotMatch(card,/ui-card/);
+  assert.match(card,/className="path-index-no" aria-hidden="true"/);
   assert.match(card,/className="path-cta"/);
-  assert.match(progress,/dashboard-stat ui-card/);
+  assert.match(home,/<ol className="path-index home-path-grid"/);
+  assert.match(read("components/course-explorer.tsx"),/<ol className="path-index"/);
+  assert.match(read("components/course-explorer.tsx"),/index=\{learningPaths\.findIndex\(p=>p\.id===path\.id\)\}/);
+  assert.doesNotMatch(styles,/\.path-grid/);
+  assert.match(progress,/className="dashboard-stat"/);
+  for(const file of ["app/page.tsx","app/radar/page.tsx","app/hesap/page.tsx","app/laboratuvar/page.tsx",
+    "components/course-overview.tsx","components/continue-learning.tsx","components/progress-dashboard.tsx"])
+    assert.doesNotMatch(read(file),/ui-card/,file+" kutu kart kullanmamalı");
+  const index=styles.slice(styles.indexOf("/* M8.7 | Fihrist dili"));
+  assert.ok(index.length>0,"M8.7 fihrist katmanı eksik");
+  for(const rule of [".lesson-list .lesson-item{background:transparent;border:0;border-radius:0;box-shadow:none",
+    ".radar-health-card .radar-health-tag{background:transparent",".dashboard-stats>.dashboard-stat{background:transparent",
+    "border-top:2px solid var(--ui-ink);border-radius:0;box-shadow:none"])assert.ok(index.includes(rule),rule);
+  assert.match(index,/prefers-reduced-motion:reduce/);
+  // 320px'te dört menü öğesi logo ve tema düğmesiyle tek satıra sığmıyor: menü alt satırda dört sütun.
+  assert.match(styles,/@media\(max-width:420px\)\{[^}]*\.site-header \.nav-inner\{flex-wrap:wrap[\s\S]*?\.site-header \.nav-links\{order:2;flex:1 1 100%;display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
+  // Radar: haberler derse göre gruplanır; ders bloğu her grupta bir kez görünür.
+  const radar=read("app/radar/page.tsx");
+  assert.match(radar,/<ol className="radar-group-index"/);
+  // learning.label sürüme özgü olduğu için neredeyse hiç birleştirmez; gruplar konu anahtarıyla kurulur.
+  assert.match(radar,/const key=item\.topic\.key;/);
+  assert.match(radar,/className="radar-group-no" aria-hidden="true"/);
+  assert.match(radar,/<summary>Bu derse neden bağlandı\?<\/summary>/);
+  assert.match(radar,/className="radar-health-strip"/);
+  assert.doesNotMatch(radar,/radar-article-grid|Neden öğrenmeye değer\?/);
+  assert.match(styles,/\.radar-topic-filters\{[^}]*overflow-x:auto/);
+  assert.doesNotMatch(styles,/\.radar-article-grid/);
   assert.match(styles,/\.studio-code\{background:var\(--ui-code\)/);
 });
 

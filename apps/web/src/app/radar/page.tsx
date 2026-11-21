@@ -16,6 +16,23 @@ const formatDate=(value:string)=>new Intl.DateTimeFormat("tr-TR",{
   timeZone:"Europe/Istanbul",day:"numeric",month:"short",year:"numeric",
   hour:"2-digit",minute:"2-digit"
 }).format(new Date(value));
+const formatShort=(value:string)=>new Intl.DateTimeFormat("tr-TR",{
+  timeZone:"Europe/Istanbul",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"
+}).format(new Date(value));
+type FeedItem=Awaited<ReturnType<typeof getRadarFeed>>["items"][number];
+/** Haberleri konuya göre toplar. `learning.label` sürüm ve ipucuna özgü olduğu için neredeyse
+ *  her haberi ayrı gruba düşürüyordu; konu anahtarı gerçekten birleştirir. Akış yeniden eskiye
+ *  sıralı geldiği için grup sırası grubun en yeni haberine göre oluşur; ders bloğu en yeni haberden gelir. */
+function groupByTopic(list:FeedItem[]){
+  const groups=new Map<string,FeedItem[]>();
+  for(const item of list){
+    const key=item.topic.key;
+    groups.set(key,[...(groups.get(key)??[]),item]);
+  }
+  return [...groups.entries()].map(([key,entries])=>({key,
+    label:radarTopics.find(t=>t.key===key)?.label??entries[0].learning.label,
+    learning:entries[0].learning,items:entries}));
+}
 const statusLabel:Record<string,string>={
   fresh:"Güncellendi",partial:"Kısmen güncellendi",empty:"Eşleşen içerik yok",
   stale:"Son başarılı kayıt",unavailable:"Şu an erişilemiyor"
@@ -31,7 +48,6 @@ export default async function RadarPage({searchParams}:Props){
   const items=filtered.filter(item=>!isLooseRadarMatch(item.learning));
   const related=filtered.filter(item=>isLooseRadarMatch(item.learning));
   const unavailable=feed.sources.every(s=>s.status==="unavailable");
-  const stale=feed.sources.some(s=>s.status==="stale");
   const href=(key:string|null,tag:string|null)=>{
     const query=new URLSearchParams();
     if(key)query.set("kaynak",key);
@@ -51,21 +67,30 @@ export default async function RadarPage({searchParams}:Props){
     </div>
     <section className="radar-health" aria-labelledby="radar-health-title">
       <h2 id="radar-health-title">Kaynakların durumu</h2>
-      <div className="radar-health-grid">
-        {feed.sources.map(s=><article key={s.key} className="radar-health-card ui-card">
-          <div className="radar-health-head"><strong>{s.name}</strong>
-            <span className={`radar-health-tag radar-status-${s.status}`}>{statusLabel[s.status]??s.status}</span>
-          </div>
-          <p>{s.kind}</p>
-          {s.checkedAt?<small>Son başarılı kontrol: <time dateTime={s.checkedAt}>{formatDate(s.checkedAt)}</time></small>:
-            <small>Başarılı veri kontrolü yok.</small>}
-          {s.status==="stale"&&<p className="radar-warning">Kaynak şu anda yanıt vermiyor. Gösterilen kayıtlar son başarılı kontrolden kaldı.</p>}
-          {s.status==="partial"&&<p className="radar-warning">Kaynağın bazı kayıtlarına ulaşılamadı.</p>}
-          <a href={s.href} target="_blank" rel="noopener noreferrer">{s.name} sitesi ↗</a>
-        </article>)}
-      </div>
+      <ul className="radar-health-strip">
+        {feed.sources.map(s=><li key={s.key}>
+          <strong>{s.name}</strong>
+          <span className={`radar-health-tag radar-status-${s.status}`}>{statusLabel[s.status]??s.status}</span>
+          {s.checkedAt&&<time dateTime={s.checkedAt}>{formatShort(s.checkedAt)}</time>}
+        </li>)}
+      </ul>
+      <details className="radar-health-details">
+        <summary>Kaynak ayrıntıları</summary>
+        <div className="radar-health-grid">
+          {feed.sources.map(s=><article key={s.key} className="radar-health-card">
+            <div className="radar-health-head"><strong>{s.name}</strong>
+              <span className={`radar-health-tag radar-status-${s.status}`}>{statusLabel[s.status]??s.status}</span>
+            </div>
+            <p>{s.kind}</p>
+            {s.checkedAt?<small>Son başarılı kontrol: <time dateTime={s.checkedAt}>{formatDate(s.checkedAt)}</time></small>:
+              <small>Başarılı veri kontrolü yok.</small>}
+            {s.status==="partial"&&<p className="radar-warning">Kaynağın bazı kayıtlarına ulaşılamadı.</p>}
+            <a href={s.href} target="_blank" rel="noopener noreferrer">{s.name} sitesi ↗</a>
+          </article>)}
+        </div>
+      </details>
+      {feed.sources.filter(s=>s.status==="stale").map(s=><p key={s.key} className="radar-warning" role="status">{s.name} şu anda yanıt vermiyor. Gösterilen kayıtlar son başarılı kontrolden kaldı; tarihleri kontrol ederek değerlendir.</p>)}
       {unavailable&&<p className="radar-empty" role="status">Üç kaynağa da şu an erişilemiyor. Doğrulanmamış başlık veya örnek haber göstermiyoruz. Daha sonra yeniden kontrol et.</p>}
-      {stale&&<p className="radar-warning" role="status">Bazı bilgiler son başarılı kontrolden geliyor. Tarihleri kontrol ederek değerlendir.</p>}
     </section>
     <section className="radar-stories" aria-labelledby="radar-feed-title">
       <div className="radar-feed-head"><div><p className="overline">Kaynaklardan seçilen başlıklar</p>
@@ -86,40 +111,41 @@ export default async function RadarPage({searchParams}:Props){
         <p>Kaynakların erişimi, son yayın tarihleri veya konu eşleştirmeleri nedeniyle liste boş olabilir. Eski başlıkları güncelmiş gibi göstermiyoruz.</p>
         <Link href="/radar">Tüm konulara dön →</Link>
       </div>:items.length>0&&
-        <div className="radar-article-grid">{items.map(item=>{const check=feed.sources.find(s=>s.key===item.source);return <article key={item.id} className="radar-article ui-card">
-          <div className="radar-article-meta">
-            <span>{radarSources.find(s=>s.key===item.source)?.name}</span>
-            <span>{radarSources.find(s=>s.key===item.source)?.kind}</span>
-          </div>
-          <h3><a href={item.url} target="_blank" rel="noopener noreferrer">{item.title} ↗</a></h3>
-          <p className="radar-article-date">Yayın: <time dateTime={item.publishedAt}>{formatDate(item.publishedAt)}</time></p>
-          {/* The check time is already on each source card above; repeat it only when this record is stale. */}
-          {check?.status==="stale"&&<p className="radar-article-date">Kaynak kontrolü: {check.checkedAt?<time dateTime={check.checkedAt}>{formatDate(check.checkedAt)}</time>:"Başarılı kontrol yok"} <strong>(Son başarılı kayıt)</strong></p>}
-          <div className="radar-learning-link">
-            <div className="radar-bridge-head">
-              <span className="radar-bridge-scope">{item.learning.coverage}</span>
-              <span className="radar-bridge-basis">{item.learning.basis}</span>
+        <ol className="radar-group-index">{groupByTopic(items).map((group,index)=><li key={group.key} className="radar-group">
+          <span className="radar-group-no" aria-hidden="true">{String(index+1).padStart(2,"0")}</span>
+          <div className="radar-group-body">
+            <div className="radar-group-head">
+              <div>
+                <span className="radar-bridge-scope">{group.learning.coverage}</span>
+                <h3>{group.label}</h3>
+              </div>
+              <div className="radar-learning-actions">
+                <Link href={group.learning.primary.href}>{group.learning.primary.label} →</Link>
+                <span>{group.learning.primary.kind}</span>
+                {group.learning.secondary&&<>
+                  <Link href={group.learning.secondary.href}>{group.learning.secondary.label} →</Link>
+                  <span>{group.learning.secondary.kind}</span>
+                </>}
+              </div>
             </div>
-            <h4>{item.learning.label}</h4>
-            <p className="radar-learning-context">{item.learning.context}</p>
-            <strong>Neden öğrenmeye değer?</strong>
-            <p>{item.learning.why}</p>
-            <details className="radar-reading-prompt">
-              <summary>Kaynağı okurken neyi kontrol etmeliyim?</summary>
-              <p>{item.learning.question}</p>
-            </details>
-            <div className="radar-learning-actions">
-              <Link href={item.learning.primary.href}>{item.learning.primary.label} →</Link>
-              <span>{item.learning.primary.kind}</span>
-              {item.learning.secondary&&<>
-                <Link href={item.learning.secondary.href}>{item.learning.secondary.label} →</Link>
-                <span>{item.learning.secondary.kind}</span>
-              </>}
-            </div>
+            <p className="radar-group-why">{group.learning.why}</p>
+            <ul className="radar-group-items">{group.items.map(item=>{const check=feed.sources.find(s=>s.key===item.source);const meta=radarSources.find(s=>s.key===item.source);return <li key={item.id} className="radar-article">
+              <h4><a href={item.url} target="_blank" rel="noopener noreferrer">{item.title} ↗</a></h4>
+              <p className="radar-article-meta">{meta?.name}<span aria-hidden="true"> · </span><span className="sr-only">, </span>{meta?.kind}<span aria-hidden="true"> · </span><span className="sr-only">, yayın: </span><time dateTime={item.publishedAt}>{formatDate(item.publishedAt)}</time></p>
+              {/* The check time is already in the source strip above; repeat it only when this record is stale. */}
+              {check?.status==="stale"&&<p className="radar-article-date">Kaynak kontrolü: {check.checkedAt?<time dateTime={check.checkedAt}>{formatDate(check.checkedAt)}</time>:"Başarılı kontrol yok"} <strong>(Son başarılı kayıt)</strong></p>}
+              <details className="radar-reading-prompt">
+                <summary>Bu derse neden bağlandı?</summary>
+                <p>{item.learning.context} <span className="radar-bridge-basis">({item.learning.basis})</span></p>
+                <p><strong>Okurken kontrol et:</strong> {item.learning.question}</p>
+                {item.learning.primary.href!==group.learning.primary.href&&
+                  <p><Link href={item.learning.primary.href}>{item.learning.primary.label} →</Link></p>}
+              </details>
+              {item.discussionUrl&&item.discussionUrl!==item.url&&
+                <a className="radar-discussion" href={item.discussionUrl} target="_blank" rel="noopener noreferrer">Hacker News tartışması ↗</a>}
+            </li>;})}</ul>
           </div>
-          {item.discussionUrl&&item.discussionUrl!==item.url&&
-            <a className="radar-discussion" href={item.discussionUrl} target="_blank" rel="noopener noreferrer">Hacker News tartışması ↗</a>}
-        </article>;})}</div>}
+        </li>)}</ol>}
       {related.length>0&&<details className="radar-related">
         <summary>İlgili olabilir <span>({related.length} başlık)</span></summary>
         <p>Bu başlıklar yalnızca dil etiketiyle eşleşti. Belirli bir derse bağlanmadıkları için ana listede değiller; konu dışı olabilirler.</p>

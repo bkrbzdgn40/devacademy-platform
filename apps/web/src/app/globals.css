@@ -783,38 +783,36 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .home-text-link{font-weight:750;color:var(--ui-action);font-size:13px;white-space:nowrap;
   border-bottom:1px solid var(--ui-action);padding-bottom:3px;margin-bottom:4px}
 .home-text-link:hover{color:var(--ui-action-hover)}
-.path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:18px;align-items:stretch}
-.path-card{display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;
-  padding:24px;border-top:4px solid var(--ui-action);min-width:0}
-.path-card.path-terra{border-top-color:var(--color-terracotta-700)}
-.path-card.path-sand{border-top-color:var(--color-tan)}
-.path-top{display:flex;gap:12px;justify-content:space-between;align-items:center}
-.path-mark{width:48px;height:48px;display:grid;place-items:center;flex:none;
-  background:var(--ui-surface-accent);color:var(--ui-action);border-radius:12px;
-  font:800 17px var(--font-code)}
-.path-terra .path-mark{background:var(--color-terracotta-100);color:var(--color-terracotta-700)}
-.path-sand .path-mark{background:var(--ui-surface-muted);color:var(--color-cinnamon)}
-.path-level{font-size:11px;text-align:right;line-height:1.4;color:var(--ui-ink-subtle);font-weight:750}
-.path-card h3{font:700 1.55rem/1.25 var(--font-display);margin:0;color:var(--ui-ink)}
-.path-card h3 a:hover{color:var(--ui-action)}
-.path-payoff{font-size:13px;line-height:1.8;color:var(--ui-ink-subtle);margin:0;flex:1}
-.path-facts{display:flex;flex-wrap:wrap;gap:6px}
-.path-facts span{font-size:10px;color:var(--ui-ink-subtle);background:var(--ui-surface-muted);
-  border:1px solid var(--ui-border);border-radius:99px;padding:4px 8px}
-.path-subheading{font-weight:750;font-size:12px;margin:6px 0 -3px;color:var(--ui-ink)}
-.path-topics{margin:0;padding-left:20px;display:grid;gap:8px}
-.path-topics li{color:var(--ui-ink-subtle);font-size:12px;line-height:1.55}
-.path-topics li::marker{color:var(--ui-action)}
-.path-destination{font-size:12px;line-height:1.6;color:var(--ui-ink-subtle);
-  border-top:1px solid var(--ui-border);margin:0;padding-top:13px}
-.path-cta{margin-top:auto;display:flex;align-items:center;justify-content:space-between;
-  gap:8px;color:var(--ui-action);font-weight:800;font-size:13px;
-  border-top:1px solid var(--ui-border);padding-top:15px;min-height:44px}
+/* Ders yolları: kutu kart yerine numaralı dergi fihristi. Çerçeve, gölge ve
+   yuvarlak köşe yok; satırlar yalnızca ince çizgilerle ayrılır. */
+.path-index{list-style:none;margin:0;padding:0;border-top:1px solid var(--ui-border-strong)}
+.path-index>li{border-bottom:1px solid var(--ui-border)}
+.path-card{--path-tone:var(--ui-action);display:grid;
+  grid-template-columns:5.25rem minmax(0,1fr) minmax(190px,15rem);gap:6px 36px;
+  align-items:start;padding:30px 0;min-width:0}
+.path-card.path-terra{--path-tone:var(--color-terracotta-700)}
+.path-card.path-sand{--path-tone:var(--color-cinnamon)}
+.path-index-no{font:300 3.75rem/.82 var(--font-display);letter-spacing:-.05em;
+  font-variant-numeric:lining-nums tabular-nums;color:color-mix(in srgb,var(--path-tone) 45%,transparent);
+  transition:color var(--motion-quick),transform var(--motion-normal) ease-out}
+.path-index-body{min-width:0}
+.path-card h3{font:600 clamp(1.45rem,2.3vw,1.95rem)/1.15 var(--font-display);letter-spacing:-.015em;
+  margin:0 0 9px;color:var(--ui-ink)}
+.path-payoff{font-size:15px;line-height:1.7;color:var(--ui-ink-subtle);margin:0;max-width:58ch}
+.path-index-meta{display:grid;gap:5px;justify-items:start;padding-top:7px;min-width:0}
+.path-facts{font:12.5px/1.5 var(--font-code);color:var(--ui-ink);margin:0}
+.path-level{font-size:12px;line-height:1.5;color:var(--ui-ink-subtle);margin:0}
+.path-cta{margin-top:6px;display:inline-flex;align-items:center;gap:10px;min-height:44px;
+  color:var(--ui-action);font-weight:750;font-size:13px}
 .path-cta:hover{color:var(--ui-action-hover)}
-.path-matches{background:var(--ui-surface-accent);border-radius:var(--radius-sm);padding:14px}
+.path-subheading{font-weight:750;font-size:12px;margin:22px 0 8px;color:var(--ui-ink)}
+.path-topics{margin:0;padding-left:18px;columns:2;column-gap:32px}
+.path-topics li{color:var(--ui-ink-subtle);font-size:13px;line-height:1.55;margin-bottom:7px;break-inside:avoid}
+.path-topics li::marker{color:var(--path-tone)}
+.path-destination{font-size:13px;line-height:1.6;color:var(--ui-ink-subtle);margin:10px 0 0}
+.path-matches{margin-top:18px;border-left:2px solid var(--path-tone);padding:2px 0 2px 14px}
 .path-matches>strong{font-size:12px;color:var(--ui-ink)}
-.path-matches ul{list-style:none;display:grid;gap:9px;padding:9px 0 0;margin:0}
+.path-matches ul{list-style:none;display:grid;gap:8px;padding:8px 0 0;margin:0}
 .path-matches a{font-size:12px;color:var(--ui-action);font-weight:700;text-decoration:underline}
 .home-method-section{border-block:1px solid var(--ui-border)}
 /* One continuous process line instead of three equal cards. */
@@ -879,10 +877,10 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .discovery-guidance h2{font:700 1.65rem var(--font-display);color:var(--ui-ink);margin-bottom:13px}
 .discovery-guidance p{font-size:14px;color:var(--ui-ink-subtle);max-width:73ch;line-height:1.8}
 .discovery-guidance a{font-size:13px;font-weight:750;color:var(--ui-action);text-decoration:underline}
-@media(max-width:1000px){.path-grid,.radar-source-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:1000px){.radar-source-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .home-journey-area{grid-template-columns:1fr;gap:15px}
 }
-@media(max-width:680px){.path-grid,.radar-source-grid{grid-template-columns:1fr}
+@media(max-width:680px){.radar-source-grid{grid-template-columns:1fr}
   .home-method-flow{grid-template-columns:1fr;gap:22px}
   .home-method-flow::before{left:7px;right:auto;top:7px;bottom:7px;border-top:0;border-left:2px solid var(--ui-border-strong)}
   .home-method-step{padding:0 0 0 32px}
@@ -896,7 +894,6 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
   .home-journey-area{padding-block:10px 50px}
   .home-journey-intro h2{font-size:1.9rem}
   .journey-card{padding:18px}
-  .path-card{padding:20px}
   .discovery-facts{gap:8px}
   .discovery-facts span{flex:1;min-width:88px;text-align:center;padding:9px 7px}
   .discovery-facts strong{display:block;font-size:19px}
@@ -1234,17 +1231,12 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .radar-topic-filters{margin-top:0;margin-bottom:26px}
 .radar-filters a{display:inline-flex;min-height:44px;align-items:center;padding:9px 14px;border:1px solid var(--ui-border);border-radius:var(--radius-pill);background:var(--ui-surface);font-weight:600;font-size:.875rem}
 .radar-filters a[aria-current="page"]{background:var(--ui-action);color:var(--ui-action-ink);border-color:var(--ui-action)}
-.radar-article-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .radar-article{min-width:0;padding:24px;display:flex;flex-direction:column;gap:14px}
 .radar-article-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:.77rem;font-weight:750;color:var(--ui-ink-subtle)}
 .radar-article-meta span:first-child{color:var(--ui-action)}
-.radar-article h3{font-family:var(--font-display);font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.32;margin:0;overflow-wrap:anywhere}
-.radar-article h3 a:hover{text-decoration:underline;text-underline-offset:4px}
+.radar-article h4{font-family:var(--font-display);font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.32;margin:0;overflow-wrap:anywhere}
+.radar-article h4 a:hover{text-decoration:underline;text-underline-offset:4px}
 .radar-article-date{font-size:.84rem;color:var(--ui-ink-subtle);margin:0}
-.radar-learning-link{border-top:1px solid var(--ui-border);padding-top:16px;margin-top:auto}
-.radar-learning-link strong{color:var(--ui-action)}
-.radar-learning-link p{color:var(--ui-ink-subtle);margin:6px 0 12px}
-.radar-learning-link a{color:var(--ui-action);font-weight:750;text-decoration:underline;text-underline-offset:3px}
 .radar-discussion{color:var(--ui-ink-subtle);font-size:.85rem;text-decoration:underline}
 .radar-empty{border:1px dashed var(--ui-border-strong);border-radius:var(--radius-lg);padding:24px;background:var(--ui-surface-muted);margin-top:18px}
 .radar-empty p{margin:10px 0;color:var(--ui-ink-subtle)}
@@ -1261,14 +1253,12 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .radar-related li>a:last-child{font-size:.85rem;color:var(--ui-action);font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .radar-method{margin-top:48px;padding:24px 28px;border:1px solid var(--ui-border);background:var(--ui-surface-muted);border-radius:var(--radius-lg)}
 .radar-method p{color:var(--ui-ink-subtle);max-width:920px;margin:10px 0 0}
-@media(max-width:760px){.radar-health-grid{grid-template-columns:1fr}.radar-article-grid{grid-template-columns:1fr}.radar-page{padding-block:24px 60px}.radar-feed-head{align-items:start;flex-direction:column;gap:6px}.radar-article{padding:20px}.radar-page-hero h1{letter-spacing:-.02em}}
+@media(max-width:760px){.radar-health-grid{grid-template-columns:1fr}.radar-page{padding-block:24px 60px}.radar-feed-head{align-items:start;flex-direction:column;gap:6px}.radar-page-hero h1{letter-spacing:-.02em}}
 
 /* M10 learning context: clear distinction between observed metadata and curated prerequisites. */
 .radar-bridge-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
 .radar-bridge-scope{font-size:.75rem;font-weight:750;padding:4px 9px;border-radius:var(--radius-pill);background:var(--ui-surface-accent);color:var(--ui-action)}
 .radar-bridge-basis{font-size:.74rem;color:var(--ui-ink-subtle)}
-.radar-learning-link h4{font-size:1.06rem;line-height:1.35;margin:0 0 8px;color:var(--ui-ink)}
-.radar-learning-link .radar-learning-context{color:var(--ui-ink-subtle);margin:0 0 14px}
 .radar-reading-prompt{margin:14px 0;border:1px solid var(--ui-border);border-radius:var(--radius-md);padding:10px 12px;background:var(--ui-surface)}
 .radar-reading-prompt summary{cursor:pointer;color:var(--ui-action);font-weight:700}
 .radar-reading-prompt summary:focus-visible{outline:3px solid var(--ui-focus);outline-offset:4px}
@@ -1382,22 +1372,8 @@ body>main{flex:1 0 auto}
   .hero-predict-form fieldset{grid-template-columns:1fr}
 }
 
-/* Jury pass 2 | Fewer template marks: single-colour H1, plain course cards, 2 + 3 course grid. */
+/* Jury pass 2 | Fewer template marks: single-colour H1. */
 .hero h1 em{font-style:italic;color:inherit}
-.path-card,.path-card.path-terra,.path-card.path-sand{border-top:1px solid var(--ui-border)}
-.path-card .path-level{margin:0;text-align:left}
-.path-grid:has(>:nth-child(5):last-child){grid-template-columns:repeat(6,minmax(0,1fr))}
-.path-grid:has(>:nth-child(5):last-child)>*{grid-column:span 2}
-.path-grid:has(>:nth-child(5):last-child)>:nth-child(-n+2){grid-column:span 3}
-@media(max-width:1000px){
-  .path-grid:has(>:nth-child(5):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
-  .path-grid:has(>:nth-child(5):last-child)>*,.path-grid:has(>:nth-child(5):last-child)>:nth-child(-n+2){grid-column:auto}
-  .path-grid:has(>:nth-child(5):last-child)>:last-child{grid-column:1/-1}
-}
-@media(max-width:680px){
-  .path-grid:has(>:nth-child(5):last-child){grid-template-columns:1fr}
-  .path-grid:has(>:nth-child(5):last-child)>:last-child{grid-column:auto}
-}
 /* Jury pass 2 | Radar heading: pill and button share one row under the paragraph, clear space before the source cards. */
 .radar-redesign .radar-heading{margin-bottom:40px}
 .radar-redesign .radar-heading .ui-section-heading{margin-bottom:8px}
@@ -1548,15 +1524,15 @@ html[data-theme="dark"] .logo-mark-bg{fill:#4E6138}
 /* Jury pass 8 | Hover that is more than a colour change on every primary target. */
 /* Text links: a single animated underline (never stacked with native text-decoration). */
 .back-link,.home-text-link,.practice-lab-link a,.course-progress-card a,.catalog-lesson-link,.path-cta,
-.path-card h3 a,.radar-health-card>a,.breadcrumb a,.radar-learning-link a,.radar-related li>a:last-child{
+.path-card h3 a,.radar-health-card>a,.breadcrumb a,.radar-learning-actions a,.radar-related li>a:last-child{
   text-decoration:none;background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;
   background-position:0 100%;background-size:0 1px;padding-bottom:2px;
   transition:background-size var(--motion-normal) ease-out,color var(--motion-quick),transform var(--motion-quick)}
-.catalog-lesson-link,.radar-health-card>a,.radar-learning-link a,.radar-related li>a:last-child{
+.catalog-lesson-link,.radar-health-card>a,.radar-learning-actions a,.radar-related li>a:last-child{
   background-size:100% 1px}
 .back-link:hover,.home-text-link:hover,.practice-lab-link a:hover,.course-progress-card a:hover,
 .path-cta:hover,.path-card h3 a:hover,.breadcrumb a:hover{background-size:100% 1px}
-.catalog-lesson-link:hover,.radar-health-card>a:hover,.radar-learning-link a:hover,.radar-related li>a:last-child:hover{
+.catalog-lesson-link:hover,.radar-health-card>a:hover,.radar-learning-actions a:hover,.radar-related li>a:last-child:hover{
   text-decoration:none;background-size:100% 2px}
 .back-link{display:inline-block}
 .back-link:hover{transform:translateX(-3px)}
@@ -1796,16 +1772,40 @@ html .editor-shell .editor-privacy{background:var(--color-code-surface);padding-
   .site-header .theme-control-trigger>span{display:none}
   .site-header .theme-control-trigger::before{content:"◐";font-size:18px;line-height:1}
 }
+/* Dar telefon (≤420px): dört menü öğesi logo ve tema düğmesiyle tek satıra sığmıyor
+   (~280px gerekiyor, ~196px kalıyor). Logo + tema üst satırda, menü altta eşit
+   dört sütun. Dokunma hedefi 44px kalıyor. */
+@media(max-width:420px){
+  .site-header .nav-inner{flex-wrap:wrap;row-gap:2px;padding-block:8px 4px}
+  .site-header .logo-type{position:static;width:auto;height:auto;overflow:visible;clip:auto;margin-left:8px}
+  .site-header .theme-control{order:1;margin-left:auto}
+  .site-header .nav-links{order:2;flex:1 1 100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--ui-border)}
+  .site-header .nav-links>a,.site-header .nav-discovery>summary{justify-content:center;width:100%;padding:8px 2px;font-size:12.5px}
+}
 /* Hero loop: the three steps share one row grid so titles sit on one baseline. */
 .hero-loop{grid-template-rows:auto auto auto;row-gap:2px}
 .hero-loop li{grid-row:span 3;grid-template-rows:subgrid;gap:2px;align-content:start}
 @media(max-width:600px){.hero-loop{grid-template-rows:none;row-gap:12px}.hero-loop li{grid-row:auto;grid-template-rows:none}}
 /* Course lesson list: numerals in a fixed column. */
 .lesson-number{flex:none;width:2.2ch;font-variant-numeric:tabular-nums;text-align:left}
-/* Home course cards: card-level lift on hover. */
-.path-card{transition:transform var(--motion-quick) ease-out,border-color var(--motion-quick),box-shadow var(--motion-quick)}
-.path-card:has(a:hover){transform:translateY(-3px);border-color:var(--ui-action);box-shadow:var(--shadow-hover)}
-@media(prefers-reduced-motion:reduce){.path-card:has(a:hover){transform:none}}
+/* Ders yolu fihristi: satır hover/odak durumunda numara tam tona boyanıp hafifçe kayar. */
+.path-card:is(:hover,:focus-within) .path-index-no{color:var(--path-tone);transform:translateX(5px)}
+.path-card:is(:hover,:focus-within) h3 a{background-size:100% 1px}
+.path-card:is(:hover,:focus-within) .path-cta span{transform:translateX(4px)}
+@media(prefers-reduced-motion:reduce){.path-card:is(:hover,:focus-within) .path-index-no,
+  .path-card:is(:hover,:focus-within) .path-cta span{transform:none}}
+@media(max-width:1000px){
+  .path-card{grid-template-columns:4rem minmax(0,1fr);column-gap:24px}
+  .path-index-no{font-size:3rem}
+  .path-index-meta{grid-column:2;grid-template-columns:auto;padding-top:10px}
+}
+@media(max-width:680px){
+  .path-card{grid-template-columns:minmax(0,1fr);padding:24px 0;row-gap:4px}
+  .path-index-no{font-size:1.75rem;line-height:1;margin-bottom:6px}
+  .path-index-meta{grid-column:1}
+  .path-topics{columns:1}
+  .path-card:is(:hover,:focus-within) .path-index-no{transform:none}
+}
 /* Jury pass 17: quieter availability notes, footer logo hover, remaining small links. */
 .availability-note{background:var(--ui-surface-muted);border:1px solid var(--ui-border);border-left:3px solid var(--color-terracotta-700);
   color:var(--ui-ink-subtle);font-size:13px;padding:10px 14px;border-radius:var(--radius-sm)}
@@ -1910,3 +1910,196 @@ html[data-theme="dark"] .availability-note{background:var(--ui-surface-muted);bo
 @media(max-width:960px){
   .lab-layout,.account-layout{grid-template-columns:1fr}
 }
+
+/* M8.7 | Fihrist dili tüm sitede. Ders yolu fihristindeki dil kalan kutu kartlara taşınır:
+   (1) listeler ince çizgili satırlar, (2) eş ızgaralar gazete sütunları,
+   (3) tekil paneller üst çizgili "kenar notu". Arka plan, çerçeve, yuvarlak köşe ve gölge yok.
+   Kapsam dışı: quiz-card, kod/stüdyo yüzeyleri, arama formu, butonlar, filtre çipleri. */
+
+/* 1 | Listeler: ders listesi, keşif satırları, Radar kaynakları, kütüphane, pano kursları. */
+.lesson-list{gap:0;border-top:1px solid var(--ui-border-strong)}
+.lesson-list>*{border-bottom:1px solid var(--ui-border)}
+.lesson-list .lesson-item{background:transparent;border:0;border-radius:0;box-shadow:none;transform:none;
+  align-items:flex-start;gap:28px;padding:24px 0}
+.lesson-list .lesson-item:is(:hover,:focus-visible){background:transparent;box-shadow:none;transform:none}
+.lesson-list .lesson-number{font:300 2.6rem/.9 var(--font-display);letter-spacing:-.04em;width:3.4rem;
+  font-variant-numeric:lining-nums tabular-nums;
+  color:color-mix(in srgb,var(--color-terracotta-700) 45%,transparent);
+  transition:color var(--motion-quick),transform var(--motion-normal) ease-out}
+.lesson-list .lesson-item:is(:hover,:focus-visible) .lesson-number{color:var(--color-terracotta-700);transform:translateX(4px)}
+.lesson-list .lesson-item-body strong{font-family:var(--font-display);font-weight:600;font-size:1.3rem;line-height:1.25}
+.lesson-list .lesson-item:is(:hover,:focus-visible) .lesson-item-body strong{text-decoration:underline;
+  text-decoration-thickness:1px;text-underline-offset:5px}
+.lesson-list .lesson-item-body small{font-family:var(--font-code);font-size:12px}
+.lesson-list .lesson-arrow{align-self:center;transition:transform var(--motion-quick)}
+.lesson-list .lesson-item:is(:hover,:focus-visible) .lesson-arrow{transform:translateX(4px)}
+
+.home-explore-list{border-top-color:var(--ui-border-strong)}
+.home-explore-list .feature-card.home-explore-row:is(:hover,:focus-visible){background:transparent}
+.home-explore-list .home-explore-row:is(:hover,:focus-visible) h3{text-decoration:underline;
+  text-decoration-thickness:1px;text-underline-offset:5px}
+.home-explore-count{font-family:var(--font-code);font-weight:500}
+
+.radar-source-list{padding:0;border-radius:0;background:transparent;box-shadow:none;
+  border-top:1px solid var(--ui-border-strong);border-bottom:1px solid var(--ui-border)}
+
+.catalog-grid{gap:40px 32px}
+.catalog-grid .catalog-card{background:transparent;border:0;border-top:2px solid var(--ui-ink);border-radius:0;
+  box-shadow:none;transform:none;min-height:0;padding:16px 0 4px}
+.catalog-grid .catalog-card:hover{border-color:var(--ui-action);box-shadow:none;transform:none}
+.catalog-grid .catalog-card h2{font-family:var(--font-display);margin-top:12px}
+.catalog-grid :is(.level-chip,.locked-chip){background:transparent;border:0;border-radius:0;padding:0;
+  font:500 11.5px/1.5 var(--font-code)}
+.catalog-grid .catalog-top{gap:14px}
+.catalog-grid .tags{gap:0 10px}
+.catalog-grid .tags span{background:transparent;border:0;border-radius:0;padding:0;
+  font:500 11.5px/1.6 var(--font-code);color:var(--ui-ink-subtle)}
+.catalog-grid .tags span+span::before{content:"·";margin-right:10px;color:var(--ui-border-strong)}
+
+.dashboard-course{border-top:1px solid var(--ui-border-strong);padding:20px 0 4px;min-width:0}
+.dashboard-course h4{font:600 1.3rem/1.25 var(--font-display);margin:0}
+.dashboard-course h4 a:hover{text-decoration:underline;text-underline-offset:4px}
+.dashboard-course-signal{border:0;border-left:2px solid var(--ui-action);border-radius:0;
+  background:transparent;padding:2px 0 2px 14px}
+
+/* 2 | Eş ızgaralar: gazete sütunları ve künye satırları. */
+.radar-health-grid{gap:0;border-top:1px solid var(--ui-border-strong);border-bottom:1px solid var(--ui-border)}
+.radar-health-card{padding:18px 22px 20px;background:transparent;border:0;border-radius:0;box-shadow:none}
+.radar-health-card+.radar-health-card{border-left:1px solid var(--ui-border)}
+.radar-health-card:first-child{padding-left:0}
+.radar-health-card strong{font:600 1.15rem var(--font-display)}
+.radar-health-card .radar-health-tag{background:transparent;border-radius:0;padding:0;
+  display:inline-flex;align-items:center;gap:7px;font:600 11.5px/1.4 var(--font-code)}
+.radar-health-card .radar-health-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+
+.radar-article-meta{font-family:var(--font-code);font-weight:500}
+
+.dashboard-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;
+  border-top:1px solid var(--ui-border-strong);border-bottom:1px solid var(--ui-border)}
+.dashboard-stats>.dashboard-stat{background:transparent;border:0;border-radius:0;box-shadow:none;
+  padding:16px 18px;align-content:start}
+.dashboard-stats>.dashboard-stat+.dashboard-stat{border-left:1px solid var(--ui-border)}
+.dashboard-stats>.dashboard-stat:first-child{padding-left:0}
+.dashboard-stats>.dashboard-stat span{font:500 11.5px/1.45 var(--font-code)}
+.dashboard-stats>.dashboard-stat strong{font:400 clamp(1.6rem,2.4vw,2.1rem)/1.1 var(--font-display);
+  letter-spacing:-.02em}
+
+.discovery-facts{gap:0;border-top:1px solid var(--ui-border-strong);border-bottom:1px solid var(--ui-border)}
+.discovery-facts span{background:transparent;border:0;border-radius:0;padding:12px 22px;
+  font:500 12px/1.5 var(--font-code)}
+.discovery-facts span+span{border-left:1px solid var(--ui-border)}
+.discovery-facts span:first-child{padding-left:0}
+.discovery-facts strong{font-weight:400;font-size:1.6rem}
+
+/* 3 | Tekil paneller: üst çizgili kenar notu. Eylem çağıranlar (devam et, sıradaki adım) eylem renginde. */
+:is(.journey-card,.learning-next-action,.dashboard-overall,.dashboard-reviews,.discovery-guidance,
+  .lab-aside,.account-aside,.completion-card,.review-card,.account-section,.radar-empty,
+  .radar-related,.radar-method,.explorer-empty){background:transparent;border:0;
+  border-top:2px solid var(--ui-ink);border-radius:0;box-shadow:none;padding:20px 0 0}
+:is(.journey-card,.learning-next-action){border-top-color:var(--ui-action)}
+.account-section.danger-section{border-top-color:var(--color-critical)}
+html[data-theme="dark"] :is(.review-card,.dashboard-reviews){border-top-color:var(--ui-ink)}
+html[data-theme="dark"] .account-section.danger-section{border-top-color:var(--color-critical)}
+.radar-related>summary{padding-inline:0}
+.radar-related>p{margin-inline:0}
+.radar-related ul{padding-inline:0}
+.learning-next-context{background:transparent;border:0;border-left:1px solid var(--ui-border);
+  border-radius:0;padding:0 0 0 clamp(18px,3vw,32px)}
+.journey-courses{gap:0 22px}
+.journey-course{background:transparent;border:0;border-top:1px solid var(--ui-border);border-radius:0;
+  padding:10px 0 0}
+.journey-course:hover{border-color:var(--ui-action)}
+
+@media(max-width:850px){
+  .learning-next-context{border-left:0;border-top:1px solid var(--ui-border);padding:16px 0 0}
+}
+@media(max-width:760px){
+  .radar-health-card,.radar-health-card:first-child{padding:16px 0}
+  .radar-health-card+.radar-health-card{border-left:0;border-top:1px solid var(--ui-border)}
+}
+@media(max-width:700px){.radar-source-list{padding:0}}
+@media(max-width:680px){
+  .lesson-list .lesson-item{gap:16px;padding:20px 0}
+  .lesson-list .lesson-number{font-size:1.75rem;width:2.4rem}
+  .lesson-list .lesson-item-body strong{font-size:1.12rem}
+  .dashboard-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dashboard-stats>.dashboard-stat,.dashboard-stats>.dashboard-stat:first-child{padding:14px 14px 14px 0}
+  .dashboard-stats>.dashboard-stat:nth-child(odd){border-left:0}
+  .dashboard-stats>.dashboard-stat:nth-child(even){padding-left:14px}
+  .dashboard-stats>.dashboard-stat:nth-child(n+3){border-top:1px solid var(--ui-border)}
+  .discovery-facts span{padding:10px 14px}
+  .journey-courses{grid-template-columns:1fr}
+  :is(.journey-card,.learning-next-action){padding:18px 0 0}
+}
+@media(prefers-reduced-motion:reduce){
+  .lesson-list .lesson-item:is(:hover,:focus-visible) :is(.lesson-number,.lesson-arrow){transform:none}
+}
+
+/* M8.7 | Radar grupları. Haberler bağlandıkları derse göre toplanır: ders bloğu grupta bir kez,
+   haberler altında künyeli satırlar. Ritim ders yolu fihristiyle aynı. */
+.radar-health{margin-top:28px}
+.radar-health>h2{font:600 11.5px/1.4 var(--font-code);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ui-ink-subtle);margin:0 0 8px}
+.radar-health-strip{list-style:none;margin:0;padding:10px 0;display:flex;flex-wrap:wrap;gap:6px 40px;
+  border-top:1px solid var(--ui-border-strong);border-bottom:1px solid var(--ui-border)}
+.radar-health-strip li{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:2px 0}
+.radar-health-strip strong{font:600 1rem var(--font-display)}
+.radar-health-strip time{font:500 11.5px/1.4 var(--font-code);color:var(--ui-ink-subtle)}
+.radar-health-strip .radar-health-tag{background:transparent;border-radius:0;padding:0;
+  display:inline-flex;align-items:center;gap:7px;font:600 11.5px/1.4 var(--font-code)}
+.radar-health-strip .radar-health-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.radar-health-details>summary{cursor:pointer;min-height:44px;display:inline-flex;align-items:center;
+  font-weight:650;font-size:.875rem;color:var(--ui-action)}
+.radar-health-details>summary:focus-visible{outline:3px solid var(--ui-focus);outline-offset:2px}
+.radar-health-details .radar-health-grid{margin-top:4px}
+
+.radar-filters{gap:0 22px;margin:14px 0 0;border-bottom:1px solid var(--ui-border)}
+.radar-filters a,.radar-filters a:hover{background:transparent;border:0;border-radius:0;padding:10px 0;
+  color:var(--ui-ink-subtle);box-shadow:none;transform:none}
+.radar-filters a:hover{color:var(--ui-ink);box-shadow:inset 0 -2px 0 var(--ui-border-strong)}
+.radar-filters a[aria-current="page"],.radar-filters a[aria-current="page"]:hover{background:transparent;
+  color:var(--ui-ink);box-shadow:inset 0 -2px 0 var(--ui-action);transform:none}
+.radar-filters a:focus-visible{outline:3px solid var(--ui-focus);outline-offset:-3px}
+.radar-topic-filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;margin-top:0;gap:0 18px;
+  font-size:.82rem}
+.radar-topic-filters a{white-space:nowrap;flex:none;font-size:.82rem}
+
+.radar-group-index{list-style:none;margin:30px 0 0;padding:0;border-top:1px solid var(--ui-border-strong)}
+.radar-group{display:grid;grid-template-columns:5.25rem minmax(0,1fr);gap:0 36px;padding:30px 0;
+  border-bottom:1px solid var(--ui-border);min-width:0}
+.radar-group-no{font:300 3.75rem/.82 var(--font-display);letter-spacing:-.05em;
+  font-variant-numeric:lining-nums tabular-nums;color:color-mix(in srgb,var(--color-terracotta-700) 45%,transparent);
+  transition:color var(--motion-quick),transform var(--motion-normal) ease-out}
+.radar-group:focus-within .radar-group-no,.radar-group:hover .radar-group-no{color:var(--color-terracotta-700);transform:translateX(5px)}
+.radar-group-body{min-width:0}
+.radar-group-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,17rem);gap:10px 36px;align-items:start}
+.radar-group-head .radar-bridge-scope{background:transparent;padding:0;border-radius:0;
+  font:600 11.5px/1.4 var(--font-code);color:var(--ui-ink-subtle)}
+.radar-group-head h3{font:600 clamp(1.45rem,2.3vw,1.95rem)/1.15 var(--font-display);letter-spacing:-.015em;margin:4px 0 0}
+.radar-group-head .radar-learning-actions{margin-top:2px;grid-template-columns:minmax(0,1fr);gap:0;justify-items:start}
+.radar-group-head .radar-learning-actions a{display:inline-flex;align-items:center;min-height:44px}
+.radar-group-head .radar-learning-actions span{text-align:left;margin:2px 0 8px}
+.radar-group-why{max-width:62ch;color:var(--ui-ink-subtle);margin:10px 0 0}
+.radar-group-items{list-style:none;margin:18px 0 0;padding:0}
+.radar-group-items .radar-article{display:block;padding:14px 0;border-top:1px solid var(--ui-border)}
+.radar-group-items .radar-article h4{font:600 1.12rem/1.35 var(--font-body);margin:0;overflow-wrap:anywhere}
+.radar-group-items .radar-article h4 a:hover{text-decoration:underline;text-underline-offset:4px}
+.radar-group-items .radar-article-meta{display:block;margin:4px 0 0;font:500 11.5px/1.6 var(--font-code);color:var(--ui-ink-subtle)}
+.radar-group-items .radar-article-date{margin-top:4px}
+.radar-group-items .radar-reading-prompt{margin:6px 0 0;padding:0;border:0;border-radius:0;background:transparent}
+.radar-group-items .radar-reading-prompt summary{display:inline-flex;align-items:center;min-height:44px;font-size:.84rem;font-weight:650}
+.radar-group-items .radar-reading-prompt p{max-width:68ch;color:var(--ui-ink-subtle);font-size:.92rem}
+.radar-group-items .radar-reading-prompt strong{color:var(--ui-ink)}
+.radar-group-items .radar-discussion{display:inline-block;margin-top:6px;font-size:.84rem}
+@media(max-width:900px){.radar-group-head{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){
+  .radar-health-strip{flex-direction:column}
+  .radar-group{grid-template-columns:4rem minmax(0,1fr);column-gap:20px}
+  .radar-group-no{font-size:3rem}
+}
+@media(max-width:600px){
+  .radar-group{grid-template-columns:minmax(0,1fr);padding:24px 0}
+  .radar-group-no{font-size:1.75rem;line-height:1;margin-bottom:6px}
+  .radar-group:is(:hover,:focus-within) .radar-group-no{transform:none}
+}
+@media(prefers-reduced-motion:reduce){.radar-group:is(:hover,:focus-within) .radar-group-no{transform:none}}

@@ -31,7 +31,7 @@ export function CourseOverview({course,legacy=false}:{course:Course;legacy?:bool
     </div>
     <CourseProgress courseSlug={course.slug} lessons={entries.map(x=>({id:x.id,slug:x.slug,title:x.title}))}/>
     <ol className="lesson-list">{entries.map((lesson,index)=><li key={lesson.id}>
-      <Link href={legacy?"/dersler/"+lesson.slug:"/kurslar/"+course.slug+"/"+lesson.slug} className="lesson-item ui-card" transitionTypes={["title-morph"]}>
+      <Link href={legacy?"/dersler/"+lesson.slug:"/kurslar/"+course.slug+"/"+lesson.slug} className="lesson-item" transitionTypes={["title-morph"]}>
         <span className="lesson-number">{String(index+1).padStart(2,"0")}</span>
         <span className="lesson-item-body"><ViewTransition name={"lesson-title-"+course.slug+"-"+lesson.slug} share={{"title-morph":"title-morph",default:"none"}} default="none"><strong>{lesson.title}</strong></ViewTransition><span>{lesson.summary}</span>
           {(()=>{const preview=previewOf(lesson.code);return preview&&<PredictLine still code={preview} language={course.languageId.replace(/^language\./,"")}/>;})()}

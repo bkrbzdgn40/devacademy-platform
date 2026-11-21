@@ -113,13 +113,14 @@ test("official release mappings are distinct, repo-scoped and still link to exis
 test("UI labels source-derived hints as hints, exposes an article-reading question and keeps outbound HTML inert",()=>{
   const html=readFileSync(new URL("../src/app/radar/page.tsx",import.meta.url),"utf8");
   assert.match(html,/item\.learning\.context/);
-  assert.match(html,/item\.learning\.why/);
+  // Ders bilgisi grupta bir kez (group.learning); habere özel bağlam ve okuma sorusu satırda.
+  assert.match(html,/group\.learning\.why/);
   assert.match(html,/item\.learning\.question/);
-  assert.match(html,/item\.learning\.coverage/);
+  assert.match(html,/group\.learning\.coverage/);
   assert.match(html,/item\.learning\.basis/);
-  assert.match(html,/item\.learning\.primary\.kind/);
-  assert.match(html,/item\.learning\.secondary/);
-  assert.match(html,/Kaynağı|Kaynağı okurken/);
+  assert.match(html,/group\.learning\.primary\.kind/);
+  assert.match(html,/group\.learning\.secondary/);
+  assert.match(html,/Okurken kontrol et/);
   assert.match(html,/makale özeti değildir/);
   assert.doesNotMatch(html,/dangerouslySetInnerHTML/);
 });
