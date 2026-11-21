@@ -5,7 +5,7 @@ import {adaptiveProblem,errorPattern,nextFocus,diagnosticHypothesis}
   from "../src/server/adaptive-probes.mjs";
 
 test("all six concepts have two different, server-only and correct diagnostic interventions",()=>{
-  assert.equal(transferLessonIds.length,10);
+  assert.equal(transferLessonIds.length,11);
   for(const lessonId of transferLessonIds) {
     const codes=new Set();
     for(const focus of ["standard","a","b"])for(const seed of [37,2801,4199]) {

@@ -767,8 +767,8 @@ try{
   const otherCurriculum=[
     ["javascript-temelleri","degiskenler","3"],
     ["javascript-temelleri","esitlik","3"],
-    ["javascript-temelleri","dizilerde-map","1"],
-    ["javascript-temelleri","fonksiyonlar","1"],
+    ["javascript-temelleri","dizilerde-map","3"],
+    ["javascript-temelleri","fonksiyonlar","3"],
     ["javascript-temelleri","kapsam","1"],
     ["javascript-temelleri","dizilerde-filter","1"],
     ["javascript-temelleri","asenkron-temeller","1"],

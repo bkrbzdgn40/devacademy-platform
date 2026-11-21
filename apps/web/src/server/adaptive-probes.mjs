@@ -15,6 +15,10 @@ const hypothesis={
     a:"A sonucunda map içindeki dönüşümün hangi öğeye uygulandığı karışmış olabilir.",
     b:"B sonucunda map'in kaynak diziyi değiştirip değiştirmediği karışmış olabilir."
   },
+  "lesson.javascript.functions": {
+    a:"A sonucunda varsayılan parametrenin argüman verilmediğinde devreye girdiği veya return ifadesi karışmış olabilir.",
+    b:"B sonucunda açıkça gönderilen argümanın varsayılan parametreyi ezdiği gözden kaçmış olabilir."
+  },
   "lesson.java.variables": {
     a:"A sonucunda tamsayı bölmesinin ondalıklı değişkene atanmadan önce tamamlandığı gözden kaçmış olabilir.",
     b:"B sonucunda tür dönüşümünü bölmeden önce veya sonra yapmanın etkisi karışmış olabilir."
@@ -113,6 +117,16 @@ export function adaptiveProblem(lessonId,seed,focus="standard") {
           ["const source = ["+a+", "+b+"];","const changed = source.map(n => n * "+k+");",
            "console.log(source[0]);  // A","console.log(changed[0]); // B"],
           [a,a*k],"map'in döndürdüğü dizi değişir; orijinal source öğeleri yerinde kalır.");
+    case "lesson.javascript.functions":
+      return focus==="a"
+        ?task("İfade gövdesi ve açık return",
+          ["const addDefault = (n, step = "+b+") => n + step;",
+           "console.log(addDefault("+a+"));    // A","console.log(addDefault("+a+", 0)); // B"],
+          [a+b,a],"İlk çağrıda varsayılan step eklenir; ikinci çağrıda 0 açıkça verildiği için varsayılan kullanılmaz.")
+        :task("Dönen değeri yeni hesapta kullanmak",
+          ["function calc(n, factor = "+k+") { return n * factor; }",
+           "console.log(calc("+a+"));          // A","console.log(calc("+a+", "+(k+1)+")); // B"],
+          [a*k,a*(k+1)],"Açıkça verilen ikinci argüman varsayılan çarpanın yerine geçer.");
     case "lesson.java.variables": {
       const parts=n(2,4)*2,total=parts*c+parts/2;
       const boiler=(expressions)=>["class Main {","  public static void main(String[] args) {",

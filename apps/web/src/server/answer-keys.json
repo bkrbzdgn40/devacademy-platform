@@ -79,6 +79,22 @@
       "c": "values[0] mevcut bir öğedir; map diziyi boşaltmaz, ilk öğe 1 olarak kalır."
     }
   },
+  "debug.js.array-map": {
+    "optionId": "a",
+    "explanation": "Süslü parantezli arrow function blok gövdesidir; açık return olmadan her öğe için undefined döndürür.",
+    "wrongFeedback": {
+      "b": "join diziyi metne birleştirir, öğeleri ikiyle çarpmaz.",
+      "c": "Sorun değişkenin let veya const olmasında değil, map callback'inin değer döndürmemesindedir."
+    }
+  },
+  "js.map.sensor-scale": {
+    "optionId": "a",
+    "explanation": "İkinci öğenin indeksi (idx) 1'dir; adjusted[1] için 30 + 1 * 5 = 35 hesaplanır. map kaynak diziyi değiştirmediği için raw[1] 30 kalır.",
+    "wrongFeedback": {
+      "b": "map yeni bir dizi üretir; kaynak raw dizisinin ikinci öğesi 35 olarak değişmez, 30 kalır.",
+      "c": "idx = 1 için callback 30 + 5 = 35 döndürür; yeni dizideki değer 30 kalmaz."
+    }
+  },
   "js.functions.return": {
     "optionId": "b",
     "explanation": "f(5) sonucu 7 olur; return değeri çağırana iletilir.",
@@ -93,6 +109,22 @@
     "wrongFeedback": {
       "b": "4 argümanın kendisi; ok fonksiyonu x * 2 ifadesinin sonucunu döndürür.",
       "c": "4 * 2 geçerli bir sayı işlemidir, NaN üretmez."
+    }
+  },
+  "debug.js.functions": {
+    "optionId": "a",
+    "explanation": "return kullanılmadığında addBonus(20) çağrısı undefined döndürür ve undefined + 5 işlemi NaN olur. return score + 10; çağırana 30 sayısını iletir.",
+    "wrongFeedback": {
+      "b": "Fonksiyon ikinci bir parametre almaz ve yine return içermediği için undefined döndürür.",
+      "c": "Değişkenin let veya const olması undefined + 5 işleminin NaN üretmesini değiştirmez."
+    }
+  },
+  "js.functions.workout-points": {
+    "optionId": "a",
+    "explanation": "calcPoints(3, 15, 0) çağrısı 3 * 15 - 0 = 45 döndürür. calcPoints(3) ise varsayılanlarla 3 * 12 - 4 = 32 döndürür. 45 - 32 = 13 olur.",
+    "wrongFeedback": {
+      "b": "İlk çağrıda penalty için 0 açıkça verildiğinden varsayılan 4 düşülmez; 41 - 32 = 9 hesaplanmaz.",
+      "c": "45 yalnızca ilk çağrının sonucudur; ikinci çağrının döndürdüğü 32 bu değerden çıkarılır."
     }
   },
   "js.scope.inner": {

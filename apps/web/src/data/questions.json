@@ -200,6 +200,46 @@
     ]
   },
   {
+    "id": "debug.js.array-map",
+    "lessonId": "lesson.javascript.array-map",
+    "prompt": "Ölçümlerin iki katını yazdırmak isteyen öğrenci konsolda yalnızca virgül (,) görüyor çünkü dizi [undefined, undefined] oluyor. Hangi değişiklik hatayı düzeltir?",
+    "code": "const meters = [10, 20];\nconst doubled = meters.map(m => { m * 2; });\nconsole.log(doubled.join(','));",
+    "options": [
+      {
+        "id": "a",
+        "text": "Callback içine return m * 2; yaz veya süslü parantezleri kaldır."
+      },
+      {
+        "id": "b",
+        "text": "meters.map yerine meters.join kullan."
+      },
+      {
+        "id": "c",
+        "text": "const meters yerine let meters yaz."
+      }
+    ]
+  },
+  {
+    "id": "js.map.sensor-scale",
+    "lessonId": "lesson.javascript.array-map",
+    "prompt": "Sensör okumalarına kalibrasyon uygulandıktan sonra yeni dizinin ikinci öğesi ve kaynak dizinin ikinci öğesi konsola ne yazdırır?",
+    "code": "const raw = [15, 30, 45];\nconst adjusted = raw.map((val, idx) => val + idx * 5);\nconsole.log(`${adjusted[1]}:${raw[1]}`);",
+    "options": [
+      {
+        "id": "a",
+        "text": "35:30"
+      },
+      {
+        "id": "b",
+        "text": "35:35"
+      },
+      {
+        "id": "c",
+        "text": "30:30"
+      }
+    ]
+  },
+  {
     "id": "js.functions.return",
     "lessonId": "lesson.javascript.functions",
     "prompt": "Bir fonksiyonun return değeri nedir?",
@@ -236,6 +276,46 @@
       {
         "id": "c",
         "text": "NaN"
+      }
+    ]
+  },
+  {
+    "id": "debug.js.functions",
+    "lessonId": "lesson.javascript.functions",
+    "prompt": "Başlangıç puanına 10 bonus ekleyip üstüne 5 eklemek isteyen öğrenci konsolda NaN görüyor. Hangi değişiklik toplamın 35 yazdırılmasını sağlar?",
+    "code": "function addBonus(score) {\n  console.log(score + 10);\n}\nconst finalScore = addBonus(20) + 5;\nconsole.log(finalScore);",
+    "options": [
+      {
+        "id": "a",
+        "text": "Fonksiyon içindeki console.log(score + 10) yerine return score + 10; yaz."
+      },
+      {
+        "id": "b",
+        "text": "addBonus(20) + 5 yerine addBonus(20, 5) yaz."
+      },
+      {
+        "id": "c",
+        "text": "finalScore değişkenini let ile tanımla."
+      }
+    ]
+  },
+  {
+    "id": "js.functions.workout-points",
+    "lessonId": "lesson.javascript.functions",
+    "prompt": "Varsayılan dinlenme cezası olan fonksiyonla iki antrenman turunun puan farkı kaçtır?",
+    "code": "const calcPoints = (sets, each = 12, penalty = 4) => sets * each - penalty;\nconsole.log(calcPoints(3, 15, 0) - calcPoints(3));",
+    "options": [
+      {
+        "id": "a",
+        "text": "13"
+      },
+      {
+        "id": "b",
+        "text": "9"
+      },
+      {
+        "id": "c",
+        "text": "45"
       }
     ]
   },

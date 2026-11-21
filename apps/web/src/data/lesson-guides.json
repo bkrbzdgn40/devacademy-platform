@@ -32,6 +32,38 @@
     "questionId": "debug.js.equality"
   },
   {
+    "lessonId": "lesson.javascript.array-map",
+    "language": "javascript",
+    "missionTitle": "Blok gövdeli map içinde değeri döndür",
+    "goal": "Süslü parantez kullanan map callback fonksiyonunda yeni diziye değer aktarmak için açık return gerekir.",
+    "trace": [
+      "Süslü parantezli ok fonksiyonunda return yoksa her öğe için undefined üretilir.",
+      "return p * 2; yazıldığında map yeni diziyi [20, 40] olarak doldurur."
+    ],
+    "hints": [
+      "Callback içinde süslü parantez ({ ... }) kullanılmış mı?",
+      "Blok gövdeli bir fonksiyon return olmadan ne döndürür?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.js.array-map"
+  },
+  {
+    "lessonId": "lesson.javascript.functions",
+    "language": "javascript",
+    "missionTitle": "Konsola yazdırmak yerine değeri return et",
+    "goal": "Fonksiyon sonucunun başka bir ifadede kullanılabilmesi için console.log yerine return kullanılmalıdır.",
+    "trace": [
+      "addBonus içinde yalnızca console.log varsa fonksiyon çağrısı undefined döndürür ve + 5 işlemi NaN üretir.",
+      "return score + 10; yazıldığında çağrı 30 döndürür ve 30 + 5 işlemi 35 verir."
+    ],
+    "hints": [
+      "addBonus(20) çağrısı + 5 işlemine hangi değeri veriyor?",
+      "console.log çağırana sayı döndürür mü?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.js.functions"
+  },
+  {
     "lessonId": "lesson.java.variables",
     "language": "java",
     "missionTitle": "Bir değerin kesirli kısmını koru",

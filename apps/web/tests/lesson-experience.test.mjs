@@ -12,7 +12,7 @@ const walkthroughs=JSON.parse(read("data/lesson-walkthroughs.json"));
 const lessons=JSON.parse(read("data/lessons.json"));
 
 test("guided lessons preserve all existing assessment identities",()=>{
-  assert.equal(guides.length,10);
+  assert.equal(guides.length,12);
   for(const guide of guides){
     const item=lessons.find(x=>x.id===guide.lessonId);
     assert.ok(item);

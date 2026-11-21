@@ -13,6 +13,8 @@ const solutions=[
    "function matchNumericId(rawId,expectedId){if(typeof rawId==='string'&&rawId.trim()==='')return false;return Number(rawId)===expectedId;}"],
   ["transfer.js.map","nodejs-24",
    "function scaleCopy(values,factor){return values.map(n=>n*factor)}"],
+  ["transfer.js.functions","nodejs-24",
+   "function computePaceScore(laps,perLap=15,bonus=5){return laps*perLap+bonus;}"],
   ["transfer.java.divide","java-21",
    "class Solution {public static double exactDivide(int n,int d){return (double)n/d;}}"],
   ["transfer.java.overload","java-21",
