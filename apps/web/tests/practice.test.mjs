@@ -4,12 +4,12 @@ import { readFileSync } from "node:fs";
 import { caseBank } from "../../../services/code-runner/src/exercises-private.mjs";
 const published=JSON.parse(readFileSync(new URL("../src/data/practice.json",import.meta.url),"utf8"));
 test("public coding catalog has validated stable IDs and matching worker revisions",()=>{
-  assert.equal(published.length,19);
+  assert.equal(published.length,20);
   assert.equal(new Set(published.map(x=>x.id)).size,published.length);
   assert.equal(new Set(published.map(x=>x.slug)).size,published.length);
   const transfer=published.filter(task=>task.transferLessonId);
-  assert.equal(transfer.length,14);
-  assert.equal(new Set(transfer.map(t=>t.transferLessonId)).size,14);
+  assert.equal(transfer.length,15);
+  assert.equal(new Set(transfer.map(t=>t.transferLessonId)).size,15);
   for(const task of published){
     assert.equal(task.revision,caseBank[task.id].revision);
     assert.equal(task.functionName,caseBank[task.id].functionName);

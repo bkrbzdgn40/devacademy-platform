@@ -271,6 +271,30 @@
       "c": "Dog nesnesini Animal referansında tutmak ve kind alanına erişmek geçerlidir, kod derlenir."
     }
   },
+  "java.variables.cast-measurement": {
+    "optionId": "a",
+    "explanation": "exact işleminde (double) liters bölmeden önce uygulandığı için 15.0 / 4 = 3.75 olur. late işleminde parantez içindeki 15 / 4 önce int bölmesiyle 3 üretir, ardından double'a 3.0 olarak dönüşür.",
+    "wrongFeedback": {
+      "b": "Parantez içindeki (liters / jars) ifadesi bölme yapılırken hâlâ iki int arasında çalışır; dışarıdaki (double) kesri geri getirmez.",
+      "c": "(double) liters / jars ifadesinde soldaki operand bölmeden önce double yapıldığı için ilk değer 3.75 olarak korunur."
+    }
+  },
+  "java.methods.price-calc": {
+    "optionId": "a",
+    "explanation": "shippingCost(3, 5) çağrısı 3 * 15 - 5 = 40 döndürür. shippingCost(0, 10) çağrısında ise kg <= 0 erken return koşulu devreye girip indirim uygulamadan 0 döndürür; toplam 40 olur.",
+    "wrongFeedback": {
+      "b": "kg <= 0 olduğunda erken return 0 çalışır; 0 * 15 - 10 hesabına inilmediği için toplamdan 10 düşülmez.",
+      "c": "shippingCost(3, 5) işleminde indirim parametresi olan 5 çıkarılmadan sadece 3 * 15 = 45 döndürülmez."
+    }
+  },
+  "java.polymorphism.dispatch-vs-field": {
+    "optionId": "a",
+    "explanation": "Java'da alan erişimi referansın derleme zamanı türüne (Notifier -> BASE), override edilen örnek metot çağrısı ise nesnenin çalışma zamanı türüne (SmsNotifier -> kisa-mesaj) göre seçilir.",
+    "wrongFeedback": {
+      "b": "Alanlar (field) metotlar gibi dinamik olarak override edilmez; n.tag referans türü Notifier üzerinden BASE değerini okur.",
+      "c": "send() metodu SmsNotifier sınıfında override edildiği için çalışma zamanında Notifier.send() değil SmsNotifier.send() çalışır."
+    }
+  },
   "python.variables.reassignment": {
     "optionId": "a",
     "explanation": "x önce 4 değerini alır. Ardından x + 3 işlemiyle yeni değer 7 olarak atanır.",

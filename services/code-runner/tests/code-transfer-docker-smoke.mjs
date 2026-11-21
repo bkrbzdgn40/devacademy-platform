@@ -23,6 +23,8 @@ const solutions=[
    "async function resolveAlertBatch(urgentCount,normalCount,limit){const u=Math.max(0,urgentCount);const n=Math.max(0,normalCount);const cap=Math.max(0,limit);const accU=Math.min(u,cap);const accN=Math.min(n,cap-accU);return [accU,accN,u+n-accU-accN];}"],
   ["transfer.java.divide","java-21",
    "class Solution {public static double exactDivide(int n,int d){return (double)n/d;}}"],
+  ["transfer.java.methods","java-21",
+   "class Solution {public static int netShippingFee(int w,int r,int d){if(w<=0)return 0;int net=w*r-d;return net<0?0:net;}}"],
   ["transfer.java.overload","java-21",
    "class Base {int original;Base(int x){original=x;}int speak(){return original;}} "+
    "class Dog extends Base {int extra;Dog(int x,int y){super(x);extra=y;}int speak(int n){return n+extra;}} "+

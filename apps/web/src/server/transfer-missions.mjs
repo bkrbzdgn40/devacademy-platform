@@ -2,7 +2,7 @@
 export const transferLessonIds=Object.freeze([
   "lesson.javascript.let-const","lesson.javascript.equality","lesson.javascript.array-map",
   "lesson.javascript.functions","lesson.javascript.scope","lesson.javascript.filter",
-  "lesson.javascript.async","lesson.java.variables","lesson.java.polymorphism",
+  "lesson.javascript.async","lesson.java.variables","lesson.java.methods","lesson.java.polymorphism",
   "lesson.python.variables","lesson.python.conditions",
   "lesson.python.loops","lesson.python.functions","lesson.python.collections"
 ]);
@@ -105,6 +105,24 @@ export function transferProblem(lessonId,seed) {
         promptA:"A çıktısı? (Örn. 2.0)",promptB:"B çıktısı? (Örn. 2.5)",
         expected:[String(whole),String(whole+.5)],
         explanation:"İki int arasındaki bölme önce tam sayıya kesilir. Cast işlemin öncesinde olunca kesir korunur."};
+    }
+    case "lesson.java.methods": {
+      const qty=next(2,6),price=next(4,9),fee=next(2,7);
+      return {title:"Erken return ve çağrı sonucunu kullanma",
+        code:["class Main {",
+          "  static int calcOrder(int qty, int price, int fee) {",
+          "    if (qty <= 0) return 0;",
+          "    return qty * price + fee;",
+          "  }",
+          "  public static void main(String[] args) {",
+          "    int a = calcOrder(0, "+price+", "+fee+");",
+          "    int b = calcOrder("+qty+", "+price+", "+fee+");",
+          "    System.out.println(a); // A",
+          "    System.out.println(b); // B",
+          "  }","}"].join("\n"),
+        promptA:"A satırı hangi sayıyı yazdırır?",promptB:"B satırı hangi sayıyı yazdırır?",
+        expected:["0",String(qty*price+fee)],
+        explanation:"İlk çağrıda qty <= 0 koşulu sağlanınca erken return 0 ile metot hemen biter; ikinci çağrıda ana hesap döndürülür."};
     }
     case "lesson.java.polymorphism": {
       const base=next(1,9),plus=next(2,6),arg=next(3,11);

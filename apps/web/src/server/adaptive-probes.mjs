@@ -35,6 +35,10 @@ const hypothesis={
     a:"A sonucunda tamsayı bölmesinin ondalıklı değişkene atanmadan önce tamamlandığı gözden kaçmış olabilir.",
     b:"B sonucunda tür dönüşümünü bölmeden önce veya sonra yapmanın etkisi karışmış olabilir."
   },
+  "lesson.java.methods": {
+    a:"A sonucunda erken return koşulunun veya değer döndüren metodun çağrıldığı satır karışmış olabilir.",
+    b:"B sonucunda metodun return ile döndürdüğü değerin çağrı yerinde nasıl toplandığı gözden kaçmış olabilir."
+  },
   "lesson.java.polymorphism": {
     a:"A sonucunda kalıtılan parametresiz metodun hangi sınıftan geldiği karışmış olabilir.",
     b:"B sonucunda speak(int) aşırı yüklemesinin argümanla nasıl çağrıldığı karışmış olabilir."
@@ -195,6 +199,30 @@ export function adaptiveProblem(lessonId,seed,focus="standard") {
             "System.out.println(a); // A","System.out.println(b); // B"]),
           [c+.5,c],"A'da cast bölmeden önce, B'de bölmeden sonra gerçekleşir.");
     }
+    case "lesson.java.methods":
+      return focus==="a"
+        ?task("Erken return koşulu sağlandığında",
+          ["class Main {",
+           "  static int stepCost(int unit, int rate) {",
+           "    if (unit <= 0) return 0;",
+           "    return unit * rate;",
+           "  }",
+           "  public static void main(String[] args) {",
+           "    System.out.println(stepCost(-"+a+", "+b+")); // A",
+           "    System.out.println(stepCost("+c+", "+b+"));  // B",
+           "  }","}"],
+          [0,c*b],"Negatif veya sıfır birimde erken return 0 çalışır ve alt satıra geçmez; pozitif birimde unit * rate döner.")
+        :task("Dönen değerleri biriktirme",
+          ["class Main {",
+           "  static int compute(int base, int extra) {",
+           "    return base * "+k+" + extra;",
+           "  }",
+           "  public static void main(String[] args) {",
+           "    int x = compute("+a+", "+b+");",
+           "    System.out.println(x);         // A",
+           "    System.out.println(x + "+c+"); // B",
+           "  }","}"],
+          [a*k+b,a*k+b+c],"compute değeri ekrana basmaz, return ile x değişkenine döndürür; B ise x üzerine "+c+" ekler.");
     case "lesson.java.polymorphism": {
       const classes=[
         "class Animal { int speak() { return "+a+"; } }",
