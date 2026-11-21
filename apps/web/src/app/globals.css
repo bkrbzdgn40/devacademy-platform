@@ -2106,3 +2106,20 @@ html[data-theme="dark"] .account-section.danger-section{border-top-color:var(--c
   .radar-group:is(:hover,:focus-within) .radar-group-no{transform:none}
 }
 @media(prefers-reduced-motion:reduce){.radar-group:is(:hover,:focus-within) .radar-group-no{transform:none}}
+/* Hedefe hizalı adım adım örnek (lesson-walkthroughs.json) */
+.lesson-walkthrough{margin-top:28px;display:grid;gap:14px}
+.lesson-walkthrough h3{margin:6px 0 0}
+.lesson-walkthrough-model{border-left:3px solid var(--ui-action);background:var(--ui-surface-accent);padding:14px 18px;border-radius:0 10px 10px 0}
+.lesson-walkthrough-model p{margin:6px 0 0;color:var(--ui-ink);line-height:1.75}
+.lesson-walkthrough-scenario{color:var(--ui-ink-subtle);line-height:1.8;max-width:75ch;margin:0}
+.lesson-walkthrough-steps{margin:0;padding-left:1.4em;display:grid;gap:16px}
+.lesson-walkthrough-steps li::marker{color:var(--ui-action);font-weight:800}
+.lesson-walkthrough-steps .lesson-code,.lesson-walkthrough-edge .lesson-code{border-radius:8px;font-size:12px}
+.lesson-walkthrough-steps p,.lesson-walkthrough-edge p{margin:8px 0 0;color:var(--ui-ink-subtle);line-height:1.75}
+.lesson-walkthrough-edge{border:1px solid var(--ui-border-strong);border-top:3px solid var(--ui-warning);border-radius:10px;padding:16px 18px;background:var(--ui-surface)}
+.lesson-walkthrough-edge .lesson-depth-kicker{color:var(--ui-warning)}
+.lesson-walkthrough-edge .lesson-code{margin-top:10px}
+.lesson-references{margin-top:18px;padding-top:14px;border-top:1px solid var(--ui-border)}
+.lesson-references h4{margin:0 0 6px;font-size:14px}
+.lesson-references ul{margin:0}
+.lesson-references a{color:var(--ui-action);text-decoration:underline;text-underline-offset:3px}

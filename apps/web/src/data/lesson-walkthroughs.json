@@ -1,0 +1,182 @@
+[
+  {
+    "id": "lesson.python.variables",
+    "scenario": "Bir sipariş formundan birim fiyat \"12.50\" metni olarak geliyor. Müşteri 3 adet alıyor ve teslimat ücreti 4.99. Ekrana iki ondalıklı toplam yazdırmak istiyoruz.",
+    "steps": [
+      {
+        "code": "unit_price = \"12.50\"",
+        "note": "Formlardan gelen değerler str türündedir; tırnaklar bunu gösterir. type(unit_price) sonucu str olur."
+      },
+      {
+        "code": "price = float(unit_price)",
+        "note": "Hesaplamadan önce metni sayıya dönüştürürüz. price artık 12.5 değerini taşıyan bir float'tır."
+      },
+      {
+        "code": "total = price * 3 + 4.99",
+        "note": "Önce çarpma, sonra toplama yapılır: 12.5 * 3 = 37.5, ardından 37.5 + 4.99 = 42.49."
+      },
+      {
+        "code": "print(f\"{total:.2f}\")  # 42.49",
+        "note": ":.2f yalnızca gösterimi iki ondalığa biçimlendirir; total değişkeninin kendisi değişmez."
+      }
+    ],
+    "edgeCase": {
+      "code": "print(\"12.50\" * 3)  # 12.5012.5012.50",
+      "note": "Dönüştürmeyi unutursan str * int hata vermez, metni üç kez tekrarlar. TypeError'dan daha tehlikelidir çünkü program sessizce yanlış sonuç üretir."
+    },
+    "references": [
+      {
+        "title": "Python Tutorial · Sayılar",
+        "url": "https://docs.python.org/3/tutorial/introduction.html#numbers"
+      },
+      {
+        "title": "Biçim belirtimi mini dili (:.2f)",
+        "url": "https://docs.python.org/3/library/string.html#format-specification-mini-language"
+      }
+    ]
+  },
+  {
+    "id": "lesson.python.conditions",
+    "scenario": "Kargo kuralı: 500 TL ve üstü ücretsiz, 200 TL ve üstü 30 TL, daha azı 50 TL. Sepet tam 200 TL iken hangi ücret çıkar?",
+    "steps": [
+      {
+        "code": "total = 200",
+        "note": "Sınırdaki bir değerle başla. Koşul hataları çoğunlukla tam sınırda görünür."
+      },
+      {
+        "code": "if total >= 500:",
+        "note": "200 >= 500 False olduğu için bu bloğun içi atlanır ve sıradaki koşula geçilir."
+      },
+      {
+        "code": "elif total >= 200:\n    fee = 30",
+        "note": "200 >= 200 True olur, çünkü >= eşitliği de kapsar. fee 30 olur ve zincirin kalanı hiç denenmez."
+      },
+      {
+        "code": "print(fee)  # 30",
+        "note": "if/elif/else zincirinde en fazla bir blok çalışır: ilk doğru koşulun bloğu."
+      }
+    ],
+    "edgeCase": {
+      "code": "total = 800\nif total >= 200:\n    fee = 30\nelif total >= 500:\n    fee = 0\nprint(fee)  # 30",
+      "note": "Koşulların sırası ters olunca 800 TL'lik sepet de 30 TL öder; >= 500 dalına hiç ulaşılmaz. Daha dar koşulu önce yaz."
+    },
+    "references": [
+      {
+        "title": "Python Tutorial · if ifadeleri",
+        "url": "https://docs.python.org/3/tutorial/controlflow.html#if-statements"
+      }
+    ]
+  },
+  {
+    "id": "lesson.python.loops",
+    "scenario": "Bir sensör [12, -1, 7, 0, 3] okumalarını gönderiyor. Negatif değerler arıza kaydıdır; sıfır ise geçerli bir ölçümdür. Geçerli okumaların toplamını bulalım.",
+    "steps": [
+      {
+        "code": "readings = [12, -1, 7, 0, 3]\ntotal = 0",
+        "note": "Toplayıcı değişken döngüden önce sıfırlanır; döngü içinde sıfırlansaydı her turda kaybolurdu."
+      },
+      {
+        "code": "for value in readings:",
+        "note": "Her turda value sıradaki öğeyi alır: 12, -1, 7, 0, 3."
+      },
+      {
+        "code": "    if value < 0:\n        continue",
+        "note": "-1 geldiğinde toplama satırına inilmeden sonraki tura geçilir. Döngü bitmez, yalnızca bu tur atlanır."
+      },
+      {
+        "code": "    total += value",
+        "note": "total sırasıyla 12, 19, 19, 22 olur. 0 da eklenir, çünkü geçerli bir ölçümdür."
+      },
+      {
+        "code": "print(total)  # 22",
+        "note": "Döngü bittikten sonra, girintisiz satır bir kez çalışır."
+      }
+    ],
+    "edgeCase": {
+      "code": "for value in readings:\n    if value < 0:\n        break\n    total += value\nprint(total)  # 12",
+      "note": "continue yerine break yazılırsa ilk arızalı kayıtta döngü tamamen biter ve sonraki geçerli ölçümler kaybolur. Benzer şekilde if not value: yazmak geçerli 0 değerini de atlar."
+    },
+    "references": [
+      {
+        "title": "Python Tutorial · for ifadeleri",
+        "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements"
+      },
+      {
+        "title": "Python Tutorial · break ve continue",
+        "url": "https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements"
+      }
+    ]
+  },
+  {
+    "id": "lesson.python.functions",
+    "scenario": "Sepet ara toplamına teslimat ücreti ekleyen, ücret verilmezse 30 TL kabul eden ve sonucu test edilebilir biçimde döndüren bir fonksiyon yazalım.",
+    "steps": [
+      {
+        "code": "def order_total(subtotal, delivery_fee=30):",
+        "note": "subtotal zorunludur. delivery_fee verilmezse varsayılan 30 kullanılır. Varsayılanlı parametreler sona yazılır."
+      },
+      {
+        "code": "    return subtotal + delivery_fee",
+        "note": "return sonucu çağırana verir ve bu çağrıyı bitirir. Sonrasına yazılan satırlar o çağrıda çalışmaz."
+      },
+      {
+        "code": "order_total(120)     # 150\norder_total(120, 0)  # 120",
+        "note": "İlk çağrıda varsayılan 30 eklenir; ikincisinde 0 açıkça verildiği için varsayılan kullanılmaz."
+      },
+      {
+        "code": "assert order_total(120, 0) == 120",
+        "note": "Değer döndüğü için sonucu doğrudan test edebiliriz. print kullansaydık fonksiyon None döndürürdü ve bu kontrol başarısız olurdu."
+      }
+    ],
+    "edgeCase": {
+      "code": "def add(item, cart=[]):\n    cart.append(item)\n    return cart\nadd(\"a\")\nprint(add(\"b\"))  # ['a', 'b']",
+      "note": "Varsayılan değer fonksiyon tanımlanırken bir kez oluşturulur. Liste gibi değiştirilebilir bir varsayılan çağrılar arasında paylaşılır; bunun yerine cart=None yazıp fonksiyon içinde yeni liste oluştur."
+    },
+    "references": [
+      {
+        "title": "Python Tutorial · Fonksiyon tanımlama",
+        "url": "https://docs.python.org/3/tutorial/controlflow.html#defining-functions"
+      },
+      {
+        "title": "Python Tutorial · Varsayılan argüman değerleri",
+        "url": "https://docs.python.org/3/tutorial/controlflow.html#default-argument-values"
+      }
+    ]
+  },
+  {
+    "id": "lesson.python.collections",
+    "scenario": "Stok sözlüğü {\"elma\": 3, \"armut\": 12}. Sipariş listesi [\"elma\", \"armut\", \"kiraz\"]. Stoğu 5'in altında olan veya hiç kaydı olmayan ürünleri yeniden sipariş listesine alalım.",
+    "steps": [
+      {
+        "code": "stock = {\"elma\": 3, \"armut\": 12}\nwanted = [\"elma\", \"armut\", \"kiraz\"]",
+        "note": "Sözlük adı miktara eşler; liste ise kontrol edilecek ürünlerin sırasını tutar."
+      },
+      {
+        "code": "stock.get(\"kiraz\", 0)  # 0",
+        "note": "kiraz anahtarı yok. stock[\"kiraz\"] KeyError verirdi; get ikinci argümandaki 0'ı döndürür, yani \"stokta yok\" anlamına gelir."
+      },
+      {
+        "code": "low = [name for name in wanted if stock.get(name, 0) < 5]",
+        "note": "elma için 3 < 5 doğru, eklenir. armut için 12 < 5 yanlış, eklenmez. kiraz için 0 < 5 doğru, eklenir."
+      },
+      {
+        "code": "print(low)  # ['elma', 'kiraz']",
+        "note": "Sonuç, wanted listesindeki sırayı korur; sözlüğün sırasını değil."
+      }
+    ],
+    "edgeCase": {
+      "code": "stock.get(\"kiraz\") < 5  # TypeError",
+      "note": "Varsayılan değer vermezsen get None döndürür ve None < 5 karşılaştırması TypeError üretir. Varsayılanı, eksik veriyi işinin kuralına göre ne anlama geldiğine bakarak seç."
+    },
+    "references": [
+      {
+        "title": "Python Tutorial · Sözlükler",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#dictionaries"
+      },
+      {
+        "title": "Python Tutorial · Liste üreteçleri",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions"
+      }
+    ]
+  }
+]

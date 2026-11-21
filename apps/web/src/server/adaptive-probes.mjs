@@ -19,6 +19,18 @@ const hypothesis={
     a:"A sonucunda kalıtılan parametresiz metodun hangi sınıftan geldiği karışmış olabilir.",
     b:"B sonucunda speak(int) aşırı yüklemesinin argümanla nasıl çağrıldığı karışmış olabilir."
   },
+  "lesson.python.variables": {
+    a:"A sonucunda metnin sayıya dönüştürülmesinin çarpmadan önce mi sonra mı yapıldığı karışmış olabilir.",
+    b:"B sonucunda str * int işleminin metni tekrarladığı, çarpmadığı gözden kaçmış olabilir."
+  },
+  "lesson.python.conditions": {
+    a:"A sonucunda sınır değerinin > ve >= ile hangi dala düştüğü karışmış olabilir.",
+    b:"B sonucunda zincirde ilk doğru koşulun kalan dalları atlattığı gözden kaçmış olabilir."
+  },
+  "lesson.python.collections": {
+    a:"A sonucunda get varsayılanının yalnızca anahtar yoksa kullanıldığı karışmış olabilir.",
+    b:"B sonucunda eksik anahtarın varsayılan 0 ile filtreye girdiği gözden kaçmış olabilir."
+  },
   "lesson.python.loops": {
     a:"A sonucunda range bitiş değerinin dışarıda kaldığı gözden kaçmış olabilir.",
     b:"B sonucunda bitiş sınırını bir artırmanın hangi ek öğeyi kattığı karışmış olabilir."
@@ -119,6 +131,43 @@ export function adaptiveProblem(lessonId,seed,focus="standard") {
            "    System.out.println(dog.speak("+(c+1)+")); // B","  }","}"],
           [c+b,c+1+b],"speak(int) overload'u, çağrıda verilen sayıyı kullanır.");
     }
+    case "lesson.python.variables":
+      return focus==="a"
+        ?task("Dönüşüm çarpmadan önce mi, sonra mı?",
+          ["price_text = \""+a+"\"","quantity = "+b,
+           "print(int(price_text) * quantity)  # A","print(int(price_text * quantity))  # B"],
+          [a*b,String(a).repeat(b)],"A'da önce sayıya dönüştürülüp çarpılır. B'de önce metin tekrarlanır, sonra oluşan metin sayıya çevrilir.")
+        :task("Metin tekrarının uzunluğu",
+          ["price_text = \""+a+"\"","quantity = "+b,
+           "print(len(price_text * quantity))  # A","print(price_text * quantity)       # B"],
+          [b,String(a).repeat(b)],"str * int metni quantity kez yan yana yazar; tek rakamlı metnin uzunluğu quantity olur.");
+    case "lesson.python.conditions": {
+      const limit=c*100,fee=k*10;
+      return focus==="a"
+        ?task("Sınır tam eşit olduğunda",
+          ["total = "+limit,"if total > "+limit+":","    fee_a = 0","else:","    fee_a = "+fee,
+           "if total >= "+limit+":","    fee_b = 0","else:","    fee_b = "+fee,
+           "print(fee_a)  # A","print(fee_b)  # B"],
+          [fee,0],"> eşitliği kapsamaz, >= kapsar. Sepet tam sınırdayken iki koşul farklı karar verir.")
+        :task("Geniş koşul önce gelirse",
+          ["total = "+(limit+b*100+a*10),
+           "if total >= "+(limit+b*100)+":","    fee_a = 0","elif total >= "+limit+":","    fee_a = "+fee,"else:","    fee_a = 99",
+           "if total >= "+limit+":","    fee_b = "+fee,"elif total >= "+(limit+b*100)+":","    fee_b = 0","else:","    fee_b = 99",
+           "print(fee_a)  # A","print(fee_b)  # B"],
+          [0,fee],"İlk doğru koşul zinciri bitirir. B'de geniş koşul önce doğru olduğu için ücretsiz dal denenmez.");
+    }
+    case "lesson.python.collections":
+      return focus==="a"
+        ?task("get varsayılanı ne zaman devreye girer?",
+          ["stock = {\"elma\": "+a+"}",
+           "print(stock.get(\"elma\", 0))  # A","print(stock.get(\"kiraz\", "+k+"))  # B"],
+          [a,k],"Anahtar varsa kayıtlı değer döner; varsayılan yalnızca anahtar yoksa kullanılır.")
+        :task("Eksik ürün filtreye girer mi?",
+          ["stock = {\"elma\": "+a+", \"armut\": "+b+"}","wanted = [\"elma\", \"armut\", \"kiraz\"]",
+           "low = [n for n in wanted if stock.get(n, 0) < "+k+"]",
+           "enough = [n for n in wanted if stock.get(n, 0) >= "+k+"]",
+           "print(len(low))     # A","print(len(enough))  # B"],
+          [(a<k)+(b<k)+1,2-(a<k)-(b<k)],"Eksik kiraz 0 sayılır; 0 her eşikten küçük olduğu için düşük stok listesine girer.");
     case "lesson.python.loops": {
       const start=n(1,4),stop=start+n(3,7),sum=(start+stop-1)*(stop-start)/2;
       return focus==="a"

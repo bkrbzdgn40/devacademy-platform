@@ -2,7 +2,8 @@
 export const transferLessonIds=Object.freeze([
   "lesson.javascript.let-const","lesson.javascript.array-map",
   "lesson.java.variables","lesson.java.polymorphism",
-  "lesson.python.loops","lesson.python.functions"
+  "lesson.python.variables","lesson.python.conditions",
+  "lesson.python.loops","lesson.python.functions","lesson.python.collections"
 ]);
 function numbers(seed) {
   let state=seed>>>0;
@@ -62,6 +63,39 @@ export function transferProblem(lessonId,seed) {
         promptA:"Parametresiz çağrı A kaç üretir?",promptB:"Argümanlı çağrı B kaç üretir?",
         expected:[String(base),String(arg+plus)],
         explanation:"speak(int) yeni bir aşırı yüklemedir. Parametresiz speak() override edilmediği için Animal'dan gelir."};
+    }
+    case "lesson.python.variables": {
+      const price=next(2,9),quantity=next(2,3),fee=next(1,9);
+      return {title:"Metin mi, sayı mı?",
+        code:["price_text = \""+price+"\"  # formdan gelir","quantity = "+quantity,
+          "print(int(price_text) * quantity + "+fee+")  # A",
+          "print(price_text * quantity)              # B"].join("\n"),
+        promptA:"A hangi sayıyı yazdırır?",promptB:"B ekranda hangi rakamları gösterir?",
+        expected:[String(price*quantity+fee),String(price).repeat(quantity)],
+        explanation:"int() dönüşümünden sonra * çarpma yapar. Dönüştürülmemiş bir str ile * ise metni tekrarlar; hata vermez."};
+    }
+    case "lesson.python.conditions": {
+      const high=next(3,9)*100,low=high-next(1,2)*100,mid=next(2,4)*10,base=mid+next(1,3)*10;
+      const total=[high,high-1,low-1][next(0,2)];
+      return {title:"Koşulların sırası kararı değiştirir mi?",
+        code:["total = "+total,
+          "if total >= "+high+":","    fee_a = 0","elif total >= "+low+":","    fee_a = "+mid,"else:","    fee_a = "+base,
+          "if total >= "+low+":","    fee_b = "+mid,"elif total >= "+high+":","    fee_b = 0","else:","    fee_b = "+base,
+          "print(fee_a)  # A","print(fee_b)  # B"].join("\n"),
+        promptA:"A hangi ücreti yazdırır?",promptB:"B hangi ücreti yazdırır?",
+        expected:[String(total>=high?0:total>=low?mid:base),String(total>=low?mid:base)],
+        explanation:"Zincirde yalnızca ilk doğru koşulun bloğu çalışır. B'de geniş koşul önce geldiği için ücretsiz kargo dalına hiç ulaşılmaz."};
+    }
+    case "lesson.python.collections": {
+      const apple=next(1,9),pear=next(1,9),limit=next(2,9);
+      return {title:"Eksik anahtar ne anlama gelir?",
+        code:["stock = {\"elma\": "+apple+", \"armut\": "+pear+"}","wanted = [\"elma\", \"armut\", \"kiraz\"]",
+          "print(stock.get(\"kiraz\", 0) + stock[\"elma\"])  # A",
+          "low = [name for name in wanted if stock.get(name, 0) < "+limit+"]",
+          "print(len(low))  # B"].join("\n"),
+        promptA:"A hangi sayıyı yazdırır?",promptB:"B hangi sayıyı yazdırır?",
+        expected:[String(apple),String((apple<limit)+(pear<limit)+1)],
+        explanation:"get eksik anahtar için verilen varsayılanı (0) döndürür; bu yüzden kiraz hem A'da 0 sayılır hem de B'de düşük stok listesine girer."};
     }
     case "lesson.python.loops": {
       const start=next(1,4),stop=start+next(3,7);

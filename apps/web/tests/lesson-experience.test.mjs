@@ -15,7 +15,7 @@ test("guided lessons preserve all existing assessment identities",()=>{
   for(const guide of guides){
     const item=lessons.find(x=>x.id===guide.lessonId);
     assert.ok(item);
-    assert.equal(item.questionIds.length,3);
+    assert.equal(item.questionIds.length,item.id.startsWith("lesson.python.")?4:3);
     assert.ok(item.questionIds.includes(guide.questionId));
     assert.ok(item.questionIds.every(id=>questions.some(q=>q.id===id)));
   }

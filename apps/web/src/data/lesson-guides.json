@@ -53,8 +53,8 @@
     "missionTitle": "Metin ile sayıyı birleştir",
     "goal": "Python, str ve int değerlerini + ile otomatik birleştirmez.",
     "trace": [
-      "str ile int doğrudan toplanamaz.",
-      "f-string 20 sayısını güvenli biçimde metin içine yerleştirir."
+      "float(unit_price) metni sayıya çevirir; çarpma toplamadan önce yapılır: 12.5 * 3 + 4.99.",
+      "f\"{total:.2f}\" yalnızca gösterimi iki ondalığa biçimlendirir ve 42.49 yazar."
     ],
     "hints": [
       "age türü int, \"Yaş: \" türü str.",
@@ -69,8 +69,8 @@
     "missionTitle": "Girintiyi düzelt",
     "goal": "Koşul dışındaki bir print satırı her zaman yürütülür.",
     "trace": [
-      "Koşul dışındaki print doğru/yanlış her durumda çalışır.",
-      "else bloğu yalnızca yetişkin koşulu sağlanmadığında çalışır."
+      "200 >= 500 yanlış olduğu için sıradaki elif denetlenir.",
+      "200 >= 200 doğru; fee 30 olur ve else bloğu hiç çalışmaz."
     ],
     "hints": [
       "Şu an ikinci print if bloğunun dışında.",
