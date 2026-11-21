@@ -304,38 +304,65 @@
   },
   {
     "id": "transfer.js.scope",
-    "revision": 1,
-    "slug": "bagimsiz-js-kapsam-kontenjan",
+    "revision": 2,
+    "slug": "bagimsiz-js-kapsam-haftalik-zirve",
     "language": "javascript",
     "level": "Bağımsız transfer",
-    "title": "JavaScript · Yerel ve dış kontenjanı ayır",
-    "functionName": "trackQuota",
+    "title": "JavaScript · Haftalık zirve ile genel zirveyi ayır",
+    "functionName": "weeklyPeaks",
     "transferLessonId": "lesson.javascript.scope",
-    "description": "trackQuota(initialQuota, localQuota, globalDelta) fonksiyonunu yaz. Dış kapsamda initialQuota değerini tut. Bir iç blokta aynı isimle gölgeleyen yerel değişkeni localQuota + 2 olarak hesapla; ardından dış kontenjana globalDelta ekle ve [yerelSonuc, disSonuc] dizisini döndür.",
-    "starterCode": "function trackQuota(initialQuota, localQuota, globalDelta) {\n  // [yerelSonuc, disSonuc] çiftini döndür.\n  return [];\n}",
+    "description": "weeklyPeaks(weeks) fonksiyonunu yaz. weeks, her biri bir haftanın sıcaklık ölçümlerini tutan dizilerden oluşur; her hafta en az bir ölçüm içerir ve değerler eksi olabilir. Her haftanın en yüksek değerini sırayla bir diziye koy ve bütün haftaların en yüksek değeriyle birlikte [haftalikEnYuksekler, genelEnYuksek] döndür. weeks boşsa [[], null] döndür. İpucu: haftalık zirve her hafta yeniden başlamalı, genel zirve ise haftalar boyunca korunmalı; iki değişkeni nerede tanımladığın sonucu belirler.",
+    "starterCode": "function weeklyPeaks(weeks) {\n  // [haftalikEnYuksekler, genelEnYuksek] döndür.\n  return [[], null];\n}",
     "publicCases": [
       {
-        "label": "Yerel gölgeleme ve dış artış",
+        "label": "Haftanın zirvesi her hafta sıfırlanır",
         "args": [
-          25,
-          10,
-          5
+          [
+            [
+              3,
+              9,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              7,
+              1
+            ]
+          ]
         ],
         "expected": [
-          12,
-          30
+          [
+            9,
+            5,
+            7
+          ],
+          9
         ]
       },
       {
-        "label": "Dış kontenjan azalırken yerel sabit artış",
+        "label": "Yalnızca eksi sıcaklıklar",
         "args": [
-          20,
-          8,
-          -4
+          [
+            [
+              -4,
+              -1,
+              -6
+            ],
+            [
+              -8,
+              -3
+            ]
+          ]
         ],
         "expected": [
-          10,
-          16
+          [
+            -1,
+            -3
+          ],
+          -1
         ]
       }
     ]
@@ -349,7 +376,7 @@
     "title": "JavaScript · Eşik üstü kayıtları süz ve topla",
     "functionName": "sumQualifiedOrders",
     "transferLessonId": "lesson.javascript.filter",
-    "description": "sumQualifiedOrders(amounts, minAmount) fonksiyonunu yaz. amounts dizisinde minAmount değerine eşit veya büyük olan sayıları filter ile seçip reduce ile toplamını döndürsün. Hiçbir öğe koşulu sağlamazsa veya dizi boşsa 0 döndürmeli ve kaynak diziyi değiştirmemeli.",
+    "description": "sumQualifiedOrders(amounts, minAmount) fonksiyonunu yaz. amounts dizisinde minAmount değerine eşit veya büyük olan sayıların toplamını döndürsün. Hiçbir öğe koşulu sağlamazsa veya dizi boşsa 0 döndürmeli. Öneri (puanlanmaz): filter ile seçip reduce ile toplamayı dene ve kaynak diziyi değiştirme.",
     "starterCode": "function sumQualifiedOrders(amounts, minAmount) {\n  // Eşik ve üstündeki değerleri süzüp toplamını döndür.\n  return 0;\n}",
     "publicCases": [
       {
@@ -382,15 +409,15 @@
   },
   {
     "id": "transfer.js.async",
-    "revision": 1,
+    "revision": 2,
     "slug": "bagimsiz-js-promise-bildirim-kuyrugu",
     "language": "javascript",
     "level": "Bağımsız transfer",
     "title": "JavaScript · Promise ile bildirim kapasitesi planla",
     "functionName": "resolveAlertBatch",
     "transferLessonId": "lesson.javascript.async",
-    "description": "resolveAlertBatch(urgentCount, normalCount, limit) fonksiyonunu yaz. Fonksiyon sonucu doğrudan değil, bir Promise (veya async function) döndürerek üretmeli. Önce acil (urgentCount) bildirimler limit kapasitesine kadar alınır, kalan kapasiteye normal (normalCount) bildirimler eklenir. Negatif sayılar 0 kabul edilir ve Promise [kabulAcil, kabulNormal, bekleyen] dizisine çözülmelidir.",
-    "starterCode": "async function resolveAlertBatch(urgentCount, normalCount, limit) {\n  // Önce acil, sonra normal bildirimleri kapasiteye sığdırıp [acil, normal, bekleyen] döndür.\n  return [0, 0, 0];\n}",
+    "description": "resolveAlertBatch(urgentCount, normalCount, limit) fonksiyonunu yaz. Fonksiyon sonucu doğrudan değil, bir Promise döndürerek üretmeli (async function veya new Promise/Promise.resolve kullanabilirsin); Promise olmayan bir dönüş değeri testi geçmez. Önce acil (urgentCount) bildirimler limit kapasitesine kadar alınır, kalan kapasiteye normal (normalCount) bildirimler eklenir. Negatif sayılar 0 kabul edilir ve Promise [kabulAcil, kabulNormal, bekleyen] dizisine çözülmelidir.",
+    "starterCode": "function resolveAlertBatch(urgentCount, normalCount, limit) {\n  // Önce acil, sonra normal bildirimleri kapasiteye sığdır.\n  // Sonucu [acil, normal, bekleyen] dizisine çözülen bir Promise olarak döndür.\n  return [0, 0, 0];\n}",
     "publicCases": [
       {
         "label": "Acil ve normal bildirimler kısmen sığar",

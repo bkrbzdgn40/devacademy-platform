@@ -1,8 +1,10 @@
 # M9 · Python altın standardı: eğitim öz-incelemesi
 
 **Tarih:** 2026-11-21 · **Kapsam:** PR #51 ile birleşen beş Python Temelleri dersi
-**İnceleme türü: öz-inceleme, bağımsız değil.** İçeriği yazan ajan (Claude) aynı
-oturumda kendi içeriğini inceledi. AGENTS.md'nin yüksek riskli değişiklikler için
+**İnceleme türü: öz-inceleme, bağımsız değil.** PR #51 içeriğini yazan ajan (Claude)
+aynı oturumda kendi içeriğini inceledi ve R1–R7 bulgularını çıkardı. R4–R7 düzeltmeleri
+ve bu satırlardaki "Giderildi" işaretleri PR #53'te başka bir ajan (Gemini) tarafından
+yapıldı; Gemini kendi düzeltmesini işaretlediği için bu da öz-incelemedir. AGENTS.md'nin yüksek riskli değişiklikler için
 istediği bağımsız eğitim incelemesi **yapılmadı**. Bu belge o incelemenin yerini
 tutmaz; bağımsız gözden geçirene bir başlangıç listesi verir.
 
