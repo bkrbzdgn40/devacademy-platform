@@ -140,6 +140,78 @@
     ]
   },
   {
+    "id": "lesson.javascript.scope",
+    "scenario": "Bir okulda genel sınıf kontenjanı let quota = 25 olarak tanımlanıyor. Laboratuvar bloğunda aynı isimle yerel bir let quota = 12 açıldığında ve normal bir blokta quota += 5 yapıldığında dış değişkenin nasıl etkilendiğini adım adım izleyelim.",
+    "steps": [
+      {
+        "code": "let quota = 25;",
+        "note": "Dış kapsamda quota değişkeni 25 değeriyle oluşturulur."
+      },
+      {
+        "code": "{\n  let quota = 12;\n  console.log(quota); // 12\n}",
+        "note": "İç bloktaki let quota yeni bir yerel bağ kurar ve dıştakini gölgeler (shadowing). Bu blok içinde 12 yazdırılır; blok bitince yerel bağ yok olur."
+      },
+      {
+        "code": "console.log(quota); // 25",
+        "note": "İç bloktaki gölgeleme dış değişkeni değiştirmemiştir; dış quota hâlâ 25'tir."
+      },
+      {
+        "code": "{\n  quota += 5;\n}\nconsole.log(quota); // 30",
+        "note": "Bu ikinci blokta başında let yoktur; yeni bağ açılmaz, doğrudan dıştaki quota güncellenir ve 30 olur."
+      }
+    ],
+    "edgeCase": {
+      "code": "let quota = 25;\n{\n  console.log(quota); // ReferenceError\n  let quota = 12;\n}",
+      "note": "Bir blok içinde let veya const ile tanımlanan değişken, tanımlandığı satıra gelene kadar Geçici Ölü Bölge (Temporal Dead Zone - TDZ) içindedir. Tanım satırından önce okunursa dış değişkeni almaz, ReferenceError fırlatır."
+    },
+    "references": [
+      {
+        "title": "MDN · Blok ifadesi ve kapsam",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block"
+      },
+      {
+        "title": "MDN · let ve Geçici Ölü Bölge (TDZ)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz"
+      }
+    ]
+  },
+  {
+    "id": "lesson.javascript.filter",
+    "scenario": "Kasada [120, -40, 80, 0] TL tutarlarında işlem kayıtları var. İadeleri (negatif) ve sıfır tutarlı kayıtları filter ile eleyip yalnızca geçerli satışların toplamını reduce ile güvenli biçimde hesaplayalım.",
+    "steps": [
+      {
+        "code": "const records = [120, -40, 80, 0];",
+        "note": "Kaynak dizide pozitif satışlar, negatif iade ve sıfır tutarlı kayıt bir aradadır."
+      },
+      {
+        "code": "const validSales = records.filter(amount => amount > 0);",
+        "note": "filter koşulu true olan öğelerden yeni bir dizi kurar: [120, 80]. Kaynak records dizisi değişmez."
+      },
+      {
+        "code": "const total = validSales.reduce((sum, amount) => sum + amount, 0);",
+        "note": "reduce akümülatörü (sum) 0 başlangıç değeriyle başlatır: önce 0 + 120 = 120, sonra 120 + 80 = 200 olur."
+      },
+      {
+        "code": "console.log(total); // 200",
+        "note": "Filtrelenmiş satışların toplamı 200 olarak elde edilir."
+      }
+    ],
+    "edgeCase": {
+      "code": "[].reduce((sum, n) => sum + n);    // TypeError\n[].reduce((sum, n) => sum + n, 0); // 0",
+      "note": "Filtreleme sonucunda hiç öğe kalmazsa (boş dizi) başlangıç değeri verilmeyen reduce çağrısı TypeError fırlatır. İkinci argüman olarak 0 başlangıç değerini her zaman açıkça ver."
+    },
+    "references": [
+      {
+        "title": "MDN · Array.prototype.filter()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter"
+      },
+      {
+        "title": "MDN · Array.prototype.reduce()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce"
+      }
+    ]
+  },
+  {
     "id": "lesson.python.variables",
     "scenario": "Bir sipariş formundan birim fiyat \"12.50\" metni olarak geliyor. Müşteri 3 adet alıyor ve teslimat ücreti 4.99. Ekrana iki ondalıklı toplam yazdırmak istiyoruz.",
     "steps": [

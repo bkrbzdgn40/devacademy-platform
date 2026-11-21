@@ -360,6 +360,46 @@
     ]
   },
   {
+    "id": "debug.js.scope",
+    "lessonId": "lesson.javascript.scope",
+    "prompt": "Ek sınıf açıldığında toplam kontenjanı 15 yapmak isteyen öğrenci konsolda hâlâ 10 görüyor. Hangi değişiklik dıştaki seats değişkeninin güncellenmesini sağlar?",
+    "code": "let seats = 10;\nif (seats < 12) {\n  let seats = 15;\n}\nconsole.log(seats);",
+    "options": [
+      {
+        "id": "a",
+        "text": "if bloğu içindeki let seats = 15; satırını seats = 15; olarak değiştir."
+      },
+      {
+        "id": "b",
+        "text": "İç bloktaki let seats = 15; yerine const seats = 15; yaz."
+      },
+      {
+        "id": "c",
+        "text": "Dıştaki let seats = 10; satırını const seats = 10; yap."
+      }
+    ]
+  },
+  {
+    "id": "js.scope.classroom-quota",
+    "lessonId": "lesson.javascript.scope",
+    "prompt": "İki ayrı etkinlik bloğu çalıştıktan sonra iç blokta ve en sonda hesaplanan kontenjan değerleri hangi çıktıyı verir?",
+    "code": "let quota = 20;\nlet innerQuota = 0;\n{\n  let quota = 12;\n  quota += 3;\n  innerQuota = quota;\n}\n{\n  quota += 5;\n}\nconsole.log(`${innerQuota} ve ${quota}`);",
+    "options": [
+      {
+        "id": "a",
+        "text": "15 ve 25"
+      },
+      {
+        "id": "b",
+        "text": "15 ve 20"
+      },
+      {
+        "id": "c",
+        "text": "23 ve 28"
+      }
+    ]
+  },
+  {
     "id": "js.filter.evens",
     "lessonId": "lesson.javascript.filter",
     "prompt": "filter sonrası hangi sayılar görüntülenir?",
@@ -396,6 +436,46 @@
       {
         "id": "c",
         "text": "10"
+      }
+    ]
+  },
+  {
+    "id": "debug.js.filter",
+    "lessonId": "lesson.javascript.filter",
+    "prompt": "100 TL üstü siparişlerin toplamını hesaplayan kod, listede 100 üstü sipariş olmadığında TypeError fırlatıyor. Hangi değişiklik boş filtre sonucunda 0 dönmesini sağlar?",
+    "code": "const orders = [40, 75];\nconst high = orders.filter(n => n > 100);\nconsole.log(high.reduce((sum, n) => sum + n));",
+    "options": [
+      {
+        "id": "a",
+        "text": "reduce çağrısına ikinci argüman olarak 0 başlangıç değerini ekle: reduce((sum, n) => sum + n, 0)."
+      },
+      {
+        "id": "b",
+        "text": "filter yerine map(n => n > 100) kullan."
+      },
+      {
+        "id": "c",
+        "text": "n > 100 koşulunu n === 100 olarak değiştir."
+      }
+    ]
+  },
+  {
+    "id": "js.filter.order-summary",
+    "lessonId": "lesson.javascript.filter",
+    "prompt": "İptal edilen negatif kayıtlar elendikten sonra en az 50 TL olan siparişlerin sayısı ve toplam tutarı konsola ne yazdırır?",
+    "code": "const orders = [60, -80, 40, 90, 50];\nconst qualified = orders.filter(n => n >= 50);\nconst total = qualified.reduce((sum, n) => sum + n, 0);\nconsole.log(`${qualified.length}:${total}`);",
+    "options": [
+      {
+        "id": "a",
+        "text": "3:200"
+      },
+      {
+        "id": "b",
+        "text": "2:150"
+      },
+      {
+        "id": "c",
+        "text": "4:240"
       }
     ]
   },

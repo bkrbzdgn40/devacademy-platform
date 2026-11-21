@@ -143,6 +143,22 @@
       "c": "Dıştaki n blok dışında tanımlıdır, erişim hata vermez."
     }
   },
+  "debug.js.scope": {
+    "optionId": "a",
+    "explanation": "İç blokta let kullanmak yeni bir yerel değişken tanımlayıp dış değişkeni gölgeler. let kaldırıldığında dıştaki seats değişkeni güncellenir.",
+    "wrongFeedback": {
+      "b": "const seats = 15 de yalnızca iç blokta geçerli yeni bir sabit bağ oluşturur; dış değişken yine 10 kalır.",
+      "c": "Dış değişken const yapılırsa sonradan yeni bir değer atanması tamamen engellenir."
+    }
+  },
+  "js.scope.classroom-quota": {
+    "optionId": "a",
+    "explanation": "İlk blok kendi yerel quota değişkenini 12 + 3 ile 15 yapar ve yazdırır. İkinci blokta let olmadığı için dıştaki 20 değeri 5 artarak 25 olur.",
+    "wrongFeedback": {
+      "b": "İkinci blokta let anahtar sözcüğü yoktur; bu yüzden quota += 5 işlemi dıştaki değişkeni 20'den 25'e çıkarır.",
+      "c": "İlk blokta let quota = 12 yazıldığı için artış 20 üzerinden değil yerel 12 üzerinden yapılır ve dış değişken etkilenmez."
+    }
+  },
   "js.filter.evens": {
     "optionId": "b",
     "explanation": "Çift sayılar 2 ve 4'tür; filter yeni bir dizi üretir.",
@@ -157,6 +173,22 @@
     "wrongFeedback": {
       "a": "5 dizinin son öğesidir; reduce tüm öğeleri 0 başlangıç değerine ekler.",
       "b": "Toplam 2 + 3 + 5 = 10'dur; 15 bu dizinin toplamı değildir."
+    }
+  },
+  "debug.js.filter": {
+    "optionId": "a",
+    "explanation": "Boş bir dizide başlangıç değeri olmadan reduce çağrılırsa TypeError oluşur. İkinci argüman olarak 0 vermek boş dizide güvenli şekilde 0 döndürür.",
+    "wrongFeedback": {
+      "b": "map(n => n > 100) sayıları seçmez, [false, false] boolean dizisi üretir.",
+      "c": "n === 100 koşulunda da sonuç dizisi boş kalır ve başlangıç değeri olmayan reduce yine TypeError fırlatır."
+    }
+  },
+  "js.filter.order-summary": {
+    "optionId": "a",
+    "explanation": "n >= 50 koşulunu 60, 90 ve sınır değeri olan 50 sağlar (3 öğe). reduce bu üç değeri 0'dan başlayarak toplar: 60 + 90 + 50 = 200.",
+    "wrongFeedback": {
+      "b": ">= 50 koşulu eşitliği de kapsadığı için 50 TL'lik sipariş de seçilir; 2 değil 3 sipariş kalır.",
+      "c": "40 değeri 50 sınırının altındadır; filter tarafından elendiği için ne sayıya ne de toplama katılır."
     }
   },
   "js.async.sync": {

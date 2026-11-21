@@ -103,8 +103,8 @@
     "title": "Blok kapsamı ve gölgeleme",
     "level": "Başlangıç",
     "durationMinutes": 23,
-    "objective": "Gölgeleme ile dış değişkeni gerçekten güncellemeyi ayırt ederek kampanya kurallarını yorumlayabilmek.",
-    "summary": "Farklı kampanya bloklarında aynı isimdeki let bağlarının kapsamını izle.",
+    "objective": "Gölgeleme ile dış değişkeni gerçekten güncellemeyi ayırt ederek sınıf ve grup kontenjan kurallarını yorumlayabilmek.",
+    "summary": "Farklı sınıf ve etkinlik bloklarında aynı isimdeki let bağlarının kapsamını izle.",
     "explanation": "let ve const blok kapsamlıdır. Bir iç blokta aynı isimle yeni bir let tanımlamak, dışarıdaki değeri değiştirmez; buna shadowing veya gölgeleme denir. var farklı kurallara sahiptir, bu yüzden başlangıçta let/const daha öngörülebilirdir.",
     "code": "let count = 1;\n{\n  let count = 3;\n  console.log(count); // 3\n}\nconsole.log(count); // 1",
     "takeaways": [
@@ -114,7 +114,9 @@
     ],
     "questionIds": [
       "js.scope.inner",
-      "js.scope.outer"
+      "js.scope.outer",
+      "debug.js.scope",
+      "js.scope.classroom-quota"
     ],
     "prerequisites": [
       "lesson.javascript.functions"
@@ -137,7 +139,9 @@
     ],
     "questionIds": [
       "js.filter.evens",
-      "js.reduce.sum"
+      "js.reduce.sum",
+      "debug.js.filter",
+      "js.filter.order-summary"
     ],
     "prerequisites": [
       "lesson.javascript.scope"

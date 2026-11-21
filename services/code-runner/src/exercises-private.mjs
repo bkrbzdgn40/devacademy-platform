@@ -81,6 +81,24 @@ export const caseBank = Object.freeze({
       {public:false,args:[5,12,-10],expected:50}
     ]
   },
+  "transfer.js.scope": {
+    revision:1,functionName:"trackQuota",cases:[
+      {label:"Yerel gölgeleme ve dış artış",public:true,args:[25,10,5],expected:[12,30]},
+      {label:"Dış kontenjan azalırken yerel sabit artış",public:true,args:[20,8,-4],expected:[10,16]},
+      {public:false,args:[15,0,0],expected:[2,15]},
+      {public:false,args:[30,18,10],expected:[20,40]},
+      {public:false,args:[12,5,-12],expected:[7,0]}
+    ]
+  },
+  "transfer.js.filter": {
+    revision:1,functionName:"sumQualifiedOrders",cases:[
+      {label:"Karma siparişler ve sınır değeri",public:true,args:[[60,-40,30,50,90],50],expected:200},
+      {label:"Eşiği geçen sipariş yok",public:true,args:[[10,25,-80],50],expected:0},
+      {public:false,args:[[],10],expected:0},
+      {public:false,args:[[20,20,19],20],expected:40},
+      {public:false,args:[[-10,0,15,35],15],expected:50}
+    ]
+  },
   "transfer.java.divide": {
     revision:1,runtimeId:"java-21",functionName:"exactDivide",cases:[
       {label:"Kesirli bölüm",public:true,args:[7,2],expected:3.5},
