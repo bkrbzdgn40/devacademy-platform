@@ -72,7 +72,7 @@ test("auth, durable progress, authorization and cascade integration", async () =
     const javaLesson="lesson.java.variables";
     assert.equal((await updateLessonProgress(b.learnerId,javaLesson,"complete")).status,"incomplete");
     assert.equal((await updateLessonProgress(b.learnerId,javaLesson,"view")).status,"saved");
-    for(const [id,choice] of [["java.variables.increment","b"],["java.variables.division","b"],["debug.java.variables","a"]]){
+    for(const [id,choice] of [["java.variables.increment","b"],["java.variables.division","b"],["debug.java.variables","a"],["java.variables.cast-measurement","a"]]){
       const result=gradeSubmission({questionId:id,optionId:choice});
       assert.equal(result.status,"graded");
       assert.equal(result.correct,true);
@@ -81,7 +81,7 @@ test("auth, durable progress, authorization and cascade integration", async () =
     assert.equal((await updateLessonProgress(b.learnerId,javaLesson,"complete")).status,"completed");
     const javaProgress=await getLearningProgress(b.learnerId);
     assert.ok(javaProgress.lessons.some(x=>x.lessonId===javaLesson && x.completedAt));
-    assert.equal(javaProgress.recentAttempts.filter(x=>x.lessonId===javaLesson).length,3);
+    assert.equal(javaProgress.recentAttempts.filter(x=>x.lessonId===javaLesson).length,4);
     assert.equal((await getLearningProgress(a.learnerId)).lessons.some(x=>x.lessonId===javaLesson),false);
 
     await revokeSession(requestA);

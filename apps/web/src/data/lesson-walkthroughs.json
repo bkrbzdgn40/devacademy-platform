@@ -248,6 +248,114 @@
     ]
   },
   {
+    "id": "lesson.java.variables",
+    "scenario": "Bir laboratuvar ölçümünde 15 litrelik karışım 4 özdeş kaba paylaştırılıyor. İki int değeri böldüğümüzde kesrin nasıl kaybolduğunu ve bölmeden önce (double) dönüştürmenin ara değerleri nasıl değiştirdiğini adım adım izleyelim.",
+    "steps": [
+      {
+        "code": "int totalLiters = 15;\nint jars = 4;",
+        "note": "Her iki değişken de tam sayı (int) türündedir; değerleri sırasıyla 15 ve 4 olarak saklanır."
+      },
+      {
+        "code": "double truncated = totalLiters / jars;",
+        "note": "Bölme iki int arasında yapıldığı için 15 / 4 sonucu 3 olur; ardından double'a atandığı için truncated 3.0 alır."
+      },
+      {
+        "code": "double exact = (double) totalLiters / jars;",
+        "note": "(double) bölmeden önce uygulandığı için 15.0 / 4.0 işlemi yapılır ve kesir korunur: exact = 3.75."
+      },
+      {
+        "code": "System.out.println(truncated + \" -> \" + exact); // 3.0 -> 3.75",
+        "note": "İlk değişken kesri kaybettiği için 3.0, ikincisi bölme öncesi dönüştürüldüğü için 3.75 yazdırır."
+      }
+    ],
+    "edgeCase": {
+      "code": "double lateCast = (double) (15 / 4); // 3.0",
+      "note": "Parantez içindeki 15 / 4 önce int bölmesi olarak 3 üretir; dışarıdaki (double) dönüştürmesi kaybedilen .75 kesrini geri getiremez."
+    },
+    "references": [
+      {
+        "title": "dev.java · Primitive Data Types",
+        "url": "https://dev.java/learn/language-basics/primitive-types/"
+      },
+      {
+        "title": "Oracle Java SE · Arithmetic Operators",
+        "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/op1.html"
+      }
+    ]
+  },
+  {
+    "id": "lesson.java.methods",
+    "scenario": "Bir kargo hesaplayıcısında shippingPrice(int weightKg, int discount) metodu baz ücreti hesaplayıp indirim düşüyor. Parametrelerin metoda geçişini, return ile çağrı noktasına dönen değeri ve saklanan sonucu adım adım izleyelim.",
+    "steps": [
+      {
+        "code": "static int shippingPrice(int weightKg, int discount) {\n  if (weightKg <= 0) return 0;",
+        "note": "Metot int türünde bir dönüş sözü verir. Geçersiz veya sıfır ağırlıkta erken return hemen 0 ile metodu sonlandırır."
+      },
+      {
+        "code": "  int base = weightKg * 12;\n  return base - discount;\n}",
+        "note": "weightKg = 4, discount = 8 ile çağrıldığında base 48 olur ve return çağrı noktasına 40 değerini iletir."
+      },
+      {
+        "code": "int payable = shippingPrice(4, 8);",
+        "note": "Metottan dönen 40 değeri ekrana otomatik yazılmaz; payable değişkenine atanır."
+      },
+      {
+        "code": "System.out.println(payable); // 40",
+        "note": "Çağrı noktasında saklanan 40 değeri println ile çıktıya yazılır."
+      }
+    ],
+    "edgeCase": {
+      "code": "shippingPrice(4, 8); // değer kullanılmaz\nstatic void logOnly(int x) { System.out.println(x); }",
+      "note": "Dönüş değeri bir değişkene atanmaz veya println içinde kullanılmazsa sessizce kaybolur; void metot ise değer döndürmediği için atamada kullanılamaz."
+    },
+    "references": [
+      {
+        "title": "dev.java · Defining Methods",
+        "url": "https://dev.java/learn/classes-objects/defining-methods/"
+      },
+      {
+        "title": "dev.java · Returning a Value from a Method",
+        "url": "https://dev.java/learn/classes-objects/returning-a-value-from-a-method/"
+      }
+    ]
+  },
+  {
+    "id": "lesson.java.polymorphism",
+    "scenario": "Bir bildirim sisteminde Notifier üst sınıfı türünde bir referans SmsNotifier alt sınıf nesnesini tutuyor. Override edilen send() metodunun, aşırı yüklenen send(int) metodunun ve gizlenen tag alanının nasıl çözüldüğünü izleyelim.",
+    "steps": [
+      {
+        "code": "Notifier ref = new SmsNotifier();",
+        "note": "Referansın derleme zamanı türü Notifier, bellekteki gerçek nesnenin çalışma zamanı türü ise SmsNotifier'dır."
+      },
+      {
+        "code": "String msg = ref.send(); // \"SMS\"",
+        "note": "send() metodu alt sınıfta @Override edildiği için JVM çalışma zamanındaki SmsNotifier.send() gövdesini çalıştırır: \"SMS\"."
+      },
+      {
+        "code": "String label = ref.tag; // \"GENEL\"",
+        "note": "Alanlar (field) metotlar gibi dinamik olarak override edilmez; ref.tag referansın Notifier türündeki alanını okur."
+      },
+      {
+        "code": "SmsNotifier sms = new SmsNotifier();\nSystem.out.println(sms.send(2)); // \"SMSx2\"",
+        "note": "send(int) yeni bir imzaya sahip aşırı yüklemedir (overload); yalnızca bu imzayı tanıyan SmsNotifier referansıyla çağrılır."
+      }
+    ],
+    "edgeCase": {
+      "code": "Notifier ref = new SmsNotifier();\nSystem.out.println(ref.tag); // SmsNotifier.tag değil Notifier.tag!",
+      "note": "Alt sınıfta aynı isimle tanımlanan tag alanı üst sınıf alanını gizler (hiding) ancak override etmez; üst sınıf referansı her zaman üst sınıf alanını görür."
+    },
+    "references": [
+      {
+        "title": "dev.java · Polymorphism",
+        "url": "https://dev.java/learn/inheritance/polymorphism/"
+      },
+      {
+        "title": "dev.java · Overriding and Hiding Methods",
+        "url": "https://dev.java/learn/inheritance/overriding/"
+      }
+    ]
+  },
+  {
     "id": "lesson.python.variables",
     "scenario": "Bir sipariş formundan birim fiyat \"12.50\" metni olarak geliyor. Müşteri 3 adet alıyor ve teslimat ücreti 4.99. Ekrana iki ondalıklı toplam yazdırmak istiyoruz.",
     "steps": [

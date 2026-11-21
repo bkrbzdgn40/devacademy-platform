@@ -600,6 +600,26 @@
     ]
   },
   {
+    "id": "java.variables.cast-measurement",
+    "lessonId": "lesson.java.variables",
+    "prompt": "Depodaki 15 litrelik numune 4 kaba bölünürken bölme öncesi tür dönüşümü ve tam sayı bölmesi sırasıyla ne yazdırır?",
+    "code": "class Main {\n  public static void main(String[] args) {\n    int liters = 15;\n    int jars = 4;\n    double exact = (double) liters / jars;\n    double late = (double) (liters / jars);\n    System.out.println(exact + \"|\" + late);\n  }\n}",
+    "options": [
+      {
+        "id": "a",
+        "text": "3.75|3.0"
+      },
+      {
+        "id": "b",
+        "text": "3.75|3.75"
+      },
+      {
+        "id": "c",
+        "text": "3.0|3.0"
+      }
+    ]
+  },
+  {
     "id": "java.methods.square",
     "lessonId": "lesson.java.methods",
     "prompt": "square(4) çağrısı hangi sayıyı yazdırır?",
@@ -640,6 +660,26 @@
     ]
   },
   {
+    "id": "java.methods.price-calc",
+    "lessonId": "lesson.java.methods",
+    "prompt": "Ağırlık ve indirim parametreleriyle çağrılan static fiyat metodu iki gönderi için hangi toplamı yazdırır?",
+    "code": "class Main {\n  static int shippingCost(int kg, int discount) {\n    if (kg <= 0) return 0;\n    return kg * 15 - discount;\n  }\n  public static void main(String[] args) {\n    int total = shippingCost(3, 5) + shippingCost(0, 10);\n    System.out.println(total);\n  }\n}",
+    "options": [
+      {
+        "id": "a",
+        "text": "40"
+      },
+      {
+        "id": "b",
+        "text": "30"
+      },
+      {
+        "id": "c",
+        "text": "45"
+      }
+    ]
+  },
+  {
     "id": "java.polymorphism.override",
     "lessonId": "lesson.java.polymorphism",
     "prompt": "Override edilmiş örnek metot hangisini döndürür?",
@@ -676,6 +716,26 @@
       {
         "id": "c",
         "text": "Derleme hatası"
+      }
+    ]
+  },
+  {
+    "id": "java.polymorphism.dispatch-vs-field",
+    "lessonId": "lesson.java.polymorphism",
+    "prompt": "Üst sınıf referansıyla tutulan alt sınıf nesnesinde alan erişimi ve override edilen metot çağrısı ne yazdırır?",
+    "code": "class Main {\n  static class Notifier {\n    String tag = \"BASE\";\n    String send() { return \"genel\"; }\n  }\n  static class SmsNotifier extends Notifier {\n    String tag = \"SMS\";\n    @Override String send() { return \"kisa-mesaj\"; }\n  }\n  public static void main(String[] args) {\n    Notifier n = new SmsNotifier();\n    System.out.println(n.tag + \":\" + n.send());\n  }\n}",
+    "options": [
+      {
+        "id": "a",
+        "text": "BASE:kisa-mesaj"
+      },
+      {
+        "id": "b",
+        "text": "SMS:kisa-mesaj"
+      },
+      {
+        "id": "c",
+        "text": "BASE:genel"
       }
     ]
   },

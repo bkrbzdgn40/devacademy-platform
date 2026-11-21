@@ -116,6 +116,15 @@ export const caseBank = Object.freeze({
       {public:false,args:[-3,4],expected:-0.75}
     ]
   },
+  "transfer.java.methods": {
+    revision:1,runtimeId:"java-21",functionName:"netShippingFee",cases:[
+      {label:"Standart gönderi indirimi",public:true,args:[4,15,10],expected:50},
+      {label:"Sıfır ağırlık erken dönüş",public:true,args:[0,20,5],expected:0},
+      {public:false,args:[3,10,40],expected:0},
+      {public:false,args:[-2,15,5],expected:0},
+      {public:false,args:[6,12,0],expected:72}
+    ]
+  },
   "transfer.java.overload": {
     revision:1,runtimeId:"java-21",functionName:"combineSounds",cases:[
       {label:"İki çağrının toplamı",public:true,args:[4,3,5],expected:12},

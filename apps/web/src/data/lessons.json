@@ -190,7 +190,8 @@
     "questionIds": [
       "java.variables.increment",
       "java.variables.division",
-      "debug.java.variables"
+      "debug.java.variables",
+      "java.variables.cast-measurement"
     ],
     "prerequisites": []
   },
@@ -212,7 +213,8 @@
     "questionIds": [
       "java.methods.square",
       "java.methods.void",
-      "debug.java.methods"
+      "debug.java.methods",
+      "java.methods.price-calc"
     ],
     "prerequisites": [
       "lesson.java.variables"
@@ -236,7 +238,8 @@
     "questionIds": [
       "java.polymorphism.override",
       "java.polymorphism.field",
-      "debug.java.polymorphism"
+      "debug.java.polymorphism",
+      "java.polymorphism.dispatch-vs-field"
     ],
     "prerequisites": [
       "lesson.java.methods"

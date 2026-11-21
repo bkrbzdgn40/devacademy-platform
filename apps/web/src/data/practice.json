@@ -451,6 +451,38 @@
     ]
   },
   {
+    "id": "transfer.java.methods",
+    "revision": 1,
+    "slug": "bagimsiz-java-kargo-ucret-metodu",
+    "language": "java",
+    "level": "Bağımsız transfer",
+    "title": "Java · Kargo ücreti metodunu yaz",
+    "functionName": "netShippingFee",
+    "transferLessonId": "lesson.java.methods",
+    "description": "Solution sınıfında public static int netShippingFee(int weightKg, int ratePerKg, int discount) yaz. weightKg <= 0 ise metot erken return ile 0 döndürmeli. Aksi halde weightKg * ratePerKg - discount değerini hesaplamalı, ancak sonuç negatif çıkarsa en az 0 döndürmelidir.",
+    "starterCode": "class Solution {\n  public static int netShippingFee(int weightKg, int ratePerKg, int discount) {\n    // Geçersiz ağırlıkta 0 döndür, indirim sonrası negatif ücret oluşmasını engelle.\n    return 0;\n  }\n}",
+    "publicCases": [
+      {
+        "label": "Standart gönderi indirimi",
+        "args": [
+          4,
+          15,
+          10
+        ],
+        "expected": 50
+      },
+      {
+        "label": "Sıfır ağırlık erken dönüş",
+        "args": [
+          0,
+          20,
+          5
+        ],
+        "expected": 0
+      }
+    ]
+  },
+  {
     "id": "transfer.java.overload",
     "revision": 1,
     "slug": "bagimsiz-java-metot-cagrisi",
