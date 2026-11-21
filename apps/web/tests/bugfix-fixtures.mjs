@@ -25,7 +25,8 @@ const samples={
  "debug.python.conditions":{lang:"python",code:'age = 20\nif age >= 18:\n    print("Yetişkin")\nelse:\n    print("Genç")',out:"Yetişkin"},
  "debug.python.loops":{lang:"python",code:'total = 0\nfor n in range(1, 6):\n    total += n\nprint(total)',out:"15"},
  "debug.python.functions":{lang:"python",code:'def double(n):\n    return n * 2\n\nresult = double(4)\nprint(result)',out:"8"},
- "debug.python.collections":{lang:"python",code:'person = {"name": "Ada"}\nprint(person.get("city", "bilinmiyor"))',out:"bilinmiyor"}
+ "debug.python.collections":{lang:"python",code:'person = {"name": "Ada"}\nprint(person.get("city", "bilinmiyor"))',out:"bilinmiyor"},
+ "debug.python.strings":{lang:"python",code:'email = " Ada@Example.COM "\nemail = email.strip().lower()\nprint(email)',out:"ada@example.com"}
 };
 assert.deepEqual(Object.keys(samples).sort(),guide.map(x=>x.questionId).sort());
 const dir=await mkdtemp(join(tmpdir(),"devacademy-reviewed-debug-"));
