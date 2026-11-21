@@ -811,12 +811,12 @@ try{
     url:base+"/kurslar/javascript-temelleri/degiskenler"},sessionId);
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
-      "document.readyState==='complete' && !!document.querySelector('[data-lesson-step=\"1\"]')",
+      "document.readyState==='complete' && !!document.querySelector('[data-lesson-step=\"3\"]')",
       returnByValue:true},sessionId);
     return r.result?.value===true;
   },"JavaScript feedback demo not hydrated");
   await cdp.send("Runtime.evaluate",{expression:
-    "document.querySelector('[data-lesson-step=\"1\"]').click()",returnByValue:true},sessionId);
+    "document.querySelector('[data-lesson-step=\"3\"]').click()",returnByValue:true},sessionId);
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
       "!!document.querySelector('.python-applied-choices input')",
