@@ -92,6 +92,8 @@ test("shared basic components are used in actual pages, not merely authored",()=
     ".radar-health-card .radar-health-tag{background:transparent",".dashboard-stats>.dashboard-stat{background:transparent",
     "border-top:2px solid var(--ui-ink);border-radius:0;box-shadow:none"])assert.ok(index.includes(rule),rule);
   assert.match(index,/prefers-reduced-motion:reduce/);
+  // 320px'te dört menü öğesi logo ve tema düğmesiyle tek satıra sığmıyor: menü alt satırda dört sütun.
+  assert.match(styles,/@media\(max-width:420px\)\{[^}]*\.site-header \.nav-inner\{flex-wrap:wrap[\s\S]*?\.site-header \.nav-links\{order:2;flex:1 1 100%;display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
   assert.match(styles,/\.studio-code\{background:var\(--ui-code\)/);
 });
 
