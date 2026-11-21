@@ -24,7 +24,7 @@ export function SiteNav(){
   const menu=useRef<HTMLDetailsElement>(null);
   // Layout istemci gezintisinde yeniden oluşmaz; açık kalan menüyü yeni sayfada kapat.
   useEffect(()=>{if(menu.current)menu.current.open=false;},[pathname]);
-  // Native <details> dışarı tıklamayı ve Escape'i bilmez: ikisini de burada kapatıyoruz.
+  // Native <details> dışarı tıklamayı, Escape'i ve odak kaybını bilmez: hepsini burada kapatıyoruz.
   useEffect(()=>{
     const onPointer=(event:PointerEvent)=>{
       const el=menu.current;
@@ -38,9 +38,15 @@ export function SiteNav(){
         if(inside)el.querySelector<HTMLElement>("summary")?.focus();
       }
     };
+    // Tab ile menüden çıkan klavye kullanıcısı için de kapat.
+    const onFocus=(event:FocusEvent)=>{
+      const el=menu.current;
+      if(el?.open&&!el.contains(event.target as Node))el.open=false;
+    };
     document.addEventListener("pointerdown",onPointer);
     document.addEventListener("keydown",onKey);
-    return ()=>{document.removeEventListener("pointerdown",onPointer);document.removeEventListener("keydown",onKey);};
+    document.addEventListener("focusin",onFocus);
+    return ()=>{document.removeEventListener("pointerdown",onPointer);document.removeEventListener("keydown",onKey);document.removeEventListener("focusin",onFocus);};
   },[]);
   return <nav aria-label="Ana menü" className="nav-links">
     <Link href="/kurslar" aria-current={current("learn")}>{section==="learn"&&<Pill/>}<span className="nav-label" style={{viewTransitionName:"nav-label-learn",viewTransitionClass:"nav-label"}}>Öğren</span></Link>

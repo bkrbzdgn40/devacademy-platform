@@ -29,3 +29,7 @@ test("Keşfet menüsü dışarı tıklayınca, Escape ile ve sayfa değişince k
   // Bağlantıya basınca menü sayfa yüklenmesini beklemeden kapanır.
   assert.ok(nav.includes('className="nav-discovery-links" onClick={()=>{if(menu.current)menu.current.open=false;}}'));
 });
+test("Keşfet menüsü Tab ile dışarı çıkınca kapanır",()=>{
+  assert.ok(nav.includes('document.addEventListener("focusin",onFocus)'));
+  assert.ok(nav.includes('document.removeEventListener("focusin",onFocus)'));
+});

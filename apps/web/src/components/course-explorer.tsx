@@ -1,9 +1,25 @@
 "use client";
-import {useState} from "react";
+import {useEffect,useState} from "react";
 import {learningPaths,searchLearningPaths} from "@/lib/learning-paths.mjs";
 import {LearningPathCard,type LearningPath} from "@/components/learning-path-card";
+const SEARCH_PARAM="ara";
 export function CourseExplorer(){
-  const [query,setQuery]=useState("");
+  const [query,setQueryState]=useState("");
+  // Geri tuşuyla dönen öğrenci aramasını kaybetmesin (?ara=<sorgu>).
+  useEffect(()=>{
+    const saved=new URLSearchParams(window.location.search).get(SEARCH_PARAM);
+    if(!saved)return;
+    // Hidrasyondan hemen sonra uygula (gizli sekmede de çalışır); sunucu çıktısı boş aramayla eşleşir.
+    const timer=setTimeout(()=>setQueryState(saved),0);
+    return ()=>clearTimeout(timer);
+  },[]);
+  function setQuery(value:string){
+    setQueryState(value);
+    // replaceState: her tuş vuruşu geri tuşu geçmişine eklenmez.
+    const url=new URL(window.location.href);
+    if(value.trim())url.searchParams.set(SEARCH_PARAM,value);else url.searchParams.delete(SEARCH_PARAM);
+    window.history.replaceState(null,"",url);
+  }
   const matched=searchLearningPaths(learningPaths,query) as LearningPath[];
   return <div className="course-explorer">
     <div className="explorer-search">
