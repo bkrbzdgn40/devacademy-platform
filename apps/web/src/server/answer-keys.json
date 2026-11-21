@@ -433,42 +433,42 @@
   },
   "python.variables.order-total": {
     "optionId": "a",
-    "explanation": "float(\"8.25\") 8.25 olur; 8.25 * 2 = 16.5 ve 16.5 + 3.5 = 20.0. :.2f gösterimi iki ondalığa tamamlar ve 20.00 yazdırır.",
+    "explanation": "float(\"18.50\") * 2 işlemi 37.0 verir; float(\"4.25\") çıkarılınca 32.75 kalır ve :.2f iki ondalıkla 32.75 yazdırır.",
     "wrongFeedback": {
-      "b": "Değer 20.0'dır, ancak :.2f biçimi her zaman iki ondalık basamak gösterir.",
-      "c": "16.50 yalnızca ürün tutarıdır; çarpmadan sonra teslimat ücreti 3.5 de eklenir."
+      "b": ":.2f biçimi sonucu tek ondalığa yuvarlamaz; iki ondalık basamak olan 32.75 değerini korur.",
+      "c": "37.00 yalnızca iki biletin toplamıdır; kupon indirimi olan 4.25 bu tutardan çıkarılır."
     }
   },
   "python.conditions.shipping-boundary": {
-    "optionId": "b",
-    "explanation": "499.99 >= 500 yanlış olduğu için ilk dal atlanır. 499.99 >= 200 doğru, fee 30 olur ve zincir orada biter.",
+    "optionId": "a",
+    "explanation": "İlk turda 20 >= 15 doğru olduğu için 50 eklenir; ikinci turda 11 her iki sınırın altında kaldığından else dalı 0 ekler. Toplam 50 olur.",
     "wrongFeedback": {
-      "a": "Ücretsiz kargo için total >= 500 gerekir; 499.99 bu sınırın altındadır.",
-      "c": "else yalnızca önceki koşulların hepsi yanlışsa çalışır; elif total >= 200 zaten doğrudur."
+      "b": "11 kg ikinci turda >= 15 sınırını sağlamaz; else dalına düşüp 0 eklediği için iki kez 50 toplanmaz.",
+      "c": "20 kg ilk turda >= 25 koşulunu sağlamaz; 120 yerine elif dalındaki 50 seçilir."
     }
   },
   "python.loops.sensor-skip": {
     "optionId": "a",
-    "explanation": "continue yalnızca negatif değerlerin turunu atlar; döngü sürer. 5 + 0 + 8 = 13.",
+    "explanation": "continue yalnızca -3 turunu atlar. 6, 0 ve 9 için valid_count 3 olur; toplamları 6 + 0 + 9 = 15 olarak 3:15 yazdırılır.",
     "wrongFeedback": {
-      "b": "Negatif değerler toplama eklenmez: 5 - 2 + 0 + 8 - 1 = 10 olurdu, ama continue bu satırı atlar.",
-      "c": "5, döngü ilk negatifte bitseydi çıkardı; o break'in davranışıdır. continue sonraki tura geçer."
+      "b": "0 negatif değildir; continue çalışmaz ve 0 ölçümü de geçerli sayılarak sayacı 3 yapar.",
+      "c": "-3 turunda continue çalıştığı için ne sayaç artar ne de -3 toplama eklenir."
     }
   },
   "python.functions.default-fee": {
     "optionId": "a",
-    "explanation": "order_total(120) varsayılan 30 ile 150 döndürür. order_total(80, 0) açıkça verilen 0 ile 80 döndürür. 150 + 80 = 230.",
+    "explanation": "calc_score(15) varsayılanlarla 15 * 2 + 10 = 40 döndürür. calc_score(15, 0, 1) ise 15 * 1 + 0 = 15 döndürür. Fark 40 - 15 = 25 olur.",
     "wrongFeedback": {
-      "b": "Varsayılan değer yalnızca argüman verilmediğinde kullanılır; ikinci çağrıda 0 açıkça verildi.",
-      "c": "İlk çağrıda delivery_fee verilmediği için varsayılan 30 eklenir."
+      "b": "İkinci çağrıda bonus için 0 açıkça verildiğinden varsayılan 10 eklenmez; ikinci sonuç 25 değil 15 olur.",
+      "c": "İlk çağrıda multiplier verilmediği için varsayılan 2 ile çarpılır; yalnızca bonus farkı alınmaz."
     }
   },
   "python.collections.low-stock": {
     "optionId": "a",
-    "explanation": "defter için 2 < 5 doğru. silgi sözlükte yok; get 0 döndürür ve 0 < 5 doğru. kalem için 7 < 5 yanlış.",
+    "explanation": "cum için 30 < 30 yanlış. sal sözlükte yok; get 0 döndürür ve 0 < 30 doğru. çar için 20 < 30 doğru. pzt için 45 < 30 yanlış.",
     "wrongFeedback": {
-      "b": "get(name, 0) eksik anahtar için 0 döndürür; kaydı olmayan silgi de listeye girer.",
-      "c": "KeyError yalnızca stock[name] ile eksik anahtar okunursa oluşur; get hata vermez."
+      "b": "30 < 30 yanlış olduğu için cum seçilmez; kaydı olmayan sal ise get varsayılanı 0 ile listeye girer.",
+      "c": "get(day, 0) kaydı olmayan sal günü için 0 döndürür; 0 < 30 doğru olduğundan sal da listeye eklenir."
     }
   }
 }
