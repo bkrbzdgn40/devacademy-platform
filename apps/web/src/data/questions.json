@@ -682,20 +682,20 @@
   {
     "id": "python.variables.order-total",
     "lessonId": "lesson.python.variables",
-    "prompt": "Formdan gelen birim fiyatla hesaplanan sipariş toplamı ekrana nasıl yazılır?",
-    "code": "unit_price = \"8.25\"\nquantity = 2\ndelivery_fee = 3.5\ntotal = float(unit_price) * quantity + delivery_fee\nprint(f\"{total:.2f}\")",
+    "prompt": "Metin olarak gelen bilet fiyatından kupon indirimi düşüldüğünde kalan tutar ekrana nasıl yazılır?",
+    "code": "ticket_text = \"18.50\"\ncount = 2\ndiscount_text = \"4.25\"\npaid = float(ticket_text) * count - float(discount_text)\nprint(f\"{paid:.2f}\")",
     "options": [
       {
         "id": "a",
-        "text": "20.00"
+        "text": "32.75"
       },
       {
         "id": "b",
-        "text": "20.0"
+        "text": "32.8"
       },
       {
         "id": "c",
-        "text": "16.50"
+        "text": "37.00"
       }
     ]
   },
@@ -722,20 +722,20 @@
   {
     "id": "python.conditions.shipping-boundary",
     "lessonId": "lesson.python.conditions",
-    "prompt": "500 TL sınırının hemen altındaki sepet hangi kargo ücretini öder?",
-    "code": "total = 499.99\nif total >= 500:\n    fee = 0\nelif total >= 200:\n    fee = 30\nelse:\n    fee = 50\nprint(fee)",
+    "prompt": "İki farklı bagaj ağırlığı için hesaplanan ek ücretlerin toplamı kaçtır?",
+    "code": "total_fee = 0\nfor weight in [20, 11]:\n    if weight >= 25:\n        fee = 120\n    elif weight >= 15:\n        fee = 50\n    else:\n        fee = 0\n    total_fee += fee\nprint(total_fee)",
     "options": [
       {
         "id": "a",
-        "text": "0"
+        "text": "50"
       },
       {
         "id": "b",
-        "text": "30"
+        "text": "100"
       },
       {
         "id": "c",
-        "text": "50"
+        "text": "170"
       }
     ]
   },
@@ -762,20 +762,20 @@
   {
     "id": "python.loops.sensor-skip",
     "lessonId": "lesson.python.loops",
-    "prompt": "Arızalı (negatif) okumalar atlandığında geçerli okumaların toplamı kaçtır?",
-    "code": "readings = [5, -2, 0, 8, -1]\ntotal = 0\nfor value in readings:\n    if value < 0:\n        continue\n    total += value\nprint(total)",
+    "prompt": "Arızalı (negatif) okumalar atlandığında kaç geçerli ölçüm vardır ve toplamları kaçtır?",
+    "code": "readings = [6, -3, 0, 9]\nvalid_count = 0\ntotal = 0\nfor i in range(len(readings)):\n    if readings[i] < 0:\n        continue\n    valid_count += 1\n    total += readings[i]\nprint(f\"{valid_count}:{total}\")",
     "options": [
       {
         "id": "a",
-        "text": "13"
+        "text": "3:15"
       },
       {
         "id": "b",
-        "text": "10"
+        "text": "2:15"
       },
       {
         "id": "c",
-        "text": "5"
+        "text": "4:12"
       }
     ]
   },
@@ -802,20 +802,20 @@
   {
     "id": "python.functions.default-fee",
     "lessonId": "lesson.python.functions",
-    "prompt": "Varsayılan teslimat ücreti olan fonksiyonla iki siparişin toplamı kaçtır?",
-    "code": "def order_total(subtotal, delivery_fee=30):\n    return subtotal + delivery_fee\n\nprint(order_total(120) + order_total(80, 0))",
+    "prompt": "Varsayılan puan çarpanı olan fonksiyonla iki oyuncunun farkı kaçtır?",
+    "code": "def calc_score(points, bonus=10, multiplier=2):\n    return points * multiplier + bonus\n\nprint(calc_score(15) - calc_score(15, 0, 1))",
     "options": [
       {
         "id": "a",
-        "text": "230"
+        "text": "25"
       },
       {
         "id": "b",
-        "text": "260"
+        "text": "15"
       },
       {
         "id": "c",
-        "text": "200"
+        "text": "10"
       }
     ]
   },
@@ -842,20 +842,20 @@
   {
     "id": "python.collections.low-stock",
     "lessonId": "lesson.python.collections",
-    "prompt": "Stoğu 5'in altında olan veya kaydı bulunmayan ürünler hangileridir?",
-    "code": "stock = {\"kalem\": 7, \"defter\": 2}\nwanted = [\"defter\", \"silgi\", \"kalem\"]\nlow = [name for name in wanted if stock.get(name, 0) < 5]\nprint(low)",
+    "prompt": "Kontrol sırasına göre hedef sürenin altında kalan veya kaydı olmayan antrenman günleri hangileridir?",
+    "code": "minutes = {\"pzt\": 45, \"çar\": 20, \"cum\": 30}\ncheck_days = [\"cum\", \"sal\", \"çar\", \"pzt\"]\nshort = [day for day in check_days if minutes.get(day, 0) < 30]\nprint(short)",
     "options": [
       {
         "id": "a",
-        "text": "['defter', 'silgi']"
+        "text": "['sal', 'çar']"
       },
       {
         "id": "b",
-        "text": "['defter']"
+        "text": "['çar', 'cum']"
       },
       {
         "id": "c",
-        "text": "KeyError"
+        "text": "['çar']"
       }
     ]
   },

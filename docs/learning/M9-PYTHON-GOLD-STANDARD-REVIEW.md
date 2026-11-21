@@ -21,23 +21,16 @@ tutmaz; bağımsız gözden geçirene bir başlangıç listesi verir.
 
 ## 2. Doğruluk
 
-Hesaplanan bütün değerler doğru bulundu:
+Hesaplanan bütün değerler doğru bulundu ve gerçek Python 3.12 yorumlayıcısında doğrulandı:
 
-- **Değişkenler:** 12.50×3+4.99 = 42.49; `order-total` sorusunun cevabı 20.00.
-- **Koşullar:** tam 200 sınırında ücret 30; 499.99 için ücret 30.
-- **Döngüler:** sensör örneği 22 verir, `break` sınır durumu 12 verir;
-  `sensor-skip` sorusunda `[5, -2, 0, 8, -1]` için 13.
-- **Fonksiyonlar:** `order_total(120) + order_total(80, 0)` = 230; sınır durumu
-  değiştirilebilir varsayılan argümandır.
-- **Koleksiyonlar:** örnek `['elma', 'kiraz']` verir; soru `['defter', 'silgi']`;
-  sınır durumu `None < 5` karşılaştırmasının `TypeError` vermesidir.
-- **Gizli testler:** `format-total`, `shipping-fee` ve `low-stock` için bütün açık
-  ve gizli durumların beklenen değerleri doğrudur. Gizli durumlar istemci
-  paketine girmez.
+- **Değişkenler:** 12.50×3+4.99 = 42.49; `order-total` sorusunun cevabı `32.75` (`18.50 * 2 - 4.25`).
+- **Koşullar:** hava kalitesi örneğinde indeks 50 iken `"Dışarıda kısa kal"`, indeks 35 iken `else` dalında `"Temiz hava"`, sıra ters çevrildiğinde indeks 120 için `"Dışarıda kısa kal"`; `shipping-boundary` sorusunda `[20, 11]` bagaj ağırlıkları için toplam `50`.
+- **Döngüler:** `range(len(readings))` ile sensör örneği `22` verir, `break` sınır durumu `12` verir; `sensor-skip` sorusunda `[6, -3, 0, 9]` için `3:15`.
+- **Fonksiyonlar:** `order_total(120) + order_total(120, 0)` örnek adımları `150` ve `120`; sınır durumu değiştirilebilir varsayılan argümandır; `default-fee` sorusunda `calc_score(15) - calc_score(15, 0, 1)` = `25`.
+- **Koleksiyonlar:** kütüphane örneği `['roman', 'tarih']` verir; `low-stock` sorusu antrenman günleri için `['sal', 'çar']`; sınır durumu `None < 3` karşılaştırmasının `TypeError` vermesidir.
+- **Gizli testler:** `format-total`, `shipping-fee` ve `low-stock` için bütün açık ve gizli durumların beklenen değerleri doğrudur. Gizli durumlar istemci paketine girmez.
 
-Bu kontroller elle yapıldı. Kod görevlerinin gerçek yalıtılmış yürütmesi
-`services/code-runner/tests/code-transfer-docker-smoke.mjs` ile CI'da çalışır;
-yerelde Docker olmadığı için çalıştırılmadı.
+Kod görevlerinin gerçek yalıtılmış yürütmesi `services/code-runner/tests/code-transfer-docker-smoke.mjs` ile CI'da çalışır; yerelde Docker olmadığı için çalıştırılmadı.
 
 ## 3. Bulgular
 
@@ -46,10 +39,10 @@ yerelde Docker olmadığı için çalıştırılmadı.
 | R1 | Kritik | Döngü pilot kartları (negatifleri `continue` ile atlayıp toplama), yeni sensör örneği ve `python.loops.sensor-skip` sorusuyla yapısal olarak aynıydı. Son test transferi değil, ders örneğini hatırlamayı ölçerdi. | **Giderildi.** Kartlar toplama yerine geçerli kayıt sayma olarak yeniden yazıldı. |
 | R2 | Yüksek | Sözlük pilot kartları (`get(eksik, 0) + d[anahtar]`) dersteki transfer göreviyle neredeyse aynıydı. | **Giderildi.** Kartlar `get` varsayılanı ile sırayı koruyan liste kurma olarak yeniden yazıldı. |
 | R3 | Yüksek | Yeni ders hedefleri kartlarda ölçülmüyordu: değişkenlerde `float` ve `:.2f`, koşullarda kademe sırası ve sınır değeri. | **Giderildi.** Değişken kartları `float` + `:.2f`; koşul kartları değeri tam sınırda veya sınırın hemen altında olan kademeli zincir. |
-| R4 | Orta | Yeni dördüncü sorular adım adım örneklerle neredeyse aynı yapıdadır. Yakın transferi ölçer; uzak transferi yalnızca kod görevleri ölçer. | Açık. Bağımsız gözden geçiren karar vermeli. |
-| R5 | Düşük | Koşullar örneği `else` dalını hiç çalıştırmıyor. | Açık. |
-| R6 | Düşük | Döngüler hedefi `range` diyor, adım adım örnek `range` kullanmıyor. | Açık. `range` mevcut ısınma sorusunda ve transfer görevinde sınanıyor. |
-| R7 | Düşük | Beş ders bağlamından dördü ticaret (sipariş, kargo, stok). Bağlam çeşitliliği düşük. | Ders içinde açık. Pilot kartları artık ticaret dışı bağlamlar kullanıyor (spor, su, kulüp, hava). |
+| R4 | Orta | Yeni dördüncü sorular adım adım örneklerle neredeyse aynı yapıdadır. Yakın transferi ölçer; uzak transferi yalnızca kod görevleri ölçer. | **Giderildi.** Beş dersin dördüncü soruları farklı bağlam ve soru biçimine taşındı (bilet+kupon çıkarma, döngülü bagaj ücreti, geçerli sayaç+toplam `3:15`, iki çağrı farkı, haftalık antrenman günleri). |
+| R5 | Düşük | Koşullar örneği `else` dalını hiç çalıştırmıyor. | **Giderildi.** Koşullar adım adım örneğine `index = 35` ile `else` dalını çalıştıran adım eklendi. |
+| R6 | Düşük | Döngüler hedefi `range` diyor, adım adım örnek `range` kullanmıyor. | **Giderildi.** Döngüler adım adım örneği `for i in range(len(readings)):` kullanacak şekilde güncellendi; böylece hedef ile örnek doğrudan hizalandı ve `range` üst sınır hariç kuralı somut indekslerle gösterildi. |
+| R7 | Düşük | Beş ders bağlamından dördü ticaret (sipariş, kargo, stok). Bağlam çeşitliliği düşük. | **Giderildi.** Koşullar hava kalitesine, koleksiyonlar okul kütüphanesi kitap kopyalarına taşındı; yalnızca değişkenler ve fonksiyonlar (5 dersten 2'si) ticaret bağlamında bırakıldı. |
 
 ## 4. Pilot kartlarında ne değişti
 
@@ -70,9 +63,8 @@ beklenen çıktıyla karşılaştırıldı. Formlar hâlâ güçlük bakımında
 
 ## 5. Bağımsız gözden geçirene açık sorular
 
-1. R4: Dördüncü sorular örneğe bu kadar yakın kalmalı mı, yoksa bağlamı değiştirilmiş
-   bir yakın transfer sorusuna mı dönüşmeli?
+1. R4 sonrası: Yeniden yazılan dördüncü sorular (özellikle döngülü bagaj koşulu ve `valid_count:total` çıktılı sensör sorusu) yeni başlayan öğrencide tek bir beceriyi mi yoksa aşırı bileşik yükü mü ölçüyor?
 2. Yeni pilot kartları ders hedefleriyle aynı beceriyi mi ölçüyor, yoksa yeni bir
    beceri (ör. sayma, liste kurma) mi ekliyor?
-3. Sınır durumları (değiştirilebilir varsayılan, `None < 5`) başlangıç seviyesi için
+3. Sınır durumları (değiştirilebilir varsayılan, `None < 3`) başlangıç seviyesi için
    doğru seçim mi?

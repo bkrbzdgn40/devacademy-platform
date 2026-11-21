@@ -332,7 +332,7 @@
     "title": "Listeler ve sözlükler",
     "level": "Başlangıç",
     "durationMinutes": 25,
-    "objective": "Bir ürün stok sözlüğünü güvenli okuyup kurallara uygun ürün listesi üretebilmek.",
+    "objective": "Bir kütüphane veya stok sözlüğünü güvenli okuyup kurallara uygun kayıt listesi üretebilmek.",
     "summary": "Kütüphane ve stok verilerinde dilimleme, get ve koşullu liste üretimi uygula.",
     "explanation": "Listeler sıralı, değiştirilebilir öğe koleksiyonlarıdır. Dilimleme list[start:stop] ile yapılır; stop indeksi dahil değildir. Sözlükler anahtar-değer eşlemesi tutar. dict.get(key, default), anahtar bulunamazsa hata vermek yerine belirtilen varsayılan değeri döndürür. Liste üreteçleri basit dönüşüm ve filtrelerde kısa bir yazım sağlar; okunaklılığı koru.",
     "code": "scores = {\"Ada\": 80, \"Ece\": 95}\npassed = [name for name, score in scores.items() if score >= 90]\nprint(passed)  # ['Ece']",

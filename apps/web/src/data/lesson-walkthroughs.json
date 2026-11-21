@@ -37,28 +37,28 @@
   },
   {
     "id": "lesson.python.conditions",
-    "scenario": "Kargo kuralı: 500 TL ve üstü ücretsiz, 200 TL ve üstü 30 TL, daha azı 50 TL. Sepet tam 200 TL iken hangi ücret çıkar?",
+    "scenario": "Hava kalitesi kuralı: indeks 100 ve üstü \"Maske tak\", 50 ve üstü \"Dışarıda kısa kal\", daha azı \"Temiz hava\". İndeks tam 50 iken ve 35 iken hangi uyarıların seçildiğini adım adım izleyelim.",
     "steps": [
       {
-        "code": "total = 200",
-        "note": "Sınırdaki bir değerle başla. Koşul hataları çoğunlukla tam sınırda görünür."
+        "code": "index = 50",
+        "note": "Önce sınırdaki 50 değeriyle başlayalım. Koşul hataları çoğunlukla tam sınırda görünür."
       },
       {
-        "code": "if total >= 500:",
-        "note": "200 >= 500 False olduğu için bu bloğun içi atlanır ve sıradaki koşula geçilir."
+        "code": "if index >= 100:\n    warning = \"Maske tak\"",
+        "note": "50 >= 100 False olduğu için bu bloğun içi atlanır ve sıradaki koşula geçilir."
       },
       {
-        "code": "elif total >= 200:\n    fee = 30",
-        "note": "200 >= 200 True olur, çünkü >= eşitliği de kapsar. fee 30 olur ve zincirin kalanı hiç denenmez."
+        "code": "elif index >= 50:\n    warning = \"Dışarıda kısa kal\"",
+        "note": "50 >= 50 True olur, çünkü >= eşitliği de kapsar. warning \"Dışarıda kısa kal\" olur ve else dalı bu girdi için atlanır."
       },
       {
-        "code": "print(fee)  # 30",
-        "note": "if/elif/else zincirinde en fazla bir blok çalışır: ilk doğru koşulun bloğu."
+        "code": "index = 35\nif index >= 100:\n    warning = \"Maske tak\"\nelif index >= 50:\n    warning = \"Dışarıda kısa kal\"\nelse:\n    warning = \"Temiz hava\"\nprint(warning)  # Temiz hava",
+        "note": "İkinci girdide 35 hem 100 hem 50 sınırının altındadır; if ve elif False verdiği için son çare olan else bloğu çalışır."
       }
     ],
     "edgeCase": {
-      "code": "total = 800\nif total >= 200:\n    fee = 30\nelif total >= 500:\n    fee = 0\nprint(fee)  # 30",
-      "note": "Koşulların sırası ters olunca 800 TL'lik sepet de 30 TL öder; >= 500 dalına hiç ulaşılmaz. Daha dar koşulu önce yaz."
+      "code": "index = 120\nif index >= 50:\n    warning = \"Dışarıda kısa kal\"\nelif index >= 100:\n    warning = \"Maske tak\"\nprint(warning)  # Dışarıda kısa kal",
+      "note": "Koşulların sırası ters olunca 120 indeks de ilk dalda yakalanır; >= 100 dalına hiç ulaşılmaz. Daha dar koşulu önce yaz."
     },
     "references": [
       {
@@ -69,23 +69,23 @@
   },
   {
     "id": "lesson.python.loops",
-    "scenario": "Bir sensör [12, -1, 7, 0, 3] okumalarını gönderiyor. Negatif değerler arıza kaydıdır; sıfır ise geçerli bir ölçümdür. Geçerli okumaların toplamını bulalım.",
+    "scenario": "Bir sıcaklık sensörü [12, -1, 7, 0, 3] okumalarını gönderiyor. Negatif değerler arıza kaydıdır; sıfır ise geçerli bir ölçümdür. range ile indeksleri gezerek geçerli okumaların toplamını bulalım.",
     "steps": [
       {
         "code": "readings = [12, -1, 7, 0, 3]\ntotal = 0",
         "note": "Toplayıcı değişken döngüden önce sıfırlanır; döngü içinde sıfırlansaydı her turda kaybolurdu."
       },
       {
-        "code": "for value in readings:",
-        "note": "Her turda value sıradaki öğeyi alır: 12, -1, 7, 0, 3."
+        "code": "for i in range(len(readings)):\n    value = readings[i]",
+        "note": "len(readings) 5 olduğu için range(5) sırasıyla 0, 1, 2, 3, 4 indekslerini üretir; 5 dahil edilmez. Her turda value ilgili ölçümü alır."
       },
       {
         "code": "    if value < 0:\n        continue",
-        "note": "-1 geldiğinde toplama satırına inilmeden sonraki tura geçilir. Döngü bitmez, yalnızca bu tur atlanır."
+        "note": "i = 1 turunda value -1'dir; toplama satırına inilmeden sonraki indekse geçilir. Döngü bitmez, yalnızca bu tur atlanır."
       },
       {
         "code": "    total += value",
-        "note": "total sırasıyla 12, 19, 19, 22 olur. 0 da eklenir, çünkü geçerli bir ölçümdür."
+        "note": "total sırasıyla 12, 19, 19, 22 olur. i = 3 turundaki 0 da eklenir, çünkü geçerli bir ölçümdür."
       },
       {
         "code": "print(total)  # 22",
@@ -145,28 +145,28 @@
   },
   {
     "id": "lesson.python.collections",
-    "scenario": "Stok sözlüğü {\"elma\": 3, \"armut\": 12}. Sipariş listesi [\"elma\", \"armut\", \"kiraz\"]. Stoğu 5'in altında olan veya hiç kaydı olmayan ürünleri yeniden sipariş listesine alalım.",
+    "scenario": "Okul kütüphanesinde raf sözlüğü {\"roman\": 1, \"bilim\": 6}. Okuma listesi [\"roman\", \"bilim\", \"tarih\"]. Kopya sayısı 3'ün altında olan veya hiç kaydı bulunmayan türleri istek listesine alalım.",
     "steps": [
       {
-        "code": "stock = {\"elma\": 3, \"armut\": 12}\nwanted = [\"elma\", \"armut\", \"kiraz\"]",
-        "note": "Sözlük adı miktara eşler; liste ise kontrol edilecek ürünlerin sırasını tutar."
+        "code": "copies = {\"roman\": 1, \"bilim\": 6}\nreading_list = [\"roman\", \"bilim\", \"tarih\"]",
+        "note": "Sözlük türü mevcut kopya sayısına eşler; liste ise kontrol edilecek kitap türlerinin sırasını tutar."
       },
       {
-        "code": "stock.get(\"kiraz\", 0)  # 0",
-        "note": "kiraz anahtarı yok. stock[\"kiraz\"] KeyError verirdi; get ikinci argümandaki 0'ı döndürür, yani \"stokta yok\" anlamına gelir."
+        "code": "copies.get(\"tarih\", 0)  # 0",
+        "note": "tarih anahtarı yok. copies[\"tarih\"] KeyError verirdi; get ikinci argümandaki 0'ı döndürür, yani rafta hiç kopya yok anlamına gelir."
       },
       {
-        "code": "low = [name for name in wanted if stock.get(name, 0) < 5]",
-        "note": "elma için 3 < 5 doğru, eklenir. armut için 12 < 5 yanlış, eklenmez. kiraz için 0 < 5 doğru, eklenir."
+        "code": "needed = [genre for genre in reading_list if copies.get(genre, 0) < 3]",
+        "note": "roman için 1 < 3 doğru, eklenir. bilim için 6 < 3 yanlış, eklenmez. tarih için 0 < 3 doğru, eklenir."
       },
       {
-        "code": "print(low)  # ['elma', 'kiraz']",
-        "note": "Sonuç, wanted listesindeki sırayı korur; sözlüğün sırasını değil."
+        "code": "print(needed)  # ['roman', 'tarih']",
+        "note": "Sonuç, reading_list içindeki sırayı korur; sözlüğün sırasını değil."
       }
     ],
     "edgeCase": {
-      "code": "stock.get(\"kiraz\") < 5  # TypeError",
-      "note": "Varsayılan değer vermezsen get None döndürür ve None < 5 karşılaştırması TypeError üretir. Varsayılanı, eksik veriyi işinin kuralına göre ne anlama geldiğine bakarak seç."
+      "code": "copies.get(\"tarih\") < 3  # TypeError",
+      "note": "Varsayılan değer vermezsen get None döndürür ve None < 3 karşılaştırması TypeError üretir. Varsayılanı, eksik verinin kuralına göre ne anlama geldiğine bakarak seç."
     },
     "references": [
       {
