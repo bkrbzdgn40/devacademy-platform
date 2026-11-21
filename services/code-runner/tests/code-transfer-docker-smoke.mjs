@@ -46,7 +46,7 @@ for(const [exerciseId,runtimeId,source] of solutions) {
   const execute=runtimeId==="nodejs-24"?runIsolatedJavaScript:
     (program,{image})=>runIsolatedLanguage(program,{runtimeId,image});
   const result=await evaluateExercise({
-    source,exerciseId,exerciseRevision:1,image:images[runtimeId],execute
+    source,exerciseId,exerciseRevision:caseBank[exerciseId].revision,image:images[runtimeId],execute
   });
   assert.equal(result.status,"completed",JSON.stringify({exerciseId,result}));
   assert.equal(result.assessment.verdict,"passed",JSON.stringify({exerciseId,result}));
@@ -67,10 +67,22 @@ const overfit=[
 for(const [exerciseId,runtimeId,source] of overfit) {
   const execute=runtimeId==="nodejs-24"?runIsolatedJavaScript:
     (program,{image})=>runIsolatedLanguage(program,{runtimeId,image});
-  const result=await evaluateExercise({source,exerciseId,exerciseRevision:1,image:images[runtimeId],execute});
+  const result=await evaluateExercise({source,exerciseId,exerciseRevision:caseBank[exerciseId].revision,image:images[runtimeId],execute});
   assert.equal(result.status,"completed");
   assert.equal(result.assessment.verdict,"failed",exerciseId);
   assert.equal(result.assessment.publicCases.every(c=>c.passed),true);
   assert.ok(result.assessment.passed<result.assessment.total);
   console.log("Public-example overfit correctly rejected:",exerciseId);
+}
+// Promise-objective task: correct values returned synchronously must not earn evidence.
+{
+  const exerciseId="transfer.js.async";
+  const result=await evaluateExercise({
+    source:"function resolveAlertBatch(u,n,l){u=Math.max(0,u);n=Math.max(0,n);l=Math.max(0,l);const a=Math.min(u,l);const b=Math.min(n,l-a);return [a,b,u+n-a-b];}",
+    exerciseId,exerciseRevision:caseBank[exerciseId].revision,image:images["nodejs-24"],execute:runIsolatedJavaScript
+  });
+  assert.equal(result.status,"completed",JSON.stringify(result));
+  assert.equal(result.assessment.verdict,"failed");
+  assert.equal(result.assessment.passed,0);
+  console.log("Synchronous result correctly rejected:",exerciseId);
 }
