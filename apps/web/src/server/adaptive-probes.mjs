@@ -62,6 +62,10 @@ const hypothesis={
   "lesson.python.functions": {
     a:"A sonucunda ekrana yazdırılan değer ile çağırana dönen değer karışmış olabilir.",
     b:"B sonucunda return edilen değer ile fonksiyon argümanının ilişkisi karışmış olabilir."
+  },
+  "lesson.python.strings": {
+    a:"A sonucunda split'in ardışık ayraçlar arasında boş parça ürettiği gözden kaçmış olabilir.",
+    b:"B sonucunda strip ve lower uygulanmadan farklı yazılmış etiketlerin eşleşmediği karışmış olabilir."
   }
 };
 export const adaptiveFocuses=Object.freeze(["standard","a","b"]);
@@ -302,6 +306,23 @@ export function adaptiveProblem(lessonId,seed,focus="standard") {
           ["def give(n):","    return n * "+k,"",
            "print(give("+a+")) # A","print(give("+(a+1)+")) # B"],
           [a*k,(a+1)*k],"return sonucu, fonksiyona verilen parametreyle hesaplanır.");
+    case "lesson.python.strings": {
+      if(focus==="a"){
+        const line=Array(b).fill("elma").join(",".repeat(k));
+        return task("Ardışık ayraçlar boş parça üretir",
+          ["line = \""+line+"\"",
+           "print(len(line.split(\",\")))  # A",
+           "print(len([p for p in line.split(\",\") if p]))  # B"],
+          [(b-1)*k+1,b],"Her ayraç bir bölme noktasıdır; iki virgülün arasında boş metin oluşur. Boş metinler atlanınca yalnızca elma parçaları kalır.");
+      }
+      const variants=[" Veri","VERI ","veri"];
+      const raw=Array.from({length:b},(_,i)=>"\""+variants[i%3]+"\"");
+      return task("Temizlemeden önce ve sonra say",
+        ["raw = ["+raw.join(", ")+"]",
+         "print(raw.count(\"veri\"))  # A",
+         "print([t.strip().lower() for t in raw].count(\"veri\"))  # B"],
+        [Math.floor(b/3),b],"count yalnızca birebir aynı metni sayar. strip ve lower sonrası bütün yazımlar 'veri' olur.");
+    }
     default:return null;
   }
 }

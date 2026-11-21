@@ -70,3 +70,19 @@ beklenen çıktıyla karşılaştırıldı. Formlar hâlâ güçlük bakımında
    beceri (ör. sayma, liste kurma) mi ekliyor?
 3. Sınır durumları (değiştirilebilir varsayılan, `None < 3`) başlangıç seviyesi için
    doğru seçim mi?
+
+## 6. Ek ders: Metinler ve metin metotları (öz-inceleme, bağımsız değil)
+
+`lesson.python.strings` Python Temelleri'ne altıncı ders olarak eklendi. Odak kavram yanılgısı:
+metin metotlarının (`strip`, `lower`, `replace`) metni yerinde değiştirdiği sanısı.
+
+- Quiz: 4 soru (değiştirilemezlik, `split` ile boş parça, atanmayan `strip` hata ayıklama, sayma).
+- Uygulamalı yol: rehberli → pratik → meydan okuma → bağımsız "katılımcı kartı" görevi.
+- Kod yazma görevi `transfer.python.clean-tags`: 2 açık, 3 gizli test; gizli testler yalnızca
+  `exercises-private.mjs` içinde. Başlangıç kodu 5 testin 2'sini geçiyor (boş liste dönen durumlar).
+- Laboratuvar: atanmayan `strip` stüdyosu (3 varyant), boş parça/normalleştirme transfer görevi,
+  iki odaklı uyarlanabilir sonda.
+
+Doğrulama: referans çözüm 5/5 testi, stüdyo/transfer/sonda programları ve uygulamalı yol çıktıları
+yerelde gerçek Python 3.12 ile çalıştırıldı. Docker izolasyon testi yalnızca CI'da çalışır.
+Açık soru: `split(",")` ile ardışık virgül davranışı ilk derste fazla mı ayrıntı?

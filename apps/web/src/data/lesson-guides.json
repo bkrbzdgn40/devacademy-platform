@@ -238,5 +238,21 @@
     ],
     "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
     "questionId": "debug.python.collections"
+  },
+  {
+    "lessonId": "lesson.python.strings",
+    "language": "python",
+    "missionTitle": "Temizlenen metni geri ata",
+    "goal": "Metin metotları yeni metin döndürür; sonucu değişkene atamazsan asıl değer değişmez.",
+    "trace": [
+      "email.strip().lower() temizlenmiş yeni bir metin üretir, ama sonuç hiçbir değişkene atanmaz.",
+      "print(email) hâlâ ilk atanan ' Ada@Example.COM ' değerini yazar."
+    ],
+    "hints": [
+      "Metinler yerinde değiştirilebilir mi?",
+      "Temizlenmiş sonucu hangi değişkende saklıyorsun?"
+    ],
+    "reflection": "Listede append yerinde değişiklik yapar, metinde strip yapmaz. Bu farkı kendi kodunda hangi belirtiden fark ederdin?",
+    "questionId": "debug.python.strings"
   }
 ]

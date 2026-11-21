@@ -5,9 +5,9 @@ import {studioLessons,studioHasLesson,studioVariantCount,buildStudioScenario,
   gradeStudioPrediction,normalizeStudioAnswer} from "../src/lib/studio-scenarios.mjs";
 
 test("studio has three distinct, bounded reviewed variants per supported concept",()=>{
-  assert.equal(studioLessons.length,15);
+  assert.equal(studioLessons.length,16);
   assert.deepEqual([...studioLessons].sort(),lessons.filter(x=>x.id.startsWith("lesson.javascript.")||x.id.startsWith("lesson.java.")||x.id.startsWith("lesson.python.")).map(x=>x.id).sort(),
-    "Only the original fifteen language lessons have authored traces; SQL and algorithms use separate reviewed fixtures.");
+    "Only the sixteen language lessons have authored traces; SQL and algorithms use separate reviewed fixtures.");
   assert.ok(studioLessons.some(x=>x.includes(".java.")));
   assert.ok(studioLessons.some(x=>x.includes(".python.")));
   assert.ok(studioLessons.some(x=>x.includes(".javascript.")));

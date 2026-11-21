@@ -702,5 +702,36 @@
         "expected": []
       }
     ]
+  },
+  {
+    "id": "transfer.python.clean-tags",
+    "revision": 1,
+    "slug": "bagimsiz-python-etiket-temizle",
+    "language": "python",
+    "level": "Bağımsız transfer",
+    "title": "Python · Etiket listesini temizle",
+    "functionName": "clean_tags",
+    "transferLessonId": "lesson.python.strings",
+    "description": "clean_tags(line) fonksiyonunu yaz. Virgülle ayrılmış etiket metnini parçalara ayırsın, her etiketin baş ve sonundaki boşlukları silip küçük harfe çevirsin. Boş kalan etiketleri atlasın ve aynı etiketi yalnızca ilk göründüğü sırada bir kez döndürsün.",
+    "starterCode": "def clean_tags(line):\n    # Metin metotları yeni metin döndürür; sonucu kullan.\n    return []",
+    "publicCases": [
+      {
+        "label": "Tekrar eden ve boşluklu etiketler",
+        "args": [
+          "Python, web ,PYTHON"
+        ],
+        "expected": [
+          "python",
+          "web"
+        ]
+      },
+      {
+        "label": "Boş metin",
+        "args": [
+          ""
+        ],
+        "expected": []
+      }
+    ]
   }
 ]

@@ -176,5 +176,14 @@ export const caseBank = Object.freeze({
       {public:false,args:[{"x":0,"y":9},["y","x","z"],10],expected:["y","x","z"]},
       {public:false,args:[{"a":1,"b":2},["b","a"],2],expected:["a"]}
     ]
+  },
+  "transfer.python.clean-tags": {
+    revision:1,runtimeId:"python-3.12",functionName:"clean_tags",cases:[
+      {label:"Tekrar eden ve boşluklu etiketler",public:true,args:["Python, web ,PYTHON"],expected:["python","web"]},
+      {label:"Boş metin",public:true,args:[""],expected:[]},
+      {public:false,args:[" Veri ,,  AI , ai, veri "],expected:["veri","ai"]},
+      {public:false,args:["tek"],expected:["tek"]},
+      {public:false,args:[", ,,"],expected:[]}
+    ]
   }
 });

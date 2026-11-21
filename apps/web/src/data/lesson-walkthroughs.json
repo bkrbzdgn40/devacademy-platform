@@ -534,5 +534,41 @@
         "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions"
       }
     ]
+  },
+  {
+    "id": "lesson.python.strings",
+    "scenario": "Bir koşu kulübünün kayıt formu tek satır gönderiyor: \"  Ece KAYA ; 10K \". Satırı ad ve yarış mesafesi olarak ikiye ayıralım, boşlukları temizleyelim, mesafeyi küçük harfe çevirip özet satırı yazdıralım.",
+    "steps": [
+      {
+        "code": "raw = \"  Ece KAYA ; 10K \"\nparts = raw.split(\";\")  # ['  Ece KAYA ', ' 10K ']",
+        "note": "split noktalı virgülden böler ve iki parçalı bir liste üretir. Ayracın çevresindeki boşluklar parçaların içinde kalır."
+      },
+      {
+        "code": "name = parts[0].strip()  # 'Ece KAYA'",
+        "note": "strip baştaki iki ve sondaki bir boşluğu siler. Ortadaki boşluğa dokunmaz; harflerin büyük-küçük durumu da değişmez."
+      },
+      {
+        "code": "race = parts[1].strip().lower()  # '10k'",
+        "note": "Metotlar zincirlenir: önce strip ' 10K ' metnini '10K' yapar, ardından lower bu yeni metni '10k' yapar."
+      },
+      {
+        "code": "print(f\"{name} -> {race}\")  # Ece KAYA -> 10k",
+        "note": "f-string süslü parantez içindeki değişkenlerin değerini metne yerleştirir. raw hâlâ ilk hâlindedir; metotlar onu değiştirmedi."
+      }
+    ],
+    "edgeCase": {
+      "code": "print(\"IRMAK\".lower())  # irmak, ırmak değil",
+      "note": "lower Türkçe yerel ayarını değil Unicode'un genel kuralını kullanır: I harfi i olur, ı olmaz; İ ise i ile birleşik bir noktaya dönüşür. Türkçe isimleri gösterirken lower sonucuna güvenme; karşılaştırmada kullanıyorsan iki tarafı da aynı yolla çevir."
+    },
+    "references": [
+      {
+        "title": "Python Tutorial · Metinler",
+        "url": "https://docs.python.org/3/tutorial/introduction.html#text"
+      },
+      {
+        "title": "Python Standart Kütüphanesi · Metin metotları",
+        "url": "https://docs.python.org/3/library/stdtypes.html#string-methods"
+      }
+    ]
   }
 ]

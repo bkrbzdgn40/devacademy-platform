@@ -21,7 +21,7 @@ function evaluate(code,tag){
   return processResult.stdout.trim();
 }
 try{
-  assert.equal(applied.length,5);
+  assert.equal(applied.length,6);
   for(const path of applied){
     assert.equal(path.levels.length,3);
     for(const task of path.levels){
@@ -45,9 +45,9 @@ try{
     });
     assert.equal(syntax.status,0,path.lessonId+" starter invalid Python syntax: "+syntax.stderr);
   }
-  assert.equal(runs,25);
+  assert.equal(runs,30);
   console.log("M9 Python applied path PASS: "+runs+
-    " real Python executions (15 tier challenges and 10 independent reference/variant cases) + 5 starter syntax checks.");
+    " real Python executions (18 tier challenges and 12 independent reference/variant cases) + 6 starter syntax checks.");
 }finally{
   await rm(dir,{force:true,recursive:true,maxRetries:3,retryDelay:100});
 }

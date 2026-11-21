@@ -6,7 +6,7 @@ export const extraStudioLessons=Object.freeze([
   "lesson.javascript.scope","lesson.javascript.filter",
   "lesson.javascript.async","lesson.java.methods",
   "lesson.python.variables","lesson.python.conditions",
-  "lesson.python.collections"
+  "lesson.python.collections","lesson.python.strings"
 ]);
 const metadata=Object.freeze({
   "lesson.javascript.equality":{
@@ -44,7 +44,11 @@ const metadata=Object.freeze({
   "lesson.python.collections":{
     title:"Sözlükte güvenli okuma",question:"get, eksik anahtarda ne döndürür?",
     hint:"city yerine bulunmayan bir sayısal anahtar soruluyor: varsayılan değer kullanılır.",
-    topics:["get varsayılan değeri","Var olan anahtarla hesap"]}
+    topics:["get varsayılan değeri","Var olan anahtarla hesap"]},
+  "lesson.python.strings":{
+    title:"Atanmayan strip laboratuvarı",question:"strip sonucu atanmazsa metnin uzunluğu değişir mi?",
+    hint:"İlk strip çağrısının sonucu hiçbir değişkene atanmıyor; dördüncü satırda ise atanıyor.",
+    topics:["Metin değiştirilemezliği","Sonucu yeniden atama"]}
 });
 const data=Object.freeze({
   "lesson.javascript.equality":[
@@ -80,7 +84,11 @@ const data=Object.freeze({
   "lesson.python.collections":[
     {age:20,fallback:11,delta:2},
     {age:35,fallback:-1,delta:-5},
-    {age:8,fallback:0,delta:6}]
+    {age:8,fallback:0,delta:6}],
+  "lesson.python.strings":[
+    {word:"Ada",left:2,right:1},
+    {word:"Deniz",left:1,right:3},
+    {word:"Can",left:0,right:2}]
 });
 export const extraStudioVariantCount=(lessonId)=>data[lessonId]?.length??0;
 function begin() {
@@ -264,6 +272,26 @@ export function buildExtraStudioScenario(lessonId,variant=0) {
         "age anahtarı vardır, bu nedenle indeksle erişilip toplama yapılır.",
         {label:"B",value:String(updated)});
       expected=[String(p.fallback),String(updated)];break;
+    }
+    case "lesson.python.strings":{
+      const raw=" ".repeat(p.left)+p.word+" ".repeat(p.right);
+      const shown="'"+raw+"'",clean="'"+p.word+"'";
+      code=[
+        "name = \""+raw+"\"",
+        "name.strip()",
+        "print(len(name)) # A",
+        "name = name.strip()",
+        "print(len(name)) # B"
+      ];
+      add(1,{name:shown},"name, baş ve sondaki boşluklarla birlikte atanır.");
+      add(2,{name:shown},
+        "strip temizlenmiş yeni bir metin üretir ama sonuç atanmadığı için name değişmez.");
+      add(3,{name:shown,"len(name)":raw.length},"A, boşluklar dahil uzunluğu yazdırır.",
+        {label:"A",value:String(raw.length)});
+      add(4,{name:clean},"Bu kez strip sonucu name değişkenine yeniden atanır.");
+      add(5,{name:clean,"len(name)":p.word.length},"B, temizlenmiş metnin uzunluğunu yazdırır.",
+        {label:"B",value:String(p.word.length)});
+      expected=[String(raw.length),String(p.word.length)];break;
     }
   }
   return {lessonId,variant,title:meta.title,question:meta.question,hint:meta.hint,
