@@ -53,8 +53,8 @@
     "title": "Dizilerde map kullanımı",
     "level": "Başlangıç",
     "durationMinutes": 23,
-    "objective": "Orijinal fiyat listesini değiştirmeden yeni vergi dahil fiyat dizisi üretebilmek.",
-    "summary": "Gerçek fiyat listelerini map ile dönüştür, yeni dizi ve kaynak listeyi karşılaştır.",
+    "objective": "Orijinal ölçüm listesini değiştirmeden her değeri dönüştürüp yuvarlanmış yeni bir dizi üretebilmek.",
+    "summary": "Hava durumu ve sensör ölçümlerini map ile dönüştür, yeni dizi ve kaynak listeyi karşılaştır.",
     "explanation": "Array.prototype.map, dizinin her öğesine verdiğin fonksiyonu uygular ve sonuçlardan yeni bir dizi oluşturur. map normalde orijinal diziyi değiştirmez. Fonksiyonun geri döndürdüğü değerler yeni diziyi belirler.",
     "code": "const numbers = [1, 2, 3];\nconst doubled = numbers.map((n) => n * 2);\nconsole.log(doubled); // [2, 4, 6]\nconsole.log(numbers); // [1, 2, 3]",
     "takeaways": [
@@ -64,7 +64,9 @@
     ],
     "questionIds": [
       "js.map.output",
-      "js.map.original"
+      "js.map.original",
+      "debug.js.array-map",
+      "js.map.sensor-scale"
     ],
     "prerequisites": [
       "lesson.javascript.equality"
@@ -76,8 +78,8 @@
     "title": "Fonksiyonlar ve return",
     "level": "Başlangıç",
     "durationMinutes": 23,
-    "objective": "Parametreli ve varsayılan argümanlı fonksiyonla ücret hesaplayıp sonucu return ile yeniden kullanabilmek.",
-    "summary": "Teslimat fiyatlarını fonksiyonlarla üret; return, console.log ve arrow gövdelerini ayır.",
+    "objective": "Parametreli ve varsayılan argümanlı fonksiyonla puan veya süre hesaplayıp sonucu return ile yeniden kullanabilmek.",
+    "summary": "Antrenman ve puan hesaplarını fonksiyonlarla üret; return, console.log ve arrow gövdelerini ayır.",
     "explanation": "Bir fonksiyonun return ifadesi çağırana bir değer döndürür. console.log ise yalnızca çıktıyı yazdırır. Arrow function kısa yazım sağlar, ancak her arrow function otomatik olarak değer döndürmez.",
     "code": "function add(a, b) {\n  return a + b;\n}\nconsole.log(add(2, 4)); // 6\nconst square = n => n * n;\nconsole.log(square(3)); // 9",
     "takeaways": [
@@ -87,7 +89,9 @@
     ],
     "questionIds": [
       "js.functions.return",
-      "js.functions.arrow"
+      "js.functions.arrow",
+      "debug.js.functions",
+      "js.functions.workout-points"
     ],
     "prerequisites": [
       "lesson.javascript.array-map"

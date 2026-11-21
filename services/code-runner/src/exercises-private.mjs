@@ -72,6 +72,15 @@ export const caseBank = Object.freeze({
       {public:false,args:[[11],0],expected:[0]}
     ]
   },
+  "transfer.js.functions": {
+    revision:1,functionName:"computePaceScore",cases:[
+      {label:"Varsayılan tur puanı ve bonus",public:true,args:[4],expected:65},
+      {label:"Açık argümanlarla sıfır bonus",public:true,args:[3,20,0],expected:60},
+      {public:false,args:[2,10],expected:25},
+      {public:false,args:[0,15,5],expected:5},
+      {public:false,args:[5,12,-10],expected:50}
+    ]
+  },
   "transfer.java.divide": {
     revision:1,runtimeId:"java-21",functionName:"exactDivide",cases:[
       {label:"Kesirli bölüm",public:true,args:[7,2],expected:3.5},

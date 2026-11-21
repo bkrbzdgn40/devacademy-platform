@@ -68,6 +68,78 @@
     ]
   },
   {
+    "id": "lesson.javascript.array-map",
+    "scenario": "Hava istasyonundan gelen [10, 20, 5] santigrat sıcaklık ölçümlerini orijinal diziyi bozmadan yüzde 10 kalibrasyon artışıyla yeni bir diziye dönüştürelim.",
+    "steps": [
+      {
+        "code": "const readings = [10, 20, 5];",
+        "note": "Kaynak dizide üç ölçüm vardır. Bu diziyi geçmiş karşılaştırmalar için olduğu gibi korumak istiyoruz."
+      },
+      {
+        "code": "const calibrated = readings.map(temp => Math.round(temp * 1.1));",
+        "note": "map her öğe için callback'i çalıştırır: 10 -> 11, 20 -> 22, 5 -> 6 değerlerini yeni bir dizi olarak döndürür."
+      },
+      {
+        "code": "console.log(calibrated.join(\",\")); // 11,22,6",
+        "note": "Yeni dizi 11, 22 ve 6 öğelerini sırasıyla içerir."
+      },
+      {
+        "code": "console.log(readings[0]); // 10",
+        "note": "readings dizisi değişmemiştir; ilk öğesi hâlâ 10'dur."
+      }
+    ],
+    "edgeCase": {
+      "code": "const broken = [10, 20].map(temp => { temp * 2; });\nconsole.log(broken); // [undefined, undefined]",
+      "note": "Arrow function gövdesinde süslü parantez ({ ... }) açıp return yazmayı unutursan callback her öğe için undefined döndürür ve yeni dizi undefined ile dolar."
+    },
+    "references": [
+      {
+        "title": "MDN · Array.prototype.map()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"
+      },
+      {
+        "title": "MDN · Arrow function ifadeleri",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions"
+      }
+    ]
+  },
+  {
+    "id": "lesson.javascript.functions",
+    "scenario": "Bir koşu uygulamasında tur sayısına göre toplam dakikayı hesaplayan, dinlenme süresi verilmezse varsayılan 5 dakika ekleyen ve sonucu başka hesaplarda kullanılmak üzere return eden bir fonksiyon yazalım.",
+    "steps": [
+      {
+        "code": "function totalMinutes(laps, rest = 5) {\n  return laps * 4 + rest;\n}",
+        "note": "laps zorunlu parametredir; rest argümanı gönderilmezse varsayılan 5 kullanılır. return hesaplanan sayıyı çağırana iletir."
+      },
+      {
+        "code": "const morning = totalMinutes(3); // 17",
+        "note": "İkinci argüman verilmediği için rest = 5 alınır: 3 * 4 + 5 = 17."
+      },
+      {
+        "code": "const evening = totalMinutes(3, 0); // 12",
+        "note": "İkinci argüman olarak 0 açıkça verildiği için varsayılan 5 kullanılmaz: 3 * 4 + 0 = 12."
+      },
+      {
+        "code": "console.log(morning + evening); // 29",
+        "note": "Fonksiyon değeri return ettiği için iki çağrının sonucunu doğrudan toplayabiliriz."
+      }
+    ],
+    "edgeCase": {
+      "code": "const makeTag = label => { tag: label };\nconsole.log(makeTag(\"koşu\")); // undefined",
+      "note": "Arrow function ile doğrudan nesne döndürürken süslü parantezler fonksiyon bloğu sanılır ve return olmadığı için undefined döner. Nesneyi parantez içine al: label => ({ tag: label })."
+    },
+    "references": [
+      {
+        "title": "MDN · Fonksiyonlar rehberi",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions"
+      },
+      {
+        "title": "MDN · Varsayılan parametreler",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters"
+      }
+    ]
+  },
+  {
     "id": "lesson.python.variables",
     "scenario": "Bir sipariş formundan birim fiyat \"12.50\" metni olarak geliyor. Müşteri 3 adet alıyor ve teslimat ücreti 4.99. Ekrana iki ondalıklı toplam yazdırmak istiyoruz.",
     "steps": [

@@ -1,6 +1,6 @@
 // Server-only deterministic, reviewed counterfactual missions; no learner code runs.
 export const transferLessonIds=Object.freeze([
-  "lesson.javascript.let-const","lesson.javascript.equality","lesson.javascript.array-map",
+  "lesson.javascript.let-const","lesson.javascript.equality","lesson.javascript.array-map","lesson.javascript.functions",
   "lesson.java.variables","lesson.java.polymorphism",
   "lesson.python.variables","lesson.python.conditions",
   "lesson.python.loops","lesson.python.functions","lesson.python.collections"
@@ -45,6 +45,17 @@ export function transferProblem(lessonId,seed) {
         promptA:"A satırının sayısal çıktısı?",promptB:"B satırının sayısal çıktısı?",
         expected:[String(b*k),String(b)],
         explanation:"map yeni bir dizi üretir; orijinal values dizisinin ikinci elemanı değiştirilmez."};
+    }
+    case "lesson.javascript.functions": {
+      const base=next(3,9),bonus=next(2,6),custom=next(7,12);
+      return {title:"Varsayılan parametre mi, açık argüman mı?",
+        code:["function score(points, extra = "+bonus+") {",
+          "  return points * 2 + extra;","}",
+          "console.log(score("+base+"));            // A",
+          "console.log(score("+base+", "+custom+")); // B"].join("\n"),
+        promptA:"A satırı hangi sayıyı yazdırır?",promptB:"B satırı hangi sayıyı yazdırır?",
+        expected:[String(base*2+bonus),String(base*2+custom)],
+        explanation:"İlk çağrıda ikinci argüman verilmediği için varsayılan extra kullanılır; ikinci çağrıda açıkça verilen argüman varsayılanın yerini alır."};
     }
     case "lesson.java.variables": {
       const parts=next(2,4)*2,whole=next(1,4),total=parts*whole+parts/2;

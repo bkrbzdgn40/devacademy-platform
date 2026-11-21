@@ -273,6 +273,36 @@
     ]
   },
   {
+    "id": "transfer.js.functions",
+    "revision": 1,
+    "slug": "bagimsiz-js-varsayilan-fonksiyon",
+    "language": "javascript",
+    "level": "Bağımsız transfer",
+    "title": "JavaScript · Varsayılan argümanla puan hesapla",
+    "functionName": "computePaceScore",
+    "transferLessonId": "lesson.javascript.functions",
+    "description": "computePaceScore(laps, perLap = 15, bonus = 5) fonksiyonunu yaz. Tur sayısı (laps) ile tur puanını (perLap) çarpıp bonus değerini eklesin ve sonucu return ile döndürsün. İkinci veya üçüncü argüman verilmediğinde varsayılan değerler kullanılmalı.",
+    "starterCode": "function computePaceScore(laps, perLap = 15, bonus = 5) {\n  // Hesaplanan puanı return et.\n  return 0;\n}",
+    "publicCases": [
+      {
+        "label": "Varsayılan tur puanı ve bonus",
+        "args": [
+          4
+        ],
+        "expected": 65
+      },
+      {
+        "label": "Açık argümanlarla sıfır bonus",
+        "args": [
+          3,
+          20,
+          0
+        ],
+        "expected": 60
+      }
+    ]
+  },
+  {
     "id": "transfer.java.divide",
     "revision": 1,
     "slug": "bagimsiz-java-gercek-bolme",
