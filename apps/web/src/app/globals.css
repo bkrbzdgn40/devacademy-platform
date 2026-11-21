@@ -1231,17 +1231,12 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .radar-topic-filters{margin-top:0;margin-bottom:26px}
 .radar-filters a{display:inline-flex;min-height:44px;align-items:center;padding:9px 14px;border:1px solid var(--ui-border);border-radius:var(--radius-pill);background:var(--ui-surface);font-weight:600;font-size:.875rem}
 .radar-filters a[aria-current="page"]{background:var(--ui-action);color:var(--ui-action-ink);border-color:var(--ui-action)}
-.radar-article-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .radar-article{min-width:0;padding:24px;display:flex;flex-direction:column;gap:14px}
 .radar-article-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:.77rem;font-weight:750;color:var(--ui-ink-subtle)}
 .radar-article-meta span:first-child{color:var(--ui-action)}
-.radar-article h3{font-family:var(--font-display);font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.32;margin:0;overflow-wrap:anywhere}
-.radar-article h3 a:hover{text-decoration:underline;text-underline-offset:4px}
+.radar-article h4{font-family:var(--font-display);font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.32;margin:0;overflow-wrap:anywhere}
+.radar-article h4 a:hover{text-decoration:underline;text-underline-offset:4px}
 .radar-article-date{font-size:.84rem;color:var(--ui-ink-subtle);margin:0}
-.radar-learning-link{border-top:1px solid var(--ui-border);padding-top:16px;margin-top:auto}
-.radar-learning-link strong{color:var(--ui-action)}
-.radar-learning-link p{color:var(--ui-ink-subtle);margin:6px 0 12px}
-.radar-learning-link a{color:var(--ui-action);font-weight:750;text-decoration:underline;text-underline-offset:3px}
 .radar-discussion{color:var(--ui-ink-subtle);font-size:.85rem;text-decoration:underline}
 .radar-empty{border:1px dashed var(--ui-border-strong);border-radius:var(--radius-lg);padding:24px;background:var(--ui-surface-muted);margin-top:18px}
 .radar-empty p{margin:10px 0;color:var(--ui-ink-subtle)}
@@ -1258,14 +1253,12 @@ html[data-theme="dark"] .editor-shell .cm-theme-dark{color-scheme:dark}
 .radar-related li>a:last-child{font-size:.85rem;color:var(--ui-action);font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .radar-method{margin-top:48px;padding:24px 28px;border:1px solid var(--ui-border);background:var(--ui-surface-muted);border-radius:var(--radius-lg)}
 .radar-method p{color:var(--ui-ink-subtle);max-width:920px;margin:10px 0 0}
-@media(max-width:760px){.radar-health-grid{grid-template-columns:1fr}.radar-article-grid{grid-template-columns:1fr}.radar-page{padding-block:24px 60px}.radar-feed-head{align-items:start;flex-direction:column;gap:6px}.radar-article{padding:20px}.radar-page-hero h1{letter-spacing:-.02em}}
+@media(max-width:760px){.radar-health-grid{grid-template-columns:1fr}.radar-page{padding-block:24px 60px}.radar-feed-head{align-items:start;flex-direction:column;gap:6px}.radar-page-hero h1{letter-spacing:-.02em}}
 
 /* M10 learning context: clear distinction between observed metadata and curated prerequisites. */
 .radar-bridge-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
 .radar-bridge-scope{font-size:.75rem;font-weight:750;padding:4px 9px;border-radius:var(--radius-pill);background:var(--ui-surface-accent);color:var(--ui-action)}
 .radar-bridge-basis{font-size:.74rem;color:var(--ui-ink-subtle)}
-.radar-learning-link h4{font-size:1.06rem;line-height:1.35;margin:0 0 8px;color:var(--ui-ink)}
-.radar-learning-link .radar-learning-context{color:var(--ui-ink-subtle);margin:0 0 14px}
 .radar-reading-prompt{margin:14px 0;border:1px solid var(--ui-border);border-radius:var(--radius-md);padding:10px 12px;background:var(--ui-surface)}
 .radar-reading-prompt summary{cursor:pointer;color:var(--ui-action);font-weight:700}
 .radar-reading-prompt summary:focus-visible{outline:3px solid var(--ui-focus);outline-offset:4px}
@@ -1531,15 +1524,15 @@ html[data-theme="dark"] .logo-mark-bg{fill:#4E6138}
 /* Jury pass 8 | Hover that is more than a colour change on every primary target. */
 /* Text links: a single animated underline (never stacked with native text-decoration). */
 .back-link,.home-text-link,.practice-lab-link a,.course-progress-card a,.catalog-lesson-link,.path-cta,
-.path-card h3 a,.radar-health-card>a,.breadcrumb a,.radar-learning-link a,.radar-related li>a:last-child{
+.path-card h3 a,.radar-health-card>a,.breadcrumb a,.radar-learning-actions a,.radar-related li>a:last-child{
   text-decoration:none;background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;
   background-position:0 100%;background-size:0 1px;padding-bottom:2px;
   transition:background-size var(--motion-normal) ease-out,color var(--motion-quick),transform var(--motion-quick)}
-.catalog-lesson-link,.radar-health-card>a,.radar-learning-link a,.radar-related li>a:last-child{
+.catalog-lesson-link,.radar-health-card>a,.radar-learning-actions a,.radar-related li>a:last-child{
   background-size:100% 1px}
 .back-link:hover,.home-text-link:hover,.practice-lab-link a:hover,.course-progress-card a:hover,
 .path-cta:hover,.path-card h3 a:hover,.breadcrumb a:hover{background-size:100% 1px}
-.catalog-lesson-link:hover,.radar-health-card>a:hover,.radar-learning-link a:hover,.radar-related li>a:last-child:hover{
+.catalog-lesson-link:hover,.radar-health-card>a:hover,.radar-learning-actions a:hover,.radar-related li>a:last-child:hover{
   text-decoration:none;background-size:100% 2px}
 .back-link{display:inline-block}
 .back-link:hover{transform:translateX(-3px)}
@@ -1979,9 +1972,6 @@ html[data-theme="dark"] .availability-note{background:var(--ui-surface-muted);bo
   display:inline-flex;align-items:center;gap:7px;font:600 11.5px/1.4 var(--font-code)}
 .radar-health-card .radar-health-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
 
-.radar-article-grid{gap:44px 36px}
-.radar-article{padding:18px 0 0;background:transparent;border:0;border-top:2px solid var(--ui-ink);
-  border-radius:0;box-shadow:none}
 .radar-article-meta{font-family:var(--font-code);font-weight:500}
 
 .dashboard-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;
@@ -2026,7 +2016,6 @@ html[data-theme="dark"] .account-section.danger-section{border-top-color:var(--c
 @media(max-width:760px){
   .radar-health-card,.radar-health-card:first-child{padding:16px 0}
   .radar-health-card+.radar-health-card{border-left:0;border-top:1px solid var(--ui-border)}
-  .radar-article{padding:16px 0 0}
 }
 @media(max-width:700px){.radar-source-list{padding:0}}
 @media(max-width:680px){
@@ -2045,3 +2034,72 @@ html[data-theme="dark"] .account-section.danger-section{border-top-color:var(--c
 @media(prefers-reduced-motion:reduce){
   .lesson-list .lesson-item:is(:hover,:focus-visible) :is(.lesson-number,.lesson-arrow){transform:none}
 }
+
+/* M8.7 | Radar grupları. Haberler bağlandıkları derse göre toplanır: ders bloğu grupta bir kez,
+   haberler altında künyeli satırlar. Ritim ders yolu fihristiyle aynı. */
+.radar-health{margin-top:28px}
+.radar-health>h2{font:600 11.5px/1.4 var(--font-code);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ui-ink-subtle);margin:0 0 8px}
+.radar-health-strip{list-style:none;margin:0;padding:10px 0;display:flex;flex-wrap:wrap;gap:6px 40px;
+  border-top:1px solid var(--ui-border-strong);border-bottom:1px solid var(--ui-border)}
+.radar-health-strip li{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:2px 0}
+.radar-health-strip strong{font:600 1rem var(--font-display)}
+.radar-health-strip time{font:500 11.5px/1.4 var(--font-code);color:var(--ui-ink-subtle)}
+.radar-health-strip .radar-health-tag{background:transparent;border-radius:0;padding:0;
+  display:inline-flex;align-items:center;gap:7px;font:600 11.5px/1.4 var(--font-code)}
+.radar-health-strip .radar-health-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.radar-health-details>summary{cursor:pointer;min-height:44px;display:inline-flex;align-items:center;
+  font-weight:650;font-size:.875rem;color:var(--ui-action)}
+.radar-health-details>summary:focus-visible{outline:3px solid var(--ui-focus);outline-offset:2px}
+.radar-health-details .radar-health-grid{margin-top:4px}
+
+.radar-filters{gap:0 22px;margin:14px 0 0;border-bottom:1px solid var(--ui-border)}
+.radar-filters a,.radar-filters a:hover{background:transparent;border:0;border-radius:0;padding:10px 0;
+  color:var(--ui-ink-subtle);box-shadow:none;transform:none}
+.radar-filters a:hover{color:var(--ui-ink);box-shadow:inset 0 -2px 0 var(--ui-border-strong)}
+.radar-filters a[aria-current="page"],.radar-filters a[aria-current="page"]:hover{background:transparent;
+  color:var(--ui-ink);box-shadow:inset 0 -2px 0 var(--ui-action);transform:none}
+.radar-filters a:focus-visible{outline:3px solid var(--ui-focus);outline-offset:-3px}
+.radar-topic-filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;margin-top:0;gap:0 18px;
+  font-size:.82rem}
+.radar-topic-filters a{white-space:nowrap;flex:none;font-size:.82rem}
+
+.radar-group-index{list-style:none;margin:30px 0 0;padding:0;border-top:1px solid var(--ui-border-strong)}
+.radar-group{display:grid;grid-template-columns:5.25rem minmax(0,1fr);gap:0 36px;padding:30px 0;
+  border-bottom:1px solid var(--ui-border);min-width:0}
+.radar-group-no{font:300 3.75rem/.82 var(--font-display);letter-spacing:-.05em;
+  font-variant-numeric:lining-nums tabular-nums;color:color-mix(in srgb,var(--color-terracotta-700) 45%,transparent);
+  transition:color var(--motion-quick),transform var(--motion-normal) ease-out}
+.radar-group:focus-within .radar-group-no,.radar-group:hover .radar-group-no{color:var(--color-terracotta-700);transform:translateX(5px)}
+.radar-group-body{min-width:0}
+.radar-group-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,17rem);gap:10px 36px;align-items:start}
+.radar-group-head .radar-bridge-scope{background:transparent;padding:0;border-radius:0;
+  font:600 11.5px/1.4 var(--font-code);color:var(--ui-ink-subtle)}
+.radar-group-head h3{font:600 clamp(1.45rem,2.3vw,1.95rem)/1.15 var(--font-display);letter-spacing:-.015em;margin:4px 0 0}
+.radar-group-head .radar-learning-actions{margin-top:2px;grid-template-columns:minmax(0,1fr);gap:0;justify-items:start}
+.radar-group-head .radar-learning-actions a{display:inline-flex;align-items:center;min-height:44px}
+.radar-group-head .radar-learning-actions span{text-align:left;margin:2px 0 8px}
+.radar-group-why{max-width:62ch;color:var(--ui-ink-subtle);margin:10px 0 0}
+.radar-group-items{list-style:none;margin:18px 0 0;padding:0}
+.radar-group-items .radar-article{display:block;padding:14px 0;border-top:1px solid var(--ui-border)}
+.radar-group-items .radar-article h4{font:600 1.12rem/1.35 var(--font-body);margin:0;overflow-wrap:anywhere}
+.radar-group-items .radar-article h4 a:hover{text-decoration:underline;text-underline-offset:4px}
+.radar-group-items .radar-article-meta{display:block;margin:4px 0 0;font:500 11.5px/1.6 var(--font-code);color:var(--ui-ink-subtle)}
+.radar-group-items .radar-article-date{margin-top:4px}
+.radar-group-items .radar-reading-prompt{margin:6px 0 0;padding:0;border:0;border-radius:0;background:transparent}
+.radar-group-items .radar-reading-prompt summary{display:inline-flex;align-items:center;min-height:44px;font-size:.84rem;font-weight:650}
+.radar-group-items .radar-reading-prompt p{max-width:68ch;color:var(--ui-ink-subtle);font-size:.92rem}
+.radar-group-items .radar-reading-prompt strong{color:var(--ui-ink)}
+.radar-group-items .radar-discussion{display:inline-block;margin-top:6px;font-size:.84rem}
+@media(max-width:900px){.radar-group-head{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){
+  .radar-health-strip{flex-direction:column}
+  .radar-group{grid-template-columns:4rem minmax(0,1fr);column-gap:20px}
+  .radar-group-no{font-size:3rem}
+}
+@media(max-width:600px){
+  .radar-group{grid-template-columns:minmax(0,1fr);padding:24px 0}
+  .radar-group-no{font-size:1.75rem;line-height:1;margin-bottom:6px}
+  .radar-group:is(:hover,:focus-within) .radar-group-no{transform:none}
+}
+@media(prefers-reduced-motion:reduce){.radar-group:is(:hover,:focus-within) .radar-group-no{transform:none}}

@@ -94,6 +94,17 @@ test("shared basic components are used in actual pages, not merely authored",()=
   assert.match(index,/prefers-reduced-motion:reduce/);
   // 320px'te dört menü öğesi logo ve tema düğmesiyle tek satıra sığmıyor: menü alt satırda dört sütun.
   assert.match(styles,/@media\(max-width:420px\)\{[^}]*\.site-header \.nav-inner\{flex-wrap:wrap[\s\S]*?\.site-header \.nav-links\{order:2;flex:1 1 100%;display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
+  // Radar: haberler derse göre gruplanır; ders bloğu her grupta bir kez görünür.
+  const radar=read("app/radar/page.tsx");
+  assert.match(radar,/<ol className="radar-group-index"/);
+  // learning.label sürüme özgü olduğu için neredeyse hiç birleştirmez; gruplar konu anahtarıyla kurulur.
+  assert.match(radar,/const key=item\.topic\.key;/);
+  assert.match(radar,/className="radar-group-no" aria-hidden="true"/);
+  assert.match(radar,/<summary>Bu derse neden bağlandı\?<\/summary>/);
+  assert.match(radar,/className="radar-health-strip"/);
+  assert.doesNotMatch(radar,/radar-article-grid|Neden öğrenmeye değer\?/);
+  assert.match(styles,/\.radar-topic-filters\{[^}]*overflow-x:auto/);
+  assert.doesNotMatch(styles,/\.radar-article-grid/);
   assert.match(styles,/\.studio-code\{background:var\(--ui-code\)/);
 });
 
