@@ -369,6 +369,31 @@
     ]
   },
   {
+    "id": "lesson.python.strings",
+    "slug": "metinler-ve-metin-metotlari",
+    "title": "Metinler ve metin metotları",
+    "level": "Başlangıç",
+    "durationMinutes": 24,
+    "objective": "Formdan gelen dağınık bir metni split, strip ve lower ile parçalara ayırıp temizleyebilmek ve sonucu f-string ile yazdırabilmek.",
+    "summary": "Kayıt formu, etiket ve şarkı listesi metinlerinde parçalama, temizleme ve biçimlendirme uygula.",
+    "explanation": "Python'da metinler (str) sıralı karakter dizileridir; indeksleme ve dilimleme listelerdeki gibi çalışır. Metinler değiştirilemez: strip, lower ve replace gibi metotlar yeni bir metin döndürür, asıl değişkeni değiştirmez. Sonucu kullanmak için yeniden atamak gerekir. split(ayraç) metni ayraçtan bölüp liste üretir; ayracın çevresindeki boşluklar parçalarda kalır. join ise bir listeyi tek metne birleştirir. in ile bir metnin içinde başka bir metin geçip geçmediğini sorarsın. f-string, değişkenlerin değerini doğrudan metnin içine yerleştirir.",
+    "code": "line = \"  Python,  WEB ,veri \"\ntags = [t.strip().lower() for t in line.split(\",\")]\nprint(tags)  # ['python', 'web', 'veri']",
+    "takeaways": [
+      "Metin metotları yeni metin döndürür; sonucu bir değişkene ata.",
+      "split ayraçtan böler ama boşlukları silmez; her parçayı ayrıca strip et.",
+      "lower Türkçe I ve İ harflerini Türkçe kurala göre çevirmez; görünen isimlerde dikkatli kullan."
+    ],
+    "questionIds": [
+      "python.strings.immutable",
+      "python.strings.split",
+      "debug.python.strings",
+      "python.strings.genre-count"
+    ],
+    "prerequisites": [
+      "lesson.python.collections"
+    ]
+  },
+  {
     "id": "lesson.sql.select",
     "slug": "select-ve-siralama",
     "title": "SELECT, sütun seçimi ve ORDER BY",

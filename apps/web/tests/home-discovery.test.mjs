@@ -52,7 +52,7 @@ test("genuine progress chooses the most recently active unfinished lesson",()=>{
   assert.equal(progress.kind,"continue");
   assert.equal(progress.next.id,"lesson.javascript.scope");
   assert.equal(progress.completed,1);
-  assert.equal(progress.total,23);
+  assert.equal(progress.total,24);
   assert.equal(progress.stats.find(s=>s.id==="course.java.fundamentals").completed,1);
 });
 test("empty and completed-only progress do not invent active unfinished records",()=>{
@@ -68,7 +68,7 @@ test("empty and completed-only progress do not invent active unfinished records"
     .map(l=>saved(l.id,"2026-10-18T13:00:00Z","2026-10-18T13:00:00Z")));
   assert.equal(all.kind,"finished");
   assert.equal(all.next,null);
-  assert.equal(all.completed,23);
+  assert.equal(all.completed,24);
 });
 test("foreign, malformed and duplicate progress cannot pollute recommendations",()=>{
   const rows=[saved("private.fake.lesson","2026-10-18T16:00:00Z"),

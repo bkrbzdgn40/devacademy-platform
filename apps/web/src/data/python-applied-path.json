@@ -443,5 +443,94 @@
       "reflection": "limit=2 olduğunda stok adedi tam 2 olan ürün neden sonuç listesinde yok?"
     },
     "language": "python"
+  },
+  {
+    "lessonId": "lesson.python.strings",
+    "topic": "Kargo kodu, hava durumu ve bağlantı metinleri",
+    "levels": [
+      {
+        "id": "guided",
+        "tier": "Başlangıç",
+        "title": "Koddan dilim al",
+        "context": "Kargo takip kodu TR-34-ABC biçiminde; ortadaki iki hane il kodunu gösterir.",
+        "code": "code = \"TR-34-ABC\"\nprint(code[3:5])",
+        "expected": "34",
+        "choices": [
+          {
+            "text": "34",
+            "feedback": "Doğru: indeks 3 ve 4 alınır; indeks 5'teki ikinci tire dilime girmez."
+          },
+          {
+            "text": "-34",
+            "feedback": "İndeks 2'deki ilk tire dilime girmez; dilim indeks 3'ten başlar."
+          },
+          {
+            "text": "34-",
+            "feedback": "Bitiş indeksi 5 dahil değildir; indeks 5'teki ikinci tire dilime girmez."
+          }
+        ],
+        "hint": "Karakterleri 0'dan say: T=0, R=1, tire=2, 3=3, 4=4.",
+        "why": "Metin dilimleme listelerdeki gibi çalışır; bitiş indeksi her zaman hariç tutulur."
+      },
+      {
+        "id": "practice",
+        "tier": "Uygulama",
+        "title": "Metinde ara ve değiştir",
+        "context": "Hava durumu uygulaması yarının tahmin metnini güncelliyor.",
+        "code": "text = \"yarın yağmurlu\"\nprint(\"yağmur\" in text)\nprint(text.replace(\"yağmurlu\", \"güneşli\"))",
+        "expected": "True\nyarın güneşli",
+        "choices": [
+          {
+            "text": "True\nyarın güneşli",
+            "feedback": "Doğru: 'yağmur' metnin bir parçası olduğu için in True verir; replace yeni metni döndürür."
+          },
+          {
+            "text": "False\nyarın güneşli",
+            "feedback": "in tam kelime aramaz; 'yağmur' parçası 'yağmurlu' içinde geçtiği için sonuç True olur."
+          },
+          {
+            "text": "True\nyarın yağmurlu",
+            "feedback": "replace yeni metni döndürür ve print bu yeni metni yazar; değiştirilmiş hâl ekrana gelir."
+          }
+        ],
+        "hint": "in alt metin arar; replace ise eski parçanın yerine yenisini koyduğu yeni bir metin üretir.",
+        "why": "Arama ve değiştirme, metni karakter karakter dolaşmadan içerik kontrolü yapmayı sağlar."
+      },
+      {
+        "id": "challenge",
+        "tier": "Yeni durum",
+        "title": "Başlıktan bağlantı adı üret",
+        "context": "Blog yazısının başlığı boşluklu iki parçadan oluşuyor; bağlantı adında küçük harf ve tire isteniyor.",
+        "code": "words = [\"  Veri\", \"Bilimi  \"]\nprint(\"-\".join(w.strip().lower() for w in words))",
+        "expected": "veri-bilimi",
+        "choices": [
+          {
+            "text": "veri-bilimi",
+            "feedback": "Doğru: her parça önce strip ile boşluklarından, sonra lower ile büyük harflerinden arındırılır; join araya tire koyar."
+          },
+          {
+            "text": "  veri-bilimi  ",
+            "feedback": "strip her parçanın baş ve sonundaki boşlukları join'den önce siler; sonuçta boşluk kalmaz."
+          },
+          {
+            "text": "Veri-Bilimi",
+            "feedback": "lower her parçayı küçük harfe çevirir; büyük V ve B harfleri sonuçta kalmaz."
+          }
+        ],
+        "hint": "join, metodu çağıran metni (burada \"-\") parçaların arasına koyar.",
+        "why": "split metni listeye böler, join listeyi metne birleştirir; ikisi birlikte metin dönüşümlerinin temelidir."
+      }
+    ],
+    "independent": {
+      "title": "Katılımcı kartı yazdır",
+      "brief": "Formdan gelen \"  ada lovelace ; ankara \" satırını noktalı virgülden böl, iki parçayı da temizle ve 'Katılımcı: ada lovelace | Şehir: ankara' biçiminde yazdır. Ardından satırı \" Can ;izmir\" yapınca çıktının nasıl değiştiğini kontrol et.",
+      "starterCode": "raw = \"  ada lovelace ; ankara \"\n# split ve strip ile name ve city değişkenlerini üret.\n",
+      "modelCode": "raw = \"  ada lovelace ; ankara \"\nparts = raw.split(\";\")\nname = parts[0].strip()\ncity = parts[1].strip()\nprint(f\"Katılımcı: {name} | Şehir: {city}\")",
+      "expectedOutput": "Katılımcı: ada lovelace | Şehir: ankara",
+      "variationCode": "raw = \" Can ;izmir\"\nparts = raw.split(\";\")\nname = parts[0].strip()\ncity = parts[1].strip()\nprint(f\"Katılımcı: {name} | Şehir: {city}\")",
+      "variationExpected": "Katılımcı: Can | Şehir: izmir",
+      "reflection": "Satırda hiç noktalı virgül olmasaydı parts[1] satırında ne olurdu ve bunu nasıl önlerdin?"
+    },
+    "language": "python"
   }
 ]

@@ -606,5 +606,37 @@
       "b": "30 < 30 yanlış olduğu için cum seçilmez; kaydı olmayan sal ise get varsayılanı 0 ile listeye girer.",
       "c": "get(day, 0) kaydı olmayan sal günü için 0 döndürür; 0 < 30 doğru olduğundan sal da listeye eklenir."
     }
+  },
+  "python.strings.immutable": {
+    "optionId": "b",
+    "explanation": "strip yeni bir metin döndürür ama sonuç bir değişkene atanmadı. code hâlâ başta iki, sonda bir boşluk içeren 10 karakterlik metindir.",
+    "wrongFeedback": {
+      "a": "7, temizlenmiş 'merhaba' metninin uzunluğudur; ancak strip sonucu atanmadığı için code değişmedi.",
+      "c": "Boşlukların yalnızca bir kısmı silinmiş gibi hesaplanmış; strip sonucu atanmadığı için hiçbir boşluk silinmez ve uzunluk 10 kalır."
+    }
+  },
+  "python.strings.split": {
+    "optionId": "b",
+    "explanation": "split her virgülde böler. İki virgülün arasında karakter olmadığı için orada boş metin '' oluşur; sonuç dört parçadır.",
+    "wrongFeedback": {
+      "a": "split boş parçaları kendiliğinden atmaz; iki virgülün arasındaki boş metin '' listede kalır.",
+      "c": "Ayraç olarak virgül verildi ve metinde virgül var; bu yüzden metin tek parça kalmaz, dört parçaya bölünür."
+    }
+  },
+  "debug.python.strings": {
+    "optionId": "a",
+    "explanation": "Metinler değiştirilemez; strip ve lower yeni metin döndürür. Temizlenmiş sonucu email değişkenine yeniden atamak gerekir.",
+    "wrongFeedback": {
+      "b": "Metotların sırasını değiştirmek sonucu yine bir değişkene atamaz; email eski hâliyle kalır.",
+      "c": "Parantez olmadan strip çağrılmaz; print temiz metin yerine metot nesnesinin kendisini yazar."
+    }
+  },
+  "python.strings.genre-count": {
+    "optionId": "a",
+    "explanation": "split dört parça verir: 'Rock ', ' pop', 'ROCK', ' caz'. strip ve lower sonrası liste ['rock', 'pop', 'rock', 'caz'] olur; iki rock, toplam dört tür.",
+    "wrongFeedback": {
+      "b": "'Rock ' parçasının sonundaki boşluk strip ile silinir. Boşluk kalsaydı 'rock ' eşleşmezdi ve sonuç 1 olurdu.",
+      "c": "lower 'Rock' ve 'ROCK' değerlerini 'rock' yapar. lower atlansaydı hiçbiri eşleşmez ve sonuç 0 olurdu."
+    }
   }
 }

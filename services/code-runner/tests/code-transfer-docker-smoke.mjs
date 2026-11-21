@@ -38,7 +38,9 @@ const solutions=[
   ["transfer.python.shipping-fee","python-3.12",
    "def shipping_fee(total):\n    if total >= 500:\n        return 0\n    elif total >= 200:\n        return 30\n    return 50"],
   ["transfer.python.low-stock","python-3.12",
-   "def low_stock(stock,wanted,minimum):\n    return [n for n in wanted if stock.get(n, 0) < minimum]"]
+   "def low_stock(stock,wanted,minimum):\n    return [n for n in wanted if stock.get(n, 0) < minimum]"],
+  ["transfer.python.clean-tags","python-3.12",
+   "def clean_tags(line):\n    result = []\n    for part in line.split(\",\"):\n        tag = part.strip().lower()\n        if tag and tag not in result:\n            result.append(tag)\n    return result"]
 ];
 const images={"nodejs-24":"node:24-alpine","python-3.12":"python:3.12-alpine",
   "java-21":"eclipse-temurin:21-jdk-alpine"};

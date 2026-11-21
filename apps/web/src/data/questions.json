@@ -1200,6 +1200,86 @@
     ]
   },
   {
+    "id": "python.strings.immutable",
+    "lessonId": "lesson.python.strings",
+    "prompt": "strip çağrısından sonra len kaç yazdırır?",
+    "code": "code = \"  merhaba \"\ncode.strip()\nprint(len(code))",
+    "options": [
+      {
+        "id": "a",
+        "text": "7"
+      },
+      {
+        "id": "b",
+        "text": "10"
+      },
+      {
+        "id": "c",
+        "text": "9"
+      }
+    ]
+  },
+  {
+    "id": "python.strings.split",
+    "lessonId": "lesson.python.strings",
+    "prompt": "Art arda iki virgül içeren metin nasıl bölünür?",
+    "code": "print(\"a,b,,c\".split(\",\"))",
+    "options": [
+      {
+        "id": "a",
+        "text": "['a', 'b', 'c']"
+      },
+      {
+        "id": "b",
+        "text": "['a', 'b', '', 'c']"
+      },
+      {
+        "id": "c",
+        "text": "['a,b,,c']"
+      }
+    ]
+  },
+  {
+    "id": "debug.python.strings",
+    "lessonId": "lesson.python.strings",
+    "prompt": "E-posta temizlenmiş gibi görünse de print hâlâ boşluklu ve büyük harfli adresi yazıyor. Hangi düzeltme doğru?",
+    "code": "email = \" Ada@Example.COM \"\nemail.strip().lower()\nprint(email)",
+    "options": [
+      {
+        "id": "a",
+        "text": "email = email.strip().lower()"
+      },
+      {
+        "id": "b",
+        "text": "email.lower().strip()"
+      },
+      {
+        "id": "c",
+        "text": "print(email.strip)"
+      }
+    ]
+  },
+  {
+    "id": "python.strings.genre-count",
+    "lessonId": "lesson.python.strings",
+    "prompt": "Şarkı listesinde temizlenmiş türlerden kaçı rock ve toplam kaç tür var?",
+    "code": "line = \"Rock ; pop;ROCK; caz\"\ngenres = [g.strip().lower() for g in line.split(\";\")]\nprint(genres.count(\"rock\"), len(genres))",
+    "options": [
+      {
+        "id": "a",
+        "text": "2 4"
+      },
+      {
+        "id": "b",
+        "text": "1 4"
+      },
+      {
+        "id": "c",
+        "text": "0 4"
+      }
+    ]
+  },
+  {
     "id": "sql.select.desc",
     "lessonId": "lesson.sql.select",
     "prompt": "Örnek müşteriler için bu sorgunun ilk döndürdüğü ad hangisidir?",

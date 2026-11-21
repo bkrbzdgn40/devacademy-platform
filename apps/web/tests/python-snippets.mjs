@@ -14,8 +14,8 @@ const lessons=JSON.parse(await readFile(join(base,"lessons.json"),"utf8"))
   .filter(l=>l.id.startsWith("lesson.python."));
 const dir=await mkdtemp(join(tmpdir(),"devacademy-python-review-"));
 try{
-  assert.equal(lessons.length,5,"Python course must have five reviewed lessons");
-  assert.equal(questions.length,15,"Python course must have fifteen reviewed quiz examples");
+  assert.equal(lessons.length,6,"Python course must have six reviewed lessons");
+  assert.equal(questions.length,18,"Python course must have eighteen reviewed quiz examples");
   let verified=0;
   for(const snippet of [...lessons.map(({id,code})=>({id,code})),...questions]){
     const python=process.env.PYTHON_BIN || "python";
@@ -38,7 +38,7 @@ try{
     }
     verified++;
   }
-  console.log("Python reviewed snippets PASS: "+verified+" Python runs (five lessons, fifteen graded answer keys).");
+  console.log("Python reviewed snippets PASS: "+verified+" Python runs (six lessons, eighteen graded answer keys).");
 }finally{
   await rm(dir,{recursive:true,force:true,maxRetries:3,retryDelay:100});
 }

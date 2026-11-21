@@ -150,6 +150,16 @@
     "application": "Eksik API alanları, kullanıcı profilleri ve konfigürasyon sözlüklerini daha dayanıklı oku."
   },
   {
+    "id": "lesson.python.strings",
+    "model": "Metin, değiştirilemeyen sıralı bir karakter dizisidir. Her metin metodu eskisini değiştirmeden yeni bir metin döndürür; split ise metni bir listeye böler.",
+    "pitfall": "name.strip() yazıp name değişkeninin temizlendiğini sanmak; sonuç atanmadığı için name aynı kalır.",
+    "contrast": "name = ' Ada ' iken name.strip() satırından sonra len(name) 5'tir. name = name.strip() satırından sonra len(name) 3 olur.",
+    "why": "Metinler değiştirilemez olduğu için aynı metni gösteren başka değişkenler etkilenmez; bunun bedeli her dönüşümün sonucunu açıkça atamaktır.",
+    "challenge": "Formdan ' Mehmet ; 21 ' geldi. Adı ve yaşı ayrı ayrı temiz almak için hangi iki adımı yaparsın? Yaşın türü ne olur?",
+    "answer": "Önce split(';') ile ikiye böl, sonra her parçaya strip uygula: 'Mehmet' ve '21'. Yaş hâlâ metindir; sayı olarak kullanmak için int('21') ile dönüştürmek gerekir.",
+    "application": "Form girdilerini, CSV satırlarını, arama kutusunu ve etiket listelerini karşılaştırmadan önce tutarlı biçime getir."
+  },
+  {
     "id": "lesson.sql.select",
     "model": "İlişkisel veritabanında bir SELECT ifadesi sonuç kümesinin hangi sütunlardan oluşacağını belirler. Satırların sırası yalnızca ORDER BY ile anlamlı biçimde sabitlenir.",
     "pitfall": "ORDER BY kullanmadan kayıtlara kimlik numarası sırasıyla gelir diye güvenmek, tablo büyüdüğünde veya sorgu planı değiştiğinde kırılgan sonuçlar üretir.",

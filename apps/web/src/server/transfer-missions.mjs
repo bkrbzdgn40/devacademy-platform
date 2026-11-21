@@ -4,7 +4,8 @@ export const transferLessonIds=Object.freeze([
   "lesson.javascript.functions","lesson.javascript.scope","lesson.javascript.filter",
   "lesson.javascript.async","lesson.java.variables","lesson.java.methods","lesson.java.polymorphism",
   "lesson.python.variables","lesson.python.conditions",
-  "lesson.python.loops","lesson.python.functions","lesson.python.collections"
+  "lesson.python.loops","lesson.python.functions","lesson.python.collections",
+  "lesson.python.strings"
 ]);
 function numbers(seed) {
   let state=seed>>>0;
@@ -193,6 +194,19 @@ export function transferProblem(lessonId,seed) {
         promptA:"A çıktısı ne? (sayı veya None)",promptB:"B çıktısı ne?",
         expected:["None",String(x*factor)],
         explanation:"show önce bir sayı yazdırır ama return içermez, bu yüzden first None'dır. give değeri çağırana döndürür."};
+    }
+    case "lesson.python.strings": {
+      const reps=next(1,3),empties=next(0,2);
+      const variants=[" Python","PYTHON ","python"];
+      const segments=[...Array.from({length:reps},(_,i)=>variants[i%3]),...Array(empties).fill("")," web "];
+      return {title:"Boş parça da sayılır mı?",
+        code:["line = \""+segments.join(",")+"\"","parts = line.split(\",\")",
+          "print(len(parts))  # A",
+          "tags = [p.strip().lower() for p in parts if p.strip()]",
+          "print(tags.count(\"python\"))  # B"].join("\n"),
+        promptA:"A hangi sayıyı yazdırır?",promptB:"B hangi sayıyı yazdırır?",
+        expected:[String(reps+empties+1),String(reps)],
+        explanation:"split ardışık virgüllerin arasındaki boş metinleri de parça sayar. strip ve lower sonrası farklı yazılmış python etiketleri aynı olur; boş parçalar if p.strip() ile atlanır."};
     }
     default: return null;
   }

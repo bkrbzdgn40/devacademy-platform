@@ -7,7 +7,7 @@ const read=file=>readFileSync(new URL("../src/"+file,import.meta.url),"utf8");
 
 test("all five published Python lessons have three graduated real-life examples and an independent program",()=>{
   const python=lessons.filter(l=>l.id.startsWith("lesson.python."));
-  assert.equal(python.length,5);
+  assert.equal(python.length,6);
   assert.equal(applied.length,python.length);
   assert.deepEqual(applied.map(t=>t.lessonId),python.map(l=>l.id));
   const ids=new Set();
