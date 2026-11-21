@@ -7,6 +7,10 @@ const hypothesis={
     a:"A sonucunda değişkenin yeniden atanması ile önceki değerinin korunması karışmış olabilir.",
     b:"B sonucunda nesnenin alanını değiştirmek ile const bağını değiştirmek karışmış olabilir."
   },
+  "lesson.javascript.equality": {
+    a:"A sonucunda === operatörünün farklı türleri dönüştürmeden false verdiği gözden kaçmış olabilir.",
+    b:"B sonucunda Number(raw) açık dönüşümünün metni sayıya çevirip === eşitliğini sağladığı karışmış olabilir."
+  },
   "lesson.javascript.array-map": {
     a:"A sonucunda map içindeki dönüşümün hangi öğeye uygulandığı karışmış olabilir.",
     b:"B sonucunda map'in kaynak diziyi değiştirip değiştirmediği karışmış olabilir."
@@ -89,6 +93,16 @@ export function adaptiveProblem(lessonId,seed,focus="standard") {
            "alias.value += "+b+";","console.log(profile.value); // A",
            "console.log(alias.value);   // B"],
           [a+b,a+b],"profile ve alias aynı nesneyi gösterdiği için ikisi de güncellenmiş alanı görür.");
+    case "lesson.javascript.equality":
+      return focus==="a"
+        ?task("Farklı türlerde == ve === farkı",
+          ["const text = \""+a+"\";","const num = "+a+";",
+           "console.log(Number(text == num));  // A","console.log(Number(text === num)); // B"],
+          [1,0],"== metni sayıya dönüştürüp true (1) verir; === türler farklı olduğu için false (0) verir.")
+        :task("Açık Number dönüşümü sonrası katı eşitlik",
+          ["const first = Number(\""+a+"\");","const second = Number(\""+(a+b)+"\");",
+           "console.log(Number(first === "+a+"));  // A","console.log(Number(second === "+a+")); // B"],
+          [1,0],"Number() dönüşümünden sonra iki taraf da sayıdır; yalnızca değeri aynı olan karşılaştırma 1 verir.");
     case "lesson.javascript.array-map":
       return focus==="a"
         ?task("map tüm öğelere ayrı uygulanır",

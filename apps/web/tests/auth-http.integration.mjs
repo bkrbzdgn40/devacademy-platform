@@ -84,7 +84,7 @@ try {
   assert.equal((await post("/api/progress",{lessonId:"lesson.javascript.let-const",operation:"complete"},{cookie:cookieA})).status,409);
   assert.equal((await post("/api/progress",{lessonId:"lesson.javascript.let-const",operation:"view"},{cookie:cookieA})).status,200);
 
-  for(const [questionId,optionId] of [["js.binding.increment","b"],["js.binding.object","c"]]){
+  for(const [questionId,optionId] of [["js.binding.increment","b"],["js.binding.object","c"],["debug.js.let-const","a"],["js.binding.stock-total","a"]]){
     const response=await post("/api/assess",{questionId,optionId},{cookie:cookieA});
     assert.equal(response.status,200);
     const grade=await response.json();
@@ -130,11 +130,11 @@ try {
   const progressA=await (await read("/api/progress",cookieA)).json();
   const progressB=await (await read("/api/progress",cookieB)).json();
   assert.equal(progressA.lessons.length,1);
-  assert.equal(progressA.recentAttempts.length,2);
+  assert.equal(progressA.recentAttempts.length,4);
   assert.ok(progressA.lessons[0].completedAt);
   assert.deepEqual(progressB.lessons,[]);
   assert.deepEqual(progressB.recentAttempts,[]);
-  assert.equal(progressA.reviewSummary.total,2);
+  assert.equal(progressA.reviewSummary.total,4);
   assert.equal(progressB.reviewSummary.total,0);
   assert.equal((await read("/tekrar",cookieA)).status,200);
   assert.equal((await post("/api/progress",{lessonId:"lesson.javascript.let-const",operation:"complete",learnerId:"spoofed"},{cookie:cookieB})).status,409);

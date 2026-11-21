@@ -1,6 +1,6 @@
 // Server-only deterministic, reviewed counterfactual missions; no learner code runs.
 export const transferLessonIds=Object.freeze([
-  "lesson.javascript.let-const","lesson.javascript.array-map",
+  "lesson.javascript.let-const","lesson.javascript.equality","lesson.javascript.array-map",
   "lesson.java.variables","lesson.java.polymorphism",
   "lesson.python.variables","lesson.python.conditions",
   "lesson.python.loops","lesson.python.functions","lesson.python.collections"
@@ -25,6 +25,16 @@ export function transferProblem(lessonId,seed) {
         promptA:"A satırı hangi sayıyı yazdırır?",promptB:"B satırı hangi sayıyı yazdırır?",
         expected:[String(a+b),String(a+b+c)],
         explanation:"const değişkenin yeniden atanmasını engeller, nesnenin alanını değil. profile.score güncellenirken score aynı kalır."};
+    }
+    case "lesson.javascript.equality": {
+      const id=next(12,98);
+      return {title:"Gevşek dönüşüm mü, katı tür kontrolü mü?",
+        code:["const raw = \""+id+"\";","const code = "+id+";",
+          "console.log(Number(raw === code));         // A",
+          "console.log(Number(Number(raw) === code)); // B"].join("\n"),
+        promptA:"A satırı hangi sayıyı yazdırır? (0 veya 1)",promptB:"B satırı hangi sayıyı yazdırır? (0 veya 1)",
+        expected:["0","1"],
+        explanation:"raw bir string, code bir number'dır; raw === code false (0) verir. Number(raw) dönüşümünden sonra iki taraf da number olduğu için === true (1) üretir."};
     }
     case "lesson.javascript.array-map": {
       const a=next(1,6),b=next(3,9),c=next(6,12),k=next(2,4);

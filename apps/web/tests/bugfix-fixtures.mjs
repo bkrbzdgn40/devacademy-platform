@@ -11,6 +11,8 @@ import {gradeSubmission} from "../src/server/grade.ts";
 const guide=JSON.parse(readFileSync(new URL("../src/data/lesson-guides.json",import.meta.url),"utf8"));
 const questions=JSON.parse(readFileSync(new URL("../src/data/questions.json",import.meta.url),"utf8"));
 const samples={
+ "debug.js.let-const":{lang:"javascript",code:'const cart = { count: 2 }; cart.count += 1; console.log(cart.count);',out:"3"},
+ "debug.js.equality":{lang:"javascript",code:"const inputId = '42'; const targetId = 42; console.log(Number(inputId) === targetId);",out:"true"},
  "debug.java.variables":{lang:"java",code:'class Main {public static void main(String[] args){double result=5.0/2; System.out.println(result);}}',out:"2.5"},
  "debug.java.methods":{lang:"java",code:'class Main {static int square(int n){return n*n;} public static void main(String[] args){System.out.println(square(4));}}',out:"16"},
  "debug.java.polymorphism":{lang:"java",code:'class Main {static class Animal{String speak(){return "?";}} static class Dog extends Animal{@Override String speak(){return "Woof";}}public static void main(String[] args){Animal a=new Dog();System.out.println(a.speak());}}',out:"Woof"},
@@ -32,7 +34,11 @@ try{
    const wrong=question.options.filter(o=>o.id!==correct[0].id);
    assert.ok(wrong.every(o=>gradeSubmission({questionId:id,optionId:o.id}).tailoredFeedback));
    let run;
-   if(fixture.lang==="python"){
+   if(fixture.lang==="javascript"){
+     run=spawnSync(process.execPath,["-e",fixture.code],{
+       cwd:dir,encoding:"utf8",timeout:9000
+     });
+   }else if(fixture.lang==="python"){
      run=spawnSync(process.env.PYTHON_BIN || "python",["-I","-B","-c",fixture.code],{
        cwd:dir,encoding:"utf8",timeout:9000,env:{...process.env,PYTHONIOENCODING:"utf-8"}
      });

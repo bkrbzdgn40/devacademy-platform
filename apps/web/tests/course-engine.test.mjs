@@ -12,7 +12,7 @@ const reference={
 };
 const clone=()=>structuredClone(reference);
 test("five courses share lesson/assessment contract with no JS identity migration",()=>{
-  assert.deepEqual(validateCourseCatalog(reference),{courseCount:5,lessonCount:23,questionCount:59});
+  assert.deepEqual(validateCourseCatalog(reference),{courseCount:5,lessonCount:23,questionCount:63});
   const oldJs=load("lessons.json").filter(x=>x.id.startsWith("lesson.javascript."));
   assert.equal(reference.courses[0].lessonIds.length,7);
   assert.deepEqual(reference.courses[0].lessonIds,oldJs.map(x=>x.id));

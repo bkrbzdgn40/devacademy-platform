@@ -161,10 +161,14 @@ try{
   assert.ok(applied.result.value.scrollWidth<=applied.result.value.viewport+1,
     "Apply stage overflows mobile viewport: "+JSON.stringify(applied.result.value));
   // M8.5: inspect a real hydrated prediction-first studio at 320px.
+  // Guided lessons place LearningStudio in step 1 ("Anla ve izle").
   await cdp.send("Page.navigate",{url:base+"/kurslar/javascript-temelleri/degiskenler"},sessionId);
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
-      "document.readyState==='complete' && !!document.querySelector('.learning-studio .studio-predict')",
+      "(() => {if(document.readyState!=='complete')return false;"+
+      "const b=document.querySelector('[data-lesson-step=\"1\"]');"+
+      "if(b&&b.getAttribute('aria-current')!=='step')b.click();"+
+      "return !!document.querySelector('.lesson-step-panel:not([hidden]) .learning-studio .studio-predict');})()",
       returnByValue:true},sessionId);
     return r.result?.value===true;
   },"Learning Studio did not hydrate in JavaScript lesson");
@@ -202,7 +206,7 @@ try{
   // M8.5.1: representative new lessons in all three languages must display
   // their own authored trace and deeper concept lens at 320px.
   for(const [path,stepIndex] of [
-    ["/kurslar/javascript-temelleri/esitlik",0],
+    ["/kurslar/javascript-temelleri/esitlik",1],
     ["/kurslar/java-temelleri/metotlar-ve-return",1],
     ["/kurslar/python-temelleri/listeler-ve-sozlukler",1]
   ]){
@@ -251,7 +255,10 @@ try{
   await cdp.send("Page.navigate",{url:base+"/kurslar/javascript-temelleri/degiskenler"},sessionId);
   await waitFor(async()=>{
     const result=await cdp.send("Runtime.evaluate",{expression:
-      "document.readyState==='complete' && !!document.querySelector('.lesson-step-panel:not([hidden]) .learning-studio')",
+      "(() => {if(document.readyState!=='complete')return false;"+
+      "const b=document.querySelector('[data-lesson-step=\"1\"]');"+
+      "if(b&&b.getAttribute('aria-current')!=='step')b.click();"+
+      "return !!document.querySelector('.lesson-step-panel:not([hidden]) .learning-studio');})()",
       returnByValue:true},sessionId);
     return result.result?.value===true;
   },"M8.6A studio theme page did not hydrate");
@@ -367,8 +374,11 @@ try{
   await cdp.send("Page.navigate",{url:base+"/kurslar/javascript-temelleri/degiskenler"},sessionId);
   await waitFor(async()=>{
     const r=await cdp.send("Runtime.evaluate",{expression:
-      "document.readyState==='complete' && document.documentElement.dataset.theme==='dark' && "+
-      "!!document.querySelector('.lesson-step-panel:not([hidden]) .learning-studio')",
+      "(() => {if(document.readyState!=='complete')return false;"+
+      "const b=document.querySelector('[data-lesson-step=\"1\"]');"+
+      "if(b&&b.getAttribute('aria-current')!=='step')b.click();"+
+      "return document.documentElement.dataset.theme==='dark' && "+
+      "!!document.querySelector('.lesson-step-panel:not([hidden]) .learning-studio');})()",
       returnByValue:true},sessionId);
     return r.result?.value===true;
   },"Dark selection was lost on a new lesson page");
@@ -755,8 +765,8 @@ try{
     width:320,height:850,deviceScaleFactor:1,mobile:true
   },sessionId);
   const otherCurriculum=[
-    ["javascript-temelleri","degiskenler","1"],
-    ["javascript-temelleri","esitlik","1"],
+    ["javascript-temelleri","degiskenler","3"],
+    ["javascript-temelleri","esitlik","3"],
     ["javascript-temelleri","dizilerde-map","1"],
     ["javascript-temelleri","fonksiyonlar","1"],
     ["javascript-temelleri","kapsam","1"],

@@ -40,6 +40,46 @@
     ]
   },
   {
+    "id": "debug.js.let-const",
+    "lessonId": "lesson.javascript.let-const",
+    "prompt": "Sepetteki ürün sayısını 1 artırmak isteyen geliştirici TypeError alıyor. Hangi değişiklik hatayı düzeltir?",
+    "code": "const cart = { count: 2 };\ncart = { count: cart.count + 1 };\nconsole.log(cart.count);",
+    "options": [
+      {
+        "id": "a",
+        "text": "cart = ... satırı yerine cart.count += 1; yaz."
+      },
+      {
+        "id": "b",
+        "text": "cart = { count: 3 }; satırını iki kez yaz."
+      },
+      {
+        "id": "c",
+        "text": "console.log içinde cart.count yerine cart yaz."
+      }
+    ]
+  },
+  {
+    "id": "js.binding.stock-total",
+    "lessonId": "lesson.javascript.let-const",
+    "prompt": "İki şube sevkiyatından sonra depodaki kalan stok ve kutu kapasitesi konsola ne yazdırır?",
+    "code": "let remaining = 25;\nconst box = { capacity: 10 };\nremaining -= box.capacity;\nbox.capacity = 12;\nremaining -= box.capacity;\nconsole.log(`${remaining}:${box.capacity}`);",
+    "options": [
+      {
+        "id": "a",
+        "text": "3:12"
+      },
+      {
+        "id": "b",
+        "text": "5:10"
+      },
+      {
+        "id": "c",
+        "text": "TypeError"
+      }
+    ]
+  },
+  {
     "id": "js.equality.strict",
     "lessonId": "lesson.javascript.equality",
     "prompt": "Katı eşitlik karşılaştırması ne yazdırır?",
@@ -76,6 +116,46 @@
       {
         "id": "c",
         "text": "TypeError"
+      }
+    ]
+  },
+  {
+    "id": "debug.js.equality",
+    "lessonId": "lesson.javascript.equality",
+    "prompt": "Formdan '42' metni geldiğinde 42 numaralı kayıtla eşleşmesi bekleniyor ama konsola false yazılıyor. Katı eşitliği koruyarak hangi değişiklik sorunu çözer?",
+    "code": "const inputId = '42';\nconst targetId = 42;\nconsole.log(inputId === targetId);",
+    "options": [
+      {
+        "id": "a",
+        "text": "console.log(Number(inputId) === targetId); kullan."
+      },
+      {
+        "id": "b",
+        "text": "console.log(inputId === String(false)); kullan."
+      },
+      {
+        "id": "c",
+        "text": "targetId değişkenini '042' metnine çevir."
+      }
+    ]
+  },
+  {
+    "id": "js.equality.id-match",
+    "lessonId": "lesson.javascript.equality",
+    "prompt": "Formdan gelen üç bilet numarasından kaç tanesi açık sayı dönüşümü ve katı eşitlikle 105 kimliğini doğrular?",
+    "code": "const rawIds = [\"105\", \"0105\", \"105px\"];\nconst valid = rawIds.filter(x => Number(x) === 105);\nconsole.log(valid.length);",
+    "options": [
+      {
+        "id": "a",
+        "text": "2"
+      },
+      {
+        "id": "b",
+        "text": "1"
+      },
+      {
+        "id": "c",
+        "text": "3"
       }
     ]
   },
