@@ -19,6 +19,14 @@ const hypothesis={
     a:"A sonucunda varsayılan parametrenin argüman verilmediğinde devreye girdiği veya return ifadesi karışmış olabilir.",
     b:"B sonucunda açıkça gönderilen argümanın varsayılan parametreyi ezdiği gözden kaçmış olabilir."
   },
+  "lesson.javascript.scope": {
+    a:"A sonucunda iç bloktaki let tanımının yerel değeri nasıl güncellediği karışmış olabilir.",
+    b:"B sonucunda başında let olmayan atamanın dış değişkeni değiştirdiği gözden kaçmış olabilir."
+  },
+  "lesson.javascript.filter": {
+    a:"A sonucunda filter koşulunun hangi öğeleri yeni diziye seçtiği karışmış olabilir.",
+    b:"B sonucunda reduce toplamının yalnızca filtrelenen öğeler üzerinden hesaplandığı gözden kaçmış olabilir."
+  },
   "lesson.java.variables": {
     a:"A sonucunda tamsayı bölmesinin ondalıklı değişkene atanmadan önce tamamlandığı gözden kaçmış olabilir.",
     b:"B sonucunda tür dönüşümünü bölmeden önce veya sonra yapmanın etkisi karışmış olabilir."
@@ -127,6 +135,29 @@ export function adaptiveProblem(lessonId,seed,focus="standard") {
           ["function calc(n, factor = "+k+") { return n * factor; }",
            "console.log(calc("+a+"));          // A","console.log(calc("+a+", "+(k+1)+")); // B"],
           [a*k,a*(k+1)],"Açıkça verilen ikinci argüman varsayılan çarpanın yerine geçer.");
+    case "lesson.javascript.scope":
+      return focus==="a"
+        ?task("İç bloktaki let dışarıyı etkilemez",
+          ["let count = "+a+";","{","  let count = "+b+";","  count += "+k+";",
+           "  console.log(count); // A","}","console.log(count); // B"],
+          [b+k,a],"İçteki let yeni bir bağ kurar; blok kapandığında dış count başlangıç değerinde kalır.")
+        :task("Yeni let olmadan yapılan atama",
+          ["let count = "+a+";","{","  count += "+b+";","  console.log(count); // A","}",
+           "console.log(count); // B"],
+          [a+b,a+b],"İç blokta let yazılmadığı için dış değişken doğrudan güncellenir ve blok sonrasında da yeni değerini korur.");
+    case "lesson.javascript.filter":
+      return focus==="a"
+        ?task("Koşulu geçenlerin sayısı",
+          ["const list = ["+a+", "+(a+10)+", -5];",
+           "const big = list.filter(n => n > "+a+");",
+           "console.log(big.length); // A","console.log(list.length); // B"],
+          [1,3],"filter yalnızca koşulu sağlayan öğeleri yeni diziye alır; kaynak dizinin uzunluğu değişmez.")
+        :task("Boş filtre ve dolu filtrede reduce",
+          ["const list = ["+a+", "+b+"];",
+           "const emptySum = list.filter(n => n > 100).reduce((s, n) => s + n, 0);",
+           "const fullSum = list.filter(n => n > 0).reduce((s, n) => s + n, 0);",
+           "console.log(emptySum); // A","console.log(fullSum);  // B"],
+          [0,a+b],"Boş filtre sonucunda başlangıç değeri 0 döner; dolu filtrede seçilen öğeler toplanır.");
     case "lesson.java.variables": {
       const parts=n(2,4)*2,total=parts*c+parts/2;
       const boiler=(expressions)=>["class Main {","  public static void main(String[] args) {",

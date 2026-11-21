@@ -1,6 +1,7 @@
 // Server-only deterministic, reviewed counterfactual missions; no learner code runs.
 export const transferLessonIds=Object.freeze([
-  "lesson.javascript.let-const","lesson.javascript.equality","lesson.javascript.array-map","lesson.javascript.functions",
+  "lesson.javascript.let-const","lesson.javascript.equality","lesson.javascript.array-map",
+  "lesson.javascript.functions","lesson.javascript.scope","lesson.javascript.filter",
   "lesson.java.variables","lesson.java.polymorphism",
   "lesson.python.variables","lesson.python.conditions",
   "lesson.python.loops","lesson.python.functions","lesson.python.collections"
@@ -56,6 +57,27 @@ export function transferProblem(lessonId,seed) {
         promptA:"A satırı hangi sayıyı yazdırır?",promptB:"B satırı hangi sayıyı yazdırır?",
         expected:[String(base*2+bonus),String(base*2+custom)],
         explanation:"İlk çağrıda ikinci argüman verilmediği için varsayılan extra kullanılır; ikinci çağrıda açıkça verilen argüman varsayılanın yerini alır."};
+    }
+    case "lesson.javascript.scope": {
+      const outer=next(10,25),shadow=next(3,8),delta=next(2,6);
+      return {title:"Gölgeleyen blok mu, güncelleyen blok mu?",
+        code:["let quota = "+outer+";","{","  let quota = "+shadow+";","  quota += "+delta+";",
+          "  console.log(quota); // A","}","{","  quota += "+delta+";","}",
+          "console.log(quota); // B"].join("\n"),
+        promptA:"A satırı hangi sayıyı yazdırır?",promptB:"B satırı hangi sayıyı yazdırır?",
+        expected:[String(shadow+delta),String(outer+delta)],
+        explanation:"İlk blok yeni bir let quota tanımladığı için yalnızca kendi yerel değerini değiştirir. İkinci blokta let olmadığından dıştaki quota güncellenir."};
+    }
+    case "lesson.javascript.filter": {
+      const a=next(10,30),b=next(40,70),c=next(80,110),limit=35;
+      return {title:"Süzülen öğe sayısı ve birikimli toplam",
+        code:["const amounts = ["+a+", -"+b+", "+b+", "+c+"];",
+          "const valid = amounts.filter(n => n >= "+limit+");",
+          "console.log(valid.length);                        // A",
+          "console.log(valid.reduce((sum, n) => sum + n, 0)); // B"].join("\n"),
+        promptA:"A satırı kaç öğe yazdırır?",promptB:"B satırı hangi toplamı yazdırır?",
+        expected:["2",String(b+c)],
+        explanation:"filter yalnızca 35 ve üzerindeki pozitif değerleri (b ve c) yeni diziye alır; reduce ise başlangıç değeri 0 üzerine bu iki sayıyı toplar."};
     }
     case "lesson.java.variables": {
       const parts=next(2,4)*2,whole=next(1,4),total=parts*whole+parts/2;

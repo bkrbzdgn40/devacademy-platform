@@ -64,6 +64,38 @@
     "questionId": "debug.js.functions"
   },
   {
+    "lessonId": "lesson.javascript.scope",
+    "language": "javascript",
+    "missionTitle": "Gölgeleme yerine dış değişkeni güncelle",
+    "goal": "İç blokta aynı isimle yeni bir let tanımlamak dış değişkeni değiştirmez; dış değişkeni güncellemek için let anahtar sözcüğünü kaldır.",
+    "trace": [
+      "if bloğu içinde let seats = 15 yazmak yalnızca o blokta yaşayan yeni bir değişken oluşturur.",
+      "let kaldırılıp seats = 15 yazıldığında dıştaki seats değişkeni 15 olarak güncellenir."
+    ],
+    "hints": [
+      "if bloğunun içinde neden let anahtar sözcüğü tekrar kullanılmış?",
+      "Yeni değişken tanımlamadan dışarıdaki seats değişkenine nasıl atama yaparsın?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.js.scope"
+  },
+  {
+    "lessonId": "lesson.javascript.filter",
+    "language": "javascript",
+    "missionTitle": "Boş filtre sonucunda reduce hatasını önle",
+    "goal": "Filtre sonucu boş dizi olabileceğinden reduce çağrısına 0 başlangıç değeri verilmelidir.",
+    "trace": [
+      "100 üstü sipariş olmadığında filter boş dizi [] döndürür ve başlangıçsız reduce TypeError fırlatır.",
+      "reduce((sum, n) => sum + n, 0) başlangıç değeriyle boş dizide güvenli şekilde 0 döndürür."
+    ],
+    "hints": [
+      "filter(n => n > 100) bu dizi için kaç elemanlı bir sonuç üretir?",
+      "Boş bir dizide reduce çağrısının hata vermemesi için ikinci argüman ne olmalı?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.js.filter"
+  },
+  {
     "lessonId": "lesson.java.variables",
     "language": "java",
     "missionTitle": "Bir değerin kesirli kısmını koru",

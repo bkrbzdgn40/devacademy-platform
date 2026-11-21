@@ -303,6 +303,84 @@
     ]
   },
   {
+    "id": "transfer.js.scope",
+    "revision": 1,
+    "slug": "bagimsiz-js-kapsam-kontenjan",
+    "language": "javascript",
+    "level": "Bağımsız transfer",
+    "title": "JavaScript · Yerel ve dış kontenjanı ayır",
+    "functionName": "trackQuota",
+    "transferLessonId": "lesson.javascript.scope",
+    "description": "trackQuota(initialQuota, localQuota, globalDelta) fonksiyonunu yaz. Dış kapsamda initialQuota değerini tut. Bir iç blokta aynı isimle gölgeleyen yerel değişkeni localQuota + 2 olarak hesapla; ardından dış kontenjana globalDelta ekle ve [yerelSonuc, disSonuc] dizisini döndür.",
+    "starterCode": "function trackQuota(initialQuota, localQuota, globalDelta) {\n  // [yerelSonuc, disSonuc] çiftini döndür.\n  return [];\n}",
+    "publicCases": [
+      {
+        "label": "Yerel gölgeleme ve dış artış",
+        "args": [
+          25,
+          10,
+          5
+        ],
+        "expected": [
+          12,
+          30
+        ]
+      },
+      {
+        "label": "Dış kontenjan azalırken yerel sabit artış",
+        "args": [
+          20,
+          8,
+          -4
+        ],
+        "expected": [
+          10,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "id": "transfer.js.filter",
+    "revision": 1,
+    "slug": "bagimsiz-js-filtre-toplam",
+    "language": "javascript",
+    "level": "Bağımsız transfer",
+    "title": "JavaScript · Eşik üstü kayıtları süz ve topla",
+    "functionName": "sumQualifiedOrders",
+    "transferLessonId": "lesson.javascript.filter",
+    "description": "sumQualifiedOrders(amounts, minAmount) fonksiyonunu yaz. amounts dizisinde minAmount değerine eşit veya büyük olan sayıları filter ile seçip reduce ile toplamını döndürsün. Hiçbir öğe koşulu sağlamazsa veya dizi boşsa 0 döndürmeli ve kaynak diziyi değiştirmemeli.",
+    "starterCode": "function sumQualifiedOrders(amounts, minAmount) {\n  // Eşik ve üstündeki değerleri süzüp toplamını döndür.\n  return 0;\n}",
+    "publicCases": [
+      {
+        "label": "Karma siparişler ve sınır değeri",
+        "args": [
+          [
+            60,
+            -40,
+            30,
+            50,
+            90
+          ],
+          50
+        ],
+        "expected": 200
+      },
+      {
+        "label": "Eşiği geçen sipariş yok",
+        "args": [
+          [
+            10,
+            25,
+            -80
+          ],
+          50
+        ],
+        "expected": 0
+      }
+    ]
+  },
+  {
     "id": "transfer.java.divide",
     "revision": 1,
     "slug": "bagimsiz-java-gercek-bolme",
