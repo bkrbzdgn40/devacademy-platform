@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-import {ViewTransition} from "react";
+import {ViewTransition,useEffect,useRef} from "react";
 
 // One shared pill: when the section changes it slides from the old link to the new one.
 const Pill=()=><ViewTransition name="nav-pill" share="nav-pill-slide" enter="nav-pill-enter" exit="nav-pill-exit"><span className="nav-pill" aria-hidden="true"/></ViewTransition>;
@@ -21,11 +21,33 @@ export function SiteNav(){
   const section=sectionFor(pathname);
   const current=(name:Section)=>section===name?"page" as const:undefined;
   const here=(base:string)=>within(pathname,base)?"page" as const:undefined;
+  const menu=useRef<HTMLDetailsElement>(null);
+  // Layout istemci gezintisinde yeniden oluşmaz; açık kalan menüyü yeni sayfada kapat.
+  useEffect(()=>{if(menu.current)menu.current.open=false;},[pathname]);
+  // Native <details> dışarı tıklamayı ve Escape'i bilmez: ikisini de burada kapatıyoruz.
+  useEffect(()=>{
+    const onPointer=(event:PointerEvent)=>{
+      const el=menu.current;
+      if(el?.open&&!el.contains(event.target as Node))el.open=false;
+    };
+    const onKey=(event:KeyboardEvent)=>{
+      const el=menu.current;
+      if(event.key==="Escape"&&el?.open){
+        const inside=el.contains(document.activeElement);
+        el.open=false;
+        if(inside)el.querySelector<HTMLElement>("summary")?.focus();
+      }
+    };
+    document.addEventListener("pointerdown",onPointer);
+    document.addEventListener("keydown",onKey);
+    return ()=>{document.removeEventListener("pointerdown",onPointer);document.removeEventListener("keydown",onKey);};
+  },[]);
   return <nav aria-label="Ana menü" className="nav-links">
     <Link href="/kurslar" aria-current={current("learn")}>{section==="learn"&&<Pill/>}<span className="nav-label" style={{viewTransitionName:"nav-label-learn",viewTransitionClass:"nav-label"}}>Öğren</span></Link>
     <Link href="/pratik" aria-current={current("practice")}>{section==="practice"&&<Pill/>}<span className="nav-label" style={{viewTransitionName:"nav-label-practice",viewTransitionClass:"nav-label"}}>Pratik yap</span></Link>
-    <details className="nav-discovery"><summary aria-current={current("discover")}>{section==="discover"&&<Pill/>}<span className="nav-label" style={{viewTransitionName:"nav-label-discover",viewTransitionClass:"nav-label"}}>Keşfet</span></summary>
-      <div className="nav-discovery-links">
+    <details ref={menu} className="nav-discovery"><summary aria-current={current("discover")}>{section==="discover"&&<Pill/>}<span className="nav-label" style={{viewTransitionName:"nav-label-discover",viewTransitionClass:"nav-label"}}>Keşfet</span></summary>
+      {/* Bağlantıya basınca sayfa yüklenmesini beklemeden kapat. */}
+      <div className="nav-discovery-links" onClick={()=>{if(menu.current)menu.current.open=false;}}>
         <Link href="/kutuphane/diller" aria-current={here("/kutuphane/diller")}>Diller</Link>
         <Link href="/kutuphane/kavramlar" aria-current={here("/kutuphane/kavramlar")}>Kavramlar</Link>
         <Link href="/kutuphane/teknolojiler" aria-current={here("/kutuphane/teknolojiler")}>Teknolojiler</Link>

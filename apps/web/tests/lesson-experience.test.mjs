@@ -37,7 +37,7 @@ test("main menu keeps four top-level actions and accessible discovery paths",()=
   for(const href of ["/kurslar","/pratik","/hesap","/kutuphane/diller","/kutuphane/kavramlar","/kutuphane/teknolojiler"]){
     assert.ok(nav.includes('href="'+href+'"'),href);
   }
-  assert.match(nav,/<details className="nav-discovery"/);
+  assert.match(nav,/<details ref={menu} className="nav-discovery"/);
   assert.ok(!nav.includes('href="/laboratuvar"'));
 });
 test("stage jumps land below the sticky stage bar",()=>{
