@@ -99,6 +99,15 @@ export const caseBank = Object.freeze({
       {public:false,args:[[-10,0,15,35],15],expected:50}
     ]
   },
+  "transfer.js.async": {
+    revision:1,functionName:"resolveAlertBatch",cases:[
+      {label:"Acil ve normal bildirimler kısmen sığar",public:true,args:[4,5,6],expected:[4,2,3]},
+      {label:"Acil bildirimler tüm kapasiteyi doldurur",public:true,args:[8,3,5],expected:[5,0,6]},
+      {public:false,args:[0,3,5],expected:[0,3,0]},
+      {public:false,args:[3,2,0],expected:[0,0,5]},
+      {public:false,args:[-2,4,3],expected:[0,3,1]}
+    ]
+  },
   "transfer.java.divide": {
     revision:1,runtimeId:"java-21",functionName:"exactDivide",cases:[
       {label:"Kesirli bölüm",public:true,args:[7,2],expected:3.5},

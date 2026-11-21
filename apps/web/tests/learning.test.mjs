@@ -32,7 +32,7 @@ test("lesson identities and graph are consistent", () => {
 });
 
 test("published questions have complete private answer keys and no public answers", () => {
-  assert.equal(questions.length, 20);
+  assert.equal(questions.length, 21);
   assertUnique(questions, "id");
   assert.deepEqual(answerKeyIds().filter(id=>id.startsWith("js.")).sort(), questions.map(question=>question.id).sort());
   const questionIds = new Set(questions.map((q) => q.id));

@@ -212,6 +212,42 @@
     ]
   },
   {
+    "id": "lesson.javascript.async",
+    "scenario": "Bir bildirim servisinde açılış durumu hemen yazılır, ardından çözülmüş bir Promise ile gelen uyarı etiketi sıraya alınır ve hemen sonrasında senkron ekran hazır kaydı eklenir. Hangi olayın hangi anda oluştuğunu adım adım izleyelim.",
+    "steps": [
+      {
+        "code": "const queue = [\"1-basla\"];",
+        "note": "İlk senkron satır hemen çalışır; bu adımda queue dizisi [\"1-basla\"] değerini taşır."
+      },
+      {
+        "code": "Promise.resolve(\"3-bildirim\").then(msg => queue.push(msg));",
+        "note": "Promise hemen çözülse bile .then() içindeki callback microtask kuyruğuna ertelenir; queue hâlâ [\"1-basla\"] durumundadır."
+      },
+      {
+        "code": "queue.push(\"2-senkron\");",
+        "note": "Senkron çağrı yığını sürdüğü için \"2-senkron\" doğrudan eklenir; queue artık [\"1-basla\", \"2-senkron\"] olur."
+      },
+      {
+        "code": "// Senkron akış bitince microtask çalışır -> [\"1-basla\", \"2-senkron\", \"3-bildirim\"]",
+        "note": "Çağrı yığını boşaldığında bekleyen Promise callback'i çalışır ve dizi son halini alır."
+      }
+    ],
+    "edgeCase": {
+      "code": "Promise.resolve(10)\n  .then(n => { n + 5; })\n  .then(next => console.log(next)); // undefined",
+      "note": "Bir .then() callback'i içinde süslü parantez açıp return yazmayı unutursan sonraki .then() adımının parametresi sessizce undefined değerini alır."
+    },
+    "references": [
+      {
+        "title": "MDN · Promise",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+      },
+      {
+        "title": "MDN · Using promises",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises"
+      }
+    ]
+  },
+  {
     "id": "lesson.python.variables",
     "scenario": "Bir sipariş formundan birim fiyat \"12.50\" metni olarak geliyor. Müşteri 3 adet alıyor ve teslimat ücreti 4.99. Ekrana iki ondalıklı toplam yazdırmak istiyoruz.",
     "steps": [

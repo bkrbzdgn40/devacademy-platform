@@ -27,6 +27,10 @@ const hypothesis={
     a:"A sonucunda filter koşulunun hangi öğeleri yeni diziye seçtiği karışmış olabilir.",
     b:"B sonucunda reduce toplamının yalnızca filtrelenen öğeler üzerinden hesaplandığı gözden kaçmış olabilir."
   },
+  "lesson.javascript.async": {
+    a:"A sonucunda .then callback'inin senkron satırdan sonra çalıştığı gözden kaçmış olabilir.",
+    b:"B sonucunda microtask çalıştığında güncel değişken değerinin korunduğu karışmış olabilir."
+  },
   "lesson.java.variables": {
     a:"A sonucunda tamsayı bölmesinin ondalıklı değişkene atanmadan önce tamamlandığı gözden kaçmış olabilir.",
     b:"B sonucunda tür dönüşümünü bölmeden önce veya sonra yapmanın etkisi karışmış olabilir."
@@ -158,6 +162,24 @@ export function adaptiveProblem(lessonId,seed,focus="standard") {
            "const fullSum = list.filter(n => n > 0).reduce((s, n) => s + n, 0);",
            "console.log(emptySum); // A","console.log(fullSum);  // B"],
           [0,a+b],"Boş filtre sonucunda başlangıç değeri 0 döner; dolu filtrede seçilen öğeler toplanır.");
+    case "lesson.javascript.async":
+      return focus==="a"
+        ?task("Promise hemen çözülse de senkron satır önce gelir",
+          ["let count = "+a+";",
+           "Promise.resolve("+b+").then((add) => {",
+           "  count += add;",
+           "  console.log(count); // B",
+           "});",
+           "console.log(count);   // A"],
+          [a,a+b],"Senkron console.log callback çalışmadan önce ilk count değerini yazar; B güncellenmiş değeri yazar.")
+        :task("Microtask zincirinde return ile değer aktarımı",
+          ["let total = "+a+";",
+           "Promise.resolve("+c+").then((inc) => total + inc).then((next) => {",
+           "  console.log(next); // B",
+           "});",
+           "total += "+b+";",
+           "console.log(total);  // A"],
+          [a+b,a+b+c],"Senkron total += b önce çalışır ve A bunu yazar; ardından çalışan microtask güncel total ile inc değerini toplayıp B'ye aktarır.");
     case "lesson.java.variables": {
       const parts=n(2,4)*2,total=parts*c+parts/2;
       const boiler=(expressions)=>["class Main {","  public static void main(String[] args) {",

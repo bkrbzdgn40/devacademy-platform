@@ -19,6 +19,8 @@ const solutions=[
    "function trackQuota(initialQuota,localQuota,globalDelta){let quota=initialQuota;let localResult;{let quota=localQuota+2;localResult=quota;}quota+=globalDelta;return [localResult,quota];}"],
   ["transfer.js.filter","nodejs-24",
    "function sumQualifiedOrders(amounts,minAmount){return amounts.filter(n=>n>=minAmount).reduce((s,n)=>s+n,0);}"],
+  ["transfer.js.async","nodejs-24",
+   "async function resolveAlertBatch(urgentCount,normalCount,limit){const u=Math.max(0,urgentCount);const n=Math.max(0,normalCount);const cap=Math.max(0,limit);const accU=Math.min(u,cap);const accN=Math.min(n,cap-accU);return [accU,accN,u+n-accU-accN];}"],
   ["transfer.java.divide","java-21",
    "class Solution {public static double exactDivide(int n,int d){return (double)n/d;}}"],
   ["transfer.java.overload","java-21",

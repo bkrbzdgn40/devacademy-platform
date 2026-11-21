@@ -771,7 +771,7 @@ try{
     ["javascript-temelleri","fonksiyonlar","3"],
     ["javascript-temelleri","kapsam","3"],
     ["javascript-temelleri","dizilerde-filter","3"],
-    ["javascript-temelleri","asenkron-temeller","1"],
+    ["javascript-temelleri","asenkron-temeller","3"],
     ["java-temelleri","degiskenler-ve-turler","3"],
     ["java-temelleri","metotlar-ve-return","3"],
     ["java-temelleri","polymorphism","3"]

@@ -381,6 +381,46 @@
     ]
   },
   {
+    "id": "transfer.js.async",
+    "revision": 1,
+    "slug": "bagimsiz-js-promise-bildirim-kuyrugu",
+    "language": "javascript",
+    "level": "Bağımsız transfer",
+    "title": "JavaScript · Promise ile bildirim kapasitesi planla",
+    "functionName": "resolveAlertBatch",
+    "transferLessonId": "lesson.javascript.async",
+    "description": "resolveAlertBatch(urgentCount, normalCount, limit) fonksiyonunu yaz. Fonksiyon sonucu doğrudan değil, bir Promise (veya async function) döndürerek üretmeli. Önce acil (urgentCount) bildirimler limit kapasitesine kadar alınır, kalan kapasiteye normal (normalCount) bildirimler eklenir. Negatif sayılar 0 kabul edilir ve Promise [kabulAcil, kabulNormal, bekleyen] dizisine çözülmelidir.",
+    "starterCode": "async function resolveAlertBatch(urgentCount, normalCount, limit) {\n  // Önce acil, sonra normal bildirimleri kapasiteye sığdırıp [acil, normal, bekleyen] döndür.\n  return [0, 0, 0];\n}",
+    "publicCases": [
+      {
+        "label": "Acil ve normal bildirimler kısmen sığar",
+        "args": [
+          4,
+          5,
+          6
+        ],
+        "expected": [
+          4,
+          2,
+          3
+        ]
+      },
+      {
+        "label": "Acil bildirimler tüm kapasiteyi doldurur",
+        "args": [
+          8,
+          3,
+          5
+        ],
+        "expected": [
+          5,
+          0,
+          6
+        ]
+      }
+    ]
+  },
+  {
     "id": "transfer.java.divide",
     "revision": 1,
     "slug": "bagimsiz-java-gercek-bolme",

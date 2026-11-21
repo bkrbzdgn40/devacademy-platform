@@ -17,6 +17,7 @@ const samples={
  "debug.js.functions":{lang:"javascript",code:"function addBonus(score) { return score + 10; } const finalScore = addBonus(20) + 5; console.log(finalScore);",out:"35"},
  "debug.js.scope":{lang:"javascript",code:"let seats = 10; if (seats < 12) { seats = 15; } console.log(seats);",out:"15"},
  "debug.js.filter":{lang:"javascript",code:"const orders = [40, 75]; const high = orders.filter(n => n > 100); console.log(high.reduce((sum, n) => sum + n, 0));",out:"0"},
+ "debug.js.async":{lang:"javascript",code:"Promise.resolve(10).then(n => { return n + 5; }).then(total => console.log(total));",out:"15"},
  "debug.java.variables":{lang:"java",code:'class Main {public static void main(String[] args){double result=5.0/2; System.out.println(result);}}',out:"2.5"},
  "debug.java.methods":{lang:"java",code:'class Main {static int square(int n){return n*n;} public static void main(String[] args){System.out.println(square(4));}}',out:"16"},
  "debug.java.polymorphism":{lang:"java",code:'class Main {static class Animal{String speak(){return "?";}} static class Dog extends Animal{@Override String speak(){return "Woof";}}public static void main(String[] args){Animal a=new Dog();System.out.println(a.speak());}}',out:"Woof"},
