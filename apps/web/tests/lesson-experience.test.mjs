@@ -8,14 +8,15 @@ const stepper=read("components/lesson-stepper.tsx");
 const nav=read("components/site-nav.tsx");
 const questions=JSON.parse(read("data/questions.json"));
 const guides=JSON.parse(read("data/lesson-guides.json"));
+const walkthroughs=JSON.parse(read("data/lesson-walkthroughs.json"));
 const lessons=JSON.parse(read("data/lessons.json"));
 
 test("guided lessons preserve all existing assessment identities",()=>{
-  assert.equal(guides.length,8);
+  assert.equal(guides.length,10);
   for(const guide of guides){
     const item=lessons.find(x=>x.id===guide.lessonId);
     assert.ok(item);
-    assert.equal(item.questionIds.length,item.id.startsWith("lesson.python.")?4:3);
+    assert.equal(item.questionIds.length,walkthroughs.some(w=>w.id===item.id)?4:3);
     assert.ok(item.questionIds.includes(guide.questionId));
     assert.ok(item.questionIds.every(id=>questions.some(q=>q.id===id)));
   }

@@ -54,6 +54,15 @@ export const caseBank = Object.freeze({
       {public:false,args:[19,-30],expected:[19,-11]}
     ]
   },
+  "transfer.js.equality": {
+    revision:1,functionName:"matchNumericId",cases:[
+      {label:"Metin olarak gelen eşleşen kimlik",public:true,args:["42",42],expected:true},
+      {label:"Boş metin 0 ile eşleşmemeli",public:true,args:["",0],expected:false},
+      {public:false,args:[42,42],expected:true},
+      {public:false,args:["42",43],expected:false},
+      {public:false,args:["   ",0],expected:false}
+    ]
+  },
   "transfer.js.map": {
     revision:1,functionName:"scaleCopy",cases:[
       {label:"Karma sayılar",public:true,args:[[-2,0,3],3],expected:[-6,0,9]},

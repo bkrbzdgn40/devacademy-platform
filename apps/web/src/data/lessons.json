@@ -16,7 +16,9 @@
     ],
     "questionIds": [
       "js.binding.increment",
-      "js.binding.object"
+      "js.binding.object",
+      "debug.js.let-const",
+      "js.binding.stock-total"
     ],
     "prerequisites": []
   },
@@ -37,7 +39,9 @@
     ],
     "questionIds": [
       "js.equality.strict",
-      "js.equality.loose"
+      "js.equality.loose",
+      "debug.js.equality",
+      "js.equality.id-match"
     ],
     "prerequisites": [
       "lesson.javascript.let-const"

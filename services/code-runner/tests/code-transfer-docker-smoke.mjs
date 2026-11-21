@@ -9,6 +9,8 @@ import {caseBank} from "../src/exercises-private.mjs";
 const solutions=[
   ["transfer.js.snapshot","nodejs-24",
    "function snapshotScore(score,delta){const before=score;const profile={score};profile.score+=delta;return [before,profile.score]}"],
+  ["transfer.js.equality","nodejs-24",
+   "function matchNumericId(rawId,expectedId){if(typeof rawId==='string'&&rawId.trim()==='')return false;return Number(rawId)===expectedId;}"],
   ["transfer.js.map","nodejs-24",
    "function scaleCopy(values,factor){return values.map(n=>n*factor)}"],
   ["transfer.java.divide","java-21",

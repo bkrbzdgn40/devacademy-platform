@@ -205,6 +205,36 @@
     ]
   },
   {
+    "id": "transfer.js.equality",
+    "revision": 1,
+    "slug": "bagimsiz-js-kimlik-esitligi",
+    "language": "javascript",
+    "level": "Bağımsız transfer",
+    "title": "JavaScript · Metin ve sayı kimliği doğrula",
+    "functionName": "matchNumericId",
+    "transferLessonId": "lesson.javascript.equality",
+    "description": "matchNumericId(rawId, expectedId) fonksiyonunu yaz. rawId bir sayı veya boşluksuz sayısal metin olabilir; ancak boş metin (\"\") veya yalnızca boşluk içeren metinleri reddetmeli, açık Number dönüşümü sonrası expectedId tam sayısıyla katı eşitlik (===) sağlanıyorsa true, aksi halde false döndürmeli.",
+    "starterCode": "function matchNumericId(rawId, expectedId) {\n  // Boş metni reddet, açık dönüşüm ve === ile karşılaştır.\n  return false;\n}",
+    "publicCases": [
+      {
+        "label": "Metin olarak gelen eşleşen kimlik",
+        "args": [
+          "42",
+          42
+        ],
+        "expected": true
+      },
+      {
+        "label": "Boş metin 0 ile eşleşmemeli",
+        "args": [
+          "",
+          0
+        ],
+        "expected": false
+      }
+    ]
+  },
+  {
     "id": "transfer.js.map",
     "revision": 1,
     "slug": "bagimsiz-js-dizi-donusumu",

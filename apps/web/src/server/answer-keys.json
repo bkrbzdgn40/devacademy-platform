@@ -15,6 +15,22 @@
       "b": "person.name = 'Grace' satırı alanı değiştirir; yazdırma bu satırdan sonra yapıldığı için Ada kalmaz."
     }
   },
+  "debug.js.let-const": {
+    "optionId": "a",
+    "explanation": "const değişkenine yeni bir nesne atanamaz; ancak cart.count += 1 ile mevcut nesnenin alanı güncellenebilir.",
+    "wrongFeedback": {
+      "b": "const değişkene yeni bir nesne atamak kaç kez yazılırsa yazılsın TypeError fırlatır.",
+      "c": "Hata console.log satırına gelmeden önce, ikinci satırdaki yeniden atama sırasında oluşur."
+    }
+  },
+  "js.binding.stock-total": {
+    "optionId": "a",
+    "explanation": "remaining önce 25 - 10 ile 15 olur. Ardından box.capacity alanı 12 yapılır ve 15 - 12 ile remaining 3 olur; çıktı 3:12'dir.",
+    "wrongFeedback": {
+      "b": "box const olsa bile box.capacity alanı 12 olarak güncellenir; ikinci düşüm 10 değil 12 üzerinden yapılır.",
+      "c": "box değişkenine yeni nesne atanmadığı, yalnızca capacity alanı değiştiği için TypeError oluşmaz."
+    }
+  },
   "js.equality.strict": {
     "optionId": "b",
     "explanation": "0 sayı, false boolean türündedir. === farklı türler arasında dönüşüm yapmaz, dolayısıyla false döndürür.",
@@ -29,6 +45,22 @@
     "wrongFeedback": {
       "b": "== türleri karşılaştırmadan önce dönüştürür; false 0'a dönüşünce iki taraf eşit olur.",
       "c": "Farklı türleri == ile karşılaştırmak hata fırlatmaz, dönüşüm yapıp sonuç verir."
+    }
+  },
+  "debug.js.equality": {
+    "optionId": "a",
+    "explanation": "Number(inputId) metni 42 sayısına dönüştürür; böylece === hem tür hem değer eşleşmesini doğrular.",
+    "wrongFeedback": {
+      "b": "String(false) ifadesi 'false' metni üretir ve '42' kimliğiyle eşleşmez.",
+      "c": "'042' ile '42' farklı karakter dizileridir; === karşılaştırmasında yine false döner."
+    }
+  },
+  "js.equality.id-match": {
+    "optionId": "a",
+    "explanation": "Number(\"105\") ve Number(\"0105\") 105 sayısını üretir. Number(\"105px\") ise NaN döndürür ve 105'e eşit değildir; 2 öğe kalır.",
+    "wrongFeedback": {
+      "b": "Başındaki sıfır Number(\"0105\") dönüşümünde önemsizdir ve yine 105 sayısını verir.",
+      "c": "Number(\"105px\") metin sonundaki harfler yüzünden NaN üretir; NaN === 105 karşılaştırması false verir."
     }
   },
   "js.map.output": {

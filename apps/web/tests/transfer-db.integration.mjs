@@ -30,7 +30,7 @@ test("transfer proves distinct correct cases after guided completion and cannot 
   try {
     assert.equal((await startTransfer(a.learnerId,id)).status,"locked");
     assert.equal((await startTransfer(b.learnerId,id)).status,"locked");
-    for(const [questionId,optionId] of [["js.binding.increment","b"],["js.binding.object","c"]]){
+    for(const [questionId,optionId] of [["js.binding.increment","b"],["js.binding.object","c"],["debug.js.let-const","a"],["js.binding.stock-total","a"]]){
       const grade=gradeSubmission({questionId,optionId});
       await recordAttempt(a.learnerId,grade,optionId);
     }
@@ -110,7 +110,7 @@ test("transfer proves distinct correct cases after guided completion and cannot 
 test("cooldown is owner-scoped and expires after 24 hours",async()=>{
   const a=await createAccount("transc_"+randomBytes(6).toString("hex"),password);
   try {
-    for(const [questionId,optionId] of [["js.binding.increment","b"],["js.binding.object","c"]])
+    for(const [questionId,optionId] of [["js.binding.increment","b"],["js.binding.object","c"],["debug.js.let-const","a"],["js.binding.stock-total","a"]])
       await recordAttempt(a.learnerId,gradeSubmission({questionId,optionId}),optionId);
     await updateLessonProgress(a.learnerId,id,"complete");
     await startTransfer(a.learnerId,id);

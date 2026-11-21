@@ -9,23 +9,24 @@ const read=name=>JSON.parse(readFileSync(new URL("../src/data/"+name,import.meta
 const guides=read("lesson-guides.json");
 const lessons=read("lessons.json");
 const questions=read("questions.json");
-test("all Java and Python topics contain full guided learning and graded diagnostics",()=>{
-  const expected=lessons.filter(l=>l.id.startsWith("lesson.java.")||l.id.startsWith("lesson.python."));
-  assert.equal(expected.length,8);
-  assert.equal(guides.length,8);
-  assert.equal(new Set(guides.map(g=>g.lessonId)).size,8);
+test("all guided topics contain full guided learning and graded diagnostics",()=>{
+  const guidedWalkthroughs=read("lesson-walkthroughs.json");
+  const expected=lessons.filter(l=>l.id.startsWith("lesson.java.")||l.id.startsWith("lesson.python.")||guidedWalkthroughs.some(w=>w.id===l.id));
+  assert.equal(guides.length,expected.length);
+  assert.equal(new Set(guides.map(g=>g.lessonId)).size,guides.length);
   const selected=new Set();
   for(const guide of guides){
     assert.ok(expected.some(l=>l.id===guide.lessonId));
-    assert.ok(["java","python"].includes(guide.language));
+    assert.ok(["javascript","java","python"].includes(guide.language));
     assert.equal(guide.trace.length,2);
     assert.equal(guide.hints.length,2);
     assert.ok(guide.trace.every(s=>s.length>=16));
     assert.ok(guide.hints.every(s=>s.length>=10));
     assert.ok(guide.reflection.length>20);
     const lesson=lessons.find(l=>l.id===guide.lessonId);
-    // Python gold-standard lessons add one objective-aligned graded question.
-    assert.equal(lesson.questionIds.length,lesson.id.startsWith("lesson.python.")?4:3);
+    // Gold-standard lessons add one objective-aligned graded question.
+    const hasWalkthrough=guidedWalkthroughs.some(w=>w.id===lesson.id);
+    assert.equal(lesson.questionIds.length,hasWalkthrough?4:3);
     assert.ok(lesson.questionIds.includes(guide.questionId));
     const question=questions.find(q=>q.id===guide.questionId);
     assert.ok(question&&question.lessonId===guide.lessonId);
@@ -43,7 +44,7 @@ test("all Java and Python topics contain full guided learning and graded diagnos
       assert.ok(grade.explanation.length>20);
     }
   }
-  assert.equal(selected.size,8);
+  assert.equal(selected.size,guides.length);
   assert.equal(answerKeyIds().length,questions.length);
 });
 test("real Lezer Python/Java grammars are available for browser CodeMirror highlighting",()=>{

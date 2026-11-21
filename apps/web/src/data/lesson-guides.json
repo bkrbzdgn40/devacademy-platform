@@ -1,5 +1,37 @@
 [
   {
+    "lessonId": "lesson.javascript.let-const",
+    "language": "javascript",
+    "missionTitle": "const nesnesinin alanını doğru güncelle",
+    "goal": "const bağını yeniden atamak yerine mevcut nesnenin alanını güncellemek gerekir.",
+    "trace": [
+      "const ile tanımlanan değişkene = ile yeni nesne atamak TypeError üretir.",
+      "cart.count += 1 ifadesi bağı değiştirmeden nesnenin içindeki alanı günceller."
+    ],
+    "hints": [
+      "Hata hangi satırdaki = atamasından kaynaklanıyor?",
+      "Yeni bir nesne oluşturmadan yalnızca count alanını nasıl artırırsın?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.js.let-const"
+  },
+  {
+    "lessonId": "lesson.javascript.equality",
+    "language": "javascript",
+    "missionTitle": "Metin kimliğini katı eşitlikle doğrula",
+    "goal": "Metin olarak gelen sayıyı === ile karşılaştırmadan önce Number() ile açıkça sayıya dönüştürmek gerekir.",
+    "trace": [
+      "'42' metni ile 42 sayısı === karşılaştırmasında farklı türde olduğu için false verir.",
+      "Number(inputId) === targetId dönüşümden sonra iki sayıyı katı eşitlikle doğrular."
+    ],
+    "hints": [
+      "inputId değişkeninin türü string mi yoksa number mı?",
+      "=== operatörü otomatik tür dönüşümü yapar mı?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.js.equality"
+  },
+  {
     "lessonId": "lesson.java.variables",
     "language": "java",
     "missionTitle": "Bir değerin kesirli kısmını koru",

@@ -48,7 +48,7 @@ test("auth, durable progress, authorization and cascade integration", async () =
     assert.equal(wrong.status,"graded");
     await recordAttempt(a.learnerId,wrong,"a");
     assert.equal((await updateLessonProgress(a.learnerId,lessonId,"complete")).status,"incomplete");
-    for(const [id,optionId] of [["js.binding.increment","b"],["js.binding.object","c"]]){
+    for(const [id,optionId] of [["js.binding.increment","b"],["js.binding.object","c"],["debug.js.let-const","a"],["js.binding.stock-total","a"]]){
       const grade=gradeSubmission({questionId:id,optionId});
       assert.equal(grade.correct,true);
       await recordAttempt(a.learnerId,grade,optionId);
@@ -57,10 +57,10 @@ test("auth, durable progress, authorization and cascade integration", async () =
     const own=await getLearningProgress(a.learnerId);
     const other=await getLearningProgress(b.learnerId);
     assert.ok(own.lessons.some(x=>x.lessonId===lessonId&&x.completedAt));
-    assert.equal(own.recentAttempts.length,3);
+    assert.equal(own.recentAttempts.length,5);
     assert.equal(other.lessons.length,0);
     assert.equal(other.recentAttempts.length,0);
-    assert.equal(own.reviewSummary.total,2);
+    assert.equal(own.reviewSummary.total,4);
     assert.equal(other.reviewSummary.total,0);
     const savedReview=await database().query("SELECT stage,lapses,attempts FROM learning_review_schedule WHERE learner_id=$1 AND exercise_id='js.binding.increment'",[a.learnerId]);
     assert.equal(savedReview.rows[0].stage,1);

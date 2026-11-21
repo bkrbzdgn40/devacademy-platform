@@ -1,5 +1,73 @@
 [
   {
+    "id": "lesson.javascript.let-const",
+    "scenario": "Mağaza kasasında başlangıç sepet toplamı let ile 120 tutuluyor, müşteri nesnesi ise const ile { tier: \"standart\", points: 40 } olarak tanımlanıyor. Yeni ürün eklendiğinde toplamı ve müşteri puanını adım adım güncelleyelim.",
+    "steps": [
+      {
+        "code": "let total = 120;\nconst customer = { tier: \"standart\", points: 40 };",
+        "note": "total değişebilecek bir sayısal bağdır. customer ise başka bir nesneye yeniden atanamayacak bir nesne bağıdır."
+      },
+      {
+        "code": "total += 35;\nconsole.log(total); // 155",
+        "note": "let ile tanımlanan bağa yeni sayısal değer atanabilir; total artık 155 değerini gösterir."
+      },
+      {
+        "code": "customer.points += 15;\nconsole.log(customer.points); // 55",
+        "note": "const bağın kendisini kilitler, nesnenin içini değil. customer.points alanı 55 olarak güncellenir."
+      },
+      {
+        "code": "console.log(`${total}-${customer.points}`); // 155-55",
+        "note": "Hem yeniden atanan let değişkeni hem de içi güncellenen const nesnesi yeni değerlerini korur."
+      }
+    ],
+    "edgeCase": {
+      "code": "const customer = { points: 40 };\ncustomer = { points: 55 }; // TypeError",
+      "note": "Nesnenin alanını değiştirmek (customer.points = 55) geçerlidir; ancak const değişkene eşittir (=) ile yeni bir nesne atamak çalışma zamanında TypeError fırlatır."
+    },
+    "references": [
+      {
+        "title": "MDN · let bildirimi",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let"
+      },
+      {
+        "title": "MDN · const bildirimi",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const"
+      }
+    ]
+  },
+  {
+    "id": "lesson.javascript.equality",
+    "scenario": "Bir kütüphane API'sinden kitap kimliği \"104\" metni olarak geliyor; raftaki aranan kimlik ise 104 sayısı. Gevşek eşitlik, katı eşitlik ve açık Number() dönüşümüyle bu iki değeri adım adım karşılaştıralım.",
+    "steps": [
+      {
+        "code": "const apiId = \"104\";\nconst shelfId = 104;",
+        "note": "typeof apiId sonucu \"string\", typeof shelfId sonucu \"number\" olur. Görünüşleri benzer olsa da türleri farklıdır."
+      },
+      {
+        "code": "console.log(apiId === shelfId); // false",
+        "note": "Katı eşitlik (===) önce türlere bakar; string ile number farklı olduğu için değerleri dönüştürmeden false döndürür."
+      },
+      {
+        "code": "const parsedId = Number(apiId);\nconsole.log(parsedId === shelfId); // true",
+        "note": "Number(\"104\") metni açıkça 104 sayısına çevirir. Artık iki taraf da number olduğu için === karşılaştırması true verir."
+      }
+    ],
+    "edgeCase": {
+      "code": "console.log(Number(\"\") === 0); // true\nconsole.log(\"\" == 0);          // true",
+      "note": "Boş metin veya yalnızca boşluk içeren metin Number() ile ya da == içinde 0 sayısına dönüşür. Kimlik doğrularken önce metnin boş olmadığından (apiId.trim() !== \"\") ve Number.isNaN olmadığından emin ol."
+    },
+    "references": [
+      {
+        "title": "MDN · Katı eşitlik (===)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality"
+      },
+      {
+        "title": "MDN · Eşitlik karşılaştırmaları",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness"
+      }
+    ]
+  },
+  {
     "id": "lesson.python.variables",
     "scenario": "Bir sipariş formundan birim fiyat \"12.50\" metni olarak geliyor. Müşteri 3 adet alıyor ve teslimat ücreti 4.99. Ekrana iki ondalıklı toplam yazdırmak istiyoruz.",
     "steps": [
