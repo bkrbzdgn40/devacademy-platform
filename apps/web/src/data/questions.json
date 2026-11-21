@@ -520,6 +520,46 @@
     ]
   },
   {
+    "id": "debug.js.async",
+    "lessonId": "lesson.javascript.async",
+    "prompt": "Bu Promise zinciri ekrana 15 yerine undefined yazdırıyor. Zincirin 15 yazdırması için hangi düzeltme gerekir?",
+    "code": "Promise.resolve(10)\n  .then(n => { n + 5; })\n  .then(total => console.log(total));",
+    "options": [
+      {
+        "id": "a",
+        "text": "İlk .then bloğunu return n + 5 yapacak şekilde düzenlemek"
+      },
+      {
+        "id": "b",
+        "text": "Promise.resolve(10) yerine new Promise(10) yazmak"
+      },
+      {
+        "id": "c",
+        "text": "console.log(total) çağrısını zincirin dışına almak"
+      }
+    ]
+  },
+  {
+    "id": "js.async.notification-order",
+    "lessonId": "lesson.javascript.async",
+    "prompt": "Bildirim akışında açılış ve ekran kayıtları senkron olarak eklenip araya çözümlenen Promise bildirimi girdiğinde konsola ne yazdırılır?",
+    "code": "const feed = [\"acilis\"];\nPromise.resolve(\"bildirim:2\").then((item) => {\n  feed.push(item);\n  console.log(feed.join(\"|\"));\n});\nfeed.push(\"ekran-hazir\");",
+    "options": [
+      {
+        "id": "a",
+        "text": "acilis|bildirim:2|ekran-hazir"
+      },
+      {
+        "id": "b",
+        "text": "acilis|ekran-hazir|bildirim:2"
+      },
+      {
+        "id": "c",
+        "text": "ekran-hazir|bildirim:2|acilis"
+      }
+    ]
+  },
+  {
     "id": "java.variables.increment",
     "lessonId": "lesson.java.variables",
     "prompt": "Aşağıdaki Java programının çıktısı nedir?",

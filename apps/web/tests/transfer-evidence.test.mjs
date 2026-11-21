@@ -5,7 +5,7 @@ import {transferLessonIds,transferProblem,evaluateTransfer,normalizedAnswer}
 import {stateFor,supportsTransfer} from "../src/server/transfer-store.mjs";
 
 test("independently parameterized cases across six lessons and 3 languages",()=>{
-  assert.equal(transferLessonIds.length,13);
+  assert.equal(transferLessonIds.length,14);
   for(const lessonId of transferLessonIds) {
     assert.ok(supportsTransfer(lessonId));
     const codes=new Set();

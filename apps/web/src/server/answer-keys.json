@@ -207,6 +207,22 @@
       "c": "Promise microtask'ı, queueMicrotask callback'inden önce kuyruğa girdiği için micro da diziye eklenmiş olur."
     }
   },
+  "debug.js.async": {
+    "optionId": "a",
+    "explanation": "Süslü parantez açılan arrow fonksiyonlarda değer döndürmek için return gerekir; return yazılmadığında ikinci .then parametresi undefined alır.",
+    "wrongFeedback": {
+      "b": "Promise yapıcısı doğrudan sayı değil yürütücü bir fonksiyon bekler; sorun Promise.resolve(10) çağrısında değildir.",
+      "c": "total yalnızca ikinci .then parametresi olarak tanımlıdır; zincir dışına alınırsa ReferenceError oluşur."
+    }
+  },
+  "js.async.notification-order": {
+    "optionId": "b",
+    "explanation": "Önce senkron olarak eklenen açılış ve ekran-hazir kayıtları dizide yer alır. Ardından microtask kuyruğundan çalışan Promise.then callback'i bildirim:2 öğesini dizinin sonuna ekler.",
+    "wrongFeedback": {
+      "a": "Promise.resolve hemen değer üretse bile .then callback'i senkron çağrı yığını tamamlanmadan çalışmaz; bu nedenle ekran-hazir daha önce eklenir.",
+      "c": "acilis öğesi başlangıçta dizinin ilk elemanıdır ve sonraki eklemeler dizinin sonuna yapılır; bu yüzden ilk sırada kalır."
+    }
+  },
   "java.variables.increment": {
     "optionId": "b",
     "explanation": "count önce 2'dir, += 3 işleminden sonra 5 olur.",

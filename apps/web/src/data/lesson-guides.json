@@ -96,6 +96,22 @@
     "questionId": "debug.js.filter"
   },
   {
+    "lessonId": "lesson.javascript.async",
+    "language": "javascript",
+    "missionTitle": "Promise sonucunu zincirden kaybetmeden geçir",
+    "goal": "Promise.then bloğunda süslü parantez kullanıldığında sonraki adıma veri aktarmak için return yazılmalıdır.",
+    "trace": [
+      "İlk .then bloğu n + 5 değerini hesaplayıp return yazmazsa sonraki .then parametresi undefined olur.",
+      "return n + 5 yazıldığında hesaplanan 15 değeri sonraki .then callback'ine güvenle aktarılır."
+    ],
+    "hints": [
+      "Birinci .then bloğunun süslü parantez içinden dışarı değer döndürüp döndürmediğine bak.",
+      "Sonraki .then adımının undefined yerine 15 alması için ne eklenmeli?"
+    ],
+    "reflection": "Bu hatayı kendi kodunda görsen önce hangi satırın değerini veya türünü kontrol ederdin?",
+    "questionId": "debug.js.async"
+  },
+  {
     "lessonId": "lesson.java.variables",
     "language": "java",
     "missionTitle": "Bir değerin kesirli kısmını koru",

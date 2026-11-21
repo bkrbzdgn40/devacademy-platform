@@ -154,7 +154,7 @@
     "level": "Başlangıç",
     "durationMinutes": 24,
     "objective": "Senkron adımlarla Promise microtask'larının çıktı sırasını açıklayıp bildirim akışı kurabilmek.",
-    "summary": "Sipariş onayı örneğinde Promise zincirleri ve senkron işlemlerin sıralamasını incele.",
+    "summary": "Bildirim akışı örneğinde Promise zincirleri ve senkron işlemlerin sıralamasını incele.",
     "explanation": "Promise.then içindeki callback, mevcut senkron kod tamamlandıktan sonra bir microtask olarak çalışır. Bu nedenle Promise.resolve anında bir değer üretse bile ardından gelen senkron console.log çağrısı daha önce gerçekleşir.",
     "code": "console.log('A');\nPromise.resolve().then(() => console.log('C'));\nconsole.log('B');\n// A, B, C",
     "takeaways": [
@@ -164,7 +164,9 @@
     ],
     "questionIds": [
       "js.async.sync",
-      "js.async.microtask"
+      "js.async.microtask",
+      "debug.js.async",
+      "js.async.notification-order"
     ],
     "prerequisites": [
       "lesson.javascript.filter"

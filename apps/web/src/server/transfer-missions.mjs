@@ -2,7 +2,7 @@
 export const transferLessonIds=Object.freeze([
   "lesson.javascript.let-const","lesson.javascript.equality","lesson.javascript.array-map",
   "lesson.javascript.functions","lesson.javascript.scope","lesson.javascript.filter",
-  "lesson.java.variables","lesson.java.polymorphism",
+  "lesson.javascript.async","lesson.java.variables","lesson.java.polymorphism",
   "lesson.python.variables","lesson.python.conditions",
   "lesson.python.loops","lesson.python.functions","lesson.python.collections"
 ]);
@@ -78,6 +78,20 @@ export function transferProblem(lessonId,seed) {
         promptA:"A satırı kaç öğe yazdırır?",promptB:"B satırı hangi toplamı yazdırır?",
         expected:["2",String(b+c)],
         explanation:"filter yalnızca 35 ve üzerindeki pozitif değerleri (b ve c) yeni diziye alır; reduce ise başlangıç değeri 0 üzerine bu iki sayıyı toplar."};
+    }
+    case "lesson.javascript.async": {
+      const initial=next(2,8),syncStep=next(3,9),asyncStep=next(4,10);
+      return {title:"Senkron değer mi, microtask sonrası değer mi?",
+        code:["let level = "+initial+";",
+          "Promise.resolve("+asyncStep+").then((bonus) => {",
+          "  level += bonus;",
+          "  console.log(level); // B",
+          "});",
+          "level += "+syncStep+";",
+          "console.log(level);   // A"].join("\n"),
+        promptA:"A satırı ilk hangi sayıyı yazdırır?",promptB:"B satırı ardından hangi sayıyı yazdırır?",
+        expected:[String(initial+syncStep),String(initial+syncStep+asyncStep)],
+        explanation:"Senkron artırım hemen uygulanır ve A ara değeri yazar. Promise callback'i microtask olarak çalıştığında level günceldir ve bonus eklenir."};
     }
     case "lesson.java.variables": {
       const parts=next(2,4)*2,whole=next(1,4),total=parts*whole+parts/2;
