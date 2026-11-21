@@ -4,145 +4,142 @@
 
 Ön testte ders açıklaması veya ipucu açılmadan cevap ver. Son testte eğitim bittiğinde, gecikmeli testte en az 24 saat sonra yine **yardımsız** cevap ver. Her görev için standart çıktıyı **satır sırasıyla** yaz ve nedenini bir veya iki cümlede açıkla. Çalıştırma, editör, arama ve yardım kullanma; anlamadığın yerde tahmin edebilir veya “bilmiyorum” diyebilirsin. Test sırasında ipucu verilirse görev bağımsız olarak puanlanamaz; gözlem notu alınır.
 
-## Değişkenler ve tür dönüşümü
+## Ondalıklı metin, float ve iki basamaklı biçim
 
-### Form A · Kantin fişi
-Fiyat bir metin olarak alınmıştır. İndirim düşüldükten sonra ekrana ne yazılır?
+### Form A · Koşu antrenmanı
+Tur uzunluğu formdan metin olarak geliyor. Isınma eklendikten sonra ekrana tam olarak ne yazılır?
 
 ```python
-price_text = "18"
-quantity = 3
-discount = 4
-print(int(price_text) * quantity - discount)
+lap_km_text = "2.40"
+laps = 3
+warmup_km = 0.5
+print(f"{float(lap_km_text) * laps + warmup_km:.2f}")
 ```
 
 **Çıktı (satır sırasıyla):** __________  
 **Neden:** __________
 
-### Form B · Bisiklet kiralama
-Saatlik ücret metin olarak geliyor. Kupon düşüldükten sonraki çıktıyı hesapla.
+### Form B · Günlük su takibi
+Bardak hacmi metin olarak kaydedilmiş. Ek su eklendikten sonra ekranda hangi değer görünür?
 
 ```python
-hourly_text = "16"
-hours = 4
-coupon = 3
-print(int(hourly_text) * hours - coupon)
+glass_l_text = "1.25"
+glasses = 4
+extra_l = 0.3
+print(f"{float(glass_l_text) * glasses + extra_l:.2f}")
 ```
 
 **Çıktı (satır sırasıyla):** __________  
 **Neden:** __________
 
-### Form C · Bilet satışı
-Bilet fiyatı metin olarak geliyor. Kampanya indirimi sonrası çıktıyı bul.
+### Form C · Kumaş kesimi
+Parça uzunluğu metin olarak ölçülmüş. Yedek pay eklendikten sonra ekrana ne yazılır?
 
 ```python
-ticket_text = "21"
-count = 2
-promotion = 5
-print(int(ticket_text) * count - promotion)
+piece_m_text = "0.75"
+pieces = 6
+spare_m = 1.2
+print(f"{float(piece_m_text) * pieces + spare_m:.2f}")
 ```
 
 **Çıktı (satır sırasıyla):** __________  
 **Neden:** __________
 
-## Sıralı koşul ve and
+## Kademeli koşul sırası ve sınır değeri
 
-### Form A · Kargo önceliği
-Sıcaklık 25 değil. İkinci koşul değerlendirilince ne yazılır?
+### Form A · Su deposu göstergesi
+Depo seviyesi tam olarak bir eşik değerinde. Zincirde hangi dal çalışır ve ne yazılır?
 
 ```python
-temperature = 20
-express = True
-if temperature >= 25:
-    print("Sıcak")
-elif express and temperature >= 18:
-    print("Öncelikli")
+level = 20
+if level >= 50:
+    print("Yeşil")
+elif level >= 20:
+    print("Sarı")
 else:
-    print("Normal")
+    print("Kırmızı")
 ```
 
 **Çıktı (satır sırasıyla):** __________  
 **Neden:** __________
 
-### Form B · Üyelik indirimi
-Alışveriş 150 altında. Üyelik kuralını izleyip çıktıyı bul.
+### Form B · Sınav notu kademesi
+Not, en üst kademenin sınırına tam eşit. Zincirde ilk doğru koşulu bul ve çıktıyı yaz.
 
 ```python
-subtotal = 110
-member = True
-if subtotal >= 150:
-    print("Ücretsiz")
-elif member and subtotal >= 100:
-    print("İndirimli")
+score = 85
+if score >= 85:
+    print("Pekiyi")
+elif score >= 70:
+    print("İyi")
 else:
-    print("Standart")
+    print("Geçti")
 ```
 
 **Çıktı (satır sırasıyla):** __________  
 **Neden:** __________
 
-### Form C · Pil yönetimi
-Pil yüzde 60 altında. Tasarruf koşuluna göre çıktı nedir?
+### Form C · Rüzgâr uyarısı
+Rüzgâr hızı orta kademenin sınırının hemen altında. Hangi uyarı yazılır?
 
 ```python
-battery = 35
-saver = True
-if battery >= 60:
-    print("Normal")
-elif saver and battery >= 30:
-    print("Tasarruf")
+speed = 39
+if speed >= 62:
+    print("Fırtına")
+elif speed >= 40:
+    print("Kuvvetli")
 else:
-    print("Uyarı")
+    print("Hafif")
 ```
 
 **Çıktı (satır sırasıyla):** __________  
 **Neden:** __________
 
-## Döngüde continue ve negatifleri atlama
+## continue ile geçersiz kaydı atlayıp sayma
 
-### Form A · Kafe satışları
-Negatif kayıtlar iadedir, sıfır geçerlidir. Sonuç kaçtır?
+### Form A · Kütüphane ziyaretleri
+Negatif kayıtlar hatalı girilmiş, sıfır geçerli bir gündür. Kaç geçerli gün sayılır?
 
 ```python
-sales = [5, -1, 0, 9]
-total = 0
-for value in sales:
-    if value < 0:
+visits = [3, -1, 0, 5, -2]
+valid_days = 0
+for visit in visits:
+    if visit < 0:
         continue
-    total += value
-print(total)
+    valid_days += 1
+print(valid_days)
 ```
 
 **Çıktı (satır sırasıyla):** __________  
 **Neden:** __________
 
-### Form B · Depo tarayıcısı
-Negatif kayıt hatadır, sıfır geçerlidir. Toplamı tahmin et.
+### Form B · Kuş gözlem defteri
+Negatif sayımlar okunamayan sayfalardır, sıfır gerçek bir gözlemdir. Kaç kayıt geçerli?
 
 ```python
-units = [3, -4, 6, 0]
-total = 0
-for unit in units:
-    if unit < 0:
+sightings = [-1, 0, 7, -4]
+valid = 0
+for seen in sightings:
+    if seen < 0:
         continue
-    total += unit
-print(total)
+    valid += 1
+print(valid)
 ```
 
 **Çıktı (satır sırasıyla):** __________  
 **Neden:** __________
 
-### Form C · Sıcaklık günlüğü
-Negatif kayıtlar geçersiz. Yazdırılan toplamı bul.
+### Form C · Adım sayar günlüğü
+Cihazın yazdığı negatif değerler arızadır, sıfır adım geçerlidir. Geçerli gün sayısı kaçtır?
 
 ```python
-readings = [0, 8, -2, 7]
-sum_valid = 0
-for reading in readings:
-    if reading < 0:
+steps = [6, 0, 0, -5, 2]
+days = 0
+for step in steps:
+    if step < 0:
         continue
-    sum_valid += reading
-print(sum_valid)
+    days += 1
+print(days)
 ```
 
 **Çıktı (satır sırasıyla):** __________  
@@ -195,36 +192,39 @@ print(answer)
 **Çıktı (satır sırasıyla):** __________  
 **Neden:** __________
 
-## Sözlük get varsayılanı ve anahtar okuma
+## Sözlükte get varsayılanı ile liste kurma
 
-### Form A · Kırtasiye sayımı
-Listede olmayan ürüne get ile sıfır varsayılıyor. Ekrana ne yazılır?
+### Form A · Okul kulüpleri
+Sorulan kulüplerin üye sayıları sırayla bir listeye yazılıyor. Kayıtsız kulüp de soruluyor. Çıktı nedir?
 
 ```python
-stock = {"kalem": 2, "defter": 5}
-print(stock.get("silgi", 0) + stock["kalem"])
+members = {"satranç": 12, "robotik": 8}
+asked = ["robotik", "drama", "satranç"]
+print([members.get(club, 0) for club in asked])
 ```
 
 **Çıktı (satır sırasıyla):** __________  
 **Neden:** __________
 
-### Form B · Mutfak stoğu
-Eksik ürün ve mevcut ürünün değerleri toplanıyor. Sonuç nedir?
+### Form B · Bitki sulama planı
+Her bitki için haftalık sulama sayısı listeleniyor. Plan dışı bir bitki de var. Ekrana ne yazılır?
 
 ```python
-inventory = {"çay": 4, "süt": 1}
-print(inventory.get("pirinç", 0) + inventory["süt"])
+waterings = {"fesleğen": 2, "nane": 3}
+plants = ["nane", "kaktüs"]
+print([waterings.get(plant, 0) for plant in plants])
 ```
 
 **Çıktı (satır sırasıyla):** __________  
 **Neden:** __________
 
-### Form C · Etkinlik biletleri
-Olmayan türün varsayılanını, mevcut biletle topla.
+### Form C · Haftalık ders saatleri
+Programdaki derslerin saatleri sırayla toplanıyor; aynı eksik ders iki kez geçiyor. Çıktı nedir?
 
 ```python
-tickets = {"yetişkin": 3, "çocuk": 7}
-print(tickets.get("öğrenci", 0) + tickets["çocuk"])
+hours = {"matematik": 5, "müzik": 1}
+week = ["müzik", "resim", "resim"]
+print([hours.get(lesson, 0) for lesson in week])
 ```
 
 **Çıktı (satır sırasıyla):** __________  
@@ -272,4 +272,3 @@ def add_minutes(used, extra):
 
 **Çözümün:** __________  
 **Neden print değil return kullandın?:** __________
-

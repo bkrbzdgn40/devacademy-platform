@@ -1,6 +1,8 @@
 # İçerik kalite denetimi: 23 ders için rubrik ve eksik tablosu
 
-**Tarih:** 2026-11-21 · **Kapsam:** Yayımlanmış 5 kurs, 23 ders, 54 bilgi sorusu
+**Tarih:** 2026-11-21 · **Kapsam:** Yayımlanmış 5 kurs, 23 ders, 59 bilgi sorusu
+**Yeniden puanlama:** 2026-11-21, Python Temelleri altın standardı (PR #51) birleştikten sonra.
+Yalnızca Python satırları değişti; diğer 18 dersin içeriği değişmediği için puanları aynıdır.
 **Durum:** Yalnızca masa başı içerik denetimi. Öğrenci verisi, pilot sonucu ya da
 öğrenme etkisi ölçümü **içermez**. Puanlar, dersin hangi öğretim bileşenlerini
 sunduğunu gösterir; öğrencinin ne öğrendiğini göstermez.
@@ -77,11 +79,11 @@ Bu bileşenler dersler arasında ayrım yapmadığı için puana katılmadı.
 | java.variables | 1 | 2 | 0 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | **16** |
 | java.methods | 1 | 2 | 0 | 2 | 2 | 2 | 2 | 2 | 1 | 1 | **15** |
 | java.polymorphism | 1 | 2 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | **17** |
-| python.variables | 1 | 2 | 1 | 2 | 2 | 2 | 2 | 2 | 1 | 1 | **16** |
-| python.conditions | 1 | 2 | 1 | 2 | 2 | 2 | 2 | 2 | 1 | 1 | **16** |
-| python.loops | 1 | 2 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | **17** |
-| python.functions | 1 | 2 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | **17** |
-| python.collections | 1 | 2 | 1 | 2 | 2 | 2 | 2 | 2 | 1 | 1 | **16** |
+| python.variables | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | **20** |
+| python.conditions | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | **20** |
+| python.loops | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | **20** |
+| python.functions | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | **20** |
+| python.collections | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | **20** |
 | sql.select | 2 | 2 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 1 | **9** |
 | sql.where | 2 | 2 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 1 | **9** |
 | sql.join | 2 | 2 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 1 | **9** |
@@ -95,26 +97,35 @@ Bu bileşenler dersler arasında ayrım yapmadığı için puana katılmadı.
 
 | Kurs | Ortalama |
 |---|---|
-| Python | 16,4 |
+| Python | 20,0 (önce 16,4) |
 | Java | 16,0 |
 | JavaScript | 12,3 |
 | SQL | 9,0 |
 | Algoritmalar | 8,0 |
 
-**Hiçbir ders 2 almayan ölçütler:**
+**Yalnızca Python derslerinin 2 aldığı ölçütler:**
 
-- **K3 (açıklama derinliği).** En uzun açıklama 401 karakterdir. Hepsi tek paragraftır.
-- **K10 (kapanış).** Hiçbir derste kaynak bağlantısı yoktur.
+- **K3 (açıklama derinliği).** Python dersleri artık "Anla ve izle" aşamasında
+  görünür bir zihinsel model, hedef senaryoda adım adım çözümlü örnek ve sınır
+  durumu gösterir (`lesson-walkthroughs.json`). Diğer 18 dersin açıklaması hâlâ
+  tek paragraftır.
+- **K10 (kapanış).** Python derslerinin her birinde 1–2 docs.python.org bağlantısı
+  vardır. Diğer derslerde kaynak bağlantısı yoktur.
 
-Python derslerinde K1 de hiç 2 değildir. Yani en yüksek puanlı kurs bile bir
-"altın standart" değildir.
+İlk denetimde hiçbir ders K3 ve K10'da 2 almıyordu; Python derslerinde K1 de 2
+değildi.
+
+**20/20 ne demek değildir.** Rubrik bileşenin varlığını ölçer. Python'un 20/20
+alması, öğrencilerin bu derslerden daha iyi öğrendiğini göstermez. Bileşenlerin
+kalitesine dair öz-inceleme bulguları `M9-PYTHON-GOLD-STANDARD-REVIEW.md` içindedir;
+bu inceleme bağımsız değildir.
 
 ## 5. Bulgular
 
-### B1. Hedef ile notlanan sorular arasında kopukluk (JavaScript, Java, Python)
+### B1. Hedef ile notlanan sorular arasında kopukluk (JavaScript, Java; Python'da giderildi)
 
 Hedefler uygulamalı bir iş tarif ediyor, ama notlanan sorular tek satırlık oyuncak
-kodlar soruyor.
+kodlar soruyor. Aşağıdaki tablo ilk denetimdeki Python durumunu gösterir.
 
 | Ders | Hedef | Notlanan sorular |
 |---|---|---|
@@ -127,12 +138,21 @@ Bu görev tarayıcı içi geri bildirimdir ve PRD'ye göre bağımsız kanıt sa
 
 SQL ve algoritma derslerinde hedef ile sorular uyumludur.
 
+**Python'daki durum (yeniden puanlama).** Her Python dersine hedef senaryoyu sınayan
+dördüncü bir notlanan soru eklendi; örneğin `python.loops` için negatif sensör
+kayıtlarını atlayan toplam. `:.2f` biçimlendirmesi hem notlanan soruda hem de
+sunucuda değerlendirilen `format_total` kod görevinde sınanıyor. Kalan zayıflık:
+yeni sorular adım adım örneğe çok yakın yapıdadır, yani yakın transferi ölçer.
+
 ### B2. Açıklamalar ince
 
 Açıklamalar 176–401 karakterdir; hepsi tek paragraftır ve çözümlü örnek yoktur.
 Zihinsel model (`lesson-depth.json` içindeki `model`) var, ama "Kavramı karşı
 örneklerle derinleştir" adlı kapalı bir bölmede duruyor. Öğrenci açmazsa
 görmüyor. En zayıf grup JavaScript'tir (176–235 karakter).
+
+Python'da giderildi: model, çözümlü örnek ve sınır durumu artık açık bir bölümde
+gösteriliyor. Diğer 18 derste durum aynıdır.
 
 ### B3. Akış, rehberi olmayan 15 derste PRD sırasını bozuyor
 
@@ -143,14 +163,15 @@ hatırla" testine çevirir.
 
 ### B4. Sorular dar bir yelpazede
 
-54 sorunun tamamı çoktan seçmeli ve neredeyse tamamı "bu kod ne yazdırır?"
+59 sorunun tamamı çoktan seçmeli ve neredeyse tamamı "bu kod ne yazdırır?"
 biçimindedir. Ders başına soru sayısı:
 
 - JavaScript, SQL ve algoritma derslerinde 2.
-- Rehberi olan derslerde 3 (tahmin + hata avcısı).
+- Java derslerinde 3 (tahmin + hata avcısı).
+- Python derslerinde 4 (tahmin + hata avcısı + iki uygulama sorusu).
 
 Güçlü yan: her sorunun açıklaması ve her yanlış seçeneğe özel geri bildirimi var
-(54/54).
+(59/59).
 
 Eksik kalan soru türleri:
 
@@ -159,18 +180,24 @@ Eksik kalan soru türleri:
 - "Hangisi aynı sonucu verir?" türü karşılaştırma.
 - Gerçek senaryoda karar verme.
 
-### B5. Bağımsız ve notlanan kanıt yalnızca 6 derste
+### B5. Bağımsız ve notlanan kanıt 9 derste (ilk denetimde 6)
 
-Sunucuda değerlendirilen kod görevi yalnızca 6 derste var:
+Sunucuda değerlendirilen kod görevi 9 derste var:
 
 - `javascript.let-const`
 - `javascript.array-map`
 - `java.variables`
 - `java.polymorphism`
+- `python.variables` (`format_total`, yeni)
+- `python.conditions` (`shipping_fee`, yeni)
 - `python.loops`
 - `python.functions`
+- `python.collections` (`low_stock`, yeni)
 
-Diğer 9 JavaScript/Java/Python dersinde bağımsız görev yalnızca tarayıcıda
+Yeni görevlerin gizli test durumları yalnızca worker tarafındaki
+`exercises-private.mjs` içindedir; istemciye yalnızca açık örnekler gider.
+
+Diğer 6 JavaScript/Java dersinde bağımsız görev yalnızca tarayıcıda
 geri bildirim verir. SQL ve algoritma derslerinde bağımsız görev hiç yoktur.
 
 ### B6. SQL ve algoritma kursları uygulamalı katmandan yoksun
@@ -186,7 +213,8 @@ Algoritmalar (8,0) ve SQL (9,0) en düşük puanlı kurslardır.
 
 ### B7. Kaynak ve süre iddiaları
 
-- CONTENT_MODEL §4.8 "references" ister, ama hiçbir derste kaynak bağlantısı yok.
+- CONTENT_MODEL §4.8 "references" ister. Yalnızca Python derslerinde kaynak bağlantısı
+  var (docs.python.org); diğer 18 derste yok.
 - Ders süreleri 20–30 dakika olarak gösteriliyor. İçerik hacmi bu süreyi
   desteklemeyebilir, ancak bu pilot verisi olmadan doğrulanamaz.
 - Seviye etiketleri, algoritmalar dışında hep "Başlangıç".
@@ -198,7 +226,13 @@ yok, yeni ders eklemek ikincil.
 
 ### 1. Python Temelleri altın standardı (5 ders)
 
-Bu adımın hedefi beş derste K1, K3, K9 ve K10'u 2'ye çıkarmaktır.
+**Durum: tamamlandı (PR #51), öz-inceleme bulguları açık.** Beş derste K1, K3, K9
+ve K10 artık 2'dir. Eğitim incelemesi bağımsız bir gözden geçiren tarafından değil,
+içeriği yazan ajan tarafından öz-inceleme olarak yapıldı
+(`M9-PYTHON-GOLD-STANDARD-REVIEW.md`). Pilot kartları bu incelemeye göre yeniden
+yazıldı. Bağımsız eğitim incelemesi ve gerçek pilot hâlâ yapılmadı.
+
+Bu adımın hedefi beş derste K1, K3, K9 ve K10'u 2'ye çıkarmaktı.
 
 - **Açıklama (K3):** Açıklamayı üç bölüme ayır: zihinsel model (bugünkü `model`
   alanı görünür hale gelir), hedef senaryoda adım adım çözümlü örnek ve sınır

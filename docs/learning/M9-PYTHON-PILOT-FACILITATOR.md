@@ -4,7 +4,7 @@
 
 ## Amaç ve sınırlamalar
 
-Birincil ölçüt: Python fonksiyonlarında **print / return** ayrımını yeni örnekte doğru açıklamak. Destekleyici dört ölçüt: tür dönüşümü, if/elif, continue ve sözlükten güvenli okuma. Bu beş konu için 3 paralel form vardır; ancak formlar gerçek öğrenci verisiyle güçlük bakımından **henüz eşitlenmedi**. Tek grubun ön/son değişimi kontrol grubu olmadan nedensel etki kanıtı değildir.
+Birincil ölçüt: Python fonksiyonlarında **print / return** ayrımını yeni örnekte doğru açıklamak. Destekleyici dört ölçüt: ondalıklı metni `float` ile çevirip `:.2f` ile yazmak, kademeli `if/elif` zincirinde sınır değerini doğru dala koymak, `continue` ile geçersiz kaydı atlayıp saymak ve sözlükte `get` varsayılanıyla liste kurmak. Kartlar 2026-11-21 tarihinde, derslerdeki adım adım örneklerle ve notlanan sorularla aynı yapıda olmayacak şekilde yeniden yazıldı; böylece son test, ders örneğini hatırlamayı değil yakın transferi ölçer. Bu beş konu için 3 paralel form vardır; ancak formlar gerçek öğrenci verisiyle güçlük bakımından **henüz eşitlenmedi**. Tek grubun ön/son değişimi kontrol grubu olmadan nedensel etki kanıtı değildir.
 
 ## Oturum yöntemi
 
@@ -30,21 +30,21 @@ Aşağıdaki yanıtları öğrenci formuna dahil etme. Kaynak: `apps/web/tests/f
 
 | Konu | Form | Beklenen standart çıktı | Belirleyici gerekçe |
 |---|---|---|---|
-| Değişkenler ve tür dönüşümü | A | `50` | int dönüşümü metni sayıya çevirir; 18×3−4=50. |
-| Değişkenler ve tür dönüşümü | B | `61` | int dönüşümü sonrası 16×4−3=61. |
-| Değişkenler ve tür dönüşümü | C | `37` | int dönüşümü sonrası 21×2−5=37. |
-| Sıralı koşul ve and | A | `Öncelikli` | İlk koşul yanlış; iki alt koşul doğru olduğundan elif çalışır. |
-| Sıralı koşul ve and | B | `İndirimli` | İlk dal yanlış; üye ve 100 sınırı birlikte doğru. |
-| Sıralı koşul ve and | C | `Tasarruf` | İlk dal yanlış; saver True ve pil >=30, elif çalışır. |
-| Döngüde continue ve negatifleri atlama | A | `14` | -1 atlanır; 5+0+9=14. Negatif kayıt continue ile döngünün toplam adımından çıkarılır. |
-| Döngüde continue ve negatifleri atlama | B | `9` | -4 atlanır; 3+6+0=9. Negatif kayıt continue ile döngünün toplam adımından çıkarılır. |
-| Döngüde continue ve negatifleri atlama | C | `15` | -2 atlanır; 0+8+7=15. Negatif kayıt continue ile döngünün toplam adımından çıkarılır. |
+| Ondalıklı metin, float ve iki basamaklı biçim | A | `7.70` | float metni ondalıklı sayıya çevirir; 2.4×3+0.5=7.7 ve :.2f iki basamakla 7.70 yazar. |
+| Ondalıklı metin, float ve iki basamaklı biçim | B | `5.30` | float dönüşümü sonrası 1.25×4+0.3=5.3; :.2f biçimi bunu 5.30 olarak yazar. |
+| Ondalıklı metin, float ve iki basamaklı biçim | C | `5.70` | float dönüşümü sonrası 0.75×6+1.2=5.7; :.2f biçimi iki basamakla 5.70 yazar. |
+| Kademeli koşul sırası ve sınır değeri | A | `Sarı` | İlk koşul yanlış; >= sınırı dahil ettiği için 20 >= 20 doğrudur ve ilk doğru dal Sarı'dır. |
+| Kademeli koşul sırası ve sınır değeri | B | `Pekiyi` | 85 >= 85 doğrudur; zincirde ilk doğru dal çalışır, sonraki elif hiç denetlenmez. |
+| Kademeli koşul sırası ve sınır değeri | C | `Hafif` | 39 iki eşiğin de altında kalır; hiçbir koşul doğru olmadığı için else dalı çalışır. |
+| continue ile geçersiz kaydı atlayıp sayma | A | `3` | continue negatif turda sayacı atlar; 3, 0 ve 5 geçerlidir, sayaç 3 olur. Değerler toplanmaz. |
+| continue ile geçersiz kaydı atlayıp sayma | B | `2` | -1 ve -4 turlarında continue sayacı atlar; 0 ve 7 geçerli olduğundan sonuç 2'dir. |
+| continue ile geçersiz kaydı atlayıp sayma | C | `4` | Yalnızca -5 turunda continue sayacı atlar; kalan dört değer, iki sıfır dahil, sayılır. |
 | print ve return ile çağıran değer ayrımı | A | `6 ⏎ 9` | İç print 6 yazar, return 9 üretir; dış print 9 yazar. |
 | print ve return ile çağıran değer ayrımı | B | `10 ⏎ 8` | İç print 10 yazar, return 8 üretir; dış print 8 yazar. |
 | print ve return ile çağıran değer ayrımı | C | `5 ⏎ 18` | İç print 5 yazar, return 18 üretir; dış print 18 yazar. |
-| Sözlük get varsayılanı ve anahtar okuma | A | `2` | Eksik silgi varsayılan 0; kalem değeri 2; toplam 2. |
-| Sözlük get varsayılanı ve anahtar okuma | B | `1` | Pirinç eksik → 0, süt 1 → toplam 1. |
-| Sözlük get varsayılanı ve anahtar okuma | C | `7` | Öğrenci anahtarı yok → 0, çocuk 7 → toplam 7. |
+| Sözlükte get varsayılanı ile liste kurma | A | `[8, 0, 12]` | Liste asked sırasıyla kurulur; drama anahtarı olmadığından get KeyError vermez, 0 döndürür. |
+| Sözlükte get varsayılanı ile liste kurma | B | `[3, 0]` | nane için 3 okunur; kaktüs sözlükte olmadığı için get varsayılan 0'ı listeye ekler. |
+| Sözlükte get varsayılanı ile liste kurma | C | `[1, 0, 0]` | Her eleman için ayrı get çağrılır; resim iki kez geçtiği için listeye iki kez 0 eklenir. |
 
 ## Bağımsız fonksiyon üretimi · örnek referans kontrolü
 
@@ -56,7 +56,7 @@ Aşağıdaki yanıtları öğrenci formuna dahil etme. Kaynak: `apps/web/tests/f
 
 ## Uçtan uca öğrenme akışı denetim noktaları
 
-- Değişkenler: `str`→`int` dönüşümü ile f-string biçimlendirme arasındaki ayrım net mi?
+- Değişkenler: `int()` ile `float()` dönüşümü ve `:.2f` biçimlendirmesi arasındaki ayrım net mi?
 - Koşullar: `>=` sınırları ve `if/elif` sırası, görevin başlığı ile tutarlı mı?
 - Döngüler: geçersiz negatifler ve geçerli sıfır her yerde aynı anlama mı geliyor?
 - Fonksiyonlar: içteki `print` ile dıştaki `return` ayrı çıktı/değer mi; öğrenci bunu kendi cümlesiyle açıklıyor mu?
