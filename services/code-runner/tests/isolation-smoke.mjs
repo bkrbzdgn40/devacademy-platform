@@ -11,7 +11,8 @@ assert.ok(!flags.includes("--network=host"));
 assert.throws(()=>validateSource("x".repeat(LIMITS.maxSourceBytes+1)),/SOURCE_LIMIT/);
 assert.throws(()=>validateSource(" "),/EMPTY_SOURCE/);
 // Warm the freshly pulled image layer cache on cold CI hosts before asserting the 1800ms wall limit.
-await runIsolatedJavaScript("console.log('warmup')");
+await runIsolatedJavaScript("console.log('warmup-1')");
+await runIsolatedJavaScript("console.log('warmup-2')");
 const start=Date.now();
 const ok=await runIsolatedJavaScript("console.log('runner-ok')");
 assert.equal(ok.status,"completed",JSON.stringify(ok));
