@@ -2,6 +2,7 @@
 import {useEffect,useState} from "react";
 import {learningPaths,searchLearningPaths} from "@/lib/learning-paths.mjs";
 import {LearningPathCard,type LearningPath} from "@/components/learning-path-card";
+import {replaceSearchParam} from "@/lib/url-state";
 const SEARCH_PARAM="ara";
 export function CourseExplorer(){
   const [query,setQueryState]=useState("");
@@ -15,10 +16,8 @@ export function CourseExplorer(){
   },[]);
   function setQuery(value:string){
     setQueryState(value);
-    // replaceState: her tuş vuruşu geri tuşu geçmişine eklenmez.
-    const url=new URL(window.location.href);
-    if(value.trim())url.searchParams.set(SEARCH_PARAM,value);else url.searchParams.delete(SEARCH_PARAM);
-    window.history.replaceState(null,"",url);
+    // Her tuş vuruşu geri tuşu geçmişine eklenmez.
+    replaceSearchParam(SEARCH_PARAM,value.trim()?value:null);
   }
   const matched=searchLearningPaths(learningPaths,query) as LearningPath[];
   return <div className="course-explorer">

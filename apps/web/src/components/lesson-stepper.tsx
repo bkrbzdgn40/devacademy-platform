@@ -1,6 +1,7 @@
 "use client";
 
 import {useEffect,useRef,useState,type KeyboardEvent,type ReactNode} from "react";
+import {replaceSearchParam} from "@/lib/url-state";
 
 export type LessonStep = {
   id:string;
@@ -83,10 +84,8 @@ export function LessonStepper({steps}:{steps:LessonStep[]}){
     if(index<0||index>=steps.length)return;
     setActive(index);
     setVisited(old=>old.includes(index)?old:[...old,index]);
-    // replaceState: aşamalar geri tuşu geçmişini doldurmaz, yalnızca adres güncellenir.
-    const url=new URL(window.location.href);
-    if(index===0)url.searchParams.delete(STAGE_PARAM);else url.searchParams.set(STAGE_PARAM,steps[index].id);
-    window.history.replaceState(null,"",url);
+    // Aşamalar geri tuşu geçmişini doldurmaz, yalnızca adres güncellenir.
+    replaceSearchParam(STAGE_PARAM,index===0?null:steps[index].id);
     requestAnimationFrame(()=>{
       const heading=document.getElementById("lesson-step-heading-"+steps[index].id);
       const panel=heading?.parentElement;

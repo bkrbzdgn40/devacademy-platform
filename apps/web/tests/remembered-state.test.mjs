@@ -8,15 +8,22 @@ test("ders aşaması adreste tutulur ve yenilemede geri yüklenir",()=>{
   const stepper=read("components/lesson-stepper.tsx");
   assert.ok(stepper.includes('const STAGE_PARAM="asama"'));
   assert.ok(stepper.includes('new URLSearchParams(window.location.search).get(STAGE_PARAM)'));
-  // replaceState: aşama değişimi geri tuşu geçmişini doldurmaz.
-  assert.ok(stepper.includes('window.history.replaceState(null,"",url)'));
-  assert.ok(stepper.includes('url.searchParams.delete(STAGE_PARAM)'));
+  // Aşama değişimi geri tuşu geçmişini doldurmaz; aşama 01 parametreyi siler.
+  assert.ok(stepper.includes('replaceSearchParam(STAGE_PARAM,index===0?null:steps[index].id)'));
 });
 test("kurs araması adreste tutulur, geri tuşundan sonra korunur",()=>{
   const explorer=read("components/course-explorer.tsx");
   assert.ok(explorer.includes('const SEARCH_PARAM="ara"'));
   assert.ok(explorer.includes('new URLSearchParams(window.location.search).get(SEARCH_PARAM)'));
-  assert.ok(explorer.includes('window.history.replaceState(null,"",url)'));
+  assert.ok(explorer.includes('replaceSearchParam(SEARCH_PARAM,value.trim()?value:null)'));
+});
+test("adres güncellemesi Next yönlendiricisini tetiklemez (donma regresyonu)",()=>{
+  // replaceState(null,...) Next'in restore geçişini başlatıp sonraki tıklama ve
+  // tuş vuruşlarını donduruyordu; mevcut state'i (__NA) geçirmek bunu atlatır.
+  const helper=read("lib/url-state.ts");
+  assert.ok(helper.includes('window.history.replaceState(window.history.state,"",url)'));
+  for(const file of ["components/lesson-stepper.tsx","components/course-explorer.tsx"])
+    assert.doesNotMatch(read(file),/history\.replaceState/,file+" yardımcıyı kullanmalı");
 });
 test("Örneği sıfırla geri alınabilir; yeni düzenleme geri almayı iptal eder",()=>{
   const playground=read("components/code-playground.tsx");
