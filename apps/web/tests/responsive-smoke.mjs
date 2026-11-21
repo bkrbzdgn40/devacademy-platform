@@ -524,7 +524,7 @@ try{
     "overflow:doc.scrollWidth>doc.clientWidth+1};})()",
     returnByValue:true},sessionId);
   assert.deepEqual(desktopMap.result.value,{visible:true,sticky:"sticky",
-    links:5,current:1,overflow:false},"Desktop map must show real lesson navigation");
+    links:6,current:1,overflow:false},"Desktop map must show real lesson navigation");
 
   await cdp.send("Emulation.setDeviceMetricsOverride",{
     width:320,height:850,deviceScaleFactor:1,mobile:true
@@ -561,7 +561,7 @@ try{
     "current:m.querySelectorAll('[aria-current=page]').length,"+
     "overflow:doc.scrollWidth>doc.clientWidth+1};})()",
     returnByValue:true},sessionId);
-  assert.deepEqual(expandedMap.result.value,{open:true,links:5,current:1,overflow:false},
+  assert.deepEqual(expandedMap.result.value,{open:true,links:6,current:1,overflow:false},
     "Mobile course map must show links without page overflow");
   await cdp.send("Runtime.evaluate",{expression:
     "document.querySelector('.course-map-mobile summary').click();"+
