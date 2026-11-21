@@ -363,5 +363,107 @@
         "expected": 0
       }
     ]
+  },
+  {
+    "id": "transfer.python.format-total",
+    "revision": 1,
+    "slug": "bagimsiz-python-siparis-toplami",
+    "language": "python",
+    "level": "Bağımsız transfer",
+    "title": "Python · Formdan gelen fiyatla toplam",
+    "functionName": "format_total",
+    "transferLessonId": "lesson.python.variables",
+    "description": "format_total(unit_price_text, quantity, delivery_fee) fonksiyonunu yaz. Birim fiyat metin olarak gelir. Ürün toplamına teslimat ücretini ekleyip sonucu iki ondalıklı bir metin olarak döndürsün (örneğin \"42.49\").",
+    "starterCode": "def format_total(unit_price_text, quantity, delivery_fee):\n    # unit_price_text bir str'dir; hesaplamadan önce dönüştür.\n    return \"0.00\"",
+    "publicCases": [
+      {
+        "label": "Formdan gelen ondalıklı fiyat",
+        "args": [
+          "12.50",
+          3,
+          4.99
+        ],
+        "expected": "42.49"
+      },
+      {
+        "label": "Ürün yok, yalnızca teslimat",
+        "args": [
+          "0.99",
+          0,
+          4.5
+        ],
+        "expected": "4.50"
+      }
+    ]
+  },
+  {
+    "id": "transfer.python.shipping-fee",
+    "revision": 1,
+    "slug": "bagimsiz-python-kargo-ucreti",
+    "language": "python",
+    "level": "Bağımsız transfer",
+    "title": "Python · Kademeli kargo ücreti",
+    "functionName": "shipping_fee",
+    "transferLessonId": "lesson.python.conditions",
+    "description": "shipping_fee(total) fonksiyonunu yaz. Sepet 500 ve üstündeyse 0, 200 ve üstündeyse 30, daha azsa 50 döndürsün. Sınır değerleri dikkatle denetle.",
+    "starterCode": "def shipping_fee(total):\n    # Koşulları doğru sırayla yaz.\n    return 50",
+    "publicCases": [
+      {
+        "label": "Tam ücretsiz kargo sınırı",
+        "args": [
+          500
+        ],
+        "expected": 0
+      },
+      {
+        "label": "Alt kademe",
+        "args": [
+          150
+        ],
+        "expected": 50
+      }
+    ]
+  },
+  {
+    "id": "transfer.python.low-stock",
+    "revision": 1,
+    "slug": "bagimsiz-python-dusuk-stok",
+    "language": "python",
+    "level": "Bağımsız transfer",
+    "title": "Python · Düşük stok listesi",
+    "functionName": "low_stock",
+    "transferLessonId": "lesson.python.collections",
+    "description": "low_stock(stock, wanted, minimum) fonksiyonunu yaz. wanted listesindeki sırayı koruyarak stoğu minimum değerin altında kalan ürünleri döndürsün. Sözlükte kaydı olmayan ürünün stoğu 0 sayılır.",
+    "starterCode": "def low_stock(stock, wanted, minimum):\n    # Eksik anahtar KeyError vermemeli.\n    return []",
+    "publicCases": [
+      {
+        "label": "Düşük ve kayıtsız ürün",
+        "args": [
+          {
+            "elma": 3,
+            "armut": 12
+          },
+          [
+            "elma",
+            "armut",
+            "kiraz"
+          ],
+          5
+        ],
+        "expected": [
+          "elma",
+          "kiraz"
+        ]
+      },
+      {
+        "label": "Boş sipariş",
+        "args": [
+          {},
+          [],
+          5
+        ],
+        "expected": []
+      }
+    ]
   }
 ]

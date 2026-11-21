@@ -237,7 +237,7 @@
     "objective": "Birim fiyat, adet ve teslimat ücretinden sayısal toplam hesaplayıp sonucu iki ondalıkla yazdırabilmek.",
     "summary": "Gerçek alışveriş fiyatlarını, tür dönüşümünü ve okunabilir çıktı biçimlendirmesini öğren.",
     "explanation": "Python'da bir değişkene değer atamak için = kullanılır ve türü ayrı belirtmen gerekmez. Bir değerin türünü type() ile inceleyebilirsin. int tam sayı, float ondalıklı sayı, str metindir. / işleci sayılar tam olsa bile Python 3'te float döndürür. f-string, ifadeleri okunaklı biçimde metnin içine yerleştirir.",
-    "code": "name = \"Ada\"\nage = 20\nprint(f\"{name}: {age + 1}\")  # Ada: 21",
+    "code": "unit_price = \"12.50\"  # formdan metin gelir\nquantity = 3\ndelivery_fee = 4.99\ntotal = float(unit_price) * quantity + delivery_fee\nprint(f\"{total:.2f}\")  # 42.49",
     "takeaways": [
       "= değişkene değer atar; == ise değerleri karşılaştırır.",
       "/ işleci Python 3'te ondalıklı sonuç üretir; türü type() ile görebilirsin.",
@@ -246,7 +246,8 @@
     "questionIds": [
       "python.variables.reassignment",
       "python.variables.division",
-      "debug.python.variables"
+      "debug.python.variables",
+      "python.variables.order-total"
     ],
     "prerequisites": []
   },
@@ -259,7 +260,7 @@
     "objective": "Birden fazla koşulu doğru sıraya koyup sınır değerlerinde hangi kararın verileceğini açıklayabilmek.",
     "summary": "Sipariş, stok ve başarı kararlarını sınır değerleriyle koşullandır.",
     "explanation": "Python'da if, elif ve else koşullu dallanma sağlar. Kod bloğu süslü parantezle değil girintiyle belirlenir. == iki değeri karşılaştırırken = değer atar. Boş listeler gibi bazı değerler False kabul edilir; bu davranışa truthiness denir. Kod okunaklılığı için tutarlı dört boşluk kullan.",
-    "code": "score = 75\nif score >= 70:\n    print(\"Geçti\")\nelse:\n    print(\"Tekrar\")",
+    "code": "total = 200\nif total >= 500:\n    fee = 0\nelif total >= 200:\n    fee = 30\nelse:\n    fee = 50\nprint(fee)  # 30",
     "takeaways": [
       "Koşul doğruysa if bloğu, değilse uygun elif/else bloğu çalışır.",
       "Python'da girinti sözdiziminin parçasıdır ve kod bloğunun sınırını belirler.",
@@ -268,7 +269,8 @@
     "questionIds": [
       "python.conditions.age",
       "python.conditions.empty-list",
-      "debug.python.conditions"
+      "debug.python.conditions",
+      "python.conditions.shipping-boundary"
     ],
     "prerequisites": [
       "lesson.python.variables"
@@ -292,7 +294,8 @@
     "questionIds": [
       "python.loops.range-step",
       "python.loops.continue",
-      "debug.python.loops"
+      "debug.python.loops",
+      "python.loops.sensor-skip"
     ],
     "prerequisites": [
       "lesson.python.conditions"
@@ -316,7 +319,8 @@
     "questionIds": [
       "python.functions.return",
       "python.functions.default",
-      "debug.python.functions"
+      "debug.python.functions",
+      "python.functions.default-fee"
     ],
     "prerequisites": [
       "lesson.python.loops"
@@ -340,7 +344,8 @@
     "questionIds": [
       "python.collections.slice",
       "python.collections.get",
-      "debug.python.collections"
+      "debug.python.collections",
+      "python.collections.low-stock"
     ],
     "prerequisites": [
       "lesson.python.functions"

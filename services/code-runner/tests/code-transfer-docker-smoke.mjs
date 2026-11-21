@@ -1,4 +1,4 @@
-// Real isolated grading of the six authored transfer functions.
+// Real isolated grading of the nine authored transfer functions.
 // Never execute learner source on the Next server or on this CI host.
 import assert from "node:assert/strict";
 import {evaluateExercise} from "../src/evaluate-exercise.mjs";
@@ -20,7 +20,13 @@ const solutions=[
   ["transfer.python.range","python-3.12",
    "def sum_exclusive(start,stop):\n    return sum(range(start,stop))"],
   ["transfer.python.return","python-3.12",
-   "def return_product(value,factor):\n    return value * factor"]
+   "def return_product(value,factor):\n    return value * factor"],
+  ["transfer.python.format-total","python-3.12",
+   "def format_total(unit_price_text,quantity,delivery_fee):\n    return f\"{float(unit_price_text) * quantity + delivery_fee:.2f}\""],
+  ["transfer.python.shipping-fee","python-3.12",
+   "def shipping_fee(total):\n    if total >= 500:\n        return 0\n    elif total >= 200:\n        return 30\n    return 50"],
+  ["transfer.python.low-stock","python-3.12",
+   "def low_stock(stock,wanted,minimum):\n    return [n for n in wanted if stock.get(n, 0) < minimum]"]
 ];
 const images={"nodejs-24":"node:24-alpine","python-3.12":"python:3.12-alpine",
   "java-21":"eclipse-temurin:21-jdk-alpine"};

@@ -24,7 +24,8 @@ test("all Java and Python topics contain full guided learning and graded diagnos
     assert.ok(guide.hints.every(s=>s.length>=10));
     assert.ok(guide.reflection.length>20);
     const lesson=lessons.find(l=>l.id===guide.lessonId);
-    assert.equal(lesson.questionIds.length,3);
+    // Python gold-standard lessons add one objective-aligned graded question.
+    assert.equal(lesson.questionIds.length,lesson.id.startsWith("lesson.python.")?4:3);
     assert.ok(lesson.questionIds.includes(guide.questionId));
     const question=questions.find(q=>q.id===guide.questionId);
     assert.ok(question&&question.lessonId===guide.lessonId);

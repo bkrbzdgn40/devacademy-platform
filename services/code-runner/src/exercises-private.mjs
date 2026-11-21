@@ -94,5 +94,33 @@ export const caseBank = Object.freeze({
       {public:false,args:[-7,5],expected:-35},
       {public:false,args:[-3,-4],expected:12}
     ]
+  },
+  "transfer.python.format-total": {
+    revision:1,runtimeId:"python-3.12",functionName:"format_total",cases:[
+      {label:"Formdan gelen ondalıklı fiyat",public:true,args:["12.50",3,4.99],expected:"42.49"},
+      {label:"Ürün yok, yalnızca teslimat",public:true,args:["0.99",0,4.5],expected:"4.50"},
+      {public:false,args:["19.99",2,0],expected:"39.98"},
+      {public:false,args:["7",4,2.25],expected:"30.25"},
+      {public:false,args:["100",1,0],expected:"100.00"}
+    ]
+  },
+  "transfer.python.shipping-fee": {
+    revision:1,runtimeId:"python-3.12",functionName:"shipping_fee",cases:[
+      {label:"Tam ücretsiz kargo sınırı",public:true,args:[500],expected:0},
+      {label:"Alt kademe",public:true,args:[150],expected:50},
+      {public:false,args:[499.99],expected:30},
+      {public:false,args:[200],expected:30},
+      {public:false,args:[199.99],expected:50},
+      {public:false,args:[1000],expected:0}
+    ]
+  },
+  "transfer.python.low-stock": {
+    revision:1,runtimeId:"python-3.12",functionName:"low_stock",cases:[
+      {label:"Düşük ve kayıtsız ürün",public:true,args:[{"elma":3,"armut":12},["elma","armut","kiraz"],5],expected:["elma","kiraz"]},
+      {label:"Boş sipariş",public:true,args:[{},[],5],expected:[]},
+      {public:false,args:[{"kalem":5},["kalem"],5],expected:[]},
+      {public:false,args:[{"x":0,"y":9},["y","x","z"],10],expected:["y","x","z"]},
+      {public:false,args:[{"a":1,"b":2},["b","a"],2],expected:["a"]}
+    ]
   }
 });

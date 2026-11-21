@@ -680,6 +680,26 @@
     ]
   },
   {
+    "id": "python.variables.order-total",
+    "lessonId": "lesson.python.variables",
+    "prompt": "Formdan gelen birim fiyatla hesaplanan sipariş toplamı ekrana nasıl yazılır?",
+    "code": "unit_price = \"8.25\"\nquantity = 2\ndelivery_fee = 3.5\ntotal = float(unit_price) * quantity + delivery_fee\nprint(f\"{total:.2f}\")",
+    "options": [
+      {
+        "id": "a",
+        "text": "20.00"
+      },
+      {
+        "id": "b",
+        "text": "20.0"
+      },
+      {
+        "id": "c",
+        "text": "16.50"
+      }
+    ]
+  },
+  {
     "id": "debug.python.conditions",
     "lessonId": "lesson.python.conditions",
     "prompt": "Yaş 20 olduğunda kod Yetişkin yazdırıyor ancak Genç mesajı da geliyor. Hangi değişiklik doğru koşullu blok yapar?",
@@ -696,6 +716,26 @@
       {
         "id": "c",
         "text": "İki print satırını girintisiz yaz."
+      }
+    ]
+  },
+  {
+    "id": "python.conditions.shipping-boundary",
+    "lessonId": "lesson.python.conditions",
+    "prompt": "500 TL sınırının hemen altındaki sepet hangi kargo ücretini öder?",
+    "code": "total = 499.99\nif total >= 500:\n    fee = 0\nelif total >= 200:\n    fee = 30\nelse:\n    fee = 50\nprint(fee)",
+    "options": [
+      {
+        "id": "a",
+        "text": "0"
+      },
+      {
+        "id": "b",
+        "text": "30"
+      },
+      {
+        "id": "c",
+        "text": "50"
       }
     ]
   },
@@ -720,6 +760,26 @@
     ]
   },
   {
+    "id": "python.loops.sensor-skip",
+    "lessonId": "lesson.python.loops",
+    "prompt": "Arızalı (negatif) okumalar atlandığında geçerli okumaların toplamı kaçtır?",
+    "code": "readings = [5, -2, 0, 8, -1]\ntotal = 0\nfor value in readings:\n    if value < 0:\n        continue\n    total += value\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "13"
+      },
+      {
+        "id": "b",
+        "text": "10"
+      },
+      {
+        "id": "c",
+        "text": "5"
+      }
+    ]
+  },
+  {
     "id": "debug.python.functions",
     "lessonId": "lesson.python.functions",
     "prompt": "double(4) çağrısının değeri None oluyor. Hangi düzeltme hesaplanan değeri döndürür?",
@@ -740,6 +800,26 @@
     ]
   },
   {
+    "id": "python.functions.default-fee",
+    "lessonId": "lesson.python.functions",
+    "prompt": "Varsayılan teslimat ücreti olan fonksiyonla iki siparişin toplamı kaçtır?",
+    "code": "def order_total(subtotal, delivery_fee=30):\n    return subtotal + delivery_fee\n\nprint(order_total(120) + order_total(80, 0))",
+    "options": [
+      {
+        "id": "a",
+        "text": "230"
+      },
+      {
+        "id": "b",
+        "text": "260"
+      },
+      {
+        "id": "c",
+        "text": "200"
+      }
+    ]
+  },
+  {
     "id": "debug.python.collections",
     "lessonId": "lesson.python.collections",
     "prompt": "city anahtarı olmayan sözlükte erişim KeyError veriyor. Hangi düzeltme doğru?",
@@ -756,6 +836,26 @@
       {
         "id": "c",
         "text": "print(person.get(\"city\") + \"!\")"
+      }
+    ]
+  },
+  {
+    "id": "python.collections.low-stock",
+    "lessonId": "lesson.python.collections",
+    "prompt": "Stoğu 5'in altında olan veya kaydı bulunmayan ürünler hangileridir?",
+    "code": "stock = {\"kalem\": 7, \"defter\": 2}\nwanted = [\"defter\", \"silgi\", \"kalem\"]\nlow = [name for name in wanted if stock.get(name, 0) < 5]\nprint(low)",
+    "options": [
+      {
+        "id": "a",
+        "text": "['defter', 'silgi']"
+      },
+      {
+        "id": "b",
+        "text": "['defter']"
+      },
+      {
+        "id": "c",
+        "text": "KeyError"
       }
     ]
   },

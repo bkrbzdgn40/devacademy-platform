@@ -6,6 +6,7 @@ import { CompleteLesson } from "@/components/complete-lesson";
 import { TraceWalkthrough } from "@/components/trace-walkthrough";
 import { LearningStudio } from "@/components/learning-studio";
 import { LessonDepth } from "@/components/lesson-depth";
+import { LessonWalkthrough, LessonReferences } from "@/components/lesson-walkthrough";
 import { AppliedLearningStudio } from "@/components/python-applied-studio";
 import { LessonCourseMap } from "@/components/lesson-course-map";
 import {studioHasLesson} from "@/lib/studio-scenarios.mjs";
@@ -55,6 +56,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
     </> },
     { id: "understand", label: "Anla ve izle", title: "Konuyu anlayalım", content: <>
       <p className="lesson-step-intro">{lesson.explanation}</p>
+      <LessonWalkthrough lessonId={lesson.id}/>
       <details className="lesson-supplement lesson-sample-disclosure">
         <summary>Temel örnek kodu karşılaştır</summary>
         <div className="lesson-supplement-content">
@@ -91,6 +93,7 @@ export function CourseLesson({ course, lesson, legacy = false }: {
       </div>
       <div className="lesson-section takeaway-section"><h3>Aklında kalsın</h3>
         <ul>{lesson.takeaways.map((takeaway) => <li key={takeaway}>{takeaway}</li>)}</ul>
+        <LessonReferences lessonId={lesson.id}/>
       </div>
       {completion}
       {transferLessonIds.includes(lesson.id) && <TransferLab lessonId={lesson.id}/>}
