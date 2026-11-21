@@ -1,14 +1,15 @@
 # DevAcademy · Güncel Ürün Yol Haritası
 
-**Sürüm:** 0.3 · **Güncelleme:** 2026-10-19
+**Sürüm:** 0.3 · **Güncelleme:** 2026-11-21
 **Konum:** Yerel çalışan öğrenme prototipi. İnternet üzerinden kullanıma açılmış ürün değil.
 **Kural:** Bu belge güncel ürün planıdır; eski M0–M8 numaraları tarihi uygulama kayıtlarıdır.
 Takvim veya bağımsız güvenlik onayı vaat edilmez.
 
 ## Şu anda doğruladığımız durum
 
-- Yayınlanan **4 eğitim kursu**, **19 ders**: JavaScript (7), Java (3), Python (5), SQL (4).
-- 46 yayımlanmış bilgi sorusu; önceki 15 Java/JavaScript/Python dersinde 45 gözden geçirilmiş, gerçek JS/Java/Python
+- Yayınlanan **5 eğitim kursu**, **23 ders**: JavaScript (7), Java (3), Python (5), SQL (4),
+  Veri Yapıları ve Algoritmalar (4).
+- 54 yayımlanmış bilgi sorusu; önceki 15 Java/JavaScript/Python dersinde 45 gözden geçirilmiş, gerçek JS/Java/Python
   çalışma ortamında CI ile karşılaştırılmış Öğrenme Stüdyosu senaryosu.
 - Öğretici çıktı tahmini, satır izleme, karşı örnek, rehberli hata düzeltme
   ve kayıtlı ders ilerlemesi; zamanlanmış tekrar.
@@ -103,7 +104,7 @@ Kaynak erişilemiyorsa şeffaf boş/hata durumu gösterilir.
 
 **İlk kontrollü içerik paketi:** SQL Temelleri için 4 ders, 8 ayrı değerlendirilen soru, kavramsal karşı örnekler ve kurgusal müşteri/sipariş veri kümesi. SQL sorguları tarayıcıda veya Next.js sürecinde çalıştırılmaz; bunların sonuçları CI'da ayrı PostgreSQL 16 geçici tablolarıyla doğrulanır. 15 eski Java/JavaScript/Python dersinin uygulamalı öğrenme araçları korunur. Gönüllü pilot henüz yapılmadığından M11'in saha kabulü **açıktır**.
 
-**İkinci kontrollü içerik paketi:** Veri Yapıları ve Algoritmalar (JavaScript) için 4 yeni ders ve 8 sunucu tarafından değerlendirilen soru. Doğrusal/logaritmik maliyet, yığın/kuyruk, Map/Set ve sıralı veri önkoşullu ikili arama ayrı kimliklerle yayımlanır; Node.js ile gerçek çıktı ve cevap anahtarı kontrolleri yapılır. Mevcut 19 ders ve kayıtları değiştirilmez; yeni kursta öğrencinin düzenlediği kod otomatik yürütülmez veya bağımsız kanıt sayılmaz. Ayrıntılar: `docs/learning/M11-ALGORITHMS.md`.
+**İkinci kontrollü içerik paketi:** Veri Yapıları ve Algoritmalar (JavaScript) için 4 yeni ders ve 8 sunucu tarafından değerlendirilen soru. Doğrusal/logaritmik maliyet, yığın/kuyruk, Map/Set ve sıralı veri önkoşullu ikili arama ayrı kimliklerle yayımlanır; Node.js ile gerçek çıktı ve cevap anahtarı kontrolleri yapılır. Önceki 19 ders ve kayıtları değiştirilmez; yeni kursta öğrencinin düzenlediği kod otomatik yürütülmez veya bağımsız kanıt sayılmaz. Ayrıntılar: `docs/learning/M11-ALGORITHMS.md`.
 
 **Sonraki içerik adayları:** TypeScript ve bağımsız proje laboratuvarları. Öğrenci pilotu hâlâ tamamlanmamıştır. Öncelik sırf sayı artırmak yerine teknik doğruluk ve müfredat gereksinimlerine göre belirlenecektir.
 
